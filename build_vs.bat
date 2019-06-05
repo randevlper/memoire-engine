@@ -5,6 +5,5 @@ for /f "usebackq tokens=*" %%i in (`vswhere -latest -requires Microsoft.Componen
   xcopy /s /y ..\game\assets  game\%CONFIG%\assets
   Pushd game\%CONFIG%\
   game.exe
-  pause
   exit /b !errorlevel!
 )
