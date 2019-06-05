@@ -3,7 +3,6 @@
 
 #define SDL_MAIN_HANDLED
 #include "SDL.h"
-#include "entt/entt.hpp"
 #include <cstdlib>
 #include <iostream>
 #include "Texture.h"

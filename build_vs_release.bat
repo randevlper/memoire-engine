@@ -1,4 +1,2 @@
-Pushd build
-MSBuild.exe goldgame.sln -property:Configuration=Release
-Pushd game\Release\
-game.exe
+SET CONFIG=Release
+build_vs.bat
