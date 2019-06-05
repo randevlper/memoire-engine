@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "Texture.h"
+
 char WINDOW_NAME[] = { "Ayse please stop this." };
 
 int SCREEN_WIDTH = 1280;
@@ -47,44 +49,8 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	int req_format = STBI_rgb_alpha;
-	int width, height, orig_format;
-	unsigned char *ayse = stbi_load("assets/ayse.png", &width, &height, &orig_format, req_format);
-	if (ayse == nullptr) {
-		SDL_Log("Loading image failed: %s", stbi_failure_reason());
-	}
-	int depth, pitch;
-	Uint32 pixel_format;
-	if (req_format == STBI_rgb) {
-		depth = 24;
-		pitch = 3 * width; // 3 bytes per pixel * pixels per row
-		pixel_format = SDL_PIXELFORMAT_RGB24;
-	}
-	else { // STBI_rgb_alpha (RGBA)
-		depth = 32;
-		pitch = 4 * width;
-		pixel_format = SDL_PIXELFORMAT_RGBA32;
-	}
-	SDL_Surface* ayse_surf = SDL_CreateRGBSurfaceWithFormatFrom((void*)ayse, width, height,
-		depth, pitch, pixel_format);
-
-	if (ayse_surf == NULL) {
-		SDL_Log("Creating surface failed: %s", SDL_GetError());
-		stbi_image_free(ayse);
-	}
-
-	SDL_Surface* bmp = SDL_LoadBMP("assets/grumpy-cat.bmp");
-	if (bmp == nullptr) {
-		SDL_Log("SDL_LoadBMP Error: %s", SDL_GetError());
-		return EXIT_FAILURE;
-	}
-
-	SDL_Texture* tex = SDL_CreateTextureFromSurface(ren, ayse_surf);
-	SDL_FreeSurface(ayse_surf);
-	if (tex == nullptr) {
-		SDL_Log("SDL_CreateTextureFromSurface Error: %s", SDL_GetError());
-		return EXIT_FAILURE;
-	}
+	Texture ayse;
+	ayse.loadFromFile("assets/ayse.png", ren);
 
 	SDL_Rect fillRect = { SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4,SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
 	SDL_Rect boxRect = fillRect;
@@ -92,6 +58,7 @@ int main()
 	boxRect.h = boxRect.h / 2;
 	boxRect.x = 0;
 
+	Texture text;
 
 	while (!quit) {
 
@@ -104,12 +71,17 @@ int main()
 			if (e.key.keysym.sym == SDLK_ESCAPE) {
 				quit = true;
 			}
+
+			if (e.key.keysym.sym == SDLK_LEFT) {
+
+			}
 		}
 
 		SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(ren);
 		//Draw a line renderer, texture, portion of the tex, portion of the destRect
-		SDL_RenderCopy(ren, tex, nullptr, &fillRect);
+		//SDL_RenderCopy(ren, tex, nullptr, &fillRect);
+		ayse.render(400, 400, ren);
 
 		//Draw a box
 		SDL_SetRenderDrawColor(ren, 0xFF, 0x00, 0x00, 0xFF);
@@ -129,8 +101,9 @@ int main()
 	}
 		
 
-	stbi_image_free(ayse);
-	SDL_DestroyTexture(tex);
+	//stbi_image_free(ayse);
+	//SDL_DestroyTexture(tex);
+	ayse.unload();
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyWindow(win);
 	SDL_Quit();

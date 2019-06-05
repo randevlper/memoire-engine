@@ -1,0 +1,4 @@
+https://www.libsdl.org/release/SDL2-2.0.9.zip
+https://github.com/erincatto/Box2D/archive/master.zip
+https://github.com/tobanteGaming/Box2D-cmake/archive/master.zip
+https://github.com/skypjack/entt/archive/v3.0.0.zip
