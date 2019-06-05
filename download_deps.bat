@@ -1,5 +1,22 @@
-wget -O ./thirdparty/box2D-cmake.zip "https://github.com/tobanteGaming/Box2D-cmake/archive/master.zip"
-wget -O ./thirdparty/box2D.zip "https://github.com/erincatto/Box2D/archive/master.zip"
-wget -O ./thirdparty/entt.zip "https://github.com/skypjack/entt/archive/v3.0.0.zip"
-wget -O ./thirdparty/SDL2.zip "https://www.libsdl.org/release/SDL2-2.0.9.zip"
+if not exist thirdparty mkdir thirdparty
+SET DLLOC="./thirdparty/box2D-cmake.zip"
+SET DLURL="https://github.com/tobanteGaming/Box2D-cmake/archive/master.zip"
+call download_file.bat
+SET DLLOC="./thirdparty/box2D.zip"
+SET DLURL="https://github.com/erincatto/Box2D/archive/master.zip"
+call download_file.bat
+SET DLLOC="./thirdparty/entt.zip"
+SET DLURL="https://github.com/skypjack/entt/archive/cpp14.zip"
+call download_file.bat
+SET DLLOC="./thirdparty/SDL2.zip"
+SET DLURL="https://www.libsdl.org/release/SDL2-2.0.9.zip"
+call download_file.bat
+
+pushd thirdparty
+if not exist stb mkdir stb
+pushd ..
+SET DLLOC="./thirdparty/stb/stb_image.h"
+SET DLURL="https://raw.githubusercontent.com/nothings/stb/master/stb_image.h"
+call download_file.bat
+
 DEL /F/Q/S .wget-hsts > NUL
