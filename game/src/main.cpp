@@ -6,7 +6,6 @@
 #include "entt/entt.hpp"
 #include <cstdlib>
 #include <iostream>
-
 #include "Texture.h"
 
 char WINDOW_NAME[] = { "Ayse please stop this." };
