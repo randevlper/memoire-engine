@@ -10,5 +10,6 @@ add_subdirectory(thirdparty/entt)
 add_library(stb INTERFACE)
 target_include_directories(stb INTERFACE thirdparty/stb)
 
+add_subdirectory(engine)
 add_subdirectory(game)
-#add_subdirectory(engine)
+add_subdirectory(test)

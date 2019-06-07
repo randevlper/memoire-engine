@@ -2,6 +2,8 @@
 #include "stb_image.h"
 #include "SDL.h"
 
+bool Texture::test = false;
+
 Texture::Texture()
 {
 	width = height = orig_format = depth = pitch = 0;
@@ -10,10 +12,12 @@ Texture::Texture()
 	surface = nullptr; 
 	texture = nullptr;
 	pixels = nullptr;
+	test = true;
 }
 
 Texture::~Texture()
 {
+	test = false;
 	unload();
 }
 

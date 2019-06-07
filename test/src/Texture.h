@@ -24,6 +24,7 @@ public:
 	int getHeight();
 
 private:
+	static bool test;
 	unsigned char* pixels;
 	SDL_Texture* texture;
 	SDL_Surface* surface;
