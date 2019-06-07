@@ -2,6 +2,19 @@
 #include "SDL.h"
 #include <iostream>
 
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+
+
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+// allocations to be of _CLIENT_BLOCK type
+#else
+#define DBG_NEW new
+#endif
+
 Context* Context::_instance = nullptr;
 bool Context::_shouldClose = nullptr;
 int Context::_errorCode = 404;
@@ -20,7 +33,7 @@ Context::~Context()
 void Context::init(ContextWindowParems* parems)
 {
 	if (_instance == nullptr) {
-		_instance = new Context();
+		_instance = DBG_NEW Context();
 
 		if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 			std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;

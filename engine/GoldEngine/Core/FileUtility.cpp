@@ -3,9 +3,21 @@
 #include "stb_image.h"
 #include "SDL.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+// allocations to be of _CLIENT_BLOCK type
+#else
+#define DBG_NEW new
+#endif
+
+
 SpriteData* FileUtility::loadSpriteData(char path[])
 {
-	SpriteData *spriteData = new SpriteData();
+	SpriteData *spriteData = DBG_NEW SpriteData();
 	int req_format = STBI_rgb_alpha;
 	spriteData->pixels = stbi_load(path, &spriteData->width, &spriteData->height, 
 		&spriteData->orig_format, req_format);
@@ -44,4 +56,6 @@ void FileUtility::unloadSpriteData(SpriteData* spriteData)
 		SDL_DestroyTexture(spriteData->texture);
 		spriteData->texture = nullptr;
 	}
+
+	delete(spriteData);
 }
