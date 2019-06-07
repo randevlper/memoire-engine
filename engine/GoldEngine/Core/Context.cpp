@@ -60,7 +60,7 @@ void Context::init(ContextWindowParems* parems)
 
 void Context::quit()
 {
-	_instance->~Context();
+	delete(_instance);
 	SDL_DestroyRenderer(_renderer);
 	SDL_DestroyWindow(_window);
 	SDL_Quit();
@@ -74,6 +74,11 @@ bool Context::getShouldClose()
 void Context::setShouldClose(bool value)
 {
 	_shouldClose = value;
+}
+
+SDL_Renderer* Context::getRenderer()
+{
+	return _renderer;
 }
 
 //Anything other then 0 means something went wrong

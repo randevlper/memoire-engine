@@ -22,6 +22,7 @@ public:
 	static void quit();
 	static bool getShouldClose();
 	static void setShouldClose(bool value);
+	static SDL_Renderer* getRenderer();
 	static int getErrorCode();
 
 private:
