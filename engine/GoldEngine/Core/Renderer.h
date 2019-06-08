@@ -3,13 +3,15 @@
 struct SpriteData;
 struct SDL_Color;
 struct SDL_Rect;
+struct SDL_Point;
 struct b2Body;
 
 class Renderer
 {
 public:
 	//Draw Line
-	
+	static void renderLines(SDL_Point* points, int pointsCount, SDL_Color& color);
+
 	//Draw Square
 	static void renderSquare(SDL_Rect& rect, SDL_Color& color);
 
@@ -24,6 +26,9 @@ public:
 	static void clearRenderer(SDL_Color color);
 	static void clearRenderer(int r, int g, int b, int a);
 	static void render();
-private:
 
+	static void setCameraPos(int x, int y);
+	static glm::vec2 getCameraPos();
+private:
+	static glm::vec2* _cameraPos;
 };

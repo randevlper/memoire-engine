@@ -8,8 +8,23 @@
 #include "Box2D/Box2D.h"
 #include "Box2D/Common/b2Settings.h"
 
+glm::vec2* Renderer::_cameraPos = new glm::vec2();
+
+void Renderer::renderLines(SDL_Point* points, int pointsCount, SDL_Color& color)
+{
+	for (size_t i = 0; i < pointsCount; i++)
+	{
+		points[i].x -= _cameraPos->x;
+		points[i].y -= _cameraPos->y;
+	}
+	SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
+	SDL_RenderDrawLines(Context::getRenderer(), points, pointsCount);
+}
+
 void Renderer::renderSquare(SDL_Rect& rect, SDL_Color& color)
 {
+	rect.x -= _cameraPos->x;
+	rect.y -= _cameraPos->y;
 	SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(Context::getRenderer(), &rect);
 }
@@ -54,9 +69,9 @@ void Renderer::renderb2Body(b2Body* body)
 
 		SDL_Color color = { 255, 0, 0, 100 };
 		renderSquare(rect, color);
-
-		SDL_SetRenderDrawColor(Context::getRenderer(), 255, 0, 0, 150);
-		SDL_RenderDrawLines(Context::getRenderer(), points, polygon->m_count + 1);
+		color = { 255, 0, 0, 150 };
+		renderLines(points, polygon->m_count + 1, color);
+		
 		break;
 	}
 	default:
@@ -71,7 +86,7 @@ void Renderer::renderSprite(glm::vec2& pos, SpriteData* spriteData)
 
 void Renderer::renderSprite(int x, int y, SpriteData* spriteData)
 {
-	SDL_Rect renderQuad = { x, y, spriteData->width, spriteData->height };
+	SDL_Rect renderQuad = { x - _cameraPos->x, y - _cameraPos->y, spriteData->width, spriteData->height };
 	SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderCopy(Context::getRenderer(), spriteData->texture, nullptr, &renderQuad);
 }
@@ -90,4 +105,15 @@ void Renderer::clearRenderer(int r, int g, int b, int a)
 void Renderer::render()
 {
 	SDL_RenderPresent(Context::getRenderer());
+}
+
+void Renderer::setCameraPos(int x, int y)
+{
+	_cameraPos->x = x - (Context::getWindowWidth()/2);
+	_cameraPos->y = y - (Context::getWindowHeight()/2);
+}
+
+glm::vec2 Renderer::getCameraPos()
+{
+	return *_cameraPos;
 }

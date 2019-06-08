@@ -106,3 +106,13 @@ int Context::getErrorCode()
 {
 	return _errorCode;
 }
+
+int Context::getWindowHeight()
+{
+	return _windowParems.renderHeight;
+}
+
+int Context::getWindowWidth()
+{
+	return _windowParems.renderWidth;
+}

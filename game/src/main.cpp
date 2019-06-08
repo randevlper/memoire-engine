@@ -29,8 +29,16 @@ int main(){
 
 		SDL_Event e;
 		SpriteData* ayse = FileUtility::loadSpriteData("assets/ayse.png");
-		b2Body* ground = Physics::createBody(glm::vec2( cWinParems.renderWidth/2, 0 ), 
-			glm::vec2(50,10 ), 0, 1, 0);
+		b2Body* top = Physics::createBody(glm::vec2( cWinParems.renderWidth/2, 0 ),
+			glm::vec2(cWinParems.renderWidth/2,10 ), 0, 1, 0);
+		b2Body* bottom = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight),
+			glm::vec2(cWinParems.renderWidth / 2, 10), 0, 1, 0);
+		b2Body* left = Physics::createBody(glm::vec2(0, cWinParems.renderHeight / 2),
+			glm::vec2(10, cWinParems.renderHeight), 0,1);
+		b2Body* right = Physics::createBody(glm::vec2(cWinParems.renderWidth, cWinParems.renderHeight / 2),
+			glm::vec2(10, cWinParems.renderHeight), 0, 1);
+
+
 		b2Body* ball = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight / 2 ), 
 			glm::vec2(2,2 ), 0, 1, 1);
 
@@ -41,13 +49,35 @@ int main(){
 				if (e.type == SDL_QUIT) {
 					Context::setShouldClose(true);
 				}
+
+				if (e.key.keysym.sym == SDLK_w) {
+					ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, -1));
+				}
+				if (e.key.keysym.sym == SDLK_s) {
+					ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, 1));
+				}
+				if (e.key.keysym.sym == SDLK_d) {
+					ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(1, 0));
+				}
+				if (e.key.keysym.sym == SDLK_a) {
+					ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(-1, 0));
+				}
 			}
+
 			Physics::tick();
+			Renderer::setCameraPos(ball->GetPosition().x, ball->GetPosition().y);
 
 			Renderer::clearRenderer(white);
 			Renderer::renderSprite(aysePos, ayse);
-			Renderer::renderb2Body(ground);
+
+			Renderer::renderb2Body(top);
+			Renderer::renderb2Body(bottom);
+			Renderer::renderb2Body(right);
+			Renderer::renderb2Body(left);
+
 			Renderer::renderb2Body(ball);
+
+
 			Renderer::render();
 		}
 
