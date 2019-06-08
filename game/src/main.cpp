@@ -15,6 +15,8 @@
 #include "Box2D/Box2D.h"
 #include "GoldEngine/Core/Physics.h"
 
+#include "GoldEngine/Tools/aseprite.h"
+
 
 int main(){
 	{
@@ -41,6 +43,9 @@ int main(){
 
 		b2Body* ball = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight / 2 ), 
 			glm::vec2(2,2 ), 0, 1, 1);
+
+		Aseprite::AsepriteFile aseFile("assets/ayse.aseprite");
+		aseFile.header.print();
 
 		while (!Context::getShouldClose())
 		{
