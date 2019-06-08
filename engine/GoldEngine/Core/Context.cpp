@@ -68,6 +68,7 @@ void Context::init(ContextWindowParems* parems)
 		}
 
 		SDL_RenderSetScale(_renderer, _windowParems.windowWidth / _windowParems.renderWidth, _windowParems.windowHeight / _windowParems.renderHeight);
+		SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
 		_shouldClose = false;
 		_errorCode = 0;
 
