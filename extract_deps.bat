@@ -17,3 +17,8 @@ RMDIR thirdparty\Box2D\Box2D-master /Q/S
 xcopy /s /y /f thirdparty\SDL2\SDL2-2.0.9 thirdparty\SDL2
 RMDIR thirdparty\SDL2\SDL2-2.0.9 /Q/S
 #DEL /F/Q/S thirdparty\SDL2.zip > NUL
+
+7za.exe x thirdparty\glm.zip -o%CD%\thirdparty\glm\
+xcopy /s /y /f thirdparty\glm\glm-stable thirdparty\glm
+RMDIR thirdparty\SDL2\glm-stable /Q/S
+#DEL /F/Q/S thirdparty\glm.zip > NUL

@@ -1,4 +1,5 @@
 #include "GoldEngine/Core/FileUtility.h"
+#include "GoldEngine/Data/SpriteData.h"
 #include "GoldEngine/Core/Context.h"
 #include "stb_image.h"
 #include "SDL.h"

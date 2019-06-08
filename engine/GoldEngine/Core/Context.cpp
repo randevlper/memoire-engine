@@ -1,6 +1,7 @@
 #include "GoldEngine/Core/Context.h"
 #include "SDL.h"
 #include <iostream>
+#include "GoldEngine/Core/Physics.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -24,6 +25,7 @@ SDL_Renderer* Context::_renderer = nullptr;
 
 Context::Context()
 {
+
 }
 
 Context::~Context()
@@ -68,11 +70,14 @@ void Context::init(ContextWindowParems* parems)
 		SDL_RenderSetScale(_renderer, _windowParems.windowWidth / _windowParems.renderWidth, _windowParems.windowHeight / _windowParems.renderHeight);
 		_shouldClose = false;
 		_errorCode = 0;
+
+		Physics::init();
 	}
 }
 
 void Context::quit()
 {
+	Physics::quit();
 	delete(_instance);
 	SDL_DestroyRenderer(_renderer);
 	SDL_DestroyWindow(_window);

@@ -11,6 +11,10 @@ call download_file.bat
 SET DLLOC="./thirdparty/SDL2.zip"
 SET DLURL="https://www.libsdl.org/release/SDL2-2.0.9.zip"
 call download_file.bat
+SET DLLOC="./thirdparty/glm.zip"
+SET DLURL="https://github.com/g-truc/glm/archive/stable.zip"
+call download_file.bat
+
 
 pushd thirdparty
 if not exist stb mkdir stb

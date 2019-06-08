@@ -10,4 +10,4 @@ add_executable(game ${SOURCES})
 
 set_property(TARGET game PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/game")
 
-target_link_libraries(game SDL2-static Box2D-cmake stb EnTT engine)
+target_link_libraries(game SDL2-static Box2D-cmake stb EnTT engine glm)

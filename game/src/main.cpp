@@ -9,7 +9,11 @@
 #include "GoldEngine/Core/Context.h"
 #include "GoldEngine/Core/FileUtility.h"
 #include "GoldEngine/Core/Renderer.h"
+#include "glm/vec2.hpp"
 #include "SDL_events.h"
+#include "SDL_pixels.h"
+#include "Box2D/Box2D.h"
+#include "GoldEngine/Core/Physics.h"
 
 
 int main(){
@@ -20,8 +24,15 @@ int main(){
 			return Context::getErrorCode();
 		}
 
+		glm::vec2 aysePos = { 100,100 };
+		SDL_Color white = { 255,255,255,255 };
+
 		SDL_Event e;
 		SpriteData* ayse = FileUtility::loadSpriteData("assets/ayse.png");
+		b2Body* ground = Physics::createBody(glm::vec2( cWinParems.renderWidth/2, 0 ), 
+			glm::vec2(50,10 ), 0, 1, 0);
+		b2Body* ball = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight / 2 ), 
+			glm::vec2(2,2 ), 0, 1, 1);
 
 		while (!Context::getShouldClose())
 		{
@@ -31,9 +42,12 @@ int main(){
 					Context::setShouldClose(true);
 				}
 			}
+			Physics::tick();
 
-			Renderer::clearRenderer(255, 255, 255, 255);
-			Renderer::renderSprite(100, 100, ayse);
+			Renderer::clearRenderer(white);
+			Renderer::renderSprite(aysePos, ayse);
+			Renderer::renderb2Body(ground);
+			Renderer::renderb2Body(ball);
 			Renderer::render();
 		}
 

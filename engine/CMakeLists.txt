@@ -8,4 +8,4 @@ file(GLOB_RECURSE SOURCES
 
 add_library(engine STATIC ${SOURCES})
 target_include_directories(engine PUBLIC ${PROJECT_SOURCE_DIR})
-target_link_libraries(engine SDL2-static Box2D-cmake stb EnTT)
+target_link_libraries(engine SDL2-static Box2D-cmake stb EnTT glm)
