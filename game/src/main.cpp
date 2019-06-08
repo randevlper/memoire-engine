@@ -45,7 +45,6 @@ int main(){
 			glm::vec2(2,2 ), 0, 1, 1);
 
 		Aseprite::AsepriteFile aseFile("assets/ayse.aseprite");
-		aseFile.header.print();
 
 		while (!Context::getShouldClose())
 		{

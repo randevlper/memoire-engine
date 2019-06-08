@@ -1,9 +1,12 @@
 #pragma once
 #include <cstdint>
 #include <iosfwd>
+#include <vector>
 
 namespace Aseprite {
 	static bool tinf_initialized = false;
+
+	struct AseChunk;
 
 	using BYTE = uint8_t;
 	using WORD = uint16_t;
@@ -18,7 +21,7 @@ namespace Aseprite {
 		return stream.good();
 	}
 
-	struct AsepriteHeader
+	struct AseHeader
 	{
 		DWORD fileSize;
 		WORD magicNumber; //(0xA5E0)
@@ -41,22 +44,34 @@ namespace Aseprite {
 		void print();
 	};
 
-	struct AsepriteFrame
-	{
+	enum PixelType{
+		RGBA, Grayscale, Indexed
+	};
 
+	struct AseFrame
+	{
+		DWORD bytes;
+		WORD magicNumber; //(always 0xF1FA)
+		WORD numberChunksOLD; //Old field which specifies the number of "chunks"
+						   //in this frame.If this value is 0xFFFF, we might
+						   //have more chunks to read in this frame
+						   //(so we have to use the new field)
+		WORD frameDuration;
+		BYTE future[2]; //set to zero;
+		DWORD numberChunksNEW; //New field which specifies the number of "chunks"
+							   //in this frame(if this is 0, use the old field)
+		std::vector<AseChunk> chunks;
+
+		bool read(std::ifstream& s, PixelType  pixelType);
 	};
 	
 	class AsepriteFile
 	{
 	public:
-		AsepriteHeader header;
+		AseHeader header;
+		std::vector<AseFrame> frames;
 
 		AsepriteFile(char filename[]);
 		~AsepriteFile();
-
-		//
-
-	private:
-
 	};
 }

@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 project(engine)
 
 file(GLOB_RECURSE SOURCES
-	GoldEngine/Core/*.h
-	GoldEngine/Core/*.cpp
+	GoldEngine/*.h
+	GoldEngine/*.cpp
 )
 
 add_library(engine STATIC ${SOURCES})
