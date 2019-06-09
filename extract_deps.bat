@@ -1,6 +1,6 @@
 7za.exe x thirdparty\entt.zip -o%CD%\thirdparty\entt\
-xcopy /s /y /f thirdparty\entt\entt-cpp14 thirdparty\entt
-RMDIR thirdparty\entt\entt-cpp14 /Q/S
+xcopy /s /y /f thirdparty\entt\entt-3.0.0 thirdparty\entt
+RMDIR thirdparty\entt\entt-3.0.0 /Q/S
 #DEL /F/Q/S thirdparty\entt.zip > NUL
 
 7za.exe x thirdparty\box2D-cmake.zip -o%CD%\thirdparty\Box2D\

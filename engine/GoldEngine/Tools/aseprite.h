@@ -3,6 +3,7 @@
 #include <iosfwd>
 #include <vector>
 #include <variant>
+#include <string>
 
 namespace Aseprite {
 	
@@ -18,7 +19,14 @@ namespace Aseprite {
 
 	const int BYTE_MAX = UINT8_MAX;
 
-	struct Color
+	struct STRING {
+		WORD length;
+		std::vector<BYTE> characters;
+
+		bool read(std::ifstream& s);
+	};
+
+	struct COLOR
 	{
 		BYTE r;
 		BYTE g; 
@@ -44,7 +52,7 @@ namespace Aseprite {
 	struct AsePaletteOldChunkPacket {
 		BYTE numPalletesToSkip;
 		BYTE colorsCount;
-		Color colors[BYTE_MAX + 1];
+		COLOR colors[BYTE_MAX + 1];
 	};
 
 	struct AsePaletteOldChunk
@@ -62,9 +70,36 @@ namespace Aseprite {
 
 	};
 
+	struct AsePaletteChunkEntry {
+		WORD entryFlags;
+		COLOR color;
+		STRING colorName;
+	};
+
+	struct AsePaletteChunk
+	{
+		DWORD paletteSize; //New palette size(total number of entries)
+		DWORD firstColor; //First color index to change
+		DWORD lastColor; //Last color index to change
+		BYTE future[8]; //for future
+		std::vector<AsePaletteChunkEntry> paletteEntries;
+
+		AsePaletteChunk(std::ifstream& s);
+		bool read(std::ifstream& s);
+		void print();
+	};
+
 	struct AseChunk
 	{
-		//using chunkType = std::var 
+		using chunkType = std::variant<
+			AsePaletteOldChunk,
+			AsePaletteChunk
+		>;
+
+		chunkType data;
+		WORD type;
+
+		AseChunk(chunkType&& data, WORD type);
 	};
 
 	struct AseHeader

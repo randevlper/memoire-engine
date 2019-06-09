@@ -132,10 +132,11 @@ namespace Aseprite {
 				switch (type)
 				{
 				case PALETTE_OLD_0x0004:
-					//chunks.emplace_back(AsePaletteOldChunk(s) , type);
+					chunks.emplace_back(AsePaletteOldChunk(s) , type);
 					break;
-				//case PALETTE_OLD_0x0011:
-				//	break;
+				case PALETTE_OLD_0x0011:
+					chunks.emplace_back(AsePaletteOldChunk(s), type);
+					break;
 				//case LAYER_0x2004:
 				//	break;
 				//case CEL_0x2005:
@@ -148,8 +149,9 @@ namespace Aseprite {
 				//	break;
 				//case FRAME_TAGS_0x2018:
 				//	break;
-				//case PALETTE_0x2019:
-				//	break;
+				case PALETTE_0x2019:
+					chunks.emplace_back(AsePaletteChunk(s), type);
+					break;
 				//case USER_DATA_0x2020:
 				//	break;
 				//case SLICE_0x2022:
@@ -199,7 +201,7 @@ namespace Aseprite {
 				lastIndex += packets[i].numPalletesToSkip;
 				for (WORD c = 0; c < packets[i].colorsCount; c++) {
 					if (lastIndex > 255) { return false; };
-					Color &color = packets[i].colors[c];
+					COLOR &color = packets[i].colors[c];
 					result = result &&
 						getHeadPart(s, color.r) &&
 						getHeadPart(s, color.g) &&
@@ -207,14 +209,98 @@ namespace Aseprite {
 				}
 			}
 		}
-		
-
-		return false;
+		print();
+		return true;
 	}
 
 	void AsePaletteOldChunk::print()
 	{
+		std::cout << "Chunk: Old palette chunk (0x0004)" << std::endl <<
+			"NumPackets: " << numPackets << std::endl;
 
+		for (size_t i = 0; i < numPackets; i++)
+		{
+			std::cout <<
+				"Packet " << i << ":" << std::endl <<
+				"NumPalletesToSkip :" << packets[i].numPalletesToSkip << std::endl;
+
+			for (size_t c = 0; c < packets[i].colorsCount; c++)
+			{
+				std::cout << "Color :" << c << std::endl <<
+					packets[i].colors[c].r << 
+					packets[i].colors[c].g << 
+					packets[i].colors[c].b << std::endl;
+			}
+		}
+	}
+
+	AseChunk::AseChunk(chunkType&& data, WORD type) : 
+		data(std::move(data)),
+		type(type)
+	{
+
+	}
+	AsePaletteChunk::AsePaletteChunk(std::ifstream& s)
+	{
+		read(s);
+	}
+	bool AsePaletteChunk::read(std::ifstream& s)
+	{
+		bool result =
+			getHeadPart(s, paletteSize) &&
+			getHeadPart(s, firstColor) &&
+			getHeadPart(s, lastColor) &&
+			getHeadPart(s, future);
+
+		if (!result) { return result; };
+		paletteEntries.resize(paletteSize);
+		for (DWORD i = firstColor; i <= lastColor && result; i++) {
+			if (i > 255) { return false; }
+			COLOR& c = paletteEntries[i].color;
+
+			result = result &&
+				getHeadPart(s, paletteEntries[i].entryFlags) &&
+				getHeadPart(s, c.r) &&
+				getHeadPart(s, c.g) &&
+				getHeadPart(s, c.b) &&
+				getHeadPart(s, c.a);
+			if (result && paletteEntries[i].entryFlags == 0x1) {
+				result = result && paletteEntries[i].colorName.read(s);
+			}
+		}
+		print();
+		return true;
+	}
+	void AsePaletteChunk::print()
+	{
+		std::cout << "Palette Chunk (0x2019)" << std::endl <<
+			"Palette Size :" << paletteSize << std::endl <<
+			"First Color :" << firstColor << std::endl <<
+			"Last Color :" << lastColor << std::endl <<
+			"Future (len):" << sizeof(future) << std::endl;
+
+		for (size_t i = 0; i < paletteSize; i++)
+		{
+			std::cout << 
+				"Color " << i << ":" << 
+				paletteEntries[i].color.r <<
+				paletteEntries[i].color.g <<
+				paletteEntries[i].color.b << 
+				paletteEntries[i].color.a << std::endl;
+		}
+	}
+	bool STRING::read(std::ifstream& s)
+	{
+		bool result = getHeadPart(s, length);
+		if (!result) {
+			return result;
+		}
+		characters.resize(length);
+		for (size_t i = 0; i < length && result; i++)
+		{
+			result = result && getHeadPart(s, characters[i]);
+		}
+		return result;
 	}
 }
 

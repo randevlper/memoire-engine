@@ -6,7 +6,7 @@ SET DLLOC="./thirdparty/box2D.zip"
 SET DLURL="https://github.com/erincatto/Box2D/archive/master.zip"
 call download_file.bat
 SET DLLOC="./thirdparty/entt.zip"
-SET DLURL="https://github.com/skypjack/entt/archive/cpp14.zip"
+SET DLURL="https://github.com/skypjack/entt/archive/v3.0.0.zip"
 call download_file.bat
 SET DLLOC="./thirdparty/SDL2.zip"
 SET DLURL="https://www.libsdl.org/release/SDL2-2.0.9.zip"

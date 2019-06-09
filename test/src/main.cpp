@@ -59,7 +59,7 @@ int init() {
 	}
 }
 
-void update(entt::DefaultRegistry &registry) {
+void update(entt::registry &registry) {
 	auto view = registry.view<position, velocity>();
 	for (auto entity : view) {
 		//gets only the components that are going to be used ...
@@ -69,7 +69,7 @@ void update(entt::DefaultRegistry &registry) {
 	}
 }
 
-void update(std::uint32_t dt, entt::DefaultRegistry& registry) {
+void update(std::uint32_t dt, entt::registry& registry) {
 	registry.view<position, velocity>().each([dt](auto entity, auto & pos, auto & vel) {
 		// gets all the components of the view at once ...
 		pos.x += vel.dx * dt;
@@ -165,7 +165,7 @@ int main(int argc, char** argv)
 
 	camera = { 0,0,};
 
-	entt::DefaultRegistry registry;
+	entt::registry registry;
 	std::uint32_t dt = 16;
 
 	for (size_t i = 0; i < 1000; i++)
