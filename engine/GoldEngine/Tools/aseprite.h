@@ -2,11 +2,12 @@
 #include <cstdint>
 #include <iosfwd>
 #include <vector>
+#include <variant>
 
 namespace Aseprite {
-	static bool tinf_initialized = false;
+	
 
-	struct AseChunk;
+	static bool tinf_initialized = false;
 
 	using BYTE = uint8_t;
 	using WORD = uint16_t;
@@ -15,11 +16,56 @@ namespace Aseprite {
 	using LONG = int32_t;
 	using FIXED = int32_t; // convert 16.16 fixed to double: x / 65536
 
-	template<typename OutData>
-	bool getHeadPart(std::ifstream& stream, OutData& data) {
-		stream.read((char*)& data, sizeof(OutData));
-		return stream.good();
-	}
+	const int BYTE_MAX = UINT8_MAX;
+
+	struct Color
+	{
+		BYTE r;
+		BYTE g; 
+		BYTE b;
+		BYTE a = 255;
+	};
+
+	enum AseChunkType {
+		PALETTE_OLD_0x0004 = 0x0004,
+		PALETTE_OLD_0x0011 = 0x0011,
+		LAYER_0x2004 = 0x2004,
+		CEL_0x2005 = 0x2005,
+		CEL_EXTRA_0x2006 = 0x2006,
+		MASK_0x2016 = 0x2016, // 0x2016 DEPRECATED
+		PATH_0x2017 = 0x2017, // 0x2017 never used
+		FRAME_TAGS_0x2018 = 0x2018,
+		PALETTE_0x2019 = 0x2019,
+		USER_DATA_0x2020 = 0x2020, //TODO
+		SLICE_0x2022 = 0x2022,
+	};
+
+
+	struct AsePaletteOldChunkPacket {
+		BYTE numPalletesToSkip;
+		BYTE colorsCount;
+		Color colors[BYTE_MAX + 1];
+	};
+
+	struct AsePaletteOldChunk
+	{
+		WORD numPackets;
+		std::vector<AsePaletteOldChunkPacket> packets;
+
+		AsePaletteOldChunk(std::ifstream& s);
+		bool read(std::ifstream& s);
+		void print();
+	};
+
+	struct AseLayerChunk
+	{
+
+	};
+
+	struct AseChunk
+	{
+		//using chunkType = std::var 
+	};
 
 	struct AseHeader
 	{
@@ -63,7 +109,14 @@ namespace Aseprite {
 		std::vector<AseChunk> chunks;
 
 		bool read(std::ifstream& s, PixelType  pixelType);
+		void print();
 	};
+
+	template<typename OutData>
+	bool getHeadPart(std::ifstream& stream, OutData& data) {
+		stream.read((char*)& data, sizeof(OutData));
+		return stream.good();
+	}
 	
 	class AsepriteFile
 	{

@@ -1,5 +1,4 @@
 #include "aseprite.h"
-#include "asepriteChunks.h"
 #include <fstream>
 #include <iostream>
 #include "tinf.h";
@@ -42,6 +41,9 @@ namespace Aseprite {
 				if (!frames[i].read(file, pixelFormat)) {
 					std::cout << " Failed to read FRAME " << i << " in " << filename << " ...stopping.\n";
 					break;
+				}
+				else {
+					frames[i].print();
 				}
 			}
 		}
@@ -107,15 +109,18 @@ namespace Aseprite {
 			getHeadPart(s, future) &&
 			getHeadPart(s, numberChunksNEW);
 
-		if (false) {
+		if (result) {
+			size_t chunkCount = 0;
 			if (numberChunksNEW != 0) {
 				chunks.reserve(numberChunksNEW);
+				chunkCount = numberChunksNEW;
 			}
 			else {
 				chunks.reserve(numberChunksOLD);
+				chunkCount = numberChunksOLD;
 			}
 
-			for (size_t i = 0; i < numberChunksNEW != 0 ? numberChunksNEW : numberChunksOLD; i++)
+			for (size_t i = 0; i < chunkCount && result; i++)
 			{
 				DWORD size = 0;
 				WORD type = 0;
@@ -123,10 +128,11 @@ namespace Aseprite {
 				auto p = s.tellg();
 				result = result && getHeadPart(s, size) && getHeadPart(s, type);
 				auto p2 = s.tellg();
-				std::cout << std::hex << "0x" << p2 << ":DEBUG Chunk: size: " << size << " type: " << type << std::dec << "\n";
+				std::cout << std::hex << "0x" << p2 << ":DEBUG Chunk: size: " << (int)size << " type: " << type << std::dec << "\n";
 				switch (type)
 				{
 				case PALETTE_OLD_0x0004:
+					//chunks.emplace_back(AsePaletteOldChunk(s) , type);
 					break;
 				//case PALETTE_OLD_0x0011:
 				//	break;
@@ -157,6 +163,58 @@ namespace Aseprite {
 		}
 
 		return result;
+	}
+	void AseFrame::print()
+	{
+		std::cout << "Frame" << std::endl <<
+			"Bytes             :" << bytes << std::endl <<
+			"Magic Number      :" << std::hex << magicNumber << std::dec << std::endl <<
+			"Number Chunks OLD :" << numberChunksOLD << std::endl <<
+			"Frame Duration    :" << frameDuration << std::endl <<
+			"future (len)      :" << sizeof(future) << std::endl <<
+			"Number Chunks NEW :" << numberChunksNEW << std::endl << std::endl;
+	}
+
+	AsePaletteOldChunk::AsePaletteOldChunk(std::ifstream& s)
+	{
+		read(s);
+	}
+
+	bool AsePaletteOldChunk::read(std::ifstream& s)
+	{
+		bool result = getHeadPart(s, numPackets);
+		WORD lastIndex = 0;
+		
+		if (result) {
+			packets.resize(numPackets);
+			for (WORD i = 0; i < numPackets; i++) {
+				result = getHeadPart(s, packets[i].numPalletesToSkip) &&
+					getHeadPart(s, packets[i].colorsCount);
+				packets[i].colorsCount == 0 ? 256 : packets[i].colorsCount;
+
+				if (!result) {
+					return false;
+				}
+
+				lastIndex += packets[i].numPalletesToSkip;
+				for (WORD c = 0; c < packets[i].colorsCount; c++) {
+					if (lastIndex > 255) { return false; };
+					Color &color = packets[i].colors[c];
+					result = result &&
+						getHeadPart(s, color.r) &&
+						getHeadPart(s, color.g) &&
+						getHeadPart(s, color.b);
+				}
+			}
+		}
+		
+
+		return false;
+	}
+
+	void AsePaletteOldChunk::print()
+	{
+
 	}
 }
 
