@@ -378,7 +378,7 @@ namespace Aseprite {
 				break;
 			}
 		}
-
+		print();
 		return result;
 	}
 	bool AseCelChunk::readRawPixels(std::ifstream& s, PixelType pixelFormat)
@@ -491,6 +491,16 @@ namespace Aseprite {
 	}
 	void AseCelChunk::print()
 	{
+		std::cout << "Cel Chunk (0x2005)" << std::endl <<
+			"Layer Index :" << layerIndex << std::endl <<
+			"x: " << x << std::endl <<
+			"y: " << y << std::endl <<
+			"opacity: " << opacity << std::endl <<
+			"type: " << type << std::endl <<
+			"future: (len)" << sizeof(future) << std::endl <<
+			"width: " << width << std::endl <<
+			"height: " << height << std::endl <<
+			"framePosToLink: " << framePosToLink << std::endl;
 	}
 }
 

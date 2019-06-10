@@ -1,6 +1,7 @@
 #include "GoldEngine/Core/FileUtility.h"
 #include "GoldEngine/Data/SpriteData.h"
 #include "GoldEngine/Core/Context.h"
+#include "GoldEngine/Tools/aseprite.h"
 #include "stb_image.h"
 #include "SDL.h"
 
@@ -60,3 +61,31 @@ void FileUtility::unloadSpriteData(SpriteData* spriteData)
 
 	delete(spriteData);
 }
+
+AseData* FileUtility::loadAse(char path[])
+{
+	Aseprite::AsepriteFile* file = new Aseprite::AsepriteFile(path);
+	AseData* data = new AseData();
+	data->aseFile = file;
+	SDL_Surface* surface;
+
+	for (const auto& chunk : file->frames[0].chunks) {
+		if (chunk.type == Aseprite::AseChunkType::CEL_0x2005) {
+			const auto& celChunk = std::get<Aseprite::AseCelChunk>(chunk.data);
+			surface = SDL_CreateRGBSurfaceWithFormatFrom((unsigned char*)celChunk.pixels.data(), celChunk.width, celChunk.height, 32, 4 * celChunk.width, SDL_PIXELFORMAT_RGBA32);
+			data->texture = SDL_CreateTextureFromSurface(Context::getRenderer(), surface);
+			data->width = celChunk.width;
+			data->height = celChunk.height;
+		}
+	}
+	SDL_FreeSurface(surface);
+	return data;
+}
+
+void FileUtility::unloadAse(AseData* data)
+{
+	delete(data->aseFile);
+	delete(data);
+}
+
+

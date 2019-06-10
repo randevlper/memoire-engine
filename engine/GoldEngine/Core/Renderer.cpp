@@ -79,6 +79,13 @@ void Renderer::renderb2Body(b2Body* body)
 	}
 }
 
+void Renderer::renderAse(int x, int y, AseData* ase)
+{
+	SDL_Rect renderQuad = { x - _cameraPos->x, y - _cameraPos->y, ase->width, ase->height };
+	SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderCopy(Context::getRenderer(), ase->texture, nullptr, &renderQuad);
+}
+
 void Renderer::renderSprite(glm::vec2& pos, SpriteData* spriteData)
 {
 	renderSprite(pos.x, pos.y, spriteData);

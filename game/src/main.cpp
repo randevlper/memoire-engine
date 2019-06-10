@@ -44,7 +44,8 @@ int main(){
 		b2Body* ball = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight / 2 ), 
 			glm::vec2(2,2 ), 0, 1, 1);
 
-		Aseprite::AsepriteFile aseFile("assets/ayse.aseprite");
+		//Aseprite::AsepriteFile aseFile();
+		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
 
 		while (!Context::getShouldClose())
 		{
@@ -73,6 +74,7 @@ int main(){
 
 			Renderer::clearRenderer(white);
 			Renderer::renderSprite(aysePos, ayse);
+			Renderer::renderAse(0, 100, aseFile);
 
 			Renderer::renderb2Body(top);
 			Renderer::renderb2Body(bottom);
@@ -87,6 +89,7 @@ int main(){
 
 
 		FileUtility::unloadSpriteData(ayse);
+		FileUtility::unloadAse(aseFile);
 		Context::quit();
 	}
 
