@@ -16,6 +16,9 @@ struct SpriteData
 
 
 struct AseData {
+	//TODO
+	//Perlayer drawing
+
 	Aseprite::AsepriteFile* aseFile;
 	SDL_Texture* texture;
 	int width, height;
