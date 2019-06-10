@@ -24,6 +24,7 @@ namespace Aseprite {
 		std::vector<BYTE> characters;
 
 		bool read(std::ifstream& s);
+		std::string toString();
 	};
 
 	struct COLOR
@@ -32,6 +33,13 @@ namespace Aseprite {
 		BYTE g; 
 		BYTE b;
 		BYTE a = 255;
+	};
+
+	union PIXEL_DATA
+	{
+		BYTE RGBA[4];
+		BYTE Grayscale[2];
+		BYTE Indexed[1];
 	};
 
 	enum AseChunkType {
@@ -67,7 +75,62 @@ namespace Aseprite {
 
 	struct AseLayerChunk
 	{
+		WORD flags; // 1 = Visible
+				// 2 = Editable
+				// 4 = Lock movement
+				// 8 = Background
+				// 16 = Prefer linked cels
+				// 32 = The layer group should be displayed collapsed
+				// 64 = The layer is a reference layer
+		WORD layerType; //0 - normal, 1 - group layer
+		WORD layerChildLevel; // see NOTE.1
+		WORD width; // default layer width in pixels . ignored
+		WORD height; //ignored
+		WORD blendMode; // Normal         = 0
+						// Multiply       = 1
+						// Screen         = 2
+						// Overlay        = 3
+						// Darken         = 4
+						// Lighten        = 5
+						// Color Dodge    = 6
+						// Color Burn     = 7
+						// Hard Light     = 8
+						// Soft Light     = 9
+						// Difference     = 10
+						// Exclusion      = 11
+						// Hue            = 12
+						// Saturation     = 13
+						// Color          = 14
+						// Luminosity     = 15
+						// Addition       = 16
+						// Subtract       = 17
+						// Divide         = 18
+		BYTE opacity; //valid only if file header flags field has bit 1 set
+		BYTE unused[3];
+		STRING name;
 
+
+		AseLayerChunk(std::ifstream& s);
+		bool read(std::ifstream& s);
+		void print();
+	};
+
+	struct AseCelChunk
+	{
+		WORD layerIndex; //see NOTE.2
+		SHORT x;
+		SHORT y;
+		BYTE opacity;
+		WORD type; //0 raw cel, 1 linked cel, 2 compressed
+		WORD width; //Cel type = 0, 2;
+		WORD height; //Cel type = 0, 2;
+		std::vector<PIXEL_DATA> pixels;//Cel type 0;
+		WORD framePosToLink;//Cel type = 1;
+		std::vector<BYTE> pixelsCompressed;//Cel type 2;
+
+		AseCelChunk(std::ifstream& s);
+		bool read(std::ifstream& s);
+		void print();
 	};
 
 	struct AsePaletteChunkEntry {
@@ -93,7 +156,8 @@ namespace Aseprite {
 	{
 		using chunkType = std::variant<
 			AsePaletteOldChunk,
-			AsePaletteChunk
+			AsePaletteChunk,
+			AseLayerChunk
 		>;
 
 		chunkType data;

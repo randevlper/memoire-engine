@@ -137,8 +137,9 @@ namespace Aseprite {
 				case PALETTE_OLD_0x0011:
 					chunks.emplace_back(AsePaletteOldChunk(s), type);
 					break;
-				//case LAYER_0x2004:
-				//	break;
+				case LAYER_0x2004:
+					chunks.emplace_back(AseLayerChunk(s), type);
+					break;
 				//case CEL_0x2005:
 				//	break;
 				//case CEL_EXTRA_0x2006:
@@ -301,6 +302,49 @@ namespace Aseprite {
 			result = result && getHeadPart(s, characters[i]);
 		}
 		return result;
+	}
+	std::string STRING::toString()
+	{
+		return std::string(reinterpret_cast<const char*>(&characters[0]), characters.size());
+	}
+	AseLayerChunk::AseLayerChunk(std::ifstream& s)
+	{
+		read(s);
+	}
+	bool AseLayerChunk::read(std::ifstream& s)
+	{
+		bool result =
+			getHeadPart(s, flags) &&
+			getHeadPart(s, layerType) &&
+			getHeadPart(s, layerChildLevel) &&
+			getHeadPart(s, width) &&
+			getHeadPart(s, height) &&
+			getHeadPart(s, blendMode) &&
+			getHeadPart(s, opacity) &&
+			getHeadPart(s, unused) &&
+			name.read(s);
+		print();
+		return result;
+	}
+	void AseLayerChunk::print()
+	{
+		std::cout << "Layer Chunk (0x2004)" << std::endl <<
+			"flags           :" << flags << std::endl <<
+			"layerType       :" << layerType << std::endl <<
+			"layerChildLevel :" << layerChildLevel << std::endl <<
+			"blendMode       :" << blendMode << std::endl <<
+			"opacity         :" << opacity << std::endl <<
+			"name            :" << name.toString() << std::endl;
+	}
+	AseCelChunk::AseCelChunk(std::ifstream& s)
+	{
+	}
+	bool AseCelChunk::read(std::ifstream& s)
+	{
+		return false;
+	}
+	void AseCelChunk::print()
+	{
 	}
 }
 
