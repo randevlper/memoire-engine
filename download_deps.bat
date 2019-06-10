@@ -14,6 +14,9 @@ call download_file.bat
 SET DLLOC="./thirdparty/glm.zip"
 SET DLURL="https://github.com/g-truc/glm/archive/stable.zip"
 call download_file.bat
+SET DLLOC="./thirdparty/zlib.zip"
+SET DLURL="https://github.com/madler/zlib/archive/master.zip"
+call download_file.bat
 
 
 pushd thirdparty

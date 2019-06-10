@@ -20,5 +20,10 @@ RMDIR thirdparty\SDL2\SDL2-2.0.9 /Q/S
 
 7za.exe x thirdparty\glm.zip -o%CD%\thirdparty\glm\
 xcopy /s /y /f thirdparty\glm\glm-stable thirdparty\glm
-RMDIR thirdparty\SDL2\glm-stable /Q/S
+RMDIR thirdparty\glm\glm-stable /Q/S
 #DEL /F/Q/S thirdparty\glm.zip > NUL
+
+7za.exe x thirdparty\zlib.zip -o%CD%\thirdparty\zlib\
+xcopy /s /y /f thirdparty\zlib\zlib-master thirdparty\zlib
+RMDIR thirdparty\zlib\zlib-master /Q/S
+#DEL /F/Q/S thirdparty\zlib.zip > NUL

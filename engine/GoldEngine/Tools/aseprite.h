@@ -42,6 +42,10 @@ namespace Aseprite {
 		BYTE Indexed[1];
 	};
 
+	enum PixelType {
+		RGBA, Grayscale, Indexed
+	};
+
 	enum AseChunkType {
 		PALETTE_OLD_0x0004 = 0x0004,
 		PALETTE_OLD_0x0011 = 0x0011,
@@ -122,14 +126,17 @@ namespace Aseprite {
 		SHORT y;
 		BYTE opacity;
 		WORD type; //0 raw cel, 1 linked cel, 2 compressed
+		BYTE future[7];
 		WORD width; //Cel type = 0, 2;
 		WORD height; //Cel type = 0, 2;
-		std::vector<PIXEL_DATA> pixels;//Cel type 0;
+		std::vector<PIXEL_DATA> pixels;//Cel type 0, 2;
 		WORD framePosToLink;//Cel type = 1;
-		std::vector<BYTE> pixelsCompressed;//Cel type 2;
+		//std::vector<BYTE> pixelsCompressed;//Cel type 2;
 
-		AseCelChunk(std::ifstream& s);
-		bool read(std::ifstream& s);
+		AseCelChunk(std::ifstream& s, PixelType pixelFormat, DWORD dataSize);
+		bool read(std::ifstream& s, PixelType pixelFormat, DWORD dataSize);
+		bool readRawPixels(std::ifstream& s, PixelType pixelFormat);
+		bool readCompressedPixels(std::ifstream& s, PixelType pixelFormat, DWORD sourceLength);
 		void print();
 	};
 
@@ -187,10 +194,6 @@ namespace Aseprite {
 
 		bool read(std::ifstream& s);
 		void print();
-	};
-
-	enum PixelType{
-		RGBA, Grayscale, Indexed
 	};
 
 	struct AseFrame

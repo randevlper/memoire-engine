@@ -336,12 +336,111 @@ namespace Aseprite {
 			"opacity         :" << opacity << std::endl <<
 			"name            :" << name.toString() << std::endl;
 	}
-	AseCelChunk::AseCelChunk(std::ifstream& s)
+
+	AseCelChunk::AseCelChunk(std::ifstream& s, PixelType pixelFormat, DWORD dataSize)
 	{
+		read(s, pixelFormat, dataSize);
 	}
-	bool AseCelChunk::read(std::ifstream& s)
+	bool AseCelChunk::read(std::ifstream& s, PixelType pixelFormat, DWORD dataSize)
 	{
-		return false;
+		bool result =
+			getHeadPart(s, layerIndex) &&
+			getHeadPart(s, x) &&
+			getHeadPart(s, y) &&
+			getHeadPart(s, opacity) &&
+			getHeadPart(s, type) &&
+			getHeadPart(s, future);
+
+		constexpr size_t celHeaderSize = 
+			sizeof(layerIndex) + 
+			sizeof(x) + sizeof(y) + 
+			sizeof(opacity) + sizeof(type) + 
+			sizeof(future);
+
+		if (result) {
+			switch (type)
+			{
+			case 0:
+				result = result &&
+					getHeadPart(s, width) &&
+					getHeadPart(s, height);
+				//TODO read raw pixels
+				readRawPixels(s, pixelFormat);
+				break;
+			case 1:
+				result = result && getHeadPart(s, framePosToLink);
+				break;
+			case 2:
+				result = result &&
+					getHeadPart(s, width) &&
+					getHeadPart(s, height);
+				//TODO read compressed pixels
+				result = result && readCompressedPixels(s, pixelFormat, dataSize);
+				break;
+			default:
+				result = false;
+				break;
+			}
+		}
+
+		return result;
+	}
+	bool AseCelChunk::readRawPixels(std::ifstream& s, PixelType pixelFormat)
+	{
+		bool result = false;
+		DWORD dim = width * height;
+
+		if (result) {
+			pixels.resize(dim);
+			switch (pixelFormat)
+			{
+			case PixelType::Indexed:{
+				for (DWORD i = 0; (i < dim) && result; i++) {
+					result = result &&
+						getHeadPart(s, pixels[i].Indexed);
+				}
+				break;
+			}
+			case PixelType::Grayscale: {
+				for (DWORD i = 0; (i < dim) && result; i++) {
+					result = result &&
+						getHeadPart(s, pixels[i].Grayscale);
+				}
+				break;
+			}
+			case PixelType::RGBA: {
+				for (DWORD i = 0; (i < dim) && result; i++) {
+					result = result &&
+						getHeadPart(s, pixels[i].RGBA);
+				}
+				break;
+			}						
+			default:
+				result = false;
+				break;
+			}
+
+		}
+		return result;
+	}
+	bool AseCelChunk::readCompressedPixels(std::ifstream& s, PixelType pixelFormat, DWORD sourceLength)
+	{
+		bool result = false;
+		if (result) {
+			DWORD dim = width * height;
+			pixels.resize(dim);
+			sourceLength -= 4;
+
+			std::vector<BYTE> source(sourceLength);
+			s.read((char*)source.data()/*zlib header*/, sourceLength);
+			
+			result = s.good();
+			if (result) {
+
+			}
+		}
+
+		return result;
 	}
 	void AseCelChunk::print()
 	{
