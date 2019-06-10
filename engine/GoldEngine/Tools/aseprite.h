@@ -33,6 +33,8 @@ namespace Aseprite {
 		BYTE g; 
 		BYTE b;
 		BYTE a = 255;
+
+		std::string toString();
 	};
 
 	union PIXEL_DATA
@@ -146,6 +148,44 @@ namespace Aseprite {
 		STRING colorName;
 	};
 
+	//0x2006
+	struct AseCelExtraChunk {
+		DWORD flags;
+		FIXED preciseX;
+		FIXED precistY;
+		FIXED widthCelReal;
+		FIXED heightCelReal;
+		BYTE future[16];
+
+		AseCelExtraChunk(std::ifstream& s);
+		bool read(std::ifstream& s);
+		void print();
+	};
+
+	struct AseFrameTag
+	{
+		WORD fromFrame;
+		WORD toFrame;
+		BYTE loopAnimationDir; //0 - Forward, 1 - Reverse, 2 - Ping Pong
+		BYTE future[8];
+		COLOR RGB; //BYTE RGB[3];
+		BYTE extra;
+		STRING tagName;
+	};
+
+	struct AseFrameTagChunk
+	{
+		WORD countTags;
+		BYTE future[8];
+		std::vector<AseFrameTag> tags;
+
+		AseFrameTagChunk(std::ifstream& s);
+		bool read(std::ifstream& s);
+		void print();
+	};
+
+	
+
 	struct AsePaletteChunk
 	{
 		DWORD paletteSize; //New palette size(total number of entries)
@@ -167,7 +207,9 @@ namespace Aseprite {
 			AsePaletteOldChunk,
 			AsePaletteChunk,
 			AseLayerChunk,
-			AseCelChunk
+			AseCelChunk,
+			AseCelExtraChunk,
+			AseFrameTagChunk
 		>;
 
 		chunkType data;

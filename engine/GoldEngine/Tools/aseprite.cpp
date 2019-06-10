@@ -96,7 +96,7 @@ namespace Aseprite {
 			"colorsCount        :" << colorsCount << "\n"
 			"pixelWidth         :" << (int)pixelWidth << "\n"
 			"pixelHeight        :" << (int)pixelHeight << "\n"
-			"reserved           :(len)" << sizeof(reserved) << "\n";
+			"reserved           :(len)" << sizeof(reserved) << "\n\n";
 	}
 
 	bool AseFrame::read(std::ifstream& s, PixelType pixelType)
@@ -143,14 +143,16 @@ namespace Aseprite {
 				case CEL_0x2005:
 					chunks.emplace_back(AseCelChunk(s, pixelType, size - chunkHeaderSize), type);
 					break;
-				//case CEL_EXTRA_0x2006:
+				case CEL_EXTRA_0x2006:
+					chunks.emplace_back(AseCelExtraChunk(s), type);
+					break;
+				//case MASK_0x2016: //DEPRECATED
 				//	break;
-				//case MASK_0x2016:
+				//case PATH_0x2017: //NEVER USED
 				//	break;
-				//case PATH_0x2017:
-				//	break;
-				//case FRAME_TAGS_0x2018:
-				//	break;
+				case FRAME_TAGS_0x2018:
+					chunks.emplace_back(AseFrameTagChunk(s), type);
+					break;
 				case PALETTE_0x2019:
 					chunks.emplace_back(AsePaletteChunk(s), type);
 					break;
@@ -229,11 +231,11 @@ namespace Aseprite {
 			for (size_t c = 0; c < packets[i].colorsCount; c++)
 			{
 				std::cout << "Color :" << c << std::endl <<
-					packets[i].colors[c].r << 
-					packets[i].colors[c].g << 
-					packets[i].colors[c].b << std::endl;
+					packets[i].colors[c].toString() << std::endl;
 			}
 		}
+
+		std::cout << std::endl;
 	}
 
 	AseChunk::AseChunk(chunkType&& data, WORD type) : 
@@ -284,12 +286,11 @@ namespace Aseprite {
 		for (size_t i = 0; i < paletteSize; i++)
 		{
 			std::cout << 
-				"Color " << i << ":" << 
-				paletteEntries[i].color.r <<
-				paletteEntries[i].color.g <<
-				paletteEntries[i].color.b << 
-				paletteEntries[i].color.a << std::endl;
+				"Color " << i << ":" << paletteEntries[i].color.toString() << 
+				std::endl;
 		}
+
+		std::cout << std::endl;
 	}
 	bool STRING::read(std::ifstream& s)
 	{
@@ -335,7 +336,7 @@ namespace Aseprite {
 			"layerChildLevel :" << layerChildLevel << std::endl <<
 			"blendMode       :" << blendMode << std::endl <<
 			"opacity         :" << opacity << std::endl <<
-			"name            :" << name.toString() << std::endl;
+			"name            :" << name.toString() << std::endl <<std::endl;
 	}
 
 	AseCelChunk::AseCelChunk(std::ifstream& s, PixelType pixelFormat, DWORD dataSize)
@@ -500,7 +501,86 @@ namespace Aseprite {
 			"future: (len)" << sizeof(future) << std::endl <<
 			"width: " << width << std::endl <<
 			"height: " << height << std::endl <<
-			"framePosToLink: " << framePosToLink << std::endl;
+			"framePosToLink: " << framePosToLink << std::endl << std::endl;
+	}
+	AseCelExtraChunk::AseCelExtraChunk(std::ifstream& s)
+	{
+		read(s);
+	}
+	bool AseCelExtraChunk::read(std::ifstream& s)
+	{
+		bool result = getHeadPart(s, flags) &&
+			getHeadPart(s, preciseX) &&
+			getHeadPart(s, precistY) &&
+			getHeadPart(s, widthCelReal) &&
+			getHeadPart(s, heightCelReal) &&
+			getHeadPart(s, future);
+		print();
+		return result;
+	}
+	void AseCelExtraChunk::print()
+	{
+		std::cout << "CelExtraChunk (0x2006)" << std::endl <<
+			"Flags :" << flags << std::endl <<
+			"preciseX :" << preciseX << std::endl <<
+			"preciseY :" << precistY << std::endl <<
+			"widthCelReal :" << widthCelReal << std::endl <<
+			"heightCelReal :" << heightCelReal << std::endl <<
+			"future :(len)" << sizeof(future) << std::endl << std::endl;
+	}
+	AseFrameTagChunk::AseFrameTagChunk(std::ifstream& s)
+	{
+		read(s);
+	}
+	bool AseFrameTagChunk::read(std::ifstream& s)
+	{
+		bool result =
+			getHeadPart(s, countTags) &&
+			getHeadPart(s, future);
+
+		if (result) {
+			tags.resize(countTags);
+			for (size_t i = 0; i < countTags; i++){
+				AseFrameTag& t = tags[i];
+
+				result = getHeadPart(s, t.fromFrame) &&
+					getHeadPart(s, t.toFrame) &&
+					getHeadPart(s, t.loopAnimationDir) &&
+					getHeadPart(s, t.future) &&
+					getHeadPart(s, t.RGB.r) &&
+					getHeadPart(s, t.RGB.g) &&
+					getHeadPart(s, t.RGB.b) &&
+					getHeadPart(s, t.extra) &&
+					t.tagName.read(s);
+				
+				t.RGB.a = 255;
+			}
+		}
+		print();
+		return result;
+	}
+	void AseFrameTagChunk::print()
+	{
+		std::cout << "Frame Tags Chunk (0x2018)" << std::endl <<
+			"countTags :" << countTags << std::endl <<
+			"future :" << sizeof(future) << std::endl;
+
+		for (size_t i = 0; i < countTags; i++)
+		{
+			AseFrameTag& t = tags[i];
+			std::cout << "Tag: " << i << std::endl <<
+				"fromFrame: " << t.fromFrame << std::endl <<
+				"toFrame: " << t.toFrame << std::endl <<
+				"loopAnimationDir: " << t.loopAnimationDir << std::endl <<
+				"future: (len)" << sizeof(t.future) << std::endl <<
+				"RGB: " << t.RGB.toString() << std::endl <<
+				"TagName: " << t.tagName.toString() << std::endl << std::endl;
+		}
+	}
+	std::string COLOR::toString()
+	{
+		return std::string(std::to_string((int)r) + " " + std::to_string((int)g)
+				+ " " + std::to_string((int)b) + " " + std::to_string((int)a));
 	}
 }
 
