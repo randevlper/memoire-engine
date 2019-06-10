@@ -161,10 +161,13 @@ namespace Aseprite {
 
 	struct AseChunk
 	{
+		// all variants must have move constructor, move assignment operator
+		// first variant must have default constructor
 		using chunkType = std::variant<
 			AsePaletteOldChunk,
 			AsePaletteChunk,
-			AseLayerChunk
+			AseLayerChunk,
+			AseCelChunk
 		>;
 
 		chunkType data;

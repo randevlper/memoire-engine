@@ -140,8 +140,9 @@ namespace Aseprite {
 				case LAYER_0x2004:
 					chunks.emplace_back(AseLayerChunk(s), type);
 					break;
-				//case CEL_0x2005:
-				//	break;
+				case CEL_0x2005:
+					chunks.emplace_back(AseCelChunk(s, pixelType, size - chunkHeaderSize), type);
+					break;
 				//case CEL_EXTRA_0x2006:
 				//	break;
 				//case MASK_0x2016:
@@ -356,14 +357,12 @@ namespace Aseprite {
 			sizeof(x) + sizeof(y) + 
 			sizeof(opacity) + sizeof(type) + 
 			sizeof(future);
+		static_assert(celHeaderSize == 16);
 
 		if (result) {
 			switch (type)
 			{
 			case 0:
-				result = result &&
-					getHeadPart(s, width) &&
-					getHeadPart(s, height);
 				//TODO read raw pixels
 				readRawPixels(s, pixelFormat);
 				break;
@@ -371,11 +370,8 @@ namespace Aseprite {
 				result = result && getHeadPart(s, framePosToLink);
 				break;
 			case 2:
-				result = result &&
-					getHeadPart(s, width) &&
-					getHeadPart(s, height);
 				//TODO read compressed pixels
-				result = result && readCompressedPixels(s, pixelFormat, dataSize);
+				result = result && readCompressedPixels(s, pixelFormat, dataSize - celHeaderSize);
 				break;
 			default:
 				result = false;
@@ -387,7 +383,9 @@ namespace Aseprite {
 	}
 	bool AseCelChunk::readRawPixels(std::ifstream& s, PixelType pixelFormat)
 	{
-		bool result = false;
+		bool result =
+			getHeadPart(s, width) &&
+			getHeadPart(s, height);
 		DWORD dim = width * height;
 
 		if (result) {
@@ -425,7 +423,9 @@ namespace Aseprite {
 	}
 	bool AseCelChunk::readCompressedPixels(std::ifstream& s, PixelType pixelFormat, DWORD sourceLength)
 	{
-		bool result = false;
+		bool result = getHeadPart(s, width) &&
+			getHeadPart(s, height);
+
 		if (result) {
 			DWORD dim = width * height;
 			pixels.resize(dim);
@@ -436,7 +436,54 @@ namespace Aseprite {
 			
 			result = s.good();
 			if (result) {
+				DWORD expectedLen = dim;
+				switch (pixelFormat) {
+				case Indexed: {
+					break;
+				}
+				case Grayscale: {
+					expectedLen *= 2;
+					break;
+				}
+				case RGBA: {
+					expectedLen *= 4;
+					break;
+				}
+				default:
+					result = false;
+				}
+				std::vector<BYTE> uncompressed(expectedLen);
+				DWORD destLen;
+				auto outcome = tinf_uncompress(uncompressed.data(), &destLen, source.data() + 2, sourceLength - 2 - 4/*zlib header, crc*/);
+				result = result && TINF_OK == outcome;
 
+				result = result && destLen == expectedLen;
+				if (result) {
+					switch (pixelFormat) {
+					case Indexed: {
+						for (DWORD i = 0; i < dim; i++) {
+							pixels[i].Indexed[0] = uncompressed[i];
+						}
+						break;
+					}
+					case Grayscale: {
+						for (DWORD i = 0; i < dim; i++) {
+							pixels[i].Grayscale[0] = uncompressed[2 * i];
+							pixels[i].Grayscale[1] = uncompressed[2 * i + 1];
+						}
+						break;
+					}
+					case RGBA: {
+						for (DWORD i = 0; i < dim; i++) {
+							pixels[i].RGBA[0] = uncompressed[4 * i];
+							pixels[i].RGBA[1] = uncompressed[4 * i + 1];
+							pixels[i].RGBA[2] = uncompressed[4 * i + 2];
+							pixels[i].RGBA[3] = uncompressed[4 * i + 3];
+						}
+						break;
+					}
+					}
+				}
 			}
 		}
 
