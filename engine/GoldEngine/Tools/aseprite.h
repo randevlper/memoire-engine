@@ -184,7 +184,47 @@ namespace Aseprite {
 		void print();
 	};
 
-	
+	struct AseSliceKey {
+		DWORD frameNumber; //this slice is valid from this frame to the end of the animation
+		LONG x;
+		LONG y;
+		DWORD width; //can be 0 if this slice hidden in the animation from the given frame
+		DWORD height;
+		LONG centerX; //Used for center x and pivot x
+		LONG centerY; //Used for center x and pivot x
+		DWORD centerWidth; //Used for 9 slice
+		DWORD centerHeight;
+		LONG pivotX;
+		LONG pivotY;
+	};
+
+	struct AseSliceChunk {
+		DWORD sliceKeyCount;
+		DWORD flags; //Bit 1 - 9 Slices, Bit 2 - Has Pivot information
+		DWORD reserved;
+		STRING name;
+		std::vector<AseSliceKey> keys;
+
+		bool hasNinePatchData();
+		bool hasPivotData();
+
+		AseSliceChunk(std::ifstream& s);
+		bool read(std::ifstream& s);
+		void print();
+	};
+
+	struct AseUserDataChunk {
+		DWORD flags;
+		STRING text;
+		COLOR color;
+
+		bool hasText();
+		bool hasColor();
+
+		AseUserDataChunk(std::ifstream& s);
+		bool read(std::ifstream& s);
+		void print();
+	};
 
 	struct AsePaletteChunk
 	{
@@ -209,7 +249,9 @@ namespace Aseprite {
 			AseLayerChunk,
 			AseCelChunk,
 			AseCelExtraChunk,
-			AseFrameTagChunk
+			AseFrameTagChunk,
+			AseSliceChunk,
+			AseUserDataChunk
 		>;
 
 		chunkType data;
@@ -254,6 +296,7 @@ namespace Aseprite {
 		DWORD numberChunksNEW; //New field which specifies the number of "chunks"
 							   //in this frame(if this is 0, use the old field)
 		std::vector<AseChunk> chunks;
+		std::vector<AseUserDataChunk*> userData;
 
 		bool read(std::ifstream& s, PixelType  pixelType);
 		void print();

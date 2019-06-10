@@ -119,7 +119,9 @@ namespace Aseprite {
 				chunks.reserve(numberChunksOLD);
 				chunkCount = numberChunksOLD;
 			}
-
+			userData.reserve(chunkCount);
+			userData.resize(chunkCount);
+			std::fill(userData.begin(), userData.end(), nullptr);
 			for (size_t i = 0; i < chunkCount && result; i++)
 			{
 				DWORD size = 0;
@@ -156,15 +158,29 @@ namespace Aseprite {
 				case PALETTE_0x2019:
 					chunks.emplace_back(AsePaletteChunk(s), type);
 					break;
-				//case USER_DATA_0x2020:
-				//	break;
-				//case SLICE_0x2022:
-				//	break;
+				case USER_DATA_0x2020: {
+					AseUserDataChunk chunk(s);
+					//Need to create copy constructor
+					chunks.emplace_back(chunk, type);
+					userData[i - 1] = &chunk;
+					break;
+				}
+				case SLICE_0x2022:
+					chunks.emplace_back(AseSliceChunk(s), type);
+					break;
 				default:
 					//std::cout << "^ not parsed\n";
 					s.seekg(size + p); // skip data
 				}
 				result = result && s.good();
+			}
+
+			for (size_t i = 0; i < userData.size(); i++)
+			{
+				if (userData[i] != nullptr) {
+					std::cout << i << std::endl;
+					userData.at(i)->print();
+				}
 			}
 		}
 
@@ -582,6 +598,120 @@ namespace Aseprite {
 		return std::string(std::to_string((int)r) + " " + std::to_string((int)g)
 				+ " " + std::to_string((int)b) + " " + std::to_string((int)a));
 	}
+	bool AseSliceChunk::hasNinePatchData()
+	{
+		return flags & 0x1;
+	}
+	bool AseSliceChunk::hasPivotData()
+	{
+		return flags & 0x2;
+	}
+	AseSliceChunk::AseSliceChunk(std::ifstream& s)
+	{
+		read(s);
+	}
+	bool AseSliceChunk::read(std::ifstream& s)
+	{
+		bool result = getHeadPart(s, sliceKeyCount) &&
+			getHeadPart(s, flags) &&
+			getHeadPart(s, reserved) &&
+			name.read(s);
+
+		if (result) {
+			keys.resize(sliceKeyCount);
+
+			for (size_t i = 0; i < sliceKeyCount; i++)
+			{
+				AseSliceKey& k = keys[i];
+				
+				result = getHeadPart(s, k.frameNumber) &&
+					getHeadPart(s, k.x) &&
+					getHeadPart(s, k.y) &&
+					getHeadPart(s, k.width) &&
+					getHeadPart(s, k.height);
+
+				if (result) {
+					if (hasNinePatchData()) {
+						result =
+							getHeadPart(s, k.centerX) &&
+							getHeadPart(s, k.centerY) &&
+							getHeadPart(s, k.centerWidth) &&
+							getHeadPart(s, k.centerHeight);
+					}
+
+					if (hasPivotData()) {
+						result =
+							getHeadPart(s, k.pivotX) &&
+							getHeadPart(s, k.pivotY);
+					}
+				}
+
+			}
+		}
+		print();
+		return result;
+	}
+	void AseSliceChunk::print()
+	{
+		std::cout << "Slice Chunk (0x2022)" << std::endl <<
+			"sliceKeyCount: " << sliceKeyCount << std::endl <<
+			"hasNinePatchData: " << hasNinePatchData() << std::endl <<
+			"hasPivotData: " << hasPivotData() << std::endl <<
+			"reserved: (len)" << sizeof(reserved) << std::endl;
+
+		for (size_t i = 0; i < sliceKeyCount; i++)
+		{
+			AseSliceKey& k = keys[i];
+			std::cout << "Key: " << i << std::endl <<
+				"frameNumber: " << k.frameNumber << std::endl <<
+				"x: " << k.x << std::endl <<
+				"y: " << k.y << std::endl <<
+				"width: " << k.width << std::endl <<
+				"height: " << k.height << std::endl;
+				if (hasNinePatchData()) {
+					std::cout << "centerX: " << k.centerX << std::endl <<
+						"centerY: " << k.centerY << std::endl <<
+						"centerWidth: " << k.centerWidth << std::endl <<
+						"centerHeight: " << k.centerHeight << std::endl;
+				}
+				if (hasPivotData()) {
+					std::cout << "pivotX: " << k.pivotX << std::endl <<
+						"pivotY: " << k.pivotY << std::endl;
+				} 
+		}
+	}
+	bool AseUserDataChunk::hasText()
+	{
+		return flags & 0x1;
+	}
+	bool AseUserDataChunk::hasColor()
+	{
+		return flags & 0x2;
+	}
+	AseUserDataChunk::AseUserDataChunk(std::ifstream& s)
+	{
+		read(s);
+	}
+	bool AseUserDataChunk::read(std::ifstream& s)
+	{
+		bool result = getHeadPart(s, flags);
+		if (hasText()) {
+			result = result && text.read(s);
+		}
+		if (hasColor()) {
+			result = result && getHeadPart(s, color);
+		}
+		print();
+		return result;
+	}
+	void AseUserDataChunk::print()
+	{
+		if (hasColor()) {
+			std::cout << "color: " + color.toString() << std::endl;
+		}
+		if (hasText()) {
+			std::cout << "text: " + text.toString() << std::endl;
+		}
+		std::cout << std::endl;
+	}
 }
-
-
