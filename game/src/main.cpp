@@ -31,6 +31,8 @@ int main(){
 
 		SDL_Event e;
 		SpriteData* ayse = FileUtility::loadSpriteData("assets/ayse.png");
+		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
+
 		b2Body* top = Physics::createBody(glm::vec2( cWinParems.renderWidth/2, 0 ),
 			glm::vec2(cWinParems.renderWidth/2,10 ), 0, 1, 0);
 		b2Body* bottom = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight),
@@ -45,7 +47,7 @@ int main(){
 			glm::vec2(2,2 ), 0, 1, 1);
 
 		//Aseprite::AsepriteFile aseFile();
-		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
+		
 
 		while (!Context::getShouldClose())
 		{

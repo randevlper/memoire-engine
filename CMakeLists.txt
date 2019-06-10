@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-project(goldgame)
+project(gold-engine)
 
 SET(SDL_SHARED OFF CACHE BOOL "Dont use SDL2 shared lib")
 add_subdirectory(thirdparty/SDL2)
