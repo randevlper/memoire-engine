@@ -5,6 +5,7 @@ struct SDL_Color;
 struct SDL_Rect;
 struct SDL_Point;
 struct b2Body;
+struct AseSprite;
 struct AseData;
 
 class Renderer
@@ -22,7 +23,8 @@ public:
 	//Draw Physics Shape
 	static void renderb2Body(b2Body* body);
 
-	static void renderAse(int x, int y, AseData* ase);
+	static void renderAse(int x, int y, AseData* ase, int frame);
+	static void renderAseSprite(int x, int y, AseSprite* ase);
 
 	static void renderSprite(glm::vec2& pos, SpriteData* spriteData);
 	static void renderSprite(int x, int y, SpriteData* spriteData);

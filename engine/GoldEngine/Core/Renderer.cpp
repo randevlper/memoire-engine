@@ -4,6 +4,7 @@
 #include "SDL_render.h"
 #include "SDL_pixels.h"
 #include "GoldEngine/Data/SpriteData.h"
+#include "GoldEngine/Data/AseData.h"
 #include "GoldEngine/Core/Context.h"
 #include "Box2D/Box2D.h"
 #include "Box2D/Common/b2Settings.h"
@@ -79,9 +80,17 @@ void Renderer::renderb2Body(b2Body* body)
 	}
 }
 
-void Renderer::renderAse(int x, int y, AseData* ase)
+void Renderer::renderAse(int x, int y, AseData* ase, int frame)
 {
-	SDL_Rect renderQuad = { x - _cameraPos->x, y - _cameraPos->y, ase->width, ase->height };
+	for (size_t i = 0; i < ase->frames[frame].sprites.size(); i++)
+	{
+		renderAseSprite(x, y, &ase->frames[frame].sprites[i]);
+	}
+}
+
+void Renderer::renderAseSprite(int x, int y, AseSprite* ase)
+{
+	SDL_Rect renderQuad = {(x + ase->xPos)  - _cameraPos->x, (y + ase->yPos) - _cameraPos->y, ase->width, ase->height };
 	SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderCopy(Context::getRenderer(), ase->texture, nullptr, &renderQuad);
 }

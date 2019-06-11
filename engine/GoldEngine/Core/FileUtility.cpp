@@ -1,9 +1,11 @@
 #include "GoldEngine/Core/FileUtility.h"
 #include "GoldEngine/Data/SpriteData.h"
+#include "GoldEngine/Data/AseData.h"
 #include "GoldEngine/Core/Context.h"
 #include "GoldEngine/Tools/aseprite.h"
 #include "stb_image.h"
 #include "SDL.h"
+#include <vector>
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -68,17 +70,29 @@ AseData* FileUtility::loadAse(char path[])
 	AseData* data = new AseData();
 	data->aseFile = file;
 	SDL_Surface* surface;
+	SDL_Texture* texture;
 
-	for (const auto& chunk : file->frames[0].chunks) {
-		if (chunk.type == Aseprite::AseChunkType::CEL_0x2005) {
-			const auto& celChunk = std::get<Aseprite::AseCelChunk>(chunk.data);
-			surface = SDL_CreateRGBSurfaceWithFormatFrom((unsigned char*)celChunk.pixels.data(), celChunk.width, celChunk.height, 32, 4 * celChunk.width, SDL_PIXELFORMAT_RGBA32);
-			data->texture = SDL_CreateTextureFromSurface(Context::getRenderer(), surface);
-			data->width = celChunk.width;
-			data->height = celChunk.height;
+	
+	data->frames.resize(file->frames.size());
+	for (size_t i = 0; i < file->frames.size(); i++){
+		for (const auto& chunk : file->frames[i].chunks) {
+			if (chunk.type == Aseprite::AseChunkType::CEL_0x2005) {
+				const auto& celChunk = std::get<Aseprite::AseCelChunk>(chunk.data);
+
+				surface = SDL_CreateRGBSurfaceWithFormatFrom(
+					(unsigned char*)celChunk.pixels.data(), 
+					celChunk.width, celChunk.height, 32, 
+					4 * celChunk.width, SDL_PIXELFORMAT_RGBA32);
+				texture = SDL_CreateTextureFromSurface(Context::getRenderer(), surface);
+
+				SDL_FreeSurface(surface);
+
+				data->frames[i].sprites.push_back(AseSprite(texture, celChunk.width, 
+					celChunk.height, celChunk.x, celChunk.y, celChunk.layerIndex));
+			}
 		}
 	}
-	SDL_FreeSurface(surface);
+	
 	return data;
 }
 

@@ -14,6 +14,7 @@
 #include "SDL_pixels.h"
 #include "Box2D/Box2D.h"
 #include "GoldEngine/Core/Physics.h"
+#include "GoldEngine/Data/AseData.h"
 
 #include "GoldEngine/Tools/aseprite.h"
 
@@ -26,11 +27,9 @@ int main(){
 			return Context::getErrorCode();
 		}
 
-		glm::vec2 aysePos = { 100,100 };
 		SDL_Color white = { 255,255,255,255 };
 
 		SDL_Event e;
-		SpriteData* ayse = FileUtility::loadSpriteData("assets/ayse.png");
 		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
 
 		b2Body* top = Physics::createBody(glm::vec2( cWinParems.renderWidth/2, 0 ),
@@ -48,13 +47,20 @@ int main(){
 
 		//Aseprite::AsepriteFile aseFile();
 		
-
+		int frame = 0;
 		while (!Context::getShouldClose())
 		{
 			while (SDL_PollEvent(&e) != 0)
 			{
 				if (e.type == SDL_QUIT) {
 					Context::setShouldClose(true);
+				}
+
+				if (e.key.keysym.sym == SDLK_0) {
+					frame++;
+					if (frame >= aseFile->frames.size()) {
+						frame = 0;
+					}
 				}
 
 				if (e.key.keysym.sym == SDLK_w) {
@@ -75,8 +81,7 @@ int main(){
 			Renderer::setCameraPos(ball->GetPosition().x, ball->GetPosition().y);
 
 			Renderer::clearRenderer(white);
-			Renderer::renderSprite(aysePos, ayse);
-			Renderer::renderAse(0, 100, aseFile);
+			Renderer::renderAse(50, 50, aseFile, frame);
 
 			Renderer::renderb2Body(top);
 			Renderer::renderb2Body(bottom);
@@ -90,7 +95,6 @@ int main(){
 		}
 
 
-		FileUtility::unloadSpriteData(ayse);
 		FileUtility::unloadAse(aseFile);
 		Context::quit();
 	}
