@@ -24,7 +24,7 @@ namespace Aseprite {
 		}
 
 		if (header.read(file)) {
-			header.print();
+			//header.print();
 			PixelType pixelFormat = RGBA;
 			switch (header.bitDepth){
 			case 8:
@@ -43,7 +43,7 @@ namespace Aseprite {
 					break;
 				}
 				else {
-					frames[i].print();
+					//frames[i].print();
 				}
 			}
 		}
@@ -119,7 +119,6 @@ namespace Aseprite {
 				chunks.reserve(numberChunksOLD);
 				chunkCount = numberChunksOLD;
 			}
-			userData.reserve(chunkCount);
 			userData.resize(chunkCount);
 			std::fill(userData.begin(), userData.end(), nullptr);
 			for (size_t i = 0; i < chunkCount && result; i++)
@@ -130,7 +129,7 @@ namespace Aseprite {
 				auto p = s.tellg();
 				result = result && getHeadPart(s, size) && getHeadPart(s, type);
 				auto p2 = s.tellg();
-				std::cout << std::hex << "0x" << p2 << ":DEBUG Chunk: size: " << (int)size << " type: " << type << std::dec << "\n";
+				//std::cout << std::hex << "0x" << p2 << ":DEBUG Chunk: size: " << (int)size << " type: " << type << std::dec << "\n";
 				switch (type)
 				{
 				case PALETTE_OLD_0x0004:
@@ -158,11 +157,8 @@ namespace Aseprite {
 				case PALETTE_0x2019:
 					chunks.emplace_back(AsePaletteChunk(s), type);
 					break;
-				case USER_DATA_0x2020: {
-					AseUserDataChunk chunk(s);
-					//Need to create copy constructor
-					chunks.emplace_back(chunk, type);
-					userData[i - 1] = &chunk;
+				case USER_DATA_0x2020: { //Not supported
+					chunks.emplace_back(AseUserDataChunk(s), type);
 					break;
 				}
 				case SLICE_0x2022:
@@ -173,14 +169,6 @@ namespace Aseprite {
 					s.seekg(size + p); // skip data
 				}
 				result = result && s.good();
-			}
-
-			for (size_t i = 0; i < userData.size(); i++)
-			{
-				if (userData[i] != nullptr) {
-					std::cout << i << std::endl;
-					userData.at(i)->print();
-				}
 			}
 		}
 
@@ -229,7 +217,7 @@ namespace Aseprite {
 				}
 			}
 		}
-		print();
+		//print();
 		return true;
 	}
 
@@ -288,7 +276,7 @@ namespace Aseprite {
 				result = result && paletteEntries[i].colorName.read(s);
 			}
 		}
-		print();
+		//print();
 		return true;
 	}
 	void AsePaletteChunk::print()
@@ -341,7 +329,7 @@ namespace Aseprite {
 			getHeadPart(s, opacity) &&
 			getHeadPart(s, unused) &&
 			name.read(s);
-		print();
+		//print();
 		return result;
 	}
 	void AseLayerChunk::print()
@@ -395,7 +383,7 @@ namespace Aseprite {
 				break;
 			}
 		}
-		print();
+		//print();
 		return result;
 	}
 	bool AseCelChunk::readRawPixels(std::ifstream& s, PixelType pixelFormat)
@@ -531,7 +519,7 @@ namespace Aseprite {
 			getHeadPart(s, widthCelReal) &&
 			getHeadPart(s, heightCelReal) &&
 			getHeadPart(s, future);
-		print();
+		//print();
 		return result;
 	}
 	void AseCelExtraChunk::print()
@@ -572,7 +560,7 @@ namespace Aseprite {
 				t.RGB.a = 255;
 			}
 		}
-		print();
+		//print();
 		return result;
 	}
 	void AseFrameTagChunk::print()
@@ -648,7 +636,7 @@ namespace Aseprite {
 
 			}
 		}
-		print();
+		//print();
 		return result;
 	}
 	void AseSliceChunk::print()
@@ -701,7 +689,7 @@ namespace Aseprite {
 		if (hasColor()) {
 			result = result && getHeadPart(s, color);
 		}
-		print();
+		//print();
 		return result;
 	}
 	void AseUserDataChunk::print()
