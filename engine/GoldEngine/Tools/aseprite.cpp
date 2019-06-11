@@ -309,7 +309,7 @@ namespace Aseprite {
 		}
 		return result;
 	}
-	std::string STRING::toString()
+	std::string STRING::toString() const
 	{
 		return std::string(reinterpret_cast<const char*>(&characters[0]), characters.size());
 	}

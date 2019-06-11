@@ -68,37 +68,52 @@ AseData* FileUtility::loadAse(char path[])
 {
 	Aseprite::AsepriteFile* file = new Aseprite::AsepriteFile(path);
 	AseData* data = new AseData();
-	data->aseFile = file;
 	SDL_Surface* surface;
 	SDL_Texture* texture;
 
-	
+	//Get Frames
 	data->frames.resize(file->frames.size());
 	for (size_t i = 0; i < file->frames.size(); i++){
+		data->frames[i].frameDuration = file->frames[i].frameDuration;
+		//Get and Setup Sprites
 		for (const auto& chunk : file->frames[i].chunks) {
 			if (chunk.type == Aseprite::AseChunkType::CEL_0x2005) {
 				const auto& celChunk = std::get<Aseprite::AseCelChunk>(chunk.data);
 
 				surface = SDL_CreateRGBSurfaceWithFormatFrom(
-					(unsigned char*)celChunk.pixels.data(), 
-					celChunk.width, celChunk.height, 32, 
+					(unsigned char*)celChunk.pixels.data(),
+					celChunk.width, celChunk.height, 32,
 					4 * celChunk.width, SDL_PIXELFORMAT_RGBA32);
 				texture = SDL_CreateTextureFromSurface(Context::getRenderer(), surface);
 
 				SDL_FreeSurface(surface);
 
-				data->frames[i].sprites.push_back(AseSprite(texture, celChunk.width, 
+				data->frames[i].sprites.push_back(AseSprite(texture, celChunk.width,
 					celChunk.height, celChunk.x, celChunk.y, celChunk.layerIndex));
+			}
+
+			if (chunk.type == Aseprite::AseChunkType::FRAME_TAGS_0x2018) {
+				const auto& celChunk = std::get<Aseprite::AseFrameTagChunk>(chunk.data);
+				for (const auto& tag : celChunk.tags) {
+
+					data->animations.push_back(AseAnimation(tag.tagName.toString(),
+						(size_t)tag.fromFrame, (size_t)tag.toFrame));
+				}
 			}
 		}
 	}
-	
+
+	//Get Animations
+	for (size_t i = 0; i < file->frames.size(); i++) {
+
+	}
+
+	delete(file);
 	return data;
 }
 
 void FileUtility::unloadAse(AseData* data)
 {
-	delete(data->aseFile);
 	delete(data);
 }
 

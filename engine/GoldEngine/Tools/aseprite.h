@@ -24,7 +24,7 @@ namespace Aseprite {
 		std::vector<BYTE> characters;
 
 		bool read(std::ifstream& s);
-		std::string toString();
+		std::string toString() const;
 	};
 
 	struct COLOR
