@@ -28,7 +28,7 @@ public:
 
 	static void renderSprite(glm::vec2& pos, SpriteData* spriteData);
 	static void renderSprite(int x, int y, SpriteData* spriteData);
-	static void clearRenderer(SDL_Color color);
+	static void clearRenderer(SDL_Color& color);
 	static void clearRenderer(int r, int g, int b, int a);
 	static void render();
 

@@ -23,6 +23,9 @@ ContextWindowParems Context::_windowParems = {};
 SDL_Window* Context::_window = nullptr;
 SDL_Renderer* Context::_renderer = nullptr;
 
+uint64_t Context::_timeNow = 0;
+uint64_t Context::_timeLast = 0;
+
 Context::Context()
 {
 
@@ -115,4 +118,15 @@ int Context::getWindowHeight()
 int Context::getWindowWidth()
 {
 	return _windowParems.renderWidth;
+}
+
+void Context::tick()
+{
+	_timeLast = _timeNow;
+	_timeNow = SDL_GetPerformanceCounter();
+}
+
+double Context::getDeltaTime()
+{
+	return (double)((_timeNow - _timeLast) / (double)SDL_GetPerformanceFrequency());
 }

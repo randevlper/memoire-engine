@@ -1,5 +1,6 @@
 #pragma once
 #define SDL_MAIN_HANDLED
+#include <stdint.h>
 
 //Should contain anything releated to the engine context
 
@@ -27,7 +28,13 @@ public:
 	static int getWindowHeight();
 	static int getWindowWidth();
 
+	static void tick();
+	static double getDeltaTime();
+
 private:
+	static uint64_t _timeNow; 
+	static uint64_t _timeLast;
+
 	static Context* _instance;
 	static bool _shouldClose;
 	static int _errorCode;

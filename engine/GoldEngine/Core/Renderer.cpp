@@ -107,7 +107,7 @@ void Renderer::renderSprite(int x, int y, SpriteData* spriteData)
 	SDL_RenderCopy(Context::getRenderer(), spriteData->texture, nullptr, &renderQuad);
 }
 
-void Renderer::clearRenderer(SDL_Color color)
+void Renderer::clearRenderer(SDL_Color& color)
 {
 	clearRenderer(color.r, color.g, color.b, color.a);
 }

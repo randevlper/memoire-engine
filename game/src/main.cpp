@@ -1,6 +1,7 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+#include <iostream>
 #ifdef _DEBUG
 	#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 	#define new DEBUG_NEW
@@ -15,7 +16,6 @@
 #include "Box2D/Box2D.h"
 #include "GoldEngine/Core/Physics.h"
 #include "GoldEngine/Data/AseData.h"
-
 #include "GoldEngine/Tools/aseprite.h"
 
 
@@ -50,8 +50,10 @@ int main(){
 		int frame = 0;
 		while (!Context::getShouldClose())
 		{
+			//std::cout << Context::getDeltaTime() << std::endl;
 			while (SDL_PollEvent(&e) != 0)
 			{
+				Context::tick();
 				if (e.type == SDL_QUIT) {
 					Context::setShouldClose(true);
 				}

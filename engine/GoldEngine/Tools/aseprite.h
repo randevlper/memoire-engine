@@ -22,7 +22,6 @@ namespace Aseprite {
 	struct STRING {
 		WORD length;
 		std::vector<BYTE> characters;
-
 		bool read(std::ifstream& s);
 		std::string toString() const;
 	};
