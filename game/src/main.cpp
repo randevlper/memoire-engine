@@ -23,6 +23,7 @@ int main(){
 	{
 		ContextWindowParems cWinParems = { "Ayse why.", 1280, 720, 640, 360 };
 		Context::init(&cWinParems);
+		Physics::setGravity(glm::vec2(0, 98));
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
@@ -32,19 +33,21 @@ int main(){
 		SDL_Event e;
 		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
 
+		float groundFriction = 1.0f;
+
 		b2Body* top = Physics::createBody(glm::vec2( cWinParems.renderWidth/2, 0 ),
-			glm::vec2(cWinParems.renderWidth/2,10 ), 0, 1, 0);
+			glm::vec2(cWinParems.renderWidth/2,10 ), groundFriction, 0.1f);
 		b2Body* bottom = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight),
-			glm::vec2(cWinParems.renderWidth / 2, 10), 0, 1, 0);
+			glm::vec2(cWinParems.renderWidth / 2, 10), groundFriction, 0.1f);
 		b2Body* left = Physics::createBody(glm::vec2(0, cWinParems.renderHeight / 2),
-			glm::vec2(10, cWinParems.renderHeight), 0,1);
+			glm::vec2(10, cWinParems.renderHeight), groundFriction,0.1f);
 		b2Body* right = Physics::createBody(glm::vec2(cWinParems.renderWidth, cWinParems.renderHeight / 2),
-			glm::vec2(10, cWinParems.renderHeight), 0, 1);
+			glm::vec2(10, cWinParems.renderHeight), groundFriction, 0.1f);
 
 
 		b2Body* ball = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight / 2 ), 
-			glm::vec2(2,2 ), 0, 1, 1);
-
+			glm::vec2(2,2 ), 0.5f, 0.1f, 1);
+		//ball->SetLinearDamping(5.0f);
 		//Aseprite::AsepriteFile aseFile();
 		double sum = 0;
 		int frame = 0;
@@ -59,19 +62,24 @@ int main(){
 					Context::setShouldClose(true);
 				}
 
-				if (e.key.keysym.sym == SDLK_w) {
-					ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, -1));
-				}
-				if (e.key.keysym.sym == SDLK_s) {
-					ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, 1));
-				}
+				//if (e.key.keysym.sym == SDLK_w) {
+				//	ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, -1));
+				//}
+				//if (e.key.keysym.sym == SDLK_s) {
+				//	ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, 1));
+				//}
 				if (e.key.keysym.sym == SDLK_d) {
-					ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(1, 0));
+					ball->SetLinearVelocity(b2Vec2(100, 0));
 				}
 				if (e.key.keysym.sym == SDLK_a) {
-					ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(-1, 0));
+					ball->SetLinearVelocity(b2Vec2(-100, 0));
 				}
 			}
+
+
+			b2Vec2 vel = ball->GetLinearVelocity();
+			vel.x += (-vel.x * 4.f * Context::getDeltaTime());
+			ball->SetLinearVelocity(vel);
 
 			Physics::tick();
 			Renderer::setCameraPos(ball->GetPosition().x, ball->GetPosition().y);

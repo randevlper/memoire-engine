@@ -72,6 +72,8 @@ void Context::init(ContextWindowParems* parems)
 
 		SDL_RenderSetScale(_renderer, _windowParems.windowWidth / _windowParems.renderWidth, _windowParems.windowHeight / _windowParems.renderHeight);
 		SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
+
+		//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 		_shouldClose = false;
 		_errorCode = 0;
 

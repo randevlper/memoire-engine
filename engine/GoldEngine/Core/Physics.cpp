@@ -57,3 +57,13 @@ void Physics::tick()
 {
 	_world->Step(_timeStep, _velocityIterations, _positionIterations);
 }
+
+void Physics::setGravity(glm::vec2& value)
+{
+	_world->SetGravity(b2Vec2(value.x, value.y));
+}
+
+glm::vec2 Physics::getGravity()
+{
+	return glm::vec2(_world->GetGravity().x, _world->GetGravity().y);
+}
