@@ -80,11 +80,11 @@ void Renderer::renderb2Body(b2Body* body)
 	}
 }
 
-void Renderer::renderAse(int x, int y, AseData* ase, int frame)
+void Renderer::renderAseFrame(int x, int y, AseFrame* frame)
 {
-	for (size_t i = 0; i < ase->frames[frame].sprites.size(); i++)
+	for (size_t i = 0; i < frame->sprites.size(); i++)
 	{
-		renderAseSprite(x, y, &ase->frames[frame].sprites[i]);
+		renderAseSprite(x, y, &frame->sprites[i]);
 	}
 }
 

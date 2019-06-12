@@ -91,21 +91,23 @@ AseData* FileUtility::loadAse(char path[])
 				data->frames[i].sprites.push_back(AseSprite(texture, celChunk.width,
 					celChunk.height, celChunk.x, celChunk.y, celChunk.layerIndex));
 			}
-
-			if (chunk.type == Aseprite::AseChunkType::FRAME_TAGS_0x2018) {
-				const auto& celChunk = std::get<Aseprite::AseFrameTagChunk>(chunk.data);
-				for (const auto& tag : celChunk.tags) {
-
-					data->animations.push_back(AseAnimation(tag.tagName.toString(),
-						(size_t)tag.fromFrame, (size_t)tag.toFrame));
-				}
-			}
 		}
 	}
 
-	//Get Animations
+	//Setup Animations
 	for (size_t i = 0; i < file->frames.size(); i++) {
-
+		for (const auto& chunk : file->frames[i].chunks) {
+			if (chunk.type == Aseprite::AseChunkType::FRAME_TAGS_0x2018) {
+				const auto& celChunk = std::get<Aseprite::AseFrameTagChunk>(chunk.data);
+				for (const auto& tag : celChunk.tags) {
+					AseAnimation a(tag.tagName.toString());
+					for (size_t i = tag.fromFrame; i <= tag.toFrame; i++){
+						a.frames.push_back(&data->frames[i]);
+					}
+					data->animations.push_back(AseAnimation(a));
+				}
+			}
+		}
 	}
 
 	delete(file);

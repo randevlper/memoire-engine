@@ -20,17 +20,19 @@ struct AseSprite {
 
 struct AseFrame
 {
-	size_t frameDuration;
+	double frameDuration;
 	std::vector<AseSprite> sprites;
 };
 
 struct AseAnimation
 {
 	std::string name;
-	size_t from;
-	size_t to;
+	std::vector<AseFrame*> frames;
 
-	AseAnimation(std::string n, size_t f, size_t t) : name(n), from(f), to(t) {	}
+	AseAnimation(std::string n) : name(n) {	}
+	AseAnimation(AseAnimation(&a)) : name(a.name), frames(a.frames) {
+	}
+
 };
 
 struct AseData {

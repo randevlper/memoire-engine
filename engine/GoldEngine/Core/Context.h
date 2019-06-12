@@ -32,8 +32,8 @@ public:
 	static double getDeltaTime();
 
 private:
-	static uint64_t _timeNow; 
-	static uint64_t _timeLast;
+	static uint32_t _timeNow;
+	static uint32_t _timeLast;
 
 	static Context* _instance;
 	static bool _shouldClose;

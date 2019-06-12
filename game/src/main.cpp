@@ -46,23 +46,17 @@ int main(){
 			glm::vec2(2,2 ), 0, 1, 1);
 
 		//Aseprite::AsepriteFile aseFile();
-		
+		double sum = 0;
 		int frame = 0;
+
 		while (!Context::getShouldClose())
 		{
 			//std::cout << Context::getDeltaTime() << std::endl;
+			Context::tick();
 			while (SDL_PollEvent(&e) != 0)
-			{
-				Context::tick();
+			{				
 				if (e.type == SDL_QUIT) {
 					Context::setShouldClose(true);
-				}
-
-				if (e.key.keysym.sym == SDLK_0) {
-					frame++;
-					if (frame >= aseFile->frames.size()) {
-						frame = 0;
-					}
 				}
 
 				if (e.key.keysym.sym == SDLK_w) {
@@ -83,7 +77,18 @@ int main(){
 			Renderer::setCameraPos(ball->GetPosition().x, ball->GetPosition().y);
 
 			Renderer::clearRenderer(white);
-			Renderer::renderAse(50, 50, aseFile, frame);
+
+			sum += Context::getDeltaTime();
+			double frameLength = (aseFile->frames[frame].frameDuration / 1000);
+			if (sum > frameLength) {
+				sum = 0;
+				frame++;
+				if (frame >= aseFile->frames.size()) {
+					frame = 0;
+				}
+			}
+
+			Renderer::renderAseFrame(50, 50, &aseFile->frames[frame]);
 
 			Renderer::renderb2Body(top);
 			Renderer::renderb2Body(bottom);
@@ -91,8 +96,6 @@ int main(){
 			Renderer::renderb2Body(left);
 
 			Renderer::renderb2Body(ball);
-
-
 			Renderer::render();
 		}
 

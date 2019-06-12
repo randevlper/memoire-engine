@@ -23,8 +23,8 @@ ContextWindowParems Context::_windowParems = {};
 SDL_Window* Context::_window = nullptr;
 SDL_Renderer* Context::_renderer = nullptr;
 
-uint64_t Context::_timeNow = 0;
-uint64_t Context::_timeLast = 0;
+uint32_t Context::_timeNow = 0;
+uint32_t Context::_timeLast = 0;
 
 Context::Context()
 {
@@ -123,10 +123,10 @@ int Context::getWindowWidth()
 void Context::tick()
 {
 	_timeLast = _timeNow;
-	_timeNow = SDL_GetPerformanceCounter();
+	_timeNow = SDL_GetTicks();
 }
 
 double Context::getDeltaTime()
 {
-	return (double)((_timeNow - _timeLast) / (double)SDL_GetPerformanceFrequency());
+	return (double)((_timeNow - _timeLast))/1000;
 }
