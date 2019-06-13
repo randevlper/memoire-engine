@@ -17,6 +17,7 @@
 #include "GoldEngine/Core/Physics.h"
 #include "GoldEngine/Data/AseData.h"
 #include "GoldEngine/Tools/aseprite.h"
+#include "GoldEngine/Core/Input.h"
 
 
 int main(){
@@ -30,7 +31,7 @@ int main(){
 
 		SDL_Color white = { 255,255,255,255 };
 
-		SDL_Event e;
+		
 		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
 
 		float groundFriction = 1.0f;
@@ -56,26 +57,13 @@ int main(){
 		{
 			//std::cout << Context::getDeltaTime() << std::endl;
 			Context::tick();
-			while (SDL_PollEvent(&e) != 0)
-			{				
-				if (e.type == SDL_QUIT) {
-					Context::setShouldClose(true);
-				}
 
-				//if (e.key.keysym.sym == SDLK_w) {
-				//	ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, -1));
-				//}
-				//if (e.key.keysym.sym == SDLK_s) {
-				//	ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, 1));
-				//}
-				if (e.key.keysym.sym == SDLK_d) {
-					ball->SetLinearVelocity(b2Vec2(100, 0));
-				}
-				if (e.key.keysym.sym == SDLK_a) {
-					ball->SetLinearVelocity(b2Vec2(-100, 0));
-				}
+			if (Input::getKey(SDL_SCANCODE_D)) {
+				ball->SetLinearVelocity(b2Vec2(100, 0));
 			}
-
+			if (Input::getKey(SDL_SCANCODE_A)) {
+				ball->SetLinearVelocity(b2Vec2(-100, 0));
+			}
 
 			b2Vec2 vel = ball->GetLinearVelocity();
 			vel.x += (-vel.x * 4.f * Context::getDeltaTime());

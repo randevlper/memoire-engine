@@ -2,6 +2,7 @@
 #include "SDL.h"
 #include <iostream>
 #include "GoldEngine/Core/Physics.h"
+#include "GoldEngine/Core/Input.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -126,6 +127,7 @@ void Context::tick()
 {
 	_timeLast = _timeNow;
 	_timeNow = SDL_GetTicks();
+	Input::poll();
 }
 
 double Context::getDeltaTime()
