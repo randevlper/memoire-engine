@@ -79,6 +79,7 @@ void Context::init(ContextWindowParems* parems)
 		_errorCode = 0;
 
 		Physics::init();
+		Input::init();
 	}
 }
 

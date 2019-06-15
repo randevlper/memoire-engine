@@ -16,6 +16,7 @@ public:
 	static bool getKeyUp(int key);
 	static bool getKey(int key);
 
+	static void init();
 	//Should only be called once per frame
 	static void poll();
 private:
@@ -23,8 +24,9 @@ private:
 	~Input();
 	
 	static int _numKeys;
-	static const unsigned char* _lastPoll;
-	static const unsigned char* _currentPoll;
+	static unsigned char* _lastPoll;
+	static unsigned char* _currentPoll;
+	static const unsigned char* _source;
 
 	static SDL_Event _event;
 

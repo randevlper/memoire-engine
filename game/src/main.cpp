@@ -16,7 +16,7 @@
 #include "Box2D/Box2D.h"
 #include "GoldEngine/Core/Physics.h"
 #include "GoldEngine/Data/AseData.h"
-#include "GoldEngine/Tools/aseprite.h"
+//#include "GoldEngine/Tools/aseprite.h"
 #include "GoldEngine/Core/Input.h"
 
 
@@ -24,7 +24,7 @@ int main(){
 	{
 		ContextWindowParems cWinParems = { "Ayse why.", 1280, 720, 640, 360 };
 		Context::init(&cWinParems);
-		Physics::setGravity(glm::vec2(0, 98));
+		Physics::setGravity(glm::vec2(0, 400));
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
@@ -59,14 +59,21 @@ int main(){
 			Context::tick();
 
 			if (Input::getKey(SDL_SCANCODE_D)) {
-				ball->SetLinearVelocity(b2Vec2(100, 0));
+				ball->SetLinearVelocity(b2Vec2(100, ball->GetLinearVelocity().y));
 			}
 			if (Input::getKey(SDL_SCANCODE_A)) {
-				ball->SetLinearVelocity(b2Vec2(-100, 0));
+				ball->SetLinearVelocity(b2Vec2(-100, ball->GetLinearVelocity().y));
+			}
+			if (Input::getKeyDown(SDL_SCANCODE_W)) {
+				ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, -4000));
+				std::cout << "Down!" << std::endl;
+			}
+			if (Input::getKeyUp(SDL_SCANCODE_W)) {
+				std::cout << "Up!" << std::endl;
 			}
 
 			b2Vec2 vel = ball->GetLinearVelocity();
-			vel.x += (-vel.x * 4.f * Context::getDeltaTime());
+			vel.x += (-vel.x * 8.f * Context::getDeltaTime());
 			ball->SetLinearVelocity(vel);
 
 			Physics::tick();
