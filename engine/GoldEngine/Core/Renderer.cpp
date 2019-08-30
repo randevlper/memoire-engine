@@ -1,15 +1,41 @@
 #include "GoldEngine/Core/Renderer.h"
 #include "glm/vec2.hpp"
 #include "glm/geometric.hpp"
-#include "SDL_render.h"
-#include "SDL_pixels.h"
+#include "SDL.h"
 #include "GoldEngine/Data/SpriteData.h"
 #include "GoldEngine/Data/AseData.h"
 #include "GoldEngine/Core/Context.h"
+#include "GoldEngine/Utilities/Timer.h"
 #include "Box2D/Box2D.h"
 #include "Box2D/Common/b2Settings.h"
+#include "GoldEngine/Utilities/b2dtoSDL.h"
 
 glm::vec2* Renderer::_cameraPos = new glm::vec2();
+Renderer* Renderer ::_instance = nullptr;
+Timer Renderer::_fpsTimer = Timer();
+Timer Renderer::_capTimer = Timer();
+Uint64 Renderer::_frameCount = 0;
+
+void Renderer::init()
+{
+	if (_instance == nullptr) {
+		_instance = new Renderer();
+		_fpsTimer.start();
+	}
+}
+
+void Renderer::quit()
+{
+	if (_instance != nullptr) {
+		_fpsTimer.stop();
+		delete(_instance);
+	}
+}
+
+void Renderer::tick()
+{
+	_capTimer.start();
+}
 
 void Renderer::renderLines(SDL_Point* points, int pointsCount, SDL_Color& color)
 {
@@ -43,6 +69,42 @@ void Renderer::renderb2Body(b2Body* body)
 	}
 	case b2Shape::Type::e_circle: {
 		b2CircleShape* circle = (b2CircleShape*)f->GetShape();
+		SDL_Point points[9];
+		points[0] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(0, circle->m_radius)));
+
+		b2Vec2 topRight = b2Vec2(1, 1);
+		topRight.Normalize();
+		topRight.x *= circle->m_radius;
+		topRight.y *= circle->m_radius;
+		points[1] = toSDL(body->GetWorldPoint(topRight));
+
+		points[2] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(circle->m_radius, 0)));
+
+		b2Vec2 bottomRight = b2Vec2(1, -1);
+		bottomRight.Normalize();
+		bottomRight.x *= circle->m_radius;
+		bottomRight.y *= circle->m_radius;
+		points[3] = toSDL(body->GetWorldPoint(bottomRight));
+
+		points[4] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(0, -circle->m_radius)));
+
+		b2Vec2 bottomLeft = b2Vec2(-1, -1);
+		bottomLeft.Normalize();
+		bottomLeft.x *= circle->m_radius;
+		bottomLeft.y *= circle->m_radius;
+		points[5] = toSDL(body->GetWorldPoint(bottomLeft));
+
+		points[6] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(-circle->m_radius, 0)));
+
+		b2Vec2 topLeft = b2Vec2(-1, 1);
+		topLeft.Normalize();
+		topLeft.x *= circle->m_radius;
+		topLeft.y *= circle->m_radius;
+		points[7] = toSDL(body->GetWorldPoint(topLeft));
+
+		points[8] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(0, circle->m_radius)));
+		SDL_Color c = {255, 0, 0, 255};
+		renderLines(points, 9, c);
 		break;
 	}
 	case b2Shape::Type::e_edge: {
@@ -54,11 +116,9 @@ void Renderer::renderb2Body(b2Body* body)
 		b2PolygonShape* polygon = (b2PolygonShape*)f->GetShape();
 		for (size_t i = 0; i < polygon->m_count; i++)
 		{
-			b2Vec2 wp = body->GetWorldPoint(polygon->m_vertices[i]);
-			points[i] = { (int)wp.x,(int)wp.y };
+			points[i] = toSDL(body->GetWorldPoint(polygon->m_vertices[i]));
 		}
-		b2Vec2 last = body->GetWorldPoint(polygon->m_vertices[0]);
-		points[polygon->m_count] = { (int)last.x,(int)last.y };
+		points[polygon->m_count] = toSDL(body->GetWorldPoint(polygon->m_vertices[0]));
 
 		//TODO adding precomputed widths/heights for speed
 		SDL_Rect rect = { points[0].x, points[0].y, 4, 4};
@@ -120,7 +180,24 @@ void Renderer::clearRenderer(int r, int g, int b, int a)
 
 void Renderer::render()
 {
+	//SDL_Log("FPS: %f", _frameCount / ( _fpsTimer.getTicks() / 1000.f));
+
+	char title[80] = {};
+
+	strcpy(title, Context::getWindowTitle());
+	strcat(title, "FPS: ");
+	//strcat(title, (_frameCount / (_fpsTimer.getTicks() / 1000.f)));
+		//+  + (_frameCount / (_fpsTimer.getTicks() / 1000.f));
+
+	Context::setWindowTitle(title);
 	SDL_RenderPresent(Context::getRenderer());
+	_frameCount++;
+
+	//if frame finished early
+	Uint32 frameTicks = _capTimer.getTicks();
+	if (frameTicks < (1000 / Context::getMaxFps())) {
+		SDL_Delay((1000 / Context::getMaxFps()) - frameTicks);
+	}
 }
 
 void Renderer::setCameraPos(int x, int y)

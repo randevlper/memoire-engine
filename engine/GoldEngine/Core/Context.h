@@ -11,6 +11,7 @@ struct ContextWindowParems
 	unsigned int windowWidth, windowHeight;
 	//The internal render size
 	unsigned int renderWidth, renderHeight;
+	unsigned int fps;
 };
 
 struct SDL_Window;
@@ -27,6 +28,10 @@ public:
 	static int getErrorCode(); 
 	static int getWindowHeight();
 	static int getWindowWidth();
+	static unsigned int getMaxFps();
+	
+	static char* getWindowTitle();
+	static void setWindowTitle(char* value);
 
 	static void tick();
 	static double getDeltaTime();

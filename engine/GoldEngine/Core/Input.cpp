@@ -9,6 +9,7 @@ unsigned char* Input::_currentPoll = nullptr;
 unsigned char* Input::_lastPoll = nullptr;
 int Input::_numKeys = 0;
 SDL_Event Input::_event = SDL_Event();
+Input* Input::_instance = nullptr;
 
 bool Input::getKeyDown(int key)
 {
@@ -46,17 +47,29 @@ bool Input::getKey(int key)
 
 void Input::init()
 {
+	if (_instance == nullptr) {
+		_instance = new Input();
+	}
+}
+
+void Input::quit()
+{
+	if (_instance != nullptr) {
+		delete(_instance);
+	}
+}
+
+Input::Input()
+{
 	_source = SDL_GetKeyboardState(&_numKeys);
 	_currentPoll = new unsigned char[_numKeys];
 	_lastPoll = new unsigned char[_numKeys];
 }
 
-Input::Input()
-{
-}
-
 Input::~Input()
 {
+	delete[](_currentPoll);
+	delete[](_lastPoll);
 }
 
 void Input::poll()

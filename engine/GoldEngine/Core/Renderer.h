@@ -1,5 +1,6 @@
 #pragma once
 #include "glm/fwd.hpp"
+#include "SDL_stdinc.h"
 struct SpriteData;
 struct SDL_Color;
 struct SDL_Rect;
@@ -8,9 +9,14 @@ struct b2Body;
 struct AseSprite;
 struct AseFrame;
 
+class Timer;
+
 class Renderer
 {
 public:
+	static void init();
+	static void quit();
+	static void tick();
 	//Draw Line
 	static void renderLines(SDL_Point* points, int pointsCount, SDL_Color& color);
 
@@ -36,4 +42,8 @@ public:
 	static glm::vec2 getCameraPos();
 private:
 	static glm::vec2* _cameraPos;
+	static Renderer* _instance;
+	static Timer _fpsTimer;
+	static Timer _capTimer;
+	static Uint64 _frameCount;
 };

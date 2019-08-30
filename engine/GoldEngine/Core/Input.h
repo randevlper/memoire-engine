@@ -17,6 +17,7 @@ public:
 	static bool getKey(int key);
 
 	static void init();
+	static void quit();
 	//Should only be called once per frame
 	static void poll();
 private:
@@ -29,6 +30,7 @@ private:
 	static const unsigned char* _source;
 
 	static SDL_Event _event;
+	static Input* _instance;
 
 	//lastPoll
 	//currentPoll

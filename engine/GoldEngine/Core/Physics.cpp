@@ -53,6 +53,27 @@ b2Body* Physics::createBody(glm::vec2& pos, glm::vec2& size, int friction, int r
 	return body;
 }
 
+b2Body* Physics::createBody(glm::vec2& pos, int radius, int friction, int restitution, int density)
+{
+	b2BodyDef bodyDef;
+	bodyDef.fixedRotation = true;
+	bodyDef.position.Set(pos.x, pos.y);
+	b2CircleShape circleShape;
+	circleShape.m_radius = radius;
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &circleShape;
+	fixtureDef.density = density;
+	fixtureDef.restitution = restitution;
+
+	if (density > 0) {
+		bodyDef.type = b2_dynamicBody;
+	}
+
+	b2Body* body = _world->CreateBody(&bodyDef);
+	body->CreateFixture(&fixtureDef);
+	return body;
+}
+
 void Physics::tick()
 {
 	_world->Step(_timeStep, _velocityIterations, _positionIterations);

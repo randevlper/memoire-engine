@@ -3,6 +3,7 @@
 #include <iostream>
 #include "GoldEngine/Core/Physics.h"
 #include "GoldEngine/Core/Input.h"
+#include "GoldEngine/Core/Renderer.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -73,6 +74,12 @@ void Context::init(ContextWindowParems* parems)
 
 		SDL_RenderSetScale(_renderer, _windowParems.windowWidth / _windowParems.renderWidth, _windowParems.windowHeight / _windowParems.renderHeight);
 		SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
+		
+		//Need OpenGL context to use
+		//SDL_Log("Vsync setting: %d", SDL_GL_GetSwapInterval());
+		//if (SDL_GL_SetSwapInterval(1) == -1) {
+		//	SDL_Log(SDL_GetError());
+		//}
 
 		//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 		_shouldClose = false;
@@ -80,12 +87,15 @@ void Context::init(ContextWindowParems* parems)
 
 		Physics::init();
 		Input::init();
+		Renderer::init();
 	}
 }
 
 void Context::quit()
 {
 	Physics::quit();
+	Input::quit();
+	Renderer::quit();
 	delete(_instance);
 	SDL_DestroyRenderer(_renderer);
 	SDL_DestroyWindow(_window);
@@ -124,11 +134,28 @@ int Context::getWindowWidth()
 	return _windowParems.renderWidth;
 }
 
+unsigned int Context::getMaxFps()
+{
+	return _windowParems.fps;
+}
+
+char* Context::getWindowTitle()
+{
+	return _windowParems.windowName;
+}
+
+void Context::setWindowTitle(char* value)
+{
+	_windowParems.windowName = value;
+	SDL_SetWindowTitle(_window, value);
+}
+
 void Context::tick()
 {
 	_timeLast = _timeNow;
 	_timeNow = SDL_GetTicks();
 	Input::poll();
+	Renderer::tick();
 }
 
 double Context::getDeltaTime()

@@ -22,7 +22,7 @@
 
 int main(){
 	{
-		ContextWindowParems cWinParems = { "Ayse why.", 1280, 720, 640, 360 };
+		ContextWindowParems cWinParems = { "Ayse why.", 1280, 720, 640, 360, 60 };
 		Context::init(&cWinParems);
 		Physics::setGravity(glm::vec2(0, 400));
 		if (Context::getErrorCode() != 0) {
@@ -47,8 +47,8 @@ int main(){
 
 
 		b2Body* ball = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight / 2 ), 
-			glm::vec2(2,2 ), 0.5f, 0.1f, 1);
-		//ball->SetLinearDamping(5.0f);
+			50, 0.5f, 0.1f, 1);
+		ball->SetLinearDamping(0.0f);
 		//Aseprite::AsepriteFile aseFile();
 		double sum = 0;
 		int frame = 0;
