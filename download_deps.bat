@@ -1,10 +1,4 @@
 if not exist thirdparty mkdir thirdparty
-SET DLLOC="./thirdparty/box2D-cmake.zip"
-SET DLURL="https://github.com/tobanteGaming/Box2D-cmake/archive/master.zip"
-call download_file.bat
-SET DLLOC="./thirdparty/box2D.zip"
-SET DLURL="https://github.com/erincatto/Box2D/archive/master.zip"
-call download_file.bat
 SET DLLOC="./thirdparty/entt.zip"
 SET DLURL="https://github.com/skypjack/entt/archive/v3.0.0.zip"
 call download_file.bat

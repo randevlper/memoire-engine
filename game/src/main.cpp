@@ -1,3 +1,9 @@
+/*
+Memoir Engine
+2D Game engine
+
+*/
+
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
@@ -13,7 +19,6 @@
 #include "glm/vec2.hpp"
 #include "SDL_events.h"
 #include "SDL_pixels.h"
-#include "Box2D/Box2D.h"
 #include "GoldEngine/Core/Physics.h"
 #include "GoldEngine/Data/AseData.h"
 //#include "GoldEngine/Tools/aseprite.h"
@@ -36,19 +41,6 @@ int main(){
 
 		float groundFriction = 1.0f;
 
-		b2Body* top = Physics::createBody(glm::vec2( cWinParems.renderWidth/2, 0 ),
-			glm::vec2(cWinParems.renderWidth/2,10 ), groundFriction, 0.1f);
-		b2Body* bottom = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight),
-			glm::vec2(cWinParems.renderWidth / 2, 10), groundFriction, 0.1f);
-		b2Body* left = Physics::createBody(glm::vec2(0, cWinParems.renderHeight / 2),
-			glm::vec2(10, cWinParems.renderHeight), groundFriction,0.1f);
-		b2Body* right = Physics::createBody(glm::vec2(cWinParems.renderWidth, cWinParems.renderHeight / 2),
-			glm::vec2(10, cWinParems.renderHeight), groundFriction, 0.1f);
-
-
-		b2Body* ball = Physics::createBody(glm::vec2(cWinParems.renderWidth / 2, cWinParems.renderHeight / 2 ), 
-			50, 0.5f, 0.1f, 1);
-		ball->SetLinearDamping(0.0f);
 		//Aseprite::AsepriteFile aseFile();
 		double sum = 0;
 		int frame = 0;
@@ -59,25 +51,21 @@ int main(){
 			Context::tick();
 
 			if (Input::getKey(SDL_SCANCODE_D)) {
-				ball->SetLinearVelocity(b2Vec2(100, ball->GetLinearVelocity().y));
+
 			}
 			if (Input::getKey(SDL_SCANCODE_A)) {
-				ball->SetLinearVelocity(b2Vec2(-100, ball->GetLinearVelocity().y));
+
 			}
 			if (Input::getKeyDown(SDL_SCANCODE_W)) {
-				ball->SetLinearVelocity(ball->GetLinearVelocity() + b2Vec2(0, -4000));
+
 				std::cout << "Down!" << std::endl;
 			}
 			if (Input::getKeyUp(SDL_SCANCODE_W)) {
 				std::cout << "Up!" << std::endl;
 			}
 
-			b2Vec2 vel = ball->GetLinearVelocity();
-			vel.x += (-vel.x * 8.f * Context::getDeltaTime());
-			ball->SetLinearVelocity(vel);
 
 			Physics::tick();
-			Renderer::setCameraPos(ball->GetPosition().x, ball->GetPosition().y);
 
 			Renderer::clearRenderer(white);
 
@@ -93,12 +81,6 @@ int main(){
 
 			Renderer::renderAseFrame(50, 50, &aseFile->frames[frame]);
 
-			Renderer::renderb2Body(top);
-			Renderer::renderb2Body(bottom);
-			Renderer::renderb2Body(right);
-			Renderer::renderb2Body(left);
-
-			Renderer::renderb2Body(ball);
 			Renderer::render();
 		}
 

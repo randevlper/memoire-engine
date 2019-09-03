@@ -7,9 +7,6 @@ add_subdirectory(thirdparty/SDL2)
 set_target_properties(SDL2-static PROPERTIES FOLDER "Thirdparty")
 set_target_properties(SDL2main PROPERTIES FOLDER "Thirdparty")
 
-add_subdirectory(thirdparty/Box2D)
-set_target_properties(Box2D-cmake PROPERTIES FOLDER "Thirdparty")
-
 SET(BUILD_SHARED_LIBS OFF CACHE BOOL "Disable Glm shared libs")
 SET(GLM_TEST_ENABLE_CXX_14 ON CACHE BOOL "Enable C++ 14")
 SET(GLM_TEST_ENABLE OFF CACHE BOOL "Disable test projects")

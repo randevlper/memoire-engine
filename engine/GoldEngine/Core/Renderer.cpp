@@ -6,9 +6,6 @@
 #include "GoldEngine/Data/AseData.h"
 #include "GoldEngine/Core/Context.h"
 #include "GoldEngine/Utilities/Timer.h"
-#include "Box2D/Box2D.h"
-#include "Box2D/Common/b2Settings.h"
-#include "GoldEngine/Utilities/b2dtoSDL.h"
 
 glm::vec2* Renderer::_cameraPos = new glm::vec2();
 Renderer* Renderer ::_instance = nullptr;
@@ -54,90 +51,6 @@ void Renderer::renderSquare(SDL_Rect& rect, SDL_Color& color)
 	rect.y -= _cameraPos->y;
 	SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(Context::getRenderer(), &rect);
-}
-
-void Renderer::renderb2Body(b2Body* body)
-{
-	b2Fixture* f = body->GetFixtureList();
-	b2EdgeShape* edge;
-	int32 num;
-	switch (f->GetType())
-	{
-	case b2Shape::Type::e_chain: {
-		b2ChainShape* chain = (b2ChainShape*)f->GetShape();
-		break;
-	}
-	case b2Shape::Type::e_circle: {
-		b2CircleShape* circle = (b2CircleShape*)f->GetShape();
-		SDL_Point points[9];
-		points[0] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(0, circle->m_radius)));
-
-		b2Vec2 topRight = b2Vec2(1, 1);
-		topRight.Normalize();
-		topRight.x *= circle->m_radius;
-		topRight.y *= circle->m_radius;
-		points[1] = toSDL(body->GetWorldPoint(topRight));
-
-		points[2] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(circle->m_radius, 0)));
-
-		b2Vec2 bottomRight = b2Vec2(1, -1);
-		bottomRight.Normalize();
-		bottomRight.x *= circle->m_radius;
-		bottomRight.y *= circle->m_radius;
-		points[3] = toSDL(body->GetWorldPoint(bottomRight));
-
-		points[4] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(0, -circle->m_radius)));
-
-		b2Vec2 bottomLeft = b2Vec2(-1, -1);
-		bottomLeft.Normalize();
-		bottomLeft.x *= circle->m_radius;
-		bottomLeft.y *= circle->m_radius;
-		points[5] = toSDL(body->GetWorldPoint(bottomLeft));
-
-		points[6] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(-circle->m_radius, 0)));
-
-		b2Vec2 topLeft = b2Vec2(-1, 1);
-		topLeft.Normalize();
-		topLeft.x *= circle->m_radius;
-		topLeft.y *= circle->m_radius;
-		points[7] = toSDL(body->GetWorldPoint(topLeft));
-
-		points[8] = toSDL(body->GetWorldPoint(circle->m_p + b2Vec2(0, circle->m_radius)));
-		SDL_Color c = {255, 0, 0, 255};
-		renderLines(points, 9, c);
-		break;
-	}
-	case b2Shape::Type::e_edge: {
-		b2EdgeShape* edge = (b2EdgeShape*)f->GetShape();
-		break;
-	}
-	case b2Shape::Type::e_polygon: {
-		SDL_Point points[b2_maxPolygonVertices];
-		b2PolygonShape* polygon = (b2PolygonShape*)f->GetShape();
-		for (size_t i = 0; i < polygon->m_count; i++)
-		{
-			points[i] = toSDL(body->GetWorldPoint(polygon->m_vertices[i]));
-		}
-		points[polygon->m_count] = toSDL(body->GetWorldPoint(polygon->m_vertices[0]));
-
-		//TODO adding precomputed widths/heights for speed
-		SDL_Rect rect = { points[0].x, points[0].y, 4, 4};
-		glm::vec2 point1 = { points[0].x, points[0].y };
-		glm::vec2 point2 = { points[1].x, points[1].y };
-		glm::vec2 point3 = { points[2].x, points[2].y };
-		rect.w = glm::length(point2 - point1);
-		rect.h = glm::length(point3 - point2);
-
-		SDL_Color color = { 255, 0, 0, 100 };
-		renderSquare(rect, color);
-		color = { 255, 0, 0, 150 };
-		renderLines(points, polygon->m_count + 1, color);
-		
-		break;
-	}
-	default:
-		break;
-	}
 }
 
 void Renderer::renderAseFrame(int x, int y, AseFrame* frame)
