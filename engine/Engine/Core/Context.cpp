@@ -1,9 +1,9 @@
-#include "GoldEngine/Core/Context.h"
+#include "Engine/Core/Context.h"
 #include "SDL.h"
 #include <iostream>
-#include "GoldEngine/Core/Physics.h"
-#include "GoldEngine/Core/Input.h"
-#include "GoldEngine/Core/Renderer.h"
+#include "Engine/Core/Physics.h"
+#include "Engine/Core/Input.h"
+#include "Engine/Core/Renderer.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>

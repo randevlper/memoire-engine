@@ -24,16 +24,16 @@ Physics
 	#define new DEBUG_NEW
 #endif
 
-#include "GoldEngine/Core/Context.h"
-#include "GoldEngine/Core/FileUtility.h"
-#include "GoldEngine/Core/Renderer.h"
+#include "Engine/Core/Context.h"
+#include "Engine/Core/FileUtility.h"
+#include "Engine/Core/Renderer.h"
 #include "glm/vec2.hpp"
 #include "SDL_events.h"
 #include "SDL_pixels.h"
-#include "GoldEngine/Core/Physics.h"
-#include "GoldEngine/Data/AseData.h"
-//#include "GoldEngine/Tools/aseprite.h"
-#include "GoldEngine/Core/Input.h"
+#include "Engine/Core/Physics.h"
+#include "Engine/Data/AseData.h"
+//#include "Engine/Tools/aseprite.h"
+#include "Engine/Core/Input.h"
 
 
 int main(){

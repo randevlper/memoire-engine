@@ -1,8 +1,8 @@
-#include "GoldEngine/Core/FileUtility.h"
-#include "GoldEngine/Data/SpriteData.h"
-#include "GoldEngine/Data/AseData.h"
-#include "GoldEngine/Core/Context.h"
-#include "GoldEngine/Tools/aseprite.h"
+#include "Engine/Core/FileUtility.h"
+#include "Engine/Data/SpriteData.h"
+#include "Engine/Data/AseData.h"
+#include "Engine/Core/Context.h"
+#include "Engine/Tools/aseprite.h"
 #include "stb_image.h"
 #include "SDL.h"
 #include <vector>

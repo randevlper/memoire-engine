@@ -1,11 +1,11 @@
-#include "GoldEngine/Core/Renderer.h"
+#include "Engine/Core/Renderer.h"
 #include "glm/vec2.hpp"
 #include "glm/geometric.hpp"
 #include "SDL.h"
-#include "GoldEngine/Data/SpriteData.h"
-#include "GoldEngine/Data/AseData.h"
-#include "GoldEngine/Core/Context.h"
-#include "GoldEngine/Utilities/Timer.h"
+#include "Engine/Data/SpriteData.h"
+#include "Engine/Data/AseData.h"
+#include "Engine/Core/Context.h"
+#include "Engine/Utilities/Timer.h"
 
 glm::vec2* Renderer::_cameraPos = new glm::vec2();
 Renderer* Renderer ::_instance = nullptr;

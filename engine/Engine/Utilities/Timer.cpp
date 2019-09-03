@@ -1,4 +1,4 @@
-#include "GoldEngine/Utilities/Timer.h"
+#include "Engine/Utilities/Timer.h"
 #include "SDL.h"
 
 Timer::Timer() : _startTicks(0), _pauseTicks(0), _isPaused(false), _isStarted(false)
