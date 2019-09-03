@@ -2,6 +2,17 @@
 Memoir Engine
 2D Game engine
 
+Editor
+	Imgui vs WPF
+
+Engine
+
+Data Oriented
+	Generate Data -> Modify -> Renderer
+
+Physics
+	SAT Theorm
+	Collider, Trigger, Raycast/Linetrace, OverlapShapes
 */
 
 #define _CRTDBG_MAP_ALLOC
