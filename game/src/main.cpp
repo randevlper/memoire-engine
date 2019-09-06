@@ -18,7 +18,6 @@ Physics
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-#include <iostream>
 #ifdef _DEBUG
 	#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 	#define new DEBUG_NEW
@@ -34,6 +33,8 @@ Physics
 #include "Engine/Data/AseData.h"
 //#include "Engine/Tools/aseprite.h"
 #include "Engine/Core/Input.h"
+#include "Engine/Data/Transform.h"
+#include "Engine/Utilities/Debug.h"
 
 
 int main(){
@@ -47,7 +48,9 @@ int main(){
 
 		SDL_Color white = { 255,255,255,255 };
 
-		
+		Transform test;
+
+		//Generic File type to inherit from
 		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
 
 		float groundFriction = 1.0f;
@@ -68,11 +71,10 @@ int main(){
 
 			}
 			if (Input::getKeyDown(SDL_SCANCODE_W)) {
-
-				std::cout << "Down!" << std::endl;
+				Debug::Log("Down!");
 			}
 			if (Input::getKeyUp(SDL_SCANCODE_W)) {
-				std::cout << "Up!" << std::endl;
+				Debug::Log("Up!");
 			}
 
 
@@ -93,6 +95,7 @@ int main(){
 			Renderer::renderAseFrame(50, 50, &aseFile->frames[frame]);
 
 			Renderer::render();
+			Debug::DrawTransform(&test);
 		}
 
 
