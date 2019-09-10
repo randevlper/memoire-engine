@@ -16,7 +16,8 @@ public:
 	static void init();
 	static void quit();
 	static void tick();
-	//Draw Line
+	//Draw Line 
+	static void renderLine(glm::vec2 a, glm::vec2 b, SDL_Color& color);
 	static void renderLines(SDL_Point* points, int pointsCount, SDL_Color& color);
 
 	//Draw Square

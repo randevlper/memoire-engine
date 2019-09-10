@@ -19,22 +19,6 @@ void Debug::DrawTransform(Transform* t)
 	glm::vec2 right = pos + glm::vec2{m[0].x, m[0].y};
 	glm::vec2 up = pos + glm::vec2{ m[1].x, m[1].y };
 
-	SDL_Color red{ 255,0,0 };
-
-	SDL_Rect rect;
-	rect.x = pos.x;
-	rect.y = pos.y;
-	rect.w = 10;
-	rect.h = 10;
-	SDL_Color color;
-	color = { 255,0,0,255 };
-
-	//Renderer::renderSquare(rect, color);
-
-	SDL_SetRenderDrawColor(Context::getRenderer(), 255, 0, 0, 255);
-	SDL_RenderDrawLine(Context::getRenderer(), pos.x, pos.y, right.x, right.y);
-	
-	SDL_SetRenderDrawColor(Context::getRenderer(), 0, 255, 0, 255);
-	SDL_RenderDrawLine(Context::getRenderer(), pos.x, pos.y, up.x, up.y);
-	
+	Renderer::renderLine(pos, right, SDL_Color{ 255, 0, 0, 255 });
+	Renderer::renderLine(pos, up, SDL_Color{ 0, 255, 0, 255 });
 }
