@@ -4,7 +4,7 @@
 Transform::Transform()
 {
 	_position = { 0,0 };
-	_scale = { 0,0 };
+	_scale = { 1,1 };
 	_angle = 0;
 	_parent = nullptr;
 }
@@ -14,32 +14,32 @@ Transform::~Transform()
 
 }
 
-glm::vec2 Transform::getPosition()
+glm::vec2 Transform::getLocalPosition()
 {
 	return _position;
 }
 
-void Transform::setPosition(glm::vec2 value)
+void Transform::setLocalPosition(glm::vec2 value)
 {
 	_position = value;
 }
 
-glm::vec2 Transform::getScale()
+glm::vec2 Transform::getLocalScale()
 {
 	return _scale;
 }
 
-void Transform::setScale(glm::vec2 value)
+void Transform::setLocalScale(glm::vec2 value)
 {
 	_scale = value;
 }
 
-float Transform::getAngle()
+float Transform::getLocalAngle()
 {
 	return _angle;
 }
 
-void Transform::setAngle(float value)
+void Transform::setLocalAngle(float value)
 {
 	_angle = value;
 }
@@ -56,7 +56,7 @@ void Transform::setParent(Transform* value)
 
 glm::mat3x3 Transform::getLocalMatrix()
 {
-	glm::mat3x3 retval;
+	glm::mat3x3 retval = glm::mat3x3::mat(1.0f); 
 	retval = glm::translate(retval, _position);
 	retval = glm::scale(retval, _scale);
 	retval = glm::rotate(retval, _angle);

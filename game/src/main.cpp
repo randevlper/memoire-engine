@@ -49,6 +49,12 @@ int main(){
 		SDL_Color white = { 255,255,255,255 };
 
 		Transform test;
+		test.setLocalPosition(glm::vec2(50, 50));
+		test.setLocalScale(glm::vec2(10, 10));
+		Transform test2;
+		test2.setLocalPosition(glm::vec2(50, 50));
+		test2.setLocalScale(glm::vec2(2, 2));
+		test.setParent(&test2);
 
 		//Generic File type to inherit from
 		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
@@ -91,11 +97,13 @@ int main(){
 					frame = 0;
 				}
 			}
+			test2.setLocalAngle(test2.getLocalAngle() + Context::getDeltaTime());
 
 			Renderer::renderAseFrame(50, 50, &aseFile->frames[frame]);
-
-			Renderer::render();
 			Debug::DrawTransform(&test);
+			Debug::DrawTransform(&test2);
+			Renderer::render();
+			
 		}
 
 

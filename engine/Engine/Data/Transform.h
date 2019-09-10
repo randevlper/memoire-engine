@@ -8,14 +8,14 @@ public:
 	Transform();
 	~Transform();
 
-	glm::vec2 getPosition();
-	void setPosition(glm::vec2 value);
+	glm::vec2 getLocalPosition();
+	void setLocalPosition(glm::vec2 value);
 
-	glm::vec2 getScale();
-	void setScale(glm::vec2 value);
+	glm::vec2 getLocalScale();
+	void setLocalScale(glm::vec2 value);
 
-	float getAngle();
-	void setAngle(float value);
+	float getLocalAngle();
+	void setLocalAngle(float value);
 
 	Transform* getParent();
 	void setParent(Transform* value);
