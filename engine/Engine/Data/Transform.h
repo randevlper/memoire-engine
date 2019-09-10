@@ -11,6 +11,8 @@ public:
 	glm::vec2 getLocalPosition();
 	void setLocalPosition(glm::vec2 value);
 
+	glm::vec2 getPosition();
+
 	glm::vec2 getLocalScale();
 	void setLocalScale(glm::vec2 value);
 

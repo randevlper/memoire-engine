@@ -65,24 +65,28 @@ int main(){
 		double sum = 0;
 		int frame = 0;
 
+		glm::vec2 cameraPos = {0,0};
+
 		while (!Context::getShouldClose())
 		{
 			//std::cout << Context::getDeltaTime() << std::endl;
 			Context::tick();
 
 			if (Input::getKey(SDL_SCANCODE_D)) {
-
+				cameraPos.x += Context::getDeltaTime() * 100;
 			}
 			if (Input::getKey(SDL_SCANCODE_A)) {
-
+				cameraPos.x -= Context::getDeltaTime() * 100;
 			}
-			if (Input::getKeyDown(SDL_SCANCODE_W)) {
+			if (Input::getKey(SDL_SCANCODE_W)) {
 				Debug::Log("Down!");
+				cameraPos.y -= Context::getDeltaTime() * 100;
 			}
-			if (Input::getKeyUp(SDL_SCANCODE_W)) {
+			if (Input::getKey(SDL_SCANCODE_S)) {
 				Debug::Log("Up!");
+				cameraPos.y += Context::getDeltaTime() * 100;
 			}
-
+			Renderer::setCameraPos(cameraPos.x, cameraPos.y);
 
 			Physics::tick();
 

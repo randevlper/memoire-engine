@@ -1,6 +1,7 @@
 #pragma once
 #include "glm/fwd.hpp"
 #include "SDL_stdinc.h"
+
 struct SpriteData;
 struct SDL_Color;
 struct SDL_Rect;

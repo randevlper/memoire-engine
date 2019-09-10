@@ -24,6 +24,13 @@ void Transform::setLocalPosition(glm::vec2 value)
 	_position = value;
 }
 
+glm::vec2 Transform::getPosition()
+{
+	glm::mat3x3 m = getGlobalMatrix();
+	glm::vec2 pos = { m[2].x,m[2].y };
+	return pos;
+}
+
 glm::vec2 Transform::getLocalScale()
 {
 	return _scale;

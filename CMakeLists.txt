@@ -33,8 +33,10 @@ target_include_directories(stb INTERFACE thirdparty/stb)
 #Interface
 
 add_subdirectory(engine)
+add_subdirectory(engine-tests)
 add_subdirectory(game)
 add_subdirectory(test)
 set_target_properties(engine PROPERTIES FOLDER "Engine")
+set_target_properties(engine-tests PROPERTIES FOLDER "Engine")
 set_target_properties(game PROPERTIES FOLDER "Engine")
 set_target_properties(test PROPERTIES FOLDER "Engine")

@@ -37,7 +37,7 @@ void Renderer::tick()
 void Renderer::renderLine(glm::vec2 a, glm::vec2 b, SDL_Color& color)
 {
 	SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
-	SDL_RenderDrawLine(Context::getRenderer(), a.x, a.y, b.x, b.y);
+	SDL_RenderDrawLine(Context::getRenderer(), a.x - _cameraPos->x, a.y - _cameraPos->y, b.x - _cameraPos->x, b.y - _cameraPos->y);
 }
 
 void Renderer::renderLines(SDL_Point* points, int pointsCount, SDL_Color& color)
