@@ -1,4 +1,5 @@
 #include "Engine/Core/Physics.h"
+#include "Engine/Nodes/Collider.h"
 #include "glm/vec2.hpp"
 
 Physics* Physics::_instance = nullptr;
@@ -39,4 +40,14 @@ void Physics::setGravity(glm::vec2& value)
 glm::vec2 Physics::getGravity()
 {
 	return glm::vec2();
+}
+
+bool Physics::addCollider(Collider* col)
+{
+	return false;
+}
+
+bool Physics::removeCollider(Collider* col)
+{
+	return false;
 }

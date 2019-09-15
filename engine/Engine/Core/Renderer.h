@@ -1,6 +1,7 @@
 #pragma once
 #include "glm/fwd.hpp"
 #include "SDL_stdinc.h"
+#include <vector>
 
 struct SpriteData;
 struct SDL_Color;
@@ -8,7 +9,6 @@ struct SDL_Rect;
 struct SDL_Point;
 struct AseSprite;
 struct AseFrame;
-
 class Timer;
 
 class Renderer

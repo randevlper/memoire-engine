@@ -10,6 +10,7 @@
 #include "Engine/Core/Input.h"
 #include "Engine/Data/Transform.h"
 #include "Engine/Utilities/Debug.h"
+#include "glm/gtx/perpendicular.hpp"
 
 int main()
 	{
@@ -28,4 +29,10 @@ int main()
 
 		assert(test1.getPosition() == glm::vec2(100, 100));
 		assert(test1.getPosition() != glm::vec2(101, 100));
+
+
+		assert(glm::normalize(glm::vec2(10, 0)) == glm::vec2(1, 0));
+		std::vector<glm::vec2> points;
+		points.push_back(glm::vec2(1, 1));
+		points.push_back(glm::vec2(-1, 1));
 	}

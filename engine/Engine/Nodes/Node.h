@@ -7,7 +7,6 @@ public:
 	Node();
 	~Node();
 	Transform transform;
-
 private:
-
+	
 };

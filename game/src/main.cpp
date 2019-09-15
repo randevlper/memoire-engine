@@ -35,6 +35,8 @@ Physics
 #include "Engine/Core/Input.h"
 #include "Engine/Data/Transform.h"
 #include "Engine/Utilities/Debug.h"
+#include "Engine/Nodes/Node.h"
+#include "Engine/Nodes/Collider.h"
 
 
 int main(){
@@ -45,7 +47,6 @@ int main(){
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
-
 		SDL_Color white = { 255,255,255,255 };
 
 		Transform test;
@@ -55,6 +56,9 @@ int main(){
 		test2.setLocalPosition(glm::vec2(50, 50));
 		test2.setLocalScale(glm::vec2(2, 2));
 		test.setParent(&test2);
+
+		Collider col1;
+		col1.transform.setLocalPosition({ 0,100 });
 
 		//Generic File type to inherit from
 		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
@@ -79,11 +83,11 @@ int main(){
 				cameraPos.x -= Context::getDeltaTime() * 100;
 			}
 			if (Input::getKey(SDL_SCANCODE_W)) {
-				Debug::Log("Down!");
+				//Debug::Log("Up!");
 				cameraPos.y -= Context::getDeltaTime() * 100;
 			}
 			if (Input::getKey(SDL_SCANCODE_S)) {
-				Debug::Log("Up!");
+				//Debug::Log("Up!");
 				cameraPos.y += Context::getDeltaTime() * 100;
 			}
 			Renderer::setCameraPos(cameraPos.x, cameraPos.y);
@@ -102,10 +106,13 @@ int main(){
 				}
 			}
 			test2.setLocalAngle(test2.getLocalAngle() + Context::getDeltaTime());
+			
 
 			Renderer::renderAseFrame(50, 50, &aseFile->frames[frame]);
 			Debug::DrawTransform(&test);
 			Debug::DrawTransform(&test2);
+			Debug::DrawCollider(&col1);
+			Debug::DrawTransform(&col1.transform);
 			Renderer::render();
 			
 		}
