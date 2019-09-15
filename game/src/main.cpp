@@ -59,6 +59,9 @@ int main(){
 
 		Collider col1;
 		col1.transform.setLocalPosition({ 0,100 });
+		Physics::addCollider(&col1);
+		Physics::removeCollider(&col1);
+		Physics::addCollider(&col1);
 
 		//Generic File type to inherit from
 		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
@@ -117,6 +120,7 @@ int main(){
 			
 		}
 
+		
 
 		FileUtility::unloadAse(aseFile);
 		Context::quit();

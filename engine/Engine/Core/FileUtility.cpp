@@ -66,8 +66,8 @@ void FileUtility::unloadSpriteData(SpriteData* spriteData)
 
 AseData* FileUtility::loadAse(char path[])
 {
-	Aseprite::AsepriteFile* file = new Aseprite::AsepriteFile(path);
-	AseData* data = new AseData();
+	Aseprite::AsepriteFile* file = DBG_NEW Aseprite::AsepriteFile(path);
+	AseData* data = DBG_NEW AseData();
 	SDL_Surface* surface;
 	SDL_Texture* texture;
 

@@ -21,8 +21,7 @@ public:
 private:
 	static Physics* _instance;
 	static glm::vec2 _gravity;
-
-	std::vector<Collider> _colliders;
+	static std::vector<Collider*> _colliders;
 
 	Physics();
 	~Physics();

@@ -7,7 +7,19 @@
 #include "Engine/Core/Context.h"
 #include "Engine/Utilities/Timer.h"
 
-glm::vec2* Renderer::_cameraPos = new glm::vec2();
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+// allocations to be of _CLIENT_BLOCK type
+#else
+#define DBG_NEW new
+#endif
+
+
+glm::vec2* Renderer::_cameraPos = DBG_NEW glm::vec2();
 Renderer* Renderer ::_instance = nullptr;
 Timer Renderer::_fpsTimer = Timer();
 Timer Renderer::_capTimer = Timer();
@@ -16,7 +28,7 @@ Uint64 Renderer::_frameCount = 0;
 void Renderer::init()
 {
 	if (_instance == nullptr) {
-		_instance = new Renderer();
+		_instance = DBG_NEW Renderer();
 		_fpsTimer.start();
 	}
 }
@@ -26,6 +38,7 @@ void Renderer::quit()
 	if (_instance != nullptr) {
 		_fpsTimer.stop();
 		delete(_instance);
+		delete(_cameraPos);
 	}
 }
 

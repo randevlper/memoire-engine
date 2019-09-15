@@ -4,6 +4,17 @@
 #include "Context.h"
 #include <algorithm>
 
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+#ifdef _DEBUG
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+// allocations to be of _CLIENT_BLOCK type
+#else
+#define DBG_NEW new
+#endif
+
 const unsigned char* Input::_source = nullptr;
 unsigned char* Input::_currentPoll = nullptr;
 unsigned char* Input::_lastPoll = nullptr;
@@ -48,7 +59,7 @@ bool Input::getKey(int key)
 void Input::init()
 {
 	if (_instance == nullptr) {
-		_instance = new Input();
+		_instance = DBG_NEW Input();
 	}
 }
 
@@ -62,8 +73,8 @@ void Input::quit()
 Input::Input()
 {
 	_source = SDL_GetKeyboardState(&_numKeys);
-	_currentPoll = new unsigned char[_numKeys];
-	_lastPoll = new unsigned char[_numKeys];
+	_currentPoll = DBG_NEW unsigned char[_numKeys];
+	_lastPoll = DBG_NEW unsigned char[_numKeys];
 }
 
 Input::~Input()
