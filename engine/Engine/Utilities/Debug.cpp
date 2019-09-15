@@ -26,13 +26,16 @@ void Debug::DrawTransform(Transform* t)
 }
 
 void Debug::DrawCollider(Collider* col) {
-	Transform t = col->transform;
+	Transform &t = col->transform;
 	SDL_Point points[COLLIDER_MAX_POINTS];
+	glm::vec2 pos = t.getPosition();
 	for (size_t i = 0; i < col->points.size(); i++)
 	{
-		points[i] = SDL_Point{ (int)col->points[i].x, (int)col->points[i].y};
+		glm::vec2 p = pos - col->points[i];
+		points[i] = SDL_Point{ (int)p.x, (int)p.y};
 	}
-	points[col->points.size()] = SDL_Point{ (int)col->points[0].x, (int)col->points[0].y };
+	glm::vec2 p = pos - col->points[0];
+	points[col->points.size()] = SDL_Point{ (int)p.x, (int)p.y };
 
 	Renderer::renderLines(points, col->points.size() + 1, SDL_Color{ 0, 255, 0, 255 });
 }
