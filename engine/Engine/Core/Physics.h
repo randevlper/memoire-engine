@@ -17,6 +17,7 @@ public:
 	static bool addCollider(Collider* col);
 	//Removes from physics sim
 	static bool removeCollider(Collider* col);
+	static void debugDrawColliders();
 
 private:
 	static Physics* _instance;

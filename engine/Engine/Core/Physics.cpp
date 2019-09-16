@@ -1,5 +1,6 @@
 #include "Engine/Core/Physics.h"
 #include "Engine/Nodes/Collider.h"
+#include "Engine/Utilities/Debug.h"
 #include "glm/vec2.hpp"
 
 #define _CRTDBG_MAP_ALLOC
@@ -52,7 +53,10 @@ void Physics::tick()
 						
 						if (_colliders[a]->isStatic && !_colliders[b]->isStatic) {
 							//Need set global position
-							printf("Collision: %i hit %i \n", a, b);
+							//printf("Collision: %i hit %i \n", a, b);
+							_colliders[b]->transform.translate(-(col.penetration * col.collisionNormal));
+						}
+						else if (!_colliders[b]->isStatic) {
 							_colliders[b]->transform.translate(-(col.penetration * col.collisionNormal));
 						}
 						
@@ -106,4 +110,13 @@ bool Physics::removeCollider(Collider* col)
 	}
 
 	return false;
+}
+
+void Physics::debugDrawColliders() {
+	for (size_t i = 0; i < _colliders.size(); i++)
+	{
+		if (_colliders[i] != nullptr) {
+			Debug::DrawCollider(_colliders[i]);
+		}
+	}
 }

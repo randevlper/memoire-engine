@@ -58,7 +58,11 @@ int main(){
 		test.setParent(&test2);
 
 		Collider col1;
-		
+		Collider box;
+		box.transform.translate({ 0,-40 });
+		Physics::addCollider(&box);
+
+
 		Physics::addCollider(&col1);
 		Physics::removeCollider(&col1);
 		Physics::addCollider(&col1);
@@ -131,9 +135,7 @@ int main(){
 			Renderer::renderAseFrame(-400, -200, &background->frames[0]);
 			Debug::DrawTransform(&test);
 			Debug::DrawTransform(&test2);
-			Debug::DrawCollider(&col1);
-			Debug::DrawCollider(&col2);
-			Debug::DrawTransform(&col1.transform);
+			Physics::debugDrawColliders();
 			Renderer::render();
 			
 		}
