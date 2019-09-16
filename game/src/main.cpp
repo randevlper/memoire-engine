@@ -80,30 +80,34 @@ int main(){
 		//double sum = 0;
 		//int frame = 0;
 
-		glm::vec2 cameraPos = {0,0};
+		Transform cameraPos;
+		cameraPos.setParent(&col1.transform);
+		
 
 		while (!Context::getShouldClose())
 		{
 			//std::cout << Context::getDeltaTime() << std::endl;
 			Context::tick();
 
+
+			glm::vec2 movement = glm::vec2();
 			if (Input::getKey(SDL_SCANCODE_D)) {
-				cameraPos.x += Context::getDeltaTime() * 100;
+				movement.x = Context::getDeltaTime() * 100;
 			}
 			if (Input::getKey(SDL_SCANCODE_A)) {
-				cameraPos.x -= Context::getDeltaTime() * 100;
+				movement.x = -Context::getDeltaTime() * 100;
 			}
 			if (Input::getKey(SDL_SCANCODE_W)) {
 				//Debug::Log("Up!");
-				cameraPos.y -= Context::getDeltaTime() * 100;
+				movement.y = -Context::getDeltaTime() * 100;
 			}
 			if (Input::getKey(SDL_SCANCODE_S)) {
 				//Debug::Log("Up!");
-				cameraPos.y += Context::getDeltaTime() * 100;
+				movement.y = Context::getDeltaTime() * 100;
 			}
-			col1.transform.setLocalPosition(cameraPos);
-
-			Renderer::setCameraPos(cameraPos.x, cameraPos.y);
+			col1.transform.translate(movement);
+			Renderer::setCameraPos(cameraPos.getPosition().x, cameraPos.getPosition().y);
+			
 
 			Physics::tick();
 

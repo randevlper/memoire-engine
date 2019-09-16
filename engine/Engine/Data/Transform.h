@@ -22,6 +22,8 @@ public:
 	Transform* getParent();
 	void setParent(Transform* value);
 
+	void translate(glm::vec2 value);
+
 	glm::mat3x3 getLocalMatrix();
 	glm::mat3x3 getGlobalMatrix();
 
