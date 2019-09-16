@@ -6,6 +6,22 @@
 
 #define COLLIDER_MAX_POINTS 32
 
+struct AxialExtents { float min, max; };
+
+struct Collision
+{
+	//Multiply all by each other and add to the position of the GameObject that
+	//you do not want to collide with.
+	float penetration;
+	glm::vec2 collisionNormal;
+	//float handedness;
+};
+
+struct SATGeometry {
+	std::vector<glm::vec2> points;
+	std::vector<glm::vec2> axes;
+};
+
 class Collider : public Node
 {
 public:
@@ -16,10 +32,13 @@ public:
 
 	//lines
 	//affecting transform
-	std::vector<glm::vec2> points;
-	std::vector<glm::vec2> axes;
+	SATGeometry geo;
+	
 
+	SATGeometry Collider::getWorldGeo();
+	static Collision doesCollide(SATGeometry* A, SATGeometry* B);
 private:
-	void CreateAxes();
+	static void CreateAxes(SATGeometry &g);
 	static glm::vec2 perp(glm::vec2& v);
+	static AxialExtents evalAxialExtents(glm::vec2& axis, std::vector<glm::vec2> &points);
 };

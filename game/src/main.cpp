@@ -41,7 +41,7 @@ Physics
 
 int main(){
 	{
-		ContextWindowParems cWinParems = { "Ayse why.", 1280, 720, 640, 360, 60 };
+		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 640, 360, 60 };
 		Context::init(&cWinParems);
 		Physics::setGravity(glm::vec2(0, 400));
 		if (Context::getErrorCode() != 0) {
@@ -58,19 +58,26 @@ int main(){
 		test.setParent(&test2);
 
 		Collider col1;
-		col1.transform.setLocalPosition({ 0,100 });
+		
 		Physics::addCollider(&col1);
 		Physics::removeCollider(&col1);
 		Physics::addCollider(&col1);
+		Collider col2;
+		Physics::addCollider(&col2);
+
+		col1.transform.setLocalPosition({ 0, 10 });
+		col2.transform.setLocalPosition({ 0, 15 });
 
 		//Generic File type to inherit from
-		AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
+		//AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
+		AseData* background = FileUtility::loadAse("assets/background.aseprite");
+
 
 		float groundFriction = 1.0f;
 
 		//Aseprite::AsepriteFile aseFile();
-		double sum = 0;
-		int frame = 0;
+		//double sum = 0;
+		//int frame = 0;
 
 		glm::vec2 cameraPos = {0,0};
 
@@ -93,28 +100,38 @@ int main(){
 				//Debug::Log("Up!");
 				cameraPos.y += Context::getDeltaTime() * 100;
 			}
+			col1.transform.setLocalPosition(cameraPos);
+
 			Renderer::setCameraPos(cameraPos.x, cameraPos.y);
 
 			Physics::tick();
 
 			Renderer::clearRenderer(white);
 
-			sum += Context::getDeltaTime();
-			double frameLength = (aseFile->frames[frame].frameDuration / 1000);
-			if (sum > frameLength) {
-				sum = 0;
-				frame++;
-				if (frame >= aseFile->frames.size()) {
-					frame = 0;
-				}
-			}
-			test2.setLocalAngle(test2.getLocalAngle() + Context::getDeltaTime());
-			
 
-			Renderer::renderAseFrame(50, 50, &aseFile->frames[frame]);
+			if (Collider::doesCollide(&col1.getWorldGeo(), &col2.getWorldGeo()).penetration > 0) {
+				Debug::Log("Collide!!");
+			}
+
+			//Need to create animator and animation clips
+			//sum += Context::getDeltaTime();
+			//double frameLength = (aseFile->frames[frame].frameDuration / 1000);
+			//if (sum > frameLength) {
+			//	sum = 0;
+			//	frame++;
+			//	if (frame >= aseFile->frames.size()) {
+			//		frame = 0;
+			//	}
+			//}
+			test2.setLocalAngle(test2.getLocalAngle() + Context::getDeltaTime());
+			//Mirror option?
+			Renderer::renderAseFrame(-200, -200, &background->frames[0]);
+			Renderer::renderAseFrame(0, -200, &background->frames[0]);
+			Renderer::renderAseFrame(-400, -200, &background->frames[0]);
 			Debug::DrawTransform(&test);
 			Debug::DrawTransform(&test2);
 			Debug::DrawCollider(&col1);
+			Debug::DrawCollider(&col2);
 			Debug::DrawTransform(&col1.transform);
 			Renderer::render();
 			
@@ -122,7 +139,7 @@ int main(){
 
 		
 
-		FileUtility::unloadAse(aseFile);
+		FileUtility::unloadAse(background);
 		Context::quit();
 	}
 
