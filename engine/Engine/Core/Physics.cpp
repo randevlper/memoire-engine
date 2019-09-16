@@ -42,7 +42,26 @@ void Physics::quit()
 
 void Physics::tick()
 {
+	for (size_t a = 0; a < _colliders.size(); a++){
+		if (_colliders[a] != nullptr) {
+			for (size_t b = 0; b < _colliders.size(); b++){
+				if (_colliders[a] != _colliders[b]) {
+					Collision col = _colliders[a]->doesCollide(_colliders[b]);
+					if (col.penetration > 0) {
+						printf("Collision: %i hit %i \n", a, b);
 
+						if (_colliders[a]->isStatic && !_colliders[b]->isStatic) {
+							//Need set global position
+							
+						}
+						_colliders[b]->transform.setLocalPosition(
+							_colliders[b]->transform.getPosition()
+							- (col.penetration * col.collisionNormal));
+					}
+				}
+			}
+		}
+	}
 }
 
 void Physics::setGravity(glm::vec2& value)

@@ -82,6 +82,11 @@ SATGeometry Collider::getWorldGeo()
 	return ret;
 }
 
+Collision Collider::doesCollide(Collider* other)
+{
+	return doesCollide(&getWorldGeo(), &other->getWorldGeo());
+}
+
 void Collider::CreateAxes(SATGeometry &g)
 {
 	for (int i = 0; i < g.points.size(); ++i) {

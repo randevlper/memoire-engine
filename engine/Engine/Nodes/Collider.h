@@ -33,11 +33,12 @@ public:
 	//lines
 	//affecting transform
 	SATGeometry geo;
-	
+	bool isStatic;
 
 	SATGeometry Collider::getWorldGeo();
-	static Collision doesCollide(SATGeometry* A, SATGeometry* B);
+	Collision doesCollide(Collider* other);
 private:
+	static Collision doesCollide(SATGeometry* A, SATGeometry* B);
 	static void CreateAxes(SATGeometry &g);
 	static glm::vec2 perp(glm::vec2& v);
 	static AxialExtents evalAxialExtents(glm::vec2& axis, std::vector<glm::vec2> &points);

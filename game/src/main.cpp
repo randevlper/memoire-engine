@@ -63,6 +63,7 @@ int main(){
 		Physics::removeCollider(&col1);
 		Physics::addCollider(&col1);
 		Collider col2;
+		col2.isStatic = true;
 		Physics::addCollider(&col2);
 
 		col1.transform.setLocalPosition({ 0, 10 });
@@ -109,9 +110,9 @@ int main(){
 			Renderer::clearRenderer(white);
 
 
-			if (Collider::doesCollide(&col1.getWorldGeo(), &col2.getWorldGeo()).penetration > 0) {
-				Debug::Log("Collide!!");
-			}
+			//if (Collider::doesCollide(&col1.getWorldGeo(), &col2.getWorldGeo()).penetration > 0) {
+			//	Debug::Log("Collide!!");
+			//}
 
 			//Need to create animator and animation clips
 			//sum += Context::getDeltaTime();
