@@ -48,13 +48,12 @@ void Physics::tick()
 				if (_colliders[a] != _colliders[b]) {
 					Collision col = _colliders[a]->doesCollide(_colliders[b]);
 					if (col.penetration > 0) {
-						printf("Collision: %i hit %i \n", a, b);
-						_colliders[b]->transform.setLocalPosition(
-							_colliders[b]->transform.getPosition()
-							- (col.penetration * col.collisionNormal));
+						
+						
 						if (_colliders[a]->isStatic && !_colliders[b]->isStatic) {
 							//Need set global position
-							
+							printf("Collision: %i hit %i \n", a, b);
+							_colliders[b]->transform.translate(-(col.penetration * col.collisionNormal));
 						}
 						
 					}

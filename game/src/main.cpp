@@ -86,9 +86,7 @@ int main(){
 
 		while (!Context::getShouldClose())
 		{
-			//std::cout << Context::getDeltaTime() << std::endl;
 			Context::tick();
-
 
 			glm::vec2 movement = glm::vec2();
 			if (Input::getKey(SDL_SCANCODE_D)) {
@@ -107,8 +105,6 @@ int main(){
 			}
 			col1.transform.translate(movement);
 			Renderer::setCameraPos(cameraPos.getPosition().x, cameraPos.getPosition().y);
-			
-
 			Physics::tick();
 
 			Renderer::clearRenderer(white);
