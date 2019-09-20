@@ -135,6 +135,7 @@ void Collider::solveColliding()
 				//Stay
 				onStay(_colliding[a]);
 				stay = true;
+				break;
 			}
 		}
 		//onenter
