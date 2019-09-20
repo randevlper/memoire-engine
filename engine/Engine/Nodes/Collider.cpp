@@ -115,6 +115,12 @@ void Collider::onExit(const Collision& collision)
 
 void Collider::addColliding(Collision other)
 {
+	for (size_t i = 0; i < _colliding.size(); i++)
+	{
+		if (_colliding[i].other == other.other) {
+			return;
+		}
+	}
 	_colliding.push_back(other);
 }
 

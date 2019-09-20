@@ -74,7 +74,7 @@ void Physics::tick()
 
 void Physics::setGravity(glm::vec2& value)
 {
-
+	_gravity = value;
 }
 
 glm::vec2 Physics::getGravity()
