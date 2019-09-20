@@ -14,6 +14,7 @@ struct Collision
 	//you do not want to collide with.
 	float penetration;
 	glm::vec2 collisionNormal;
+	Collider* other;
 	//float handedness;
 };
 
@@ -37,7 +38,22 @@ public:
 
 	SATGeometry Collider::getWorldGeo();
 	Collision doesCollide(Collider* other);
+
+	bool isDebug;
+	void onEnter(const Collision &collision);
+	void onStay(const Collision &collision);
+	void onExit(const Collision &collision);
+
+	void addColliding(Collision other);
+
+	//Only run once per frame, called by physics
+	void solveColliding();
+
 private:
+	std::vector<Collision> _collidingLastFrame;
+	std::vector<Collision> _colliding;
+
+
 	static Collision doesCollide(SATGeometry* A, SATGeometry* B);
 	static void CreateAxes(SATGeometry &g);
 	static glm::vec2 perp(glm::vec2& v);

@@ -1,21 +1,21 @@
 #include "Collider.h"
+#include "Engine/Utilities/Debug.h"
 #include <vector>
 
-Collider::Collider()
+Collider::Collider() : isStatic(false), isDebug(false)
 {
 	geo.points.push_back({ 5, 5 });
 	geo.points.push_back({ -5, 5 });
 	geo.points.push_back({ -5, -5 });
 	geo.points.push_back({ 5, -5 });
-	isStatic = false;
-	CreateAxes(geo);
+	Collider(geo.points);
 }
 
-Collider::Collider(std::vector<glm::vec2> &p)
+Collider::Collider(std::vector<glm::vec2> &p) : isStatic(false), isDebug(false)
 {
 	geo.points = p;
-	isStatic = false;
 	CreateAxes(geo);
+
 }
 
 Collider::~Collider()
@@ -65,7 +65,7 @@ Collision Collider::doesCollide(SATGeometry* A, SATGeometry* B)
 
 		if (!res)
 		{
-			return Collision{ fPD, fCN };
+			return Collision{ fPD, fCN, };
 		}
 	}
 
@@ -86,7 +86,81 @@ SATGeometry Collider::getWorldGeo()
 
 Collision Collider::doesCollide(Collider* other)
 {
-	return doesCollide(&getWorldGeo(), &other->getWorldGeo());
+	Collision retval = doesCollide(&getWorldGeo(), &other->getWorldGeo());
+	retval.other = other;
+	return retval;
+}
+
+void Collider::onEnter(const Collision& collision)
+{
+	if(isDebug){
+		Debug::Log("Enter!");
+	}
+}
+
+void Collider::onStay(const Collision& collision)
+{
+	if (isDebug) {
+		Debug::Log("Stay!");
+	}
+	
+}
+
+void Collider::onExit(const Collision& collision)
+{
+	if (isDebug) {
+		Debug::Log("Exit!");
+	}
+}
+
+void Collider::addColliding(Collision other)
+{
+	_colliding.push_back(other);
+}
+
+void Collider::solveColliding()
+{
+	//TODO Clean this up
+
+	//if new OnEnter
+
+	//if already OnStay
+	bool stay;
+	for (size_t a = 0; a < _colliding.size(); a++)
+	{
+		stay = false;
+		for (size_t b = 0; b < _collidingLastFrame.size(); b++)
+		{
+			if (_colliding[a].other == _collidingLastFrame[b].other) {
+				//Stay
+				onStay(_colliding[a]);
+				stay = true;
+			}
+		}
+		//onenter
+		if (!stay) {
+			onEnter(_colliding[a]);
+		}
+	}
+	
+	for (size_t a = 0; a < _collidingLastFrame.size(); a++)
+	{
+		stay = false;
+		for (size_t b = 0; b < _colliding.size(); b++)
+		{
+			if (_collidingLastFrame[a].other == _colliding[b].other) {
+				stay = true;
+				break;
+			}
+		}
+		if (!stay) {
+			onExit(_collidingLastFrame[a]);
+		}
+	}
+	
+	//if gone OnExit
+	_collidingLastFrame = _colliding;
+	_colliding.clear();
 }
 
 void Collider::CreateAxes(SATGeometry &g)

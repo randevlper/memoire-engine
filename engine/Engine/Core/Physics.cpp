@@ -56,11 +56,18 @@ void Physics::tick()
 							_colliders[a]->transform.translate(col.penetration/2 * col.collisionNormal);
 							_colliders[b]->transform.translate(-col.penetration/2 * col.collisionNormal);
 						}
+						_colliders[a]->addColliding(col);
+						col.other = _colliders[a];
+						_colliders[b]->addColliding(col);
 					}
 				}
 			}
 		}
 	}
+	for (size_t i = 0; i < _colliders.size(); i++) {
+		_colliders[i]->solveColliding();
+	}
+
 }
 
 void Physics::setGravity(glm::vec2& value)

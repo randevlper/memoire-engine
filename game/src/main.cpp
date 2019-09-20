@@ -58,6 +58,7 @@ int main(){
 		test.setParent(&test2);
 
 		Collider col1;
+		col1.isDebug = true;
 		Collider box;
 		box.transform.translate({ 0,-40 });
 		Physics::addCollider(&box);
@@ -86,6 +87,7 @@ int main(){
 
 		Transform cameraPos;
 		cameraPos.setParent(&col1.transform);
+		
 		
 
 		while (!Context::getShouldClose())

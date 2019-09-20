@@ -11,7 +11,7 @@
 
 void Debug::Log(char* value)
 {
-	std::cout << value << std::endl;
+	std::cout << "[" << SDL_GetTicks() << "] " << value << std::endl;
 }
 
 void Debug::DrawTransform(Transform* t)
