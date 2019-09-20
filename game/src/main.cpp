@@ -62,6 +62,10 @@ int main(){
 		Collider box;
 		box.transform.translate({ 0,-40 });
 		Physics::addCollider(&box);
+		Collider trigger;
+		trigger.transform.translate({ -40, 0 });
+		trigger.isTrigger = true;
+		Physics::addCollider(&trigger);
 
 
 		Physics::addCollider(&col1);

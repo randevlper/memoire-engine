@@ -2,7 +2,7 @@
 #include "Engine/Utilities/Debug.h"
 #include <vector>
 
-Collider::Collider() : isStatic(false), isDebug(false)
+Collider::Collider() : isStatic(false), isDebug(false), isTrigger(false)
 {
 	geo.points.push_back({ 5, 5 });
 	geo.points.push_back({ -5, 5 });
@@ -11,7 +11,7 @@ Collider::Collider() : isStatic(false), isDebug(false)
 	Collider(geo.points);
 }
 
-Collider::Collider(std::vector<glm::vec2> &p) : isStatic(false), isDebug(false)
+Collider::Collider(std::vector<glm::vec2> &p) : isStatic(false), isDebug(false), isTrigger(false)
 {
 	geo.points = p;
 	CreateAxes(geo);

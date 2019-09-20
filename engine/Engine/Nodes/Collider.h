@@ -35,6 +35,7 @@ public:
 	//affecting transform
 	SATGeometry geo;
 	bool isStatic;
+	bool isTrigger;
 
 	SATGeometry Collider::getWorldGeo();
 	Collision doesCollide(Collider* other);

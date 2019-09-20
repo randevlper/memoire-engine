@@ -34,5 +34,13 @@ void Debug::DrawCollider(Collider* col) {
 	}
 	points[g.points.size()] = SDL_Point{ (int)g.points[0].x, (int)g.points[0].y };
 
-	Renderer::renderLines(points, col->geo.points.size() + 1, (col->isStatic ? SDL_Color{255,0,0,255} : SDL_Color{ 0, 255, 0, 255 }));
+	SDL_Color color = { 0,255,0,255 };
+	if (col->isStatic) {
+		color = SDL_Color{ 255,0,0,255 };
+	}
+	if (col->isTrigger) {
+		color = SDL_Color{ 0,0, 255,255 };
+	}
+
+	Renderer::renderLines(points, col->geo.points.size() + 1, color);
 }

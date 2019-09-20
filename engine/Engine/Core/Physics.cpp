@@ -49,12 +49,14 @@ void Physics::tick()
 				if (_colliders[a] != _colliders[b]) {
 					Collision col = _colliders[a]->doesCollide(_colliders[b]);
 					if (col.penetration > 0) {
-						if (_colliders[b]->isStatic && !_colliders[a]->isStatic) {
-							_colliders[a]->transform.translate(col.penetration * col.collisionNormal);
-						}
-						if (!_colliders[b]->isStatic && !_colliders[a]->isStatic) {
-							_colliders[a]->transform.translate(col.penetration/2 * col.collisionNormal);
-							_colliders[b]->transform.translate(-col.penetration/2 * col.collisionNormal);
+						if (!_colliders[b]->isTrigger && !_colliders[a]->isTrigger) {
+							if (_colliders[b]->isStatic && !_colliders[a]->isStatic) {
+								_colliders[a]->transform.translate(col.penetration * col.collisionNormal);
+							}
+							if (!_colliders[b]->isStatic && !_colliders[a]->isStatic) {
+								_colliders[a]->transform.translate(col.penetration / 2 * col.collisionNormal);
+								_colliders[b]->transform.translate(-col.penetration / 2 * col.collisionNormal);
+							}
 						}
 						_colliders[a]->addColliding(col);
 						col.other = _colliders[a];
