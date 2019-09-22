@@ -1,0 +1,18 @@
+[submodule "thirdparty/bgfx.cmake"]
+	path = thirdparty/bgfx.cmake
+	url = https://github.com/JoshuaBrookover/bgfx.cmake
+[submodule "thirdparty/glm"]
+	path = thirdparty/glm
+	url = https://github.com/g-truc/glm
+[submodule "thirdparty/SDL-mirror"]
+	path = thirdparty/SDL-mirror
+	url = https://github.com/spurious/SDL-mirror
+[submodule "thirdparty/zlib"]
+	path = thirdparty/zlib
+	url = https://github.com/madler/zlib
+[submodule "thirdparty/entt"]
+	path = thirdparty/entt
+	url = https://github.com/skypjack/entt
+[submodule "thirdparty/stb"]
+	path = thirdparty/stb
+	url = https://github.com/nothings/stb
