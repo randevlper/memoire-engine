@@ -7,7 +7,9 @@
 #include <iostream>
 #include "Texture.h"
 #include "entt/entt.hpp"
+#include "bgfx/bgfx.h"
 #include "cstdint"
+
 
 struct position {
 	float x;
