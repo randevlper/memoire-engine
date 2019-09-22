@@ -9,6 +9,7 @@
 #include "bgfx/platform.h"
 #include "bimg/bimg.h"
 #include "bx/bx.h"
+#include "bx/readerwriter.h"
 #include "bx/string.h"
 #include "bx/allocator.h"
 #include <iostream>
@@ -34,8 +35,43 @@ static PosColorVertex planeVerts[] = {
 
 static const uint16_t planeTriList[] = {
 	0,1,2,
-	1,3,2
+	0,2,3
 };
+
+bgfx::ShaderHandle loadShader(const char* FILENAME)
+{
+	//const char* shaderPath = "???";
+
+	//switch (bgfx::getRendererType()) {
+	//case bgfx::RendererType::Noop:
+	//case bgfx::RendererType::Direct3D9:  shaderPath = "shaders/dx9/";   break;
+	//case bgfx::RendererType::Direct3D11:
+	//case bgfx::RendererType::Direct3D12: shaderPath = "shaders/dx11/";  break;
+	//case bgfx::RendererType::Gnm:        shaderPath = "shaders/pssl/";  break;
+	//case bgfx::RendererType::Metal:      shaderPath = "shaders/metal/"; break;
+	//case bgfx::RendererType::OpenGL:     shaderPath = "shaders/glsl/";  break;
+	//case bgfx::RendererType::OpenGLES:   shaderPath = "shaders/essl/";  break;
+	//case bgfx::RendererType::Vulkan:     shaderPath = "shaders/spirv/"; break;
+	//}
+
+	//size_t shaderLen = strlen(shaderPath);
+	//size_t fileLen = strlen(FILENAME);
+	//char* filePath = (char*)malloc(shaderLen + fileLen);
+	//memcpy(filePath, shaderPath, shaderLen);
+	//memcpy(&filePath[shaderLen], FILENAME, fileLen);
+
+	FILE* file = fopen(FILENAME, "rb");
+	fseek(file, 0, SEEK_END);
+	long fileSize = ftell(file);
+	fseek(file, 0, SEEK_SET);
+
+	const bgfx::Memory* mem = bgfx::alloc(fileSize + 1);
+	fread(mem->data, 1, fileSize, file);
+	mem->data[mem->size - 1] = '\0';
+	fclose(file);
+
+	return bgfx::createShader(mem);
+}
 
 int main() {
 
@@ -100,7 +136,7 @@ int main() {
 
 	bgfx::Init init;
 	//init.platformData = pd;
-	init.type = bgfx::RendererType::Count;
+	init.type = bgfx::RendererType::Direct3D11;
 	init.resolution.height = AC_SCREEN_HEIGHT;
 	init.resolution.width = AC_SCREEN_WIDTH;
 	init.resolution.reset = BGFX_RESET_VSYNC;
@@ -130,9 +166,9 @@ int main() {
 	bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::makeRef(planeVerts, sizeof(planeVerts)), pcvLayout);
 	bgfx::IndexBufferHandle ibh = bgfx::createIndexBuffer(bgfx::makeRef(planeTriList, sizeof(planeTriList)));
 
-	//bgfx::ShaderHandle vsh = loadShader("vs_cubes.bin");
-	//bgfx::ShaderHandle fsh = loadShader("fs_cubes.bin");
-	//bgfx::ProgramHandle program = bgfx::createProgram(vsh, fsh, true);
+	bgfx::ShaderHandle vsh = loadShader("assets/shaders/windows_hlsl/vs_cubes.bin");
+	bgfx::ShaderHandle fsh = loadShader("assets/shaders/windows_hlsl/fs_cubes.bin");
+	bgfx::ProgramHandle program = bgfx::createProgram(vsh, fsh, true);
 
 	SDL_Event e;
 	bool quit = false;
@@ -145,9 +181,20 @@ int main() {
 			}
 		}
 		bgfx::setViewRect(0, 0, 0, AC_SCREEN_WIDTH, AC_SCREEN_HEIGHT);
+		const bx::Vec3 at = { 0.0f, 0.0f,  0.0f };
+		const bx::Vec3 eye = { 0.0f, 0.0f, -5.0f };
+		float view[16];
+		bx::mtxLookAt(view, eye, at);
+		float proj[16];
+		bx::mtxProj(proj, 60.0f, float(AC_SCREEN_WIDTH) / float(AC_SCREEN_HEIGHT), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+		bgfx::setViewTransform(0, view, proj);
 		// This dummy draw call is here to make sure that view 0 is cleared
-			// if no other draw calls are submitted to view 0.
+		// if no other draw calls are submitted to view 0.
 		bgfx::touch(0);
+
+		bgfx::setVertexBuffer(0, vbh);
+		bgfx::setIndexBuffer(ibh);
+		bgfx::submit(0, program);
 
 		bgfx::dbgTextClear();
 		const bgfx::Stats* stats = bgfx::getStats();
