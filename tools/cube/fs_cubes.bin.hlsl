@@ -1,5 +1,5 @@
 // shaderc command line:
-// shaderc -f cube/fs_cubes.sc --varyingdedf cube/varying.def.sc --type f -platform windows -p ps_4_0 -o cube/fs_cubes.bin -O 3 --debug
+// shaderc -f cube/fs_cubes.sc --varyingdedf cube/varying.def.sc --type f -platform windows -p ps_4_0 -o cube/fs_cubes.bin -O 0 --debug
 
 float3 instMul(float3 _vec, float3x3 _mtx) { return ( (_vec) * (_mtx) ); }
 float3 instMul(float3x3 _mtx, float3 _vec) { return ( (_mtx) * (_vec) ); }

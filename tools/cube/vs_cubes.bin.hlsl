@@ -1,5 +1,5 @@
 // shaderc command line:
-// shaderc -f cube/vs_cubes.sc --varyingdedf cube/varying.def.sc --type v -platform windows -p ps_4_0 -o cube/vs_cubes.bin -O 3 --debug
+// shaderc -f cube/vs_cubes.sc --varyingdedf cube/varying.def.sc --type v -platform windows -p ps_4_0 -o cube/vs_cubes.bin -O 0 --debug
 
 struct Output
 {
@@ -41,7 +41,6 @@ uniform float4x4 u_model[32];
 uniform float4x4 u_modelView;
 uniform float4x4 u_modelViewProj;
 uniform float4 u_alphaRef4;
-uniform float4x4 u_modelViewProj;
 Output main( float4 a_color0 : COLOR0 , float3 a_position : POSITION) { Output _varying_; _varying_.v_color0 = float4(1.0, 0.0, 0.0, 1.0);;
 {
 _varying_.gl_Position = ( (u_modelViewProj) * (float4(a_position, 1.0) ) );

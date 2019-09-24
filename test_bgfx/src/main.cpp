@@ -24,7 +24,19 @@ struct PosColorVertex
 	float y;
 	float z;
 	uint32_t abgr;
+	int16_t m_u;
+	int16_t m_v;
+	static bgfx::VertexLayout pcvLayout;
+	static void init() {
+		pcvLayout.begin()
+			.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+			.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+			.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
+			.end();
+	}
 };
+
+bgfx::VertexLayout PosColorVertex::pcvLayout;
 
 static PosColorVertex planeVerts[] = {
 	{-1.0f, -1.0f, 0.0f, 0xffffffff},
@@ -136,7 +148,7 @@ int main() {
 
 	bgfx::Init init;
 	//init.platformData = pd;
-	init.type = bgfx::RendererType::Direct3D11;
+	init.type = bgfx::RendererType::OpenGL;
 	init.resolution.height = AC_SCREEN_HEIGHT;
 	init.resolution.width = AC_SCREEN_WIDTH;
 	init.resolution.reset = BGFX_RESET_VSYNC;
@@ -158,17 +170,16 @@ int main() {
 		BGFX_TEXTURE_NONE | BGFX_SAMPLER_UVW_CLAMP | BGFX_SAMPLER_POINT,
 		ayseMem);
 
-	bgfx::VertexLayout pcvLayout;
-	pcvLayout.begin()
-		.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-		.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-		.end();
-	bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::makeRef(planeVerts, sizeof(planeVerts)), pcvLayout);
+	
+	PosColorVertex::init();
+	bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::makeRef(planeVerts, sizeof(planeVerts)), PosColorVertex::pcvLayout);
 	bgfx::IndexBufferHandle ibh = bgfx::createIndexBuffer(bgfx::makeRef(planeTriList, sizeof(planeTriList)));
 
-	bgfx::ShaderHandle vsh = loadShader("assets/shaders/windows_hlsl/vs_cubes.bin");
-	bgfx::ShaderHandle fsh = loadShader("assets/shaders/windows_hlsl/fs_cubes.bin");
+	bgfx::ShaderHandle vsh = loadShader("assets/shaders/windows_hlsl/vs_sprite.bin");
+	bgfx::ShaderHandle fsh = loadShader("assets/shaders/windows_hlsl/fs_sprite.bin");
 	bgfx::ProgramHandle program = bgfx::createProgram(vsh, fsh, true);
+
+	bgfx::UniformHandle s_sprite = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
 
 	SDL_Event e;
 	bool quit = false;
@@ -194,6 +205,7 @@ int main() {
 
 		bgfx::setVertexBuffer(0, vbh);
 		bgfx::setIndexBuffer(ibh);
+		bgfx::setTexture(0, s_sprite, ayseTexture);
 		bgfx::submit(0, program);
 
 		bgfx::dbgTextClear();
