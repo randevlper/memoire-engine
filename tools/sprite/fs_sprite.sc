@@ -10,6 +10,5 @@ SAMPLER2D(s_sprite,  0);
 
 void main()
 {
-	gl_FragColor = toLinear(texture2D(s_sprite, v_texcoord0) );
-	gl_FragColor = toGamma(gl_FragColor);
+	gl_FragColor = texture2D(s_sprite, v_texcoord0);
 }

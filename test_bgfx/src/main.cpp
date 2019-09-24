@@ -163,7 +163,7 @@ int main() {
 
 	int x, y, n;
 	unsigned char* ayse = stbi_load("assets/ayse.png", &x, &y, &n, 0);
-	const bgfx::Memory* ayseMem = bgfx::copy(ayse, (x * y * n));
+	const bgfx::Memory* ayseMem = bgfx::makeRef(ayse, (x * y * n));
 	stbi_image_free(ayse);
 	bgfx::TextureHandle ayseTexture = bgfx::createTexture2D(x, y, false, 1,
 		bgfx::TextureFormat::RGBA8,
@@ -206,6 +206,16 @@ int main() {
 		bgfx::setVertexBuffer(0, vbh);
 		bgfx::setIndexBuffer(ibh);
 		bgfx::setTexture(0, s_sprite, ayseTexture);
+
+		// Set render states.
+		bgfx::setState(0
+			| BGFX_STATE_WRITE_RGB
+			| BGFX_STATE_WRITE_A
+			| BGFX_STATE_WRITE_Z
+			| BGFX_STATE_DEPTH_TEST_LESS
+			| BGFX_STATE_MSAA
+		);
+
 		bgfx::submit(0, program);
 
 		bgfx::dbgTextClear();
