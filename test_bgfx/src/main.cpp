@@ -1,6 +1,3 @@
-#define STB_IMAGE_IMPLEMENTATION 1
-#include "stb_image.h"
-
 #define SDL_MAIN_HANDLED
 #include "SDL.h"
 #include "SDL_syswm.h"
@@ -8,7 +5,9 @@
 #include "bgfx/bgfx.h"
 #include "bgfx/platform.h"
 #include "bimg/bimg.h"
+#include <bimg/decode.h>
 #include "bx/bx.h"
+#include <bx/file.h>
 #include "bx/readerwriter.h"
 #include "bx/string.h"
 #include "bx/allocator.h"
@@ -17,6 +16,172 @@
 
 #define AC_SCREEN_WIDTH 1280
 #define AC_SCREEN_HEIGHT 720
+
+bx::AllocatorI* getDefaultAllocator() {
+	BX_PRAGMA_DIAGNOSTIC_PUSH();
+	BX_PRAGMA_DIAGNOSTIC_IGNORED_MSVC(4459); // warning C4459: declaration of 's_allocator' hides global declaration
+	BX_PRAGMA_DIAGNOSTIC_IGNORED_CLANG_GCC("-Wshadow");
+	static bx::DefaultAllocator s_allocator;
+	return &s_allocator;
+	BX_PRAGMA_DIAGNOSTIC_POP();
+}
+
+bx::AllocatorI* g_allocator = getDefaultAllocator();
+
+bx::AllocatorI* getAllocator()
+{
+	if (NULL == g_allocator)
+	{
+		g_allocator = getDefaultAllocator();
+	}
+
+	return g_allocator;
+}
+
+
+static bx::FileReaderI* s_fileReader = NULL;
+
+typedef bx::StringT<&g_allocator> String;
+static String s_currentDir;
+
+class FileReader : public bx::FileReader
+{
+	typedef bx::FileReader super;
+
+public:
+	virtual bool open(const bx::FilePath& _filePath, bx::Error* _err) override
+	{
+		s_currentDir.set("");
+		String filePath(s_currentDir);
+		filePath.append(_filePath);
+		return super::open(filePath.getPtr(), _err);
+	}
+};
+
+void* load(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const char* _filePath, uint32_t* _size)
+{
+	if (bx::open(_reader, _filePath))
+	{
+		uint32_t size = (uint32_t)bx::getSize(_reader);
+		void* data = BX_ALLOC(_allocator, size);
+		bx::read(_reader, data, size);
+		bx::close(_reader);
+		if (NULL != _size)
+		{
+			*_size = size;
+		}
+		return data;
+	}
+	else
+	{
+		//DBG("Failed to open: %s.", _filePath);
+	}
+
+	if (NULL != _size)
+	{
+		*_size = 0;
+	}
+
+	return NULL;
+}
+
+void unload(void* _ptr)
+{
+	BX_FREE(getAllocator(), _ptr);
+}
+
+static void imageReleaseCb(void* _ptr, void* _userData)
+{
+	BX_UNUSED(_ptr);
+	bimg::ImageContainer* imageContainer = (bimg::ImageContainer*)_userData;
+	bimg::imageFree(imageContainer);
+}
+
+bgfx::TextureHandle loadTexture(bx::FileReaderI* _reader, const char* _filePath, uint64_t _flags, uint8_t _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
+{
+	BX_UNUSED(_skip);
+	bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
+
+	uint32_t size;
+	void* data = load(_reader, getAllocator(), _filePath, &size);
+	if (NULL != data)
+	{
+		bimg::ImageContainer* imageContainer = bimg::imageParse(getAllocator(), data, size);
+
+		if (NULL != imageContainer)
+		{
+			if (NULL != _orientation)
+			{
+				*_orientation = imageContainer->m_orientation;
+			}
+
+			const bgfx::Memory* mem = bgfx::makeRef(
+				imageContainer->m_data
+				, imageContainer->m_size
+				, imageReleaseCb
+				, imageContainer
+			);
+			unload(data);
+
+			if (imageContainer->m_cubeMap)
+			{
+				handle = bgfx::createTextureCube(
+					uint16_t(imageContainer->m_width)
+					, 1 < imageContainer->m_numMips
+					, imageContainer->m_numLayers
+					, bgfx::TextureFormat::Enum(imageContainer->m_format)
+					, _flags
+					, mem
+				);
+			}
+			else if (1 < imageContainer->m_depth)
+			{
+				handle = bgfx::createTexture3D(
+					uint16_t(imageContainer->m_width)
+					, uint16_t(imageContainer->m_height)
+					, uint16_t(imageContainer->m_depth)
+					, 1 < imageContainer->m_numMips
+					, bgfx::TextureFormat::Enum(imageContainer->m_format)
+					, _flags
+					, mem
+				);
+			}
+			else if (bgfx::isTextureValid(0, false, imageContainer->m_numLayers, bgfx::TextureFormat::Enum(imageContainer->m_format), _flags))
+			{
+				handle = bgfx::createTexture2D(
+					uint16_t(imageContainer->m_width)
+					, uint16_t(imageContainer->m_height)
+					, 1 < imageContainer->m_numMips
+					, imageContainer->m_numLayers
+					, bgfx::TextureFormat::Enum(imageContainer->m_format)
+					, _flags
+					, mem
+				);
+			}
+
+			if (bgfx::isValid(handle))
+			{
+				bgfx::setName(handle, _filePath);
+			}
+
+			if (NULL != _info)
+			{
+				bgfx::calcTextureSize(
+					*_info
+					, uint16_t(imageContainer->m_width)
+					, uint16_t(imageContainer->m_height)
+					, uint16_t(imageContainer->m_depth)
+					, imageContainer->m_cubeMap
+					, 1 < imageContainer->m_numMips
+					, imageContainer->m_numLayers
+					, bgfx::TextureFormat::Enum(imageContainer->m_format)
+				);
+			}
+		}
+	}
+
+	return handle;
+}
 
 struct PosColorVertex
 {
@@ -39,10 +204,10 @@ struct PosColorVertex
 bgfx::VertexLayout PosColorVertex::pcvLayout;
 
 static PosColorVertex planeVerts[] = {
-	{-1.0f, -1.0f, 0.0f, 0xffffffff},
-	{1.0f, -1.0f, 0.0f, 0xffffffff},
-	{1.0f, 1.0f, 0.0f, 0xffffffff},
-	{-1.0f, 1.0f, 0.0f, 0xffffffff}
+	{-1.0f, -1.0f, 0.0f, 0xffffffff, 0, 0x7fff},
+	{1.0f, -1.0f, 0.0f, 0xffffffff, 0x7fff, 0x7fff},
+	{1.0f, 1.0f, 0.0f, 0xffffffff, 0x7fff, 0},
+	{-1.0f, 1.0f, 0.0f, 0xffffffff, 0, 0}
 };
 
 static const uint16_t planeTriList[] = {
@@ -83,6 +248,11 @@ bgfx::ShaderHandle loadShader(const char* FILENAME)
 	fclose(file);
 
 	return bgfx::createShader(mem);
+}
+
+bx::FileReaderI* getFileReader()
+{
+	return s_fileReader;
 }
 
 int main() {
@@ -160,18 +330,20 @@ int main() {
 	bgfx::setDebug(BGFX_DEBUG_TEXT);
 
 	//bgfx::TextureFormat();
+	s_fileReader = BX_NEW(g_allocator, FileReader);
 
-	int x, y, n;
-	unsigned char* ayse = stbi_load("assets/ayse.png", &x, &y, &n, 0);
-	const bgfx::Memory* ayseMem = bgfx::makeRef(ayse, (x * y * n));
-	stbi_image_free(ayse);
-	bgfx::TextureHandle ayseTexture = bgfx::createTexture2D(x, y, false, 1,
-		bgfx::TextureFormat::RGBA8,
-		BGFX_TEXTURE_NONE | BGFX_SAMPLER_UVW_CLAMP | BGFX_SAMPLER_POINT,
-		ayseMem);
-
-	
 	PosColorVertex::init();
+	//int x, y, n;
+	//unsigned char* ayse = stbi_load("assets/ayse.png", &x, &y, &n, 0);
+	//const bgfx::Memory* ayseMem = bgfx::makeRef(ayse, (x * y * n));
+	//stbi_image_free(ayse);
+	//bgfx::TextureHandle ayseTexture = bgfx::createTexture2D(x, y, false, 1,
+	//	bgfx::TextureFormat::RGBA8,
+	//	BGFX_TEXTURE_NONE | BGFX_SAMPLER_UVW_CLAMP | BGFX_SAMPLER_POINT,
+	//	ayseMem);
+	bgfx::TextureHandle ayseTexture = loadTexture(getFileReader(), "assets/ayse.png", BGFX_TEXTURE_NONE | BGFX_SAMPLER_NONE, 0, NULL, NULL);
+	
+	
 	bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::makeRef(planeVerts, sizeof(planeVerts)), PosColorVertex::pcvLayout);
 	bgfx::IndexBufferHandle ibh = bgfx::createIndexBuffer(bgfx::makeRef(planeTriList, sizeof(planeTriList)));
 
