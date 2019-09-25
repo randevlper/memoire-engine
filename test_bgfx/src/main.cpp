@@ -341,7 +341,7 @@ int main() {
 	//	bgfx::TextureFormat::RGBA8,
 	//	BGFX_TEXTURE_NONE | BGFX_SAMPLER_UVW_CLAMP | BGFX_SAMPLER_POINT,
 	//	ayseMem);
-	bgfx::TextureHandle ayseTexture = loadTexture(getFileReader(), "assets/ayse.png", BGFX_TEXTURE_NONE | BGFX_SAMPLER_NONE, 0, NULL, NULL);
+	bgfx::TextureHandle ayseTexture = loadTexture(getFileReader(), "assets/ayse.png", BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
 	
 	
 	bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::makeRef(planeVerts, sizeof(planeVerts)), PosColorVertex::pcvLayout);
@@ -384,8 +384,7 @@ int main() {
 			| BGFX_STATE_WRITE_RGB
 			| BGFX_STATE_WRITE_A
 			| BGFX_STATE_WRITE_Z
-			| BGFX_STATE_DEPTH_TEST_LESS
-			| BGFX_STATE_MSAA
+			| BGFX_STATE_BLEND_ALPHA
 		);
 
 		bgfx::submit(0, program);
