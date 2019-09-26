@@ -43,7 +43,7 @@ SpriteData* FileUtility::loadSpriteData(char path[])
 
 	SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormatFrom(spriteData->pixels, spriteData->width, spriteData->height,
 		spriteData->depth, spriteData->pitch, spriteData->pixel_format);
-	spriteData->texture = SDL_CreateTextureFromSurface(Context::getRenderer(), surface);
+	//spriteData->texture = SDL_CreateTextureFromSurface(Context::getRenderer(), surface);
 	SDL_FreeSurface(surface);
 
 	return spriteData;
@@ -84,7 +84,7 @@ AseData* FileUtility::loadAse(char path[])
 					(unsigned char*)celChunk.pixels.data(),
 					celChunk.width, celChunk.height, 32,
 					4 * celChunk.width, SDL_PIXELFORMAT_RGBA32);
-				texture = SDL_CreateTextureFromSurface(Context::getRenderer(), surface);
+				//texture = SDL_CreateTextureFromSurface(Context::getRenderer(), surface);
 
 				SDL_FreeSurface(surface);
 

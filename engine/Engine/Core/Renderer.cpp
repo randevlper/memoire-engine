@@ -2,6 +2,7 @@
 #include "glm/vec2.hpp"
 #include "glm/geometric.hpp"
 #include "SDL.h"
+#include "bgfx/bgfx.h"
 #include "Engine/Data/SpriteData.h"
 #include "Engine/Data/AseData.h"
 #include "Engine/Core/Context.h"
@@ -49,8 +50,8 @@ void Renderer::tick()
 
 void Renderer::renderLine(glm::vec2 a, glm::vec2 b, SDL_Color& color)
 {
-	SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
-	SDL_RenderDrawLine(Context::getRenderer(), a.x - _cameraPos->x, a.y - _cameraPos->y, b.x - _cameraPos->x, b.y - _cameraPos->y);
+	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
+	//SDL_RenderDrawLine(Context::getRenderer(), a.x - _cameraPos->x, a.y - _cameraPos->y, b.x - _cameraPos->x, b.y - _cameraPos->y);
 }
 
 void Renderer::renderLines(SDL_Point* points, int pointsCount, SDL_Color& color)
@@ -60,16 +61,16 @@ void Renderer::renderLines(SDL_Point* points, int pointsCount, SDL_Color& color)
 		points[i].x -= _cameraPos->x;
 		points[i].y -= _cameraPos->y;
 	}
-	SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
-	SDL_RenderDrawLines(Context::getRenderer(), points, pointsCount);
+	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
+	//SDL_RenderDrawLines(Context::getRenderer(), points, pointsCount);
 }
 
 void Renderer::renderSquare(SDL_Rect& rect, SDL_Color& color)
 {
 	rect.x -= _cameraPos->x;
 	rect.y -= _cameraPos->y;
-	SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
-	SDL_RenderFillRect(Context::getRenderer(), &rect);
+	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
+	//SDL_RenderFillRect(Context::getRenderer(), &rect);
 }
 
 void Renderer::renderAseFrame(int x, int y, AseFrame* frame)
@@ -83,8 +84,8 @@ void Renderer::renderAseFrame(int x, int y, AseFrame* frame)
 void Renderer::renderAseSprite(int x, int y, AseSprite* ase)
 {
 	SDL_Rect renderQuad = {(x + ase->xPos)  - _cameraPos->x, (y + ase->yPos) - _cameraPos->y, ase->width, ase->height };
-	SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderCopy(Context::getRenderer(), ase->texture, nullptr, &renderQuad);
+	//SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+	//SDL_RenderCopy(Context::getRenderer(), ase->texture, nullptr, &renderQuad);
 }
 
 void Renderer::renderSprite(glm::vec2& pos, SpriteData* spriteData)
@@ -95,8 +96,8 @@ void Renderer::renderSprite(glm::vec2& pos, SpriteData* spriteData)
 void Renderer::renderSprite(int x, int y, SpriteData* spriteData)
 {
 	SDL_Rect renderQuad = { x - _cameraPos->x, y - _cameraPos->y, spriteData->width, spriteData->height };
-	SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderCopy(Context::getRenderer(), spriteData->texture, nullptr, &renderQuad);
+	//SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+	//SDL_RenderCopy(Context::getRenderer(), spriteData->texture, nullptr, &renderQuad);
 }
 
 void Renderer::clearRenderer(SDL_Color& color)
@@ -106,8 +107,8 @@ void Renderer::clearRenderer(SDL_Color& color)
 
 void Renderer::clearRenderer(int r, int g, int b, int a)
 {
-	SDL_SetRenderDrawColor(Context::getRenderer(), r, g, b, a);
-	SDL_RenderClear(Context::getRenderer());
+	//SDL_SetRenderDrawColor(Context::getRenderer(), r, g, b, a);
+	//SDL_RenderClear(Context::getRenderer());
 }
 
 void Renderer::render()
@@ -122,7 +123,18 @@ void Renderer::render()
 		//+  + (_frameCount / (_fpsTimer.getTicks() / 1000.f));
 
 	Context::setWindowTitle(title);
-	SDL_RenderPresent(Context::getRenderer());
+
+	const bgfx::Stats* stats = bgfx::getStats();
+	bgfx::dbgTextPrintf(0, 2, 0x0f, "Backbuffer %dW x %dH in pixels, debug text %dW x %dH in characters."
+		, stats->width
+		, stats->height
+		, stats->textWidth
+		, stats->textHeight
+	);
+
+	bgfx::frame();
+
+	//SDL_RenderPresent(Context::getRenderer());
 	_frameCount++;
 
 	//if frame finished early

@@ -80,7 +80,7 @@ int main(){
 
 		//Generic File type to inherit from
 		//AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
-		AseData* background = FileUtility::loadAse("assets/background.aseprite");
+		//AseData* background = FileUtility::loadAse("assets/background.aseprite");
 
 
 		float groundFriction = 1.0f;
@@ -136,9 +136,9 @@ int main(){
 			//}
 			test2.setLocalAngle(test2.getLocalAngle() + Context::getDeltaTime());
 			//Mirror option?
-			Renderer::renderAseFrame(-200, -200, &background->frames[0]);
-			Renderer::renderAseFrame(0, -200, &background->frames[0]);
-			Renderer::renderAseFrame(-400, -200, &background->frames[0]);
+			//Renderer::renderAseFrame(-200, -200, &background->frames[0]);
+			//Renderer::renderAseFrame(0, -200, &background->frames[0]);
+			//Renderer::renderAseFrame(-400, -200, &background->frames[0]);
 			Debug::DrawTransform(&test);
 			Debug::DrawTransform(&test2);
 			Physics::debugDrawColliders();
@@ -148,7 +148,7 @@ int main(){
 
 		
 
-		FileUtility::unloadAse(background);
+		//FileUtility::unloadAse(background);
 		Context::quit();
 	}
 
