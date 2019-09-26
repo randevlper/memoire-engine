@@ -6,6 +6,7 @@
 #include "Engine/Core/Physics.h"
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Renderer.h"
+#include "Engine/Data/SpriteVertex.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -151,6 +152,7 @@ void Context::init(ContextWindowParems* parems)
 		Physics::init();
 		Input::init();
 		Renderer::init();
+		SpriteVertex::init();
 	}
 }
 
