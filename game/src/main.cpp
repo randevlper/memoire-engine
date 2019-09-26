@@ -27,7 +27,6 @@ Physics
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Core/Renderer.h"
 #include "glm/vec2.hpp"
-#include "SDL.h"
 #include "SDL_events.h"
 #include "SDL_pixels.h"
 #include "Engine/Core/Physics.h"
@@ -37,9 +36,7 @@ Physics
 #include "Engine/Data/Transform.h"
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Nodes/Node.h"
-#include "Engine/Nodes/Sprite.h"
 #include "Engine/Nodes/Collider.h"
-#include <iostream>
 
 
 int main(){
@@ -95,8 +92,7 @@ int main(){
 		Transform cameraPos;
 		cameraPos.setParent(&col1.transform);
 		
-		bgfx::TextureHandle ayse = FileUtility::loadTexture("assets/ayse.png");
-		//std::cout << ayse.idx << std::endl;
+		
 
 		while (!Context::getShouldClose())
 		{
