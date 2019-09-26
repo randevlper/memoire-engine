@@ -126,7 +126,7 @@ void Context::init(ContextWindowParems* parems)
 		// Enable debug text.
 		bgfx::setDebug(BGFX_DEBUG_TEXT);
 
-		bgfx::setViewRect(0, 0, 0, _windowParems.windowHeight, _windowParems.windowWidth);
+		bgfx::setViewRect(0, 0, 0, _windowParems.windowWidth, _windowParems.windowHeight);
 
 		//_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		//if (_renderer == nullptr) {
