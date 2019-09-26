@@ -355,6 +355,8 @@ int main() {
 
 	SDL_Event e;
 	bool quit = false;
+	bx::Vec3 at = { 0.0f, 0.0f,  0.0f };
+	bx::Vec3 eye = { 0.0f, 0.0f, -5.0f };
 	while (!quit) {
 
 		while (SDL_PollEvent(&e) != 0)
@@ -362,10 +364,25 @@ int main() {
 			if (e.type == SDL_QUIT) {
 				quit = true;
 			}
+			if (e.key.keysym.scancode == SDL_SCANCODE_D) {
+				at.x += 0.1f;
+				eye.x += 0.1f;
+			}
+			if (e.key.keysym.scancode == SDL_SCANCODE_A) {
+				at.x += -0.1f;
+				eye.x += -0.1f;
+			}
+			if (e.key.keysym.scancode == SDL_SCANCODE_W) {
+				at.y += 0.1f;
+				eye.y += 0.1f;
+			}
+			if (e.key.keysym.scancode == SDL_SCANCODE_S) {
+				at.y += -0.1f;
+				eye.y += -0.1f;
+			}
 		}
 		bgfx::setViewRect(0, 0, 0, AC_SCREEN_WIDTH, AC_SCREEN_HEIGHT);
-		const bx::Vec3 at = { 0.0f, 0.0f,  0.0f };
-		const bx::Vec3 eye = { 0.0f, 0.0f, -5.0f };
+		
 		float view[16];
 		bx::mtxLookAt(view, eye, at);
 		float proj[16];
