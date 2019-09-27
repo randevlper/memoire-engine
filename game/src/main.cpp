@@ -95,6 +95,8 @@ int main(){
 		
 		bgfx::ProgramHandle spriteShader = FileUtility::loadProgram("assets/shaders/vs_sprite.bin", 
 			"assets/shaders/fs_sprite.bin");
+		bgfx::TextureHandle ayseTexture = FileUtility::loadTexture("assets/ayse.png", 
+			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
 
 		bx::AllocatorI* allc = FileUtility::getAllocator();
 
@@ -151,10 +153,12 @@ int main(){
 		}
 
 		
-
+		bgfx::destroy(spriteShader);
+		bgfx::destroy(ayseTexture);
 		//FileUtility::unloadAse(background);
 		Context::quit();
 	}
+	
 
 	_CrtDumpMemoryLeaks();
 	return 0;
