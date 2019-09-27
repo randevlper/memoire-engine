@@ -38,6 +38,7 @@ Physics
 #include "Engine/Nodes/Node.h"
 #include "Engine/Nodes/Collider.h"
 
+#include "bgfx/bgfx.h";
 
 int main(){
 	{
@@ -92,7 +93,8 @@ int main(){
 		Transform cameraPos;
 		cameraPos.setParent(&col1.transform);
 		
-		
+		bgfx::ProgramHandle spriteShader = FileUtility::loadProgram("assets/shaders/vs_sprite.bin", 
+			"assets/shaders/fs_sprite.bin");
 
 		while (!Context::getShouldClose())
 		{

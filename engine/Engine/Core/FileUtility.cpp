@@ -7,6 +7,8 @@
 #include "SDL.h"
 #include <vector>
 
+#include "bgfx/bgfx.h"
+
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
 #include <crtdbg.h>
@@ -62,6 +64,26 @@ void FileUtility::unloadSpriteData(SpriteData* spriteData)
 	}
 
 	delete(spriteData);
+}
+
+bgfx::ShaderHandle FileUtility::loadShader(const char* FILENAME)
+{
+	FILE* file = fopen(FILENAME, "rb");
+	fseek(file, 0, SEEK_END);
+	long fileSize = ftell(file);
+	fseek(file, 0, SEEK_SET);
+
+	const bgfx::Memory* mem = bgfx::alloc(fileSize + 1);
+	fread(mem->data, 1, fileSize, file);
+	mem->data[mem->size - 1] = '\0';
+	fclose(file);
+
+	return bgfx::createShader(mem);
+}
+
+bgfx::ProgramHandle FileUtility::loadProgram(const char* FILEA, const char* FILEB)
+{
+	return bgfx::createProgram(loadShader(FILEA), loadShader(FILEB), true);
 }
 
 AseData* FileUtility::loadAse(char path[])
