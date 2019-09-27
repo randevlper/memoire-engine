@@ -8,6 +8,15 @@
 #include <vector>
 
 #include "bgfx/bgfx.h"
+#include "bgfx/platform.h"
+#include "bimg/bimg.h"
+#include <bimg/decode.h>
+#include "bx/bx.h"
+#include <bx/file.h>
+#include "bx/readerwriter.h"
+#include "bx/string.h"
+#include "bx/allocator.h"
+#include <iostream>
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -20,6 +29,8 @@
 #define DBG_NEW new
 #endif
 
+bx::AllocatorI* FileUtility::g_allocator = getDefaultAllocator();
+bx::FileReaderI* FileUtility::s_fileReader = NULL;
 
 SpriteData* FileUtility::loadSpriteData(char path[])
 {
@@ -81,9 +92,9 @@ bgfx::ShaderHandle FileUtility::loadShader(const char* FILENAME)
 	return bgfx::createShader(mem);
 }
 
-bgfx::ProgramHandle FileUtility::loadProgram(const char* FILEA, const char* FILEB)
+bgfx::ProgramHandle FileUtility::loadProgram(const char* vert, const char* frag)
 {
-	return bgfx::createProgram(loadShader(FILEA), loadShader(FILEB), true);
+	return bgfx::createProgram(loadShader(vert), loadShader(frag), true);
 }
 
 AseData* FileUtility::loadAse(char path[])
@@ -141,4 +152,20 @@ void FileUtility::unloadAse(AseData* data)
 	delete(data);
 }
 
+bx::AllocatorI* FileUtility::getDefaultAllocator()
+{
+	BX_PRAGMA_DIAGNOSTIC_PUSH();
+	BX_PRAGMA_DIAGNOSTIC_IGNORED_MSVC(4459); // warning C4459: declaration of 's_allocator' hides global declaration
+	BX_PRAGMA_DIAGNOSTIC_IGNORED_CLANG_GCC("-Wshadow");
+	static bx::DefaultAllocator s_allocator;
+	return &s_allocator;
+	BX_PRAGMA_DIAGNOSTIC_POP();
+}
 
+bx::AllocatorI* FileUtility::getAllocator()
+{
+	if (NULL == g_allocator){
+		g_allocator = getDefaultAllocator();
+	}
+	return g_allocator;
+}

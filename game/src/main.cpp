@@ -96,6 +96,8 @@ int main(){
 		bgfx::ProgramHandle spriteShader = FileUtility::loadProgram("assets/shaders/vs_sprite.bin", 
 			"assets/shaders/fs_sprite.bin");
 
+		bx::AllocatorI* allc = FileUtility::getAllocator();
+
 		while (!Context::getShouldClose())
 		{
 			Context::tick();
