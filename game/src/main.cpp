@@ -37,6 +37,7 @@ Physics
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Nodes/Node.h"
 #include "Engine/Nodes/Collider.h"
+#include "Engine/Nodes/Sprite.h"
 
 #include "bgfx/bgfx.h";
 
@@ -92,13 +93,13 @@ int main(){
 
 		Transform cameraPos;
 		cameraPos.setParent(&col1.transform);
-		
-		bgfx::ProgramHandle spriteShader = FileUtility::loadProgram("assets/shaders/vs_sprite.bin", 
-			"assets/shaders/fs_sprite.bin");
+
 		bgfx::TextureHandle ayseTexture = FileUtility::loadTexture("assets/ayse.png", 
 			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
 
-		bx::AllocatorI* allc = FileUtility::getAllocator();
+		Sprite ayse;
+		ayse.texture = ayseTexture;
+
 
 		while (!Context::getShouldClose())
 		{
@@ -148,13 +149,13 @@ int main(){
 			Debug::DrawTransform(&test);
 			Debug::DrawTransform(&test2);
 			Physics::debugDrawColliders();
+			ayse.render();
 			Renderer::render();
 			
 		}
 
-		
-		bgfx::destroy(spriteShader);
 		bgfx::destroy(ayseTexture);
+		ayse.destroy();
 		//FileUtility::unloadAse(background);
 		Context::quit();
 	}

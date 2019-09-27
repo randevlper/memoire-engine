@@ -3,6 +3,8 @@
 #include "glm/geometric.hpp"
 #include "SDL.h"
 #include "bgfx/bgfx.h"
+#include "bx/bx.h"
+#include "bx/math.h"
 #include "Engine/Data/SpriteData.h"
 #include "Engine/Data/AseData.h"
 #include "Engine/Core/Context.h"
@@ -113,6 +115,14 @@ void Renderer::clearRenderer(int r, int g, int b, int a)
 
 void Renderer::render()
 {
+	bx::Vec3 at = { 0.0f, 0.0f,  0.0f };
+	bx::Vec3 eye = { 0.0f, 0.0f, -5.0f };
+	float view[16];
+	bx::mtxLookAt(view, eye, at);
+	float proj[16];
+	bx::mtxProj(proj, 60.0f, float(Context::getWindowWidth()) / float(Context::getWindowHeight()), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+	bgfx::setViewTransform(0, view, proj);
+
 	//SDL_Log("FPS: %f", _frameCount / ( _fpsTimer.getTicks() / 1000.f));
 
 	char title[80] = {};
