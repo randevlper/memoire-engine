@@ -1,6 +1,8 @@
 #include "Sprite.h"
 #include "bgfx/bgfx.h"
 #include "Engine/Core/FileUtility.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 bgfx::VertexLayout SpriteVertex::pcvLayout;
 SpriteVertex SpriteVertex::planeVerts[] = {
@@ -36,6 +38,7 @@ Sprite::Sprite()
 	vbh = bgfx::createVertexBuffer(bgfx::makeRef(SpriteVertex::planeVerts, sizeof(SpriteVertex::planeVerts)), SpriteVertex::pcvLayout);
 	ibh = bgfx::createIndexBuffer(bgfx::makeRef(SpriteVertex::planeTriList, sizeof(SpriteVertex::planeTriList)));
 	s_sprite = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
+	s_world = bgfx::createUniform("s_world", bgfx::UniformType::Mat3);
 }
 
 Sprite::~Sprite()
@@ -48,6 +51,7 @@ void Sprite::destroy()
 	bgfx::destroy(vbh);
 	bgfx::destroy(ibh);
 	bgfx::destroy(s_sprite);
+	bgfx::destroy(s_world);
 }
 
 void Sprite::render()
@@ -55,5 +59,7 @@ void Sprite::render()
 	bgfx::setVertexBuffer(0, vbh);
 	bgfx::setIndexBuffer(ibh);
 	bgfx::setTexture(0, s_sprite, texture);
+
+	bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
 	bgfx::submit(0, s_program);
 }

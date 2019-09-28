@@ -17,7 +17,7 @@ struct SpriteVertex
 	static void init();
 };
 
-class Sprite : Node
+class Sprite : public Node
 {
 public:
 	Sprite();
@@ -33,6 +33,7 @@ private:
 	bgfx::VertexBufferHandle vbh;
 	bgfx::IndexBufferHandle ibh;
 	bgfx::UniformHandle s_sprite;
+	bgfx::UniformHandle s_world;
 	static bgfx::ProgramHandle s_program;
 	static bool init;
 };

@@ -156,8 +156,8 @@ void Renderer::render()
 
 void Renderer::setCameraPos(int x, int y)
 {
-	_cameraPos->x = x - (Context::getWindowWidth()/2);
-	_cameraPos->y = y - (Context::getWindowHeight()/2);
+	_cameraPos->x = x; //- (Context::getWindowWidth()/2);
+	_cameraPos->y = y; //- (Context::getWindowHeight()/2);
 }
 
 glm::vec2 Renderer::getCameraPos()

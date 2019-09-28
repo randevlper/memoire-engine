@@ -27,8 +27,7 @@ Physics
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Core/Renderer.h"
 #include "glm/vec2.hpp"
-#include "SDL_events.h"
-#include "SDL_pixels.h"
+#include "SDL.h"
 #include "Engine/Core/Physics.h"
 #include "Engine/Data/AseData.h"
 //#include "Engine/Tools/aseprite.h"
@@ -77,8 +76,8 @@ int main(){
 		col2.isStatic = true;
 		Physics::addCollider(&col2);
 
-		col1.transform.setLocalPosition({ 0, 10 });
-		col2.transform.setLocalPosition({ 0, 15 });
+		col1.transform.setLocalPosition({ 0, 0 });
+		col2.transform.setLocalPosition({ 0, 0 });
 
 		//Generic File type to inherit from
 		//AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
@@ -99,33 +98,40 @@ int main(){
 
 		Sprite ayse;
 		ayse.texture = ayseTexture;
+		ayse.transform.setLocalPosition({ 0,0 });
+		ayse.transform.setLocalScale({ 2,2 });
 
-
+		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
 		{
+			ticks++;
 			Context::tick();
 
 			glm::vec2 movement = glm::vec2();
 			if (Input::getKey(SDL_SCANCODE_D)) {
-				movement.x = Context::getDeltaTime() * 100;
+				movement.x = Context::getDeltaTime();
 			}
 			if (Input::getKey(SDL_SCANCODE_A)) {
-				movement.x = -Context::getDeltaTime() * 100;
+				movement.x = -Context::getDeltaTime();
 			}
 			if (Input::getKey(SDL_SCANCODE_W)) {
 				//Debug::Log("Up!");
-				movement.y = -Context::getDeltaTime() * 100;
+				movement.y = -Context::getDeltaTime();
 			}
 			if (Input::getKey(SDL_SCANCODE_S)) {
 				//Debug::Log("Up!");
-				movement.y = Context::getDeltaTime() * 100;
+				movement.y = Context::getDeltaTime();
 			}
 			col1.transform.translate(movement);
-			Renderer::setCameraPos(cameraPos.getPosition().x, cameraPos.getPosition().y);
+			//Renderer::setCameraPos(cameraPos.getPosition().x, cameraPos.getPosition().y);
 			Physics::tick();
 
 			Renderer::clearRenderer(white);
 
+			double value = sin(ticks* 0.01);
+			ayse.transform.translate(movement);
+			//ayse.transform.setLocalScale({ value * 2, value * 2 });
+			//ayse.transform.setLocalAngle(ticks * 0.01);
 
 			//if (Collider::doesCollide(&col1.getWorldGeo(), &col2.getWorldGeo()).penetration > 0) {
 			//	Debug::Log("Collide!!");
