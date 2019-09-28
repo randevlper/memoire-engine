@@ -116,11 +116,11 @@ int main(){
 			}
 			if (Input::getKey(SDL_SCANCODE_W)) {
 				//Debug::Log("Up!");
-				movement.y = -Context::getDeltaTime();
+				movement.y = Context::getDeltaTime();
 			}
 			if (Input::getKey(SDL_SCANCODE_S)) {
 				//Debug::Log("Up!");
-				movement.y = Context::getDeltaTime();
+				movement.y = -Context::getDeltaTime();
 			}
 			col1.transform.translate(movement);
 			//Renderer::setCameraPos(cameraPos.getPosition().x, cameraPos.getPosition().y);
