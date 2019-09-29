@@ -35,7 +35,7 @@ bgfx::IndexBufferHandle Renderer::lineIndicies;
 bgfx::ProgramHandle Renderer::lineProgram;
 bgfx::VertexLayout LineVertex::layout;
 bgfx::VertexLayoutHandle LineVertex::handle;
-LineVertex Renderer::verts[4];
+std::vector<glm::vec2> Renderer::_linePoints;
 
 const unsigned short Renderer::planeIndexList[] = {
 	0,1,2,
@@ -77,6 +77,7 @@ void Renderer::quit()
 void Renderer::tick()
 {
 	_capTimer.start();
+	_linePoints.clear();
 }
 void Renderer::renderLine(glm::vec2 a, glm::vec2 b, SDL_Color& color) {
 
@@ -91,23 +92,17 @@ void Renderer::renderLine(glm::vec2 a, glm::vec2 b, float width)
 	glm::vec2 right = glm::rotate(dir, glm::radians(-90.0f));
 	glm::vec2 left = glm::rotate(dir, glm::radians(90.0f));
 	//Get Verts
-	glm::vec2 ar = a + right;
-	glm::vec2 br = b + right;
-	glm::vec2 bl = b + left;
-	glm::vec2 al = a + left;
+	_linePoints.push_back(a + right);
+	_linePoints.push_back(b + right);
+	_linePoints.push_back(b + left);
+	_linePoints.push_back(a + left);
 
-	verts[0] = {ar.x,ar.y, 0.f, 0xff0000ff };
-	verts[1] = { br.x, br.y, 0.f, 0xff0000ff };
-	verts[2] = { bl.x, bl.y, 0.f, 0xff0000ff };
-	verts[3] = { al.x, al.y, 0.f, 0xff0000ff };
+	//verts[0] = {ar.x,ar.y, 0.f, 0xff0000ff };
+	//verts[1] = { br.x, br.y, 0.f, 0xff0000ff };
+	//verts[2] = { bl.x, bl.y, 0.f, 0xff0000ff };
+	//verts[3] = { al.x, al.y, 0.f, 0xff0000ff };
 
 	//SDL_Log("Help, %f", verts[0].x);
-
-	//bgfx::update(lineIndicies, 0, bgfx::makeRef(&LineVertex::layout, sizeof(LineVertex::layout)));
-	bgfx::update(lineVerts, 0, bgfx::makeRef(verts, sizeof(verts)));
-	bgfx::setVertexBuffer(0, lineVerts);
-	bgfx::setIndexBuffer(lineIndicies);
-	bgfx::submit(0, lineProgram);
 }
 
 void Renderer::renderLines(SDL_Point* points, int pointsCount, SDL_Color& color)
@@ -169,6 +164,20 @@ void Renderer::clearRenderer(int r, int g, int b, int a)
 
 void Renderer::render()
 {
+	//bgfx::update(lineIndicies, 0, bgfx::makeRef(&LineVertex::layout, sizeof(LineVertex::layout)));
+	std::vector<LineVertex> verts;
+
+	for (size_t i = 0; i < _linePoints.size(); i++)
+	{
+		verts.push_back({ _linePoints[i].x, _linePoints[i].y, 0, 0xff0000ff });
+	}
+
+	bgfx::update(lineVerts, 0, bgfx::makeRef( verts.data(), verts.size() * sizeof(LineVertex)));
+	bgfx::setVertexBuffer(0, lineVerts);
+	bgfx::setIndexBuffer(lineIndicies);
+	bgfx::submit(0, lineProgram);
+
+
 	bx::Vec3 at = { 0.0f, 0.0f,  0.0f };
 	bx::Vec3 eye = { 0.0f, 0.0f, -5.0f };
 	float view[16];

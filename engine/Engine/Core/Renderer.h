@@ -69,5 +69,5 @@ private:
 	static bgfx::ProgramHandle lineProgram;
 	static const unsigned short planeIndexList[];
 	static std::vector<glm::vec2> _linePoints;
-	static LineVertex verts[];
+	//static LineVertex verts[];
 };

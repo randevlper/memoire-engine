@@ -145,7 +145,7 @@ int main(){
 			//	}
 			//}
 			Renderer::renderLine({ -2,0 }, { 2,0 });
-			Renderer::renderLine({ 0,2 }, { 0,-2});
+			//Renderer::renderLine({ 0,2 }, { 0,-2});
 			test2.setLocalAngle(test2.getLocalAngle() + Context::getDeltaTime());
 			//Mirror option?
 			//Renderer::renderAseFrame(-200, -200, &background->frames[0]);
