@@ -164,16 +164,17 @@ void Renderer::clearRenderer(int r, int g, int b, int a)
 
 void Renderer::render()
 {
-	//bgfx::update(lineIndicies, 0, bgfx::makeRef(&LineVertex::layout, sizeof(LineVertex::layout)));
-	std::vector<LineVertex> verts;
-
+	bgfx::TransientVertexBuffer tvb;
+	bgfx::allocTransientVertexBuffer(&tvb, _linePoints.size(), LineVertex::layout);
+	LineVertex* lineData = (LineVertex*)tvb.data;
 	for (size_t i = 0; i < _linePoints.size(); i++)
 	{
-		verts.push_back({ _linePoints[i].x, _linePoints[i].y, 0, 0xff0000ff });
+		lineData[i] = LineVertex{ _linePoints[i].x, _linePoints[i].y, 0, 0xff0000ff };
 	}
 
-	bgfx::update(lineVerts, 0, bgfx::makeRef( verts.data(), verts.size() * sizeof(LineVertex)));
-	bgfx::setVertexBuffer(0, lineVerts);
+	//bgfx::update(lineVerts, 0, bgfx::makeRef( verts.data(), verts.size() * sizeof(LineVertex)));
+	//bgfx::update(lineIndicies, 0, bgfx::makeRef(indexes.data(), indexes.size() * sizeof(int)));
+	bgfx::setVertexBuffer(0, &tvb, 0, _linePoints.size());
 	bgfx::setIndexBuffer(lineIndicies);
 	bgfx::submit(0, lineProgram);
 
