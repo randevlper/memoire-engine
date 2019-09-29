@@ -5,6 +5,7 @@
 #include "Engine/Core/Renderer.h"
 #include "Engine/Nodes/Node.h"
 #include "Engine/Nodes/Collider.h"
+#include "glm/vec4.hpp"
 
 #include "SDL.h"
 #include <iostream>
@@ -21,8 +22,8 @@ void Debug::DrawTransform(Transform* t)
 	glm::vec2 right = pos + glm::vec2{m[0].x, m[0].y};
 	glm::vec2 up = pos + glm::vec2{ m[1].x, m[1].y };
 
-	Renderer::renderLine(pos, right, SDL_Color{ 255, 0, 0, 255 });
-	Renderer::renderLine(pos, up, SDL_Color{ 0, 255, 0, 255 });
+	Renderer::renderLine(pos, right, glm::vec4{ 255, 0, 0, 255 });
+	Renderer::renderLine(pos, up, glm::vec4{ 0, 255, 0, 255 });
 }
 
 void Debug::DrawCollider(Collider* col) {

@@ -1,4 +1,5 @@
 #include "Engine/Core/Renderer.h"
+
 #include "glm/vec2.hpp"
 #include "glm/geometric.hpp"
 #include "glm/gtx/rotate_vector.hpp"
@@ -35,7 +36,7 @@ bgfx::IndexBufferHandle Renderer::lineIndicies;
 bgfx::ProgramHandle Renderer::lineProgram;
 bgfx::VertexLayout LineVertex::layout;
 bgfx::VertexLayoutHandle LineVertex::handle;
-std::vector<glm::vec2> Renderer::_linePoints;
+std::vector<bgfx::TransientVertexBuffer> Renderer::_tvbs;
 
 const unsigned short Renderer::planeIndexList[] = {
 	0,1,2,
@@ -77,25 +78,22 @@ void Renderer::quit()
 void Renderer::tick()
 {
 	_capTimer.start();
-	_linePoints.clear();
-}
-void Renderer::renderLine(glm::vec2 a, glm::vec2 b, SDL_Color& color) {
-
+	_tvbs.clear();
 }
 
-void Renderer::renderLine(glm::vec2 a, glm::vec2 b, float width)
+void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float width)
 {
 	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
-	//SDL_RenderDrawLine(Context::getRenderer(), a.x - _cameraPos->x, a.y - _cameraPos->y, b.x - _cameraPos->x, b.y - _cameraPos->y);
+//SDL_RenderDrawLine(Context::getRenderer(), a.x - _cameraPos->x, a.y - _cameraPos->y, b.x - _cameraPos->x, b.y - _cameraPos->y);
 
 	glm::vec2 dir = glm::normalize(b - a) * width;
 	glm::vec2 right = glm::rotate(dir, glm::radians(-90.0f));
 	glm::vec2 left = glm::rotate(dir, glm::radians(90.0f));
 	//Get Verts
-	_linePoints.push_back(a + right);
-	_linePoints.push_back(b + right);
-	_linePoints.push_back(b + left);
-	_linePoints.push_back(a + left);
+	glm::vec2 ar = (a + right);
+	glm::vec2 br = (b + right);
+	glm::vec2 bl = (b + left);
+	glm::vec2 al = (a + left);
 
 	//verts[0] = {ar.x,ar.y, 0.f, 0xff0000ff };
 	//verts[1] = { br.x, br.y, 0.f, 0xff0000ff };
@@ -103,6 +101,15 @@ void Renderer::renderLine(glm::vec2 a, glm::vec2 b, float width)
 	//verts[3] = { al.x, al.y, 0.f, 0xff0000ff };
 
 	//SDL_Log("Help, %f", verts[0].x);
+
+	bgfx::TransientVertexBuffer tvb;
+	bgfx::allocTransientVertexBuffer(&tvb, 4, LineVertex::layout);
+	LineVertex* lineData = (LineVertex*)tvb.data;
+	lineData[0] = LineVertex{ ar.x, ar.y, 0, colorToHex(color) };
+	lineData[1] = LineVertex{ br.x, br.y, 0, colorToHex(color) };
+	lineData[2] = LineVertex{ bl.x, bl.y, 0, colorToHex(color) };
+	lineData[3] = LineVertex{ al.x, al.y, 0, colorToHex(color) };
+	_tvbs.push_back(tvb);
 }
 
 void Renderer::renderLines(SDL_Point* points, int pointsCount, SDL_Color& color)
@@ -164,19 +171,15 @@ void Renderer::clearRenderer(int r, int g, int b, int a)
 
 void Renderer::render()
 {
-	bgfx::TransientVertexBuffer tvb;
-	bgfx::allocTransientVertexBuffer(&tvb, _linePoints.size(), LineVertex::layout);
-	LineVertex* lineData = (LineVertex*)tvb.data;
-	for (size_t i = 0; i < _linePoints.size(); i++)
-	{
-		lineData[i] = LineVertex{ _linePoints[i].x, _linePoints[i].y, 0, 0xff0000ff };
-	}
-
 	//bgfx::update(lineVerts, 0, bgfx::makeRef( verts.data(), verts.size() * sizeof(LineVertex)));
 	//bgfx::update(lineIndicies, 0, bgfx::makeRef(indexes.data(), indexes.size() * sizeof(int)));
-	bgfx::setVertexBuffer(0, &tvb, 0, _linePoints.size());
-	bgfx::setIndexBuffer(lineIndicies);
-	bgfx::submit(0, lineProgram);
+
+	for (size_t i = 0; i < _tvbs.size(); i++)
+	{
+		bgfx::setVertexBuffer(0, &_tvbs[i], 0, 4);
+		bgfx::setIndexBuffer(lineIndicies);
+		bgfx::submit(0, lineProgram);
+	}
 
 
 	bx::Vec3 at = { 0.0f, 0.0f,  0.0f };
@@ -227,4 +230,9 @@ void Renderer::setCameraPos(int x, int y)
 glm::vec2 Renderer::getCameraPos()
 {
 	return *_cameraPos;
+}
+
+unsigned int Renderer::colorToHex(glm::vec4& color)
+{
+	return (int)color.a << 24 | (int)color.b << 16 | (int)color.g << 8 | (int)color.r << 0;
 }
