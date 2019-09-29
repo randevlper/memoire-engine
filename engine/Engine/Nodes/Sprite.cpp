@@ -59,7 +59,9 @@ void Sprite::render()
 	bgfx::setVertexBuffer(0, vbh);
 	bgfx::setIndexBuffer(ibh);
 	bgfx::setTexture(0, s_sprite, texture);
-
 	bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
+
 	bgfx::submit(0, s_program);
+
+
 }

@@ -12,6 +12,8 @@ struct AseSprite;
 struct AseFrame;
 class Timer;
 
+#define PPU 32.0f
+
 namespace bgfx {
 	struct DynamicVertexBufferHandle;
 	struct TransientVertexBuffer;
@@ -40,7 +42,7 @@ public:
 	static void tick();
 	//Draw Line 
 	static void renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color = glm::vec4{255, 0, 0, 255}, float width = 0.01f);
-	static void renderLines(SDL_Point* points, int pointsCount, SDL_Color& color);
+	static void renderLines(glm::vec2* points, int pointsCount, glm::vec4& color);
 
 	//Draw Square
 	static void renderSquare(SDL_Rect& rect, SDL_Color& color);

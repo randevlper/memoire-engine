@@ -119,14 +119,15 @@ int main(){
 				//Debug::Log("Up!");
 				movement.y = -Context::getDeltaTime();
 			}
-			col1.transform.translate(movement);
+			float speed = 50.0f;
+			col1.transform.translate((movement * speed));
 			//Renderer::setCameraPos(cameraPos.getPosition().x, cameraPos.getPosition().y);
 			Physics::tick();
 
 			Renderer::clearRenderer(white);
 
-			double value = sin(ticks* 0.01);
-			ayse.transform.translate(movement);
+			//double value = sin(ticks* 0.01);
+			//ayse.transform.translate(movement);
 			//ayse.transform.setLocalScale({ value * 2, value * 2 });
 			//ayse.transform.setLocalAngle(ticks * 0.01);
 

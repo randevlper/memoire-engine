@@ -90,10 +90,10 @@ void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float widt
 	glm::vec2 right = glm::rotate(dir, glm::radians(-90.0f));
 	glm::vec2 left = glm::rotate(dir, glm::radians(90.0f));
 	//Get Verts
-	glm::vec2 ar = (a + right);
-	glm::vec2 br = (b + right);
-	glm::vec2 bl = (b + left);
-	glm::vec2 al = (a + left);
+	glm::vec2 ar = (a/PPU + right);
+	glm::vec2 br = (b/PPU + right);
+	glm::vec2 bl = (b/PPU + left);
+	glm::vec2 al = (a/PPU + left);
 
 	//verts[0] = {ar.x,ar.y, 0.f, 0xff0000ff };
 	//verts[1] = { br.x, br.y, 0.f, 0xff0000ff };
@@ -112,13 +112,13 @@ void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float widt
 	_tvbs.push_back(tvb);
 }
 
-void Renderer::renderLines(SDL_Point* points, int pointsCount, SDL_Color& color)
+void Renderer::renderLines(glm::vec2* points, int pointsCount, glm::vec4& color)
 {
 	for (size_t i = 0; i < pointsCount; i++)
 	{
-		points[i].x -= _cameraPos->x;
-		points[i].y -= _cameraPos->y;
+		renderLine(points[i], points[(i + 1) % pointsCount], color);
 	}
+	
 	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
 	//SDL_RenderDrawLines(Context::getRenderer(), points, pointsCount);
 }
@@ -180,7 +180,6 @@ void Renderer::render()
 		bgfx::setIndexBuffer(lineIndicies);
 		bgfx::submit(0, lineProgram);
 	}
-
 
 	bx::Vec3 at = { 0.0f, 0.0f,  0.0f };
 	bx::Vec3 eye = { 0.0f, 0.0f, -5.0f };

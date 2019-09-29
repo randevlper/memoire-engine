@@ -6,6 +6,7 @@
 #include "Engine/Nodes/Node.h"
 #include "Engine/Nodes/Collider.h"
 #include "glm/vec4.hpp"
+#include "glm/vec2.hpp"
 
 #include "SDL.h"
 #include <iostream>
@@ -28,19 +29,19 @@ void Debug::DrawTransform(Transform* t)
 
 void Debug::DrawCollider(Collider* col) {
 	SATGeometry g = col->getWorldGeo();
-	SDL_Point points[COLLIDER_MAX_POINTS];
+	glm::vec2 points[COLLIDER_MAX_POINTS];
 	for (size_t i = 0; i < g.points.size(); i++)
 	{
-		points[i] = SDL_Point{ (int)g.points[i].x, (int)g.points[i].y};
+		points[i] = g.points[i];
 	}
-	points[g.points.size()] = SDL_Point{ (int)g.points[0].x, (int)g.points[0].y };
+	points[g.points.size()] = g.points[0];
 
-	SDL_Color color = { 0,255,0,255 };
+	glm::vec4 color = { 0,255,0,255 };
 	if (col->isStatic) {
-		color = SDL_Color{ 255,0,0,255 };
+		color = glm::vec4{ 255,0,0,255 };
 	}
 	if (col->isTrigger) {
-		color = SDL_Color{ 0,0, 255,255 };
+		color = glm::vec4{ 0,0, 255,255 };
 	}
 
 	Renderer::renderLines(points, col->geo.points.size() + 1, color);
