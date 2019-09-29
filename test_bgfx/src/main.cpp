@@ -382,7 +382,6 @@ int main() {
 			}
 		}
 		bgfx::setViewRect(0, 0, 0, AC_SCREEN_WIDTH, AC_SCREEN_HEIGHT);
-		
 		float view[16];
 		bx::mtxLookAt(view, eye, at);
 		float proj[16];

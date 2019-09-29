@@ -1,9 +1,12 @@
 #include "Engine/Core/Context.h"
 #include "SDL.h"
+#include "SDL_syswm.h"
+#include "bgfx/bgfx.h"
 #include <iostream>
 #include "Engine/Core/Physics.h"
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Renderer.h"
+#include "Engine/Nodes/Sprite.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -23,7 +26,8 @@ bool Context::_shouldClose = nullptr;
 int Context::_errorCode = 404;
 ContextWindowParems Context::_windowParems = {};
 SDL_Window* Context::_window = nullptr;
-SDL_Renderer* Context::_renderer = nullptr;
+//SDL_Renderer* Context::_renderer = nullptr;
+SDL_SysWMinfo* Context::_wmInfo = nullptr;
 
 uint32_t Context::_timeNow = 0;
 uint32_t Context::_timeLast = 0;
@@ -65,15 +69,75 @@ void Context::init(ContextWindowParems* parems)
 			return;
 		}
 
-		_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		if (_renderer == nullptr) {
-			std::cout << "SDL_CreateRenderer Error" << SDL_GetError() << std::endl;
-			_errorCode = EXIT_FAILURE;
-			return;
+		_wmInfo = new SDL_SysWMinfo();
+		SDL_VERSION(&_wmInfo->version);
+		//SDL_GetWindowWMInfo(_window, _wmInfo);
+		
+
+		if (SDL_GetWindowWMInfo(_window, _wmInfo)) { /* the call returns true on success */
+/* success */
+			const char* subsystem = "an unknown system!";
+			switch (_wmInfo->subsystem) {
+			case SDL_SYSWM_UNKNOWN:   break;
+			case SDL_SYSWM_WINDOWS:   subsystem = "Microsoft Windows(TM)";  break;
+			case SDL_SYSWM_X11:       subsystem = "X Window System";        break;
+#if SDL_VERSION_ATLEAST(2, 0, 3)
+			case SDL_SYSWM_WINRT:     subsystem = "WinRT";                  break;
+#endif
+			case SDL_SYSWM_DIRECTFB:  subsystem = "DirectFB";               break;
+			case SDL_SYSWM_COCOA:     subsystem = "Apple OS X";             break;
+			case SDL_SYSWM_UIKIT:     subsystem = "UIKit";                  break;
+#if SDL_VERSION_ATLEAST(2, 0, 2)
+			case SDL_SYSWM_WAYLAND:   subsystem = "Wayland";                break;
+			case SDL_SYSWM_MIR:       subsystem = "Mir";                    break;
+#endif
+#if SDL_VERSION_ATLEAST(2, 0, 4)
+			case SDL_SYSWM_ANDROID:   subsystem = "Android";                break;
+#endif
+#if SDL_VERSION_ATLEAST(2, 0, 5)
+			case SDL_SYSWM_VIVANTE:   subsystem = "Vivante";                break;
+#endif
+			}
+
+			SDL_Log("This program is running SDL version %d.%d.%d on %s",
+				(int)_wmInfo->version.major,
+				(int)_wmInfo->version.minor,
+				(int)_wmInfo->version.patch,
+				subsystem);
+		}
+		else {
+			/* call failed */
+			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Couldn't get window information: %s", SDL_GetError());
 		}
 
-		SDL_RenderSetScale(_renderer, _windowParems.windowWidth / _windowParems.renderWidth, _windowParems.windowHeight / _windowParems.renderHeight);
-		SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
+		bgfx::PlatformData pd;
+		pd.ndt = NULL;
+		pd.nwh = _wmInfo->info.win.window;
+
+		bgfx::Init init;
+		init.platformData = pd;
+		init.type = bgfx::RendererType::OpenGL;
+		init.resolution.height = _windowParems.windowHeight;
+		init.resolution.width = _windowParems.windowWidth;
+		init.resolution.reset = BGFX_RESET_VSYNC;
+		bgfx::init(init);
+
+		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
+
+		// Enable debug text.
+		bgfx::setDebug(BGFX_DEBUG_TEXT);
+
+		bgfx::setViewRect(0, 0, 0, _windowParems.windowWidth, _windowParems.windowHeight);
+
+		//_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		//if (_renderer == nullptr) {
+		//	std::cout << "SDL_CreateRenderer Error" << SDL_GetError() << std::endl;
+		//	_errorCode = EXIT_FAILURE;
+		//	return;
+		//}
+
+		//SDL_RenderSetScale(_renderer, _windowParems.windowWidth / _windowParems.renderWidth, _windowParems.windowHeight / _windowParems.renderHeight);
+		//SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
 		
 		//Need OpenGL context to use
 		//SDL_Log("Vsync setting: %d", SDL_GL_GetSwapInterval());
@@ -85,6 +149,7 @@ void Context::init(ContextWindowParems* parems)
 		_shouldClose = false;
 		_errorCode = 0;
 
+		
 		Physics::init();
 		Input::init();
 		Renderer::init();
@@ -97,7 +162,8 @@ void Context::quit()
 	Input::quit();
 	Renderer::quit();
 	delete(_instance);
-	SDL_DestroyRenderer(_renderer);
+	//SDL_DestroyRenderer(_renderer);
+	bgfx::shutdown();
 	SDL_DestroyWindow(_window);
 	SDL_Quit();
 }
@@ -112,10 +178,10 @@ void Context::setShouldClose(bool value)
 	_shouldClose = value;
 }
 
-SDL_Renderer* Context::getRenderer()
-{
-	return _renderer;
-}
+//SDL_Renderer* Context::getRenderer()
+//{
+//	return _renderer;
+//}
 
 //Anything other then 0 means something went wrong
 //Proper usage to be used right after a context function
@@ -156,6 +222,9 @@ void Context::tick()
 	_timeNow = SDL_GetTicks();
 	Input::poll();
 	Renderer::tick();
+
+	bgfx::dbgTextClear();
+	bgfx::touch(0);
 }
 
 double Context::getDeltaTime()

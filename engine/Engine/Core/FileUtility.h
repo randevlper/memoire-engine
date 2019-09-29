@@ -1,17 +1,47 @@
 #pragma once
-#define STB_IMAGE_IMPLEMENTATION 1
 struct SpriteData;
 struct AseData;
+
+#include "bimg/bimg.h"
+
+namespace bgfx {
+	struct ShaderHandle;
+	struct ProgramHandle;
+	struct TextureInfo;
+	struct TextureHandle;
+}
+
+namespace bx {
+	struct AllocatorI;
+	struct FileReaderI;
+}
 
 class FileUtility
 {
 public:
 	static SpriteData* loadSpriteData(char path[]);
 	static void unloadSpriteData(SpriteData* spriteData);
+	static bgfx::ShaderHandle loadShader(const char* FILENAME);
+	static bgfx::ProgramHandle loadProgram(const char* vert, const char* frag);
 
 	static AseData* loadAse(char path[]);
 	static void unloadAse(AseData* data);
 	//LoadSprite
 
+	static void* load(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const char* _filePath, unsigned int* _size);
+	static void unload(void* _ptr);
+	static bgfx::TextureHandle loadTexture(bx::FileReaderI* _reader, const char* _filePath, unsigned long long _flags, 
+		unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation);
+	static bgfx::TextureHandle loadTexture(const char* _name, unsigned long long _flags, 
+		unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation);
+	
+	static bx::AllocatorI* getAllocator();
+	static bx::FileReaderI* getFileReader();
 private:
+
+	static bx::AllocatorI* getDefaultAllocator();
+	static bx::AllocatorI* g_allocator;
+	static bx::FileReaderI* s_fileReader;
+	static void imageReleaseCb(void* _ptr, void* _userData);
+	
 };
