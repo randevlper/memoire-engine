@@ -55,7 +55,6 @@ int main(){
 		test.setLocalScale(glm::vec2(10, 10));
 		Transform test2;
 		test2.setLocalPosition(glm::vec2(50, 50));
-		test2.setLocalScale(glm::vec2(2, 2));
 		test.setParent(&test2);
 
 		Collider col1;
@@ -98,8 +97,6 @@ int main(){
 
 		Sprite ayse;
 		ayse.texture = ayseTexture;
-		ayse.transform.setLocalPosition({ 0,0 });
-		ayse.transform.setLocalScale({ 2,2 });
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
@@ -147,6 +144,8 @@ int main(){
 			//		frame = 0;
 			//	}
 			//}
+			Renderer::renderLine({ -2,0 }, { 2,0 });
+			Renderer::renderLine({ 0,2 }, { 0,-2});
 			test2.setLocalAngle(test2.getLocalAngle() + Context::getDeltaTime());
 			//Mirror option?
 			//Renderer::renderAseFrame(-200, -200, &background->frames[0]);

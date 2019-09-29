@@ -1,6 +1,7 @@
 #include "Engine/Core/Renderer.h"
 #include "glm/vec2.hpp"
 #include "glm/geometric.hpp"
+#include "glm/gtx/rotate_vector.hpp"
 #include "SDL.h"
 #include "bgfx/bgfx.h"
 #include "bx/bx.h"
@@ -9,6 +10,7 @@
 #include "Engine/Data/AseData.h"
 #include "Engine/Core/Context.h"
 #include "Engine/Utilities/Timer.h"
+#include "FileUtility.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -28,17 +30,44 @@ Timer Renderer::_fpsTimer = Timer();
 Timer Renderer::_capTimer = Timer();
 Uint64 Renderer::_frameCount = 0;
 
+bgfx::DynamicVertexBufferHandle Renderer::lineVerts;
+bgfx::IndexBufferHandle Renderer::lineIndicies;
+bgfx::ProgramHandle Renderer::lineProgram;
+bgfx::VertexLayout LineVertex::layout;
+bgfx::VertexLayoutHandle LineVertex::handle;
+LineVertex Renderer::verts[4];
+
+const unsigned short Renderer::planeIndexList[] = {
+	0,1,2,
+	0,2,3
+};
+
+void LineVertex::init()
+{
+	layout.begin()
+		.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+		.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+		.end();
+	handle = bgfx::createVertexLayout(layout);
+}
+
 void Renderer::init()
 {
 	if (_instance == nullptr) {
 		_instance = DBG_NEW Renderer();
 		_fpsTimer.start();
+		LineVertex::init();
+		lineVerts = bgfx::createDynamicVertexBuffer(4, LineVertex::layout, BGFX_BUFFER_ALLOW_RESIZE);
+		lineIndicies = bgfx::createIndexBuffer(bgfx::makeRef(&planeIndexList, sizeof(planeIndexList)));
+		lineProgram = FileUtility::loadProgram("assets/shaders/vs_line.bin", "assets/shaders/fs_line.bin");
 	}
 }
 
 void Renderer::quit()
 {
 	if (_instance != nullptr) {
+		bgfx::destroy(lineVerts);
+		bgfx::destroy(lineIndicies);
 		_fpsTimer.stop();
 		delete(_instance);
 		delete(_cameraPos);
@@ -49,11 +78,36 @@ void Renderer::tick()
 {
 	_capTimer.start();
 }
+void Renderer::renderLine(glm::vec2 a, glm::vec2 b, SDL_Color& color) {
 
-void Renderer::renderLine(glm::vec2 a, glm::vec2 b, SDL_Color& color)
+}
+
+void Renderer::renderLine(glm::vec2 a, glm::vec2 b, float width)
 {
 	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
 	//SDL_RenderDrawLine(Context::getRenderer(), a.x - _cameraPos->x, a.y - _cameraPos->y, b.x - _cameraPos->x, b.y - _cameraPos->y);
+
+	glm::vec2 dir = glm::normalize(b - a) * width;
+	glm::vec2 right = glm::rotate(dir, glm::radians(-90.0f));
+	glm::vec2 left = glm::rotate(dir, glm::radians(90.0f));
+	//Get Verts
+	glm::vec2 ar = a + right;
+	glm::vec2 br = b + right;
+	glm::vec2 bl = b + left;
+	glm::vec2 al = a + left;
+
+	verts[0] = {ar.x,ar.y, 0.f, 0xff0000ff };
+	verts[1] = { br.x, br.y, 0.f, 0xff0000ff };
+	verts[2] = { bl.x, bl.y, 0.f, 0xff0000ff };
+	verts[3] = { al.x, al.y, 0.f, 0xff0000ff };
+
+	//SDL_Log("Help, %f", verts[0].x);
+
+	//bgfx::update(lineIndicies, 0, bgfx::makeRef(&LineVertex::layout, sizeof(LineVertex::layout)));
+	bgfx::update(lineVerts, 0, bgfx::makeRef(verts, sizeof(verts)));
+	bgfx::setVertexBuffer(0, lineVerts);
+	bgfx::setIndexBuffer(lineIndicies);
+	bgfx::submit(0, lineProgram);
 }
 
 void Renderer::renderLines(SDL_Point* points, int pointsCount, SDL_Color& color)
