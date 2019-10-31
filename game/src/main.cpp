@@ -36,7 +36,7 @@ Physics
 #include "Engine/Data/Transform.h"
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Nodes/Node.h"
-#include "Engine/Nodes/Collider.h"
+//#include "Engine/Nodes/Collider.h"
 #include "Engine/Nodes/Sprite.h"
 
 #include "bgfx/bgfx.h";
@@ -58,26 +58,26 @@ int main(){
 		test2.setLocalPosition(glm::vec2(50, 50));
 		test.setParent(&test2);
 
-		Collider col1;
-		col1.isDebug = true;
-		Collider box;
-		box.transform.translate({ 0,-40 });
-		Physics::addCollider(&box);
-		Collider trigger;
-		trigger.transform.translate({ -40, 0 });
-		trigger.isTrigger = true;
-		Physics::addCollider(&trigger);
+		//Collider col1;
+		//col1.isDebug = true;
+		//Collider box;
+		//box.transform.translate({ 0,-40 });
+		//Physics::addCollider(&box);
+		//Collider trigger;
+		//trigger.transform.translate({ -40, 0 });
+		//trigger.isTrigger = true;
+		//Physics::addCollider(&trigger);
 
 
-		Physics::addCollider(&col1);
-		Physics::removeCollider(&col1);
-		Physics::addCollider(&col1);
-		Collider col2;
-		col2.isStatic = true;
-		Physics::addCollider(&col2);
+		//Physics::addCollider(&col1);
+		//Physics::removeCollider(&col1);
+		//Physics::addCollider(&col1);
+		//Collider col2;
+		//col2.isStatic = true;
+		//Physics::addCollider(&col2);
 
-		col1.transform.setLocalPosition({ 0, 0 });
-		col2.transform.setLocalPosition({ 0, 0 });
+		//col1.transform.setLocalPosition({ 0, 0 });
+		//col2.transform.setLocalPosition({ 0, 0 });
 
 		//Generic File type to inherit from
 		//AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
@@ -91,7 +91,8 @@ int main(){
 		//int frame = 0;
 
 		Transform cameraPos;
-		cameraPos.setParent(&col1.transform);
+		cameraPos.setLocalPosition({ 0,0 });
+		//cameraPos.setParent(&col1.transform);
 
 		bgfx::TextureHandle ayseTexture = FileUtility::loadTexture("assets/ayse.png", 
 			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
@@ -121,7 +122,7 @@ int main(){
 				movement.y = -Context::getDeltaTime();
 			}
 			float speed = 50.0f;
-			col1.transform.translate((movement * speed));
+			//col1.transform.translate((movement * speed));
 			//Renderer::setCameraPos(cameraPos.getPosition().x, cameraPos.getPosition().y);
 			Physics::tick();
 
