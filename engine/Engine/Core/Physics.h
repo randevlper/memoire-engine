@@ -1,11 +1,12 @@
 #pragma once
 #include "glm/fwd.hpp"
 #include <vector>
+#include "Box2D/Box2D.h"
 
 class Physics
 {
 public:
-	static void init();
+	static void init(int argc, char** argv);
 	static void quit();
 	static void tick();
 
@@ -15,6 +16,7 @@ public:
 private:
 	static Physics* _instance;
 	static glm::vec2 _gravity;
+	static b2World* _world;
 
 	Physics();
 	~Physics();

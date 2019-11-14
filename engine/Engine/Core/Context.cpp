@@ -150,7 +150,7 @@ void Context::init(ContextWindowParems* parems)
 		_errorCode = 0;
 
 		
-		Physics::init();
+		Physics::init(parems->argc, parems->argv);
 		Input::init();
 		Renderer::init();
 	}

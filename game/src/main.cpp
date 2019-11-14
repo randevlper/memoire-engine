@@ -52,12 +52,12 @@ int main(int argc, char** argv){
 		}
 		SDL_Color white = { 255,255,255,255 };
 
-		Transform test;
-		test.setLocalPosition(glm::vec2(50, 50));
-		test.setLocalScale(glm::vec2(10, 10));
-		Transform test2;
-		test2.setLocalPosition(glm::vec2(50, 50));
-		test.setParent(&test2);
+		Node test;
+		test.transform.setLocalPosition(glm::vec2(50, 50));
+		test.transform.setLocalScale(glm::vec2(10, 10));
+		Node test2;
+		test2.transform.setLocalPosition(glm::vec2(50, 50));
+		test.transform.setParent(&test2);
 
 		Body col({});
 
@@ -154,13 +154,13 @@ int main(int argc, char** argv){
 			Renderer::renderLine({ 0,2 }, { 0,-2}, glm::vec4(0, 255, 0, 255));
 			Renderer::renderLine({ 2,2 }, { -2,-2 }, glm::vec4(0, 0, 255, 255));
 			Renderer::renderLine({ -2,2 }, { 2,-2 });
-			test2.setLocalAngle(test2.getLocalAngle() + Context::getDeltaTime());
+			test2.transform.setLocalAngle(test2.transform.getLocalAngle() + Context::getDeltaTime());
 			//Mirror option?
 			//Renderer::renderAseFrame(-200, -200, &background->frames[0]);
 			//Renderer::renderAseFrame(0, -200, &background->frames[0]);
 			//Renderer::renderAseFrame(-400, -200, &background->frames[0]);
-			Debug::DrawTransform(&test);
-			Debug::DrawTransform(&test2);
+			Debug::DrawTransform(&test.transform);
+			Debug::DrawTransform(&test2.transform);
 			ayse.render();
 			Renderer::render();
 			

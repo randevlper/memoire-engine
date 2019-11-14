@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "Engine/Nodes/Node.h"
 #include "glm/gtx/matrix_transform_2d.hpp"
 
 Transform::Transform()
@@ -51,12 +52,12 @@ void Transform::setLocalAngle(float value)
 	_angle = value;
 }
 
-Transform* Transform::getParent()
+Node* Transform::getParent()
 {
 	return _parent;
 }
 
-void Transform::setParent(Transform* value)
+void Transform::setParent(Node* value)
 {
 	_parent = value;
 }
@@ -78,7 +79,7 @@ glm::mat3x3 Transform::getLocalMatrix()
 glm::mat3x3 Transform::getGlobalMatrix()
 {
 	if (_parent != nullptr) {
-		return _parent->getGlobalMatrix() * getLocalMatrix();
+		return _parent->transform.getGlobalMatrix() * getLocalMatrix();
 	} else {
 		return getLocalMatrix();
 	}

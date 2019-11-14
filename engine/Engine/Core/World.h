@@ -13,6 +13,9 @@ public:
 	//Node Creation
 	
 	//void tick();
+	//void AddNode(Node* node);
+	//void RemoveNode(Node* node);
+	//void tick(float delta);
 
 private:
 	//Contain Nodes
