@@ -12,6 +12,8 @@ struct ContextWindowParems
 	//The internal render size
 	unsigned int renderWidth, renderHeight;
 	unsigned int fps;
+	int argc;
+	char** argv;
 };
 
 struct SDL_Window;

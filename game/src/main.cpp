@@ -37,13 +37,14 @@ Physics
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Nodes/Node.h"
 //#include "Engine/Nodes/Collider.h"
+#include "Engine/Nodes/Body.h"
 #include "Engine/Nodes/Sprite.h"
 
 #include "bgfx/bgfx.h";
 
-int main(){
+int main(int argc, char** argv){
 	{
-		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 640, 360, 60 };
+		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 640, 360, 60 , argc, argv};
 		Context::init(&cWinParems);
 		Physics::setGravity(glm::vec2(0, 400));
 		if (Context::getErrorCode() != 0) {
@@ -57,6 +58,8 @@ int main(){
 		Transform test2;
 		test2.setLocalPosition(glm::vec2(50, 50));
 		test.setParent(&test2);
+
+		Body col({});
 
 		//Collider col1;
 		//col1.isDebug = true;
@@ -158,7 +161,6 @@ int main(){
 			//Renderer::renderAseFrame(-400, -200, &background->frames[0]);
 			Debug::DrawTransform(&test);
 			Debug::DrawTransform(&test2);
-			Physics::debugDrawColliders();
 			ayse.render();
 			Renderer::render();
 			

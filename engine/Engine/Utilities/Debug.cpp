@@ -4,7 +4,6 @@
 #include "Engine/Data/Transform.h"
 #include "Engine/Core/Renderer.h"
 #include "Engine/Nodes/Node.h"
-#include "Engine/Nodes/Collider.h"
 #include "glm/vec4.hpp"
 #include "glm/vec2.hpp"
 
@@ -25,24 +24,4 @@ void Debug::DrawTransform(Transform* t)
 
 	Renderer::renderLine(pos, right, glm::vec4{ 255, 0, 0, 255 });
 	Renderer::renderLine(pos, up, glm::vec4{ 0, 255, 0, 255 });
-}
-
-void Debug::DrawCollider(Collider* col) {
-	SATGeometry g = col->getWorldGeo();
-	glm::vec2 points[COLLIDER_MAX_POINTS];
-	for (size_t i = 0; i < g.points.size(); i++)
-	{
-		points[i] = g.points[i];
-	}
-	points[g.points.size()] = g.points[0];
-
-	glm::vec4 color = { 0,255,0,255 };
-	if (col->isStatic) {
-		color = glm::vec4{ 255,0,0,255 };
-	}
-	if (col->isTrigger) {
-		color = glm::vec4{ 0,0, 255,255 };
-	}
-
-	Renderer::renderLines(points, col->geo.points.size() + 1, color);
 }
