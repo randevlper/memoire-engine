@@ -60,3 +60,8 @@ glm::vec2 Physics::getGravity()
 {
 	return _gravity;
 }
+
+b2World* Physics::getWorld()
+{
+	return _world;
+}

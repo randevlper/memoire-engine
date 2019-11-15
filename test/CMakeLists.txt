@@ -10,4 +10,4 @@ add_executable(test ${SOURCES})
 
 set_property(TARGET test PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test")
 
-target_link_libraries(test SDL2-static stb EnTT bgfx glm)
+target_link_libraries(test SDL2-static stb EnTT bgfx glm Box2D-cmake)

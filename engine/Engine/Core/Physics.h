@@ -13,6 +13,8 @@ public:
 	static void setGravity(glm::vec2& value);
 	static glm::vec2 getGravity();
 
+	static b2World* getWorld();
+
 private:
 	static Physics* _instance;
 	static glm::vec2 _gravity;

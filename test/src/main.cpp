@@ -7,9 +7,8 @@
 #include <iostream>
 #include "Texture.h"
 #include "entt/entt.hpp"
-#include "bgfx/bgfx.h"
 #include "cstdint"
-
+#include "Box2D/Box2D.h"
 
 struct position {
 	float x;
@@ -60,18 +59,18 @@ int init() {
 	}
 }
 
-void update(entt::registry &registry) {
+void update(entt::registry& registry) {
 	auto view = registry.view<position, velocity>();
 	for (auto entity : view) {
 		//gets only the components that are going to be used ...
-		auto &vel = view.get<velocity>(entity);
+		auto& vel = view.get<velocity>(entity);
 		vel.dx = 0.1f;
 		vel.dy = 0.1f;
 	}
 }
 
 void update(std::uint32_t dt, entt::registry& registry) {
-	registry.view<position, velocity>().each([dt](auto entity, auto & pos, auto & vel) {
+	registry.view<position, velocity>().each([dt](auto entity, auto& pos, auto& vel) {
 		// gets all the components of the view at once ...
 		pos.x += vel.dx * dt;
 		pos.y += vel.dy * dt;
@@ -94,8 +93,65 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
-	SDL_RenderSetScale(ren, AC_SCREEN_WIDTH/SCREEN_WIDTH, AC_SCREEN_HEIGHT /SCREEN_HEIGHT);
+	SDL_RenderSetScale(ren, AC_SCREEN_WIDTH / SCREEN_WIDTH, AC_SCREEN_HEIGHT / SCREEN_HEIGHT);
 	SDL_Log("%d %d", AC_SCREEN_WIDTH / SCREEN_WIDTH, AC_SCREEN_HEIGHT / SCREEN_HEIGHT);
+
+	B2_NOT_USED(argc);
+	B2_NOT_USED(argv);
+
+	// Define the gravity vector.
+	b2Vec2 gravity(0.0f, -10.0f);
+
+	// Construct a world object, which will hold and simulate the rigid bodies.
+	b2World world(gravity);
+
+	// Define the ground body.
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f, -10.0f);
+
+	// Call the body factory which allocates memory for the ground body
+	// from a pool and creates the ground box shape (also from a pool).
+	// The body is also added to the world.
+	b2Body* groundBody = world.CreateBody(&groundBodyDef);
+
+	// Define the ground box shape.
+	b2PolygonShape groundBox;
+
+	// The extents are the half-widths of the box.
+	groundBox.SetAsBox(50.0f, 10.0f);
+
+	// Add the ground fixture to the ground body.
+	groundBody->CreateFixture(&groundBox, 0.0f);
+
+	// Define the dynamic body. We set its position and call the body factory.
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(0.0f, 50.0f);
+	b2Body* body = world.CreateBody(&bodyDef);
+
+	// Define another box shape for our dynamic body.
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox(1.0f, 1.0f);
+
+	// Define the dynamic body fixture.
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicBox;
+
+	// Set the box density to be non-zero, so it will be dynamic.
+	fixtureDef.density = 1.0f;
+
+	// Override the default friction.
+	fixtureDef.friction = 0.3f;
+
+	// Add the shape to the body.
+	body->CreateFixture(&fixtureDef);
+
+	// Prepare for simulation. Typically we use a time step of 1/60 of a
+	// second (60Hz) and 10 iterations. This provides a high quality simulation
+	// in most game scenarios.
+	float32 timeStep = 1.0f / 60.0f;
+	int32 velocityIterations = 6;
+	int32 positionIterations = 2;
 
 	Texture ayse;
 	ayse.loadFromFile("assets/ayse.png", ren);
@@ -107,7 +163,7 @@ int main(int argc, char** argv)
 	boxRect.x = 0;
 	Texture text;
 
-	camera = { 0,0,};
+	camera = { 0,0, };
 
 	entt::registry registry;
 	std::uint32_t dt = 16;
@@ -144,6 +200,16 @@ int main(int argc, char** argv)
 		//update entities
 		update(registry);
 
+		// Instruct the world to perform a single step of simulation.
+		// It is generally best to keep the time step and iterations fixed.
+		world.Step(timeStep, velocityIterations, positionIterations);
+
+		// Now print the position and angle of the body.
+		b2Vec2 position = body->GetPosition();
+		float32 angle = body->GetAngle();
+
+		printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
+
 		SDL_SetRenderDrawColor(ren, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(ren);
 		//Update entities
@@ -151,9 +217,45 @@ int main(int argc, char** argv)
 		SDL_Point points[8];
 		int count = 0;
 
+		b2Fixture* fixture = body->GetFixtureList();
+		b2Shape::Type shapeType = fixture->GetType();
+		if (shapeType == b2Shape::e_polygon) {
+			b2PolygonShape* polygonShape = (b2PolygonShape*)fixture->GetShape();
+			for (size_t i = 0; i < polygonShape->m_count; i++)
+			{
+				SDL_Point point;
+				point.x = body->GetWorldPoint(polygonShape->m_vertices[i]).x - camera.x;
+				point.y = body->GetWorldPoint(polygonShape->m_vertices[i]).y - camera.y;
+				points[i] = point;
+			}
+			SDL_Point point;
+			point.x = body->GetWorldPoint(polygonShape->m_vertices[0]).x - camera.x;
+			point.y = body->GetWorldPoint(polygonShape->m_vertices[0]).y - camera.y;
+			points[polygonShape->m_count] = point;
+			count = polygonShape->m_count + 1;
+		}
+
 		//Draw Box2D objects
 		SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
 		SDL_RenderDrawLines(ren, points, count);
+
+		fixture = groundBody->GetFixtureList();
+		shapeType = fixture->GetType();
+		if (shapeType == b2Shape::e_polygon) {
+			b2PolygonShape* polygonShape = (b2PolygonShape*)fixture->GetShape();
+			for (size_t i = 0; i < polygonShape->m_count; i++)
+			{
+				SDL_Point point;
+				point.x = groundBody->GetWorldPoint(polygonShape->m_vertices[i]).x - camera.x;
+				point.y = groundBody->GetWorldPoint(polygonShape->m_vertices[i]).y - camera.y;
+				points[i] = point;
+			}
+			SDL_Point point;
+			point.x = groundBody->GetWorldPoint(polygonShape->m_vertices[0]).x - camera.x;
+			point.y = groundBody->GetWorldPoint(polygonShape->m_vertices[0]).y - camera.y;
+			points[polygonShape->m_count] = point;
+			count = polygonShape->m_count + 1;
+		}
 
 		//Draw Box2D objects
 		SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
@@ -173,7 +275,7 @@ int main(int argc, char** argv)
 		SDL_RenderFillRect(ren, &boxRect);
 
 		//Draw a line
-		SDL_SetRenderDrawColor(ren,0, 0, 255, 255);
+		SDL_SetRenderDrawColor(ren, 0, 0, 255, 255);
 		SDL_RenderDrawLine(ren, 0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2);
 
 		//Draw a dot
@@ -187,7 +289,7 @@ int main(int argc, char** argv)
 
 		SDL_RenderPresent(ren);
 	}
-		
+
 
 	//stbi_image_free(ayse);
 	//SDL_DestroyTexture(tex);
