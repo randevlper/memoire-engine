@@ -16,8 +16,6 @@
 
 
 Physics* Physics::_instance = nullptr;
-glm::vec2 Physics::_gravity = { 0.0f, -9.81f };
-b2World* Physics::_world = nullptr;
 
 void Physics::init(int argc, char** argv)
 {
@@ -26,8 +24,6 @@ void Physics::init(int argc, char** argv)
 
 		B2_NOT_USED(argc);
 		B2_NOT_USED(argv);
-
-		_world = new b2World({ 10.0f, 0.0f });
 	}
 }
 
@@ -49,19 +45,4 @@ void Physics::quit()
 void Physics::tick()
 {
 
-}
-
-void Physics::setGravity(glm::vec2& value)
-{
-	_gravity = value;
-}
-
-glm::vec2 Physics::getGravity()
-{
-	return _gravity;
-}
-
-b2World* Physics::getWorld()
-{
-	return _world;
 }

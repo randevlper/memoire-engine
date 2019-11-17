@@ -46,7 +46,6 @@ int main(int argc, char** argv){
 	{
 		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 640, 360, 60 , argc, argv};
 		Context::init(&cWinParems);
-		Physics::setGravity(glm::vec2(0, 400));
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
