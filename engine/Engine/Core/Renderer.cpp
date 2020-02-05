@@ -7,7 +7,6 @@
 #include "bgfx/bgfx.h"
 #include "bx/bx.h"
 #include "bx/math.h"
-#include "Engine/Data/SpriteData.h"
 #include "Engine/Data/AseData.h"
 #include "Engine/Core/Context.h"
 #include "Engine/Utilities/Timer.h"
@@ -144,18 +143,6 @@ void Renderer::renderAseSprite(int x, int y, AseSprite* ase)
 	SDL_Rect renderQuad = {(x + ase->xPos)  - _cameraPos->x, (y + ase->yPos) - _cameraPos->y, ase->width, ase->height };
 	//SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 	//SDL_RenderCopy(Context::getRenderer(), ase->texture, nullptr, &renderQuad);
-}
-
-void Renderer::renderSprite(glm::vec2& pos, SpriteData* spriteData)
-{
-	renderSprite(pos.x, pos.y, spriteData);
-}
-
-void Renderer::renderSprite(int x, int y, SpriteData* spriteData)
-{
-	SDL_Rect renderQuad = { x - _cameraPos->x, y - _cameraPos->y, spriteData->width, spriteData->height };
-	//SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
-	//SDL_RenderCopy(Context::getRenderer(), spriteData->texture, nullptr, &renderQuad);
 }
 
 void Renderer::clearRenderer(SDL_Color& color)

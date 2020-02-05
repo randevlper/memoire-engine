@@ -1,5 +1,4 @@
 #pragma once
-struct SpriteData;
 struct AseData;
 
 #include "bimg/bimg.h"
@@ -19,8 +18,6 @@ namespace bx {
 class FileUtility
 {
 public:
-	static SpriteData* loadSpriteData(char path[]);
-	static void unloadSpriteData(SpriteData* spriteData);
 	static bgfx::ShaderHandle loadShader(const char* FILENAME);
 	static bgfx::ProgramHandle loadProgram(const char* vert, const char* frag);
 

@@ -4,7 +4,6 @@
 #include "glm/vec4.hpp"
 #include <vector>
 
-struct SpriteData;
 struct SDL_Color;
 struct SDL_Rect;
 struct SDL_Point;
@@ -53,8 +52,6 @@ public:
 	static void renderAseFrame(int x, int y, AseFrame* frame);
 	static void renderAseSprite(int x, int y, AseSprite* ase);
 
-	static void renderSprite(glm::vec2& pos, SpriteData* spriteData);
-	static void renderSprite(int x, int y, SpriteData* spriteData);
 	static void clearRenderer(SDL_Color& color);
 	static void clearRenderer(int r, int g, int b, int a);
 	static void render();
