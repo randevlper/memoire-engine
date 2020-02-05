@@ -5,11 +5,12 @@ class Sprite
 {
 public:
 	Sprite();
+	Sprite(bgfx::TextureHandle handle, int width, int height);
 	~Sprite();
 	/*
 	Texture
 	*/
-	bgfx::TextureHandle texture;
+	bgfx::TextureHandle handle;
 	int width, height;
 
 private:

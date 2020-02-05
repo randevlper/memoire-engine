@@ -15,6 +15,8 @@ namespace bx {
 	struct FileReaderI;
 }
 
+class Sprite;
+
 class FileUtility
 {
 public:
@@ -27,9 +29,9 @@ public:
 
 	static void* load(bx::FileReaderI* _reader, bx::AllocatorI* _allocator, const char* _filePath, unsigned int* _size);
 	static void unload(void* _ptr);
-	static bgfx::TextureHandle loadTexture(bx::FileReaderI* _reader, const char* _filePath, unsigned long long _flags, 
+	static Sprite* loadTexture(bx::FileReaderI* _reader, const char* _filePath, unsigned long long _flags, 
 		unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation);
-	static bgfx::TextureHandle loadTexture(const char* _name, unsigned long long _flags, 
+	static Sprite* loadTexture(const char* _name, unsigned long long _flags, 
 		unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation);
 	
 	static bx::AllocatorI* getAllocator();

@@ -98,17 +98,14 @@ int main(int argc, char** argv){
 		//cameraPos.setParent(&col1.transform);
 
 		//SpriteLoader
-		bgfx::TextureHandle ayseTexture = FileUtility::loadTexture("assets/ayse.png", 
+		Sprite* ayse = FileUtility::loadTexture("assets/ayse.png",
 			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
 
-		Sprite ayse;
-		ayse.texture = ayseTexture;
-
 		SpriteRenderer* spriteRenderer = new SpriteRenderer();
-		spriteRenderer->setSprite(&ayse);
+		spriteRenderer->setSprite(ayse);
 
 		SpriteRenderer* spriteRenderer2 = new SpriteRenderer();
-		spriteRenderer2->setSprite(&ayse);
+		spriteRenderer2->setSprite(ayse);
 
 		spriteRenderer2->transform.setLocalPosition({ 0.25,0.25 });
 
@@ -170,14 +167,14 @@ int main(int argc, char** argv){
 			//Renderer::renderAseFrame(-400, -200, &background->frames[0]);
 			Debug::DrawTransform(&test.transform);
 			Debug::DrawTransform(&test2.transform);
+			bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
 			spriteRenderer->render();
 			spriteRenderer2->render();
 			Renderer::render();
 			
 		}
-
-		bgfx::destroy(ayseTexture);
 		delete(spriteRenderer);
+		delete(ayse);
 		//FileUtility::unloadAse(background);
 		Context::quit();
 	}

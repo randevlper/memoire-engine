@@ -18,6 +18,7 @@
 #include <iostream>
 
 #include "Engine/Utilities/FileReader.h"
+#include "Engine/AssetManagement/Sprite.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -157,10 +158,12 @@ void FileUtility::unload(void* _ptr)
 	BX_FREE(getAllocator(), _ptr);
 }
 
-bgfx::TextureHandle FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath, unsigned long long _flags, unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
+Sprite* FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath, unsigned long long _flags, unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
 {
 	BX_UNUSED(_skip);
-	bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
+	Sprite* sprite = new Sprite();
+	sprite->handle = BGFX_INVALID_HANDLE;
+
 
 	uint32_t size;
 	void* data = load(_reader, getAllocator(), _filePath, &size);
@@ -185,7 +188,7 @@ bgfx::TextureHandle FileUtility::loadTexture(bx::FileReaderI* _reader, const cha
 
 			if (imageContainer->m_cubeMap)
 			{
-				handle = bgfx::createTextureCube(
+				sprite->handle = bgfx::createTextureCube(
 					uint16_t(imageContainer->m_width)
 					, 1 < imageContainer->m_numMips
 					, imageContainer->m_numLayers
@@ -196,7 +199,7 @@ bgfx::TextureHandle FileUtility::loadTexture(bx::FileReaderI* _reader, const cha
 			}
 			else if (1 < imageContainer->m_depth)
 			{
-				handle = bgfx::createTexture3D(
+				sprite->handle = bgfx::createTexture3D(
 					uint16_t(imageContainer->m_width)
 					, uint16_t(imageContainer->m_height)
 					, uint16_t(imageContainer->m_depth)
@@ -208,7 +211,7 @@ bgfx::TextureHandle FileUtility::loadTexture(bx::FileReaderI* _reader, const cha
 			}
 			else if (bgfx::isTextureValid(0, false, imageContainer->m_numLayers, bgfx::TextureFormat::Enum(imageContainer->m_format), _flags))
 			{
-				handle = bgfx::createTexture2D(
+				sprite->handle = bgfx::createTexture2D(
 					uint16_t(imageContainer->m_width)
 					, uint16_t(imageContainer->m_height)
 					, 1 < imageContainer->m_numMips
@@ -219,10 +222,14 @@ bgfx::TextureHandle FileUtility::loadTexture(bx::FileReaderI* _reader, const cha
 				);
 			}
 
-			if (bgfx::isValid(handle))
+			if (bgfx::isValid(sprite->handle))
 			{
-				bgfx::setName(handle, _filePath);
+				bgfx::setName(sprite->handle, _filePath);
 			}
+
+			sprite->height = imageContainer->m_height;
+			sprite->width = imageContainer->m_width;
+
 
 			if (NULL != _info)
 			{
@@ -240,10 +247,10 @@ bgfx::TextureHandle FileUtility::loadTexture(bx::FileReaderI* _reader, const cha
 		}
 	}
 
-	return handle;
+	return sprite;
 }
 
-bgfx::TextureHandle FileUtility::loadTexture(const char* _name, unsigned long long _flags, unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
+Sprite* FileUtility::loadTexture(const char* _name, unsigned long long _flags, unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
 {
 	return loadTexture(getFileReader(), _name, _flags, _skip, _info, _orientation);
 }

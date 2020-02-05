@@ -2,9 +2,19 @@
 
 Sprite::Sprite()
 {
-	texture.idx = -1;
+	handle.idx = -1;
+	width = -1;
+	height = -1;
+}
+
+Sprite::Sprite(bgfx::TextureHandle handle, int width, int height)
+{
+	handle = handle;
+	this->width = width;
+	this->height = height;
 }
 
 Sprite::~Sprite()
 {
+	bgfx::destroy(handle);
 }
