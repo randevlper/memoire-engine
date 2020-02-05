@@ -29,6 +29,7 @@ public:
 
 private:
 	Sprite* _sprite;
+	SpriteVertex newVerts[4];
 	bgfx::VertexBufferHandle vbh;
 	bgfx::IndexBufferHandle ibh;
 	bgfx::UniformHandle s_sprite;

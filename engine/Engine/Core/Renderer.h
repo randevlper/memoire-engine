@@ -11,7 +11,7 @@ struct AseSprite;
 struct AseFrame;
 class Timer;
 
-#define PPU 32.0f
+#define PPU 64.0f
 
 namespace bgfx {
 	struct DynamicVertexBufferHandle;
