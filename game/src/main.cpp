@@ -39,6 +39,7 @@ Physics
 //#include "Engine/Nodes/Collider.h"
 #include "Engine/Nodes/Body.h"
 #include "Engine/Nodes/Sprite.h"
+#include "Engine/AssetManagement/SpriteRenderer.h"
 
 #include "bgfx/bgfx.h";
 
@@ -96,11 +97,15 @@ int main(int argc, char** argv){
 		cameraPos.setLocalPosition({ 0,0 });
 		//cameraPos.setParent(&col1.transform);
 
+		//SpriteLoader
 		bgfx::TextureHandle ayseTexture = FileUtility::loadTexture("assets/ayse.png", 
 			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
 
 		Sprite ayse;
 		ayse.texture = ayseTexture;
+
+		SpriteRenderer* spriteRenderer = new SpriteRenderer();
+		spriteRenderer->setSprite(&ayse);
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
@@ -160,13 +165,13 @@ int main(int argc, char** argv){
 			//Renderer::renderAseFrame(-400, -200, &background->frames[0]);
 			Debug::DrawTransform(&test.transform);
 			Debug::DrawTransform(&test2.transform);
-			ayse.render();
+			spriteRenderer->render();
 			Renderer::render();
 			
 		}
 
 		bgfx::destroy(ayseTexture);
-		ayse.destroy();
+		delete(spriteRenderer);
 		//FileUtility::unloadAse(background);
 		Context::quit();
 	}
