@@ -3,16 +3,12 @@ Memoir Engine
 2D Game engine
 
 Editor
-	Imgui vs WPF
+	Imgui
 
 Engine
 
 Data Oriented
 	Generate Data -> Modify -> Renderer
-
-Physics
-	SAT Theorm
-	Collider, Trigger, Raycast/Linetrace, OverlapShapes
 */
 
 #define _CRTDBG_MAP_ALLOC
@@ -169,7 +165,7 @@ int main(int argc, char** argv){
 			Debug::DrawTransform(&test2.transform);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
 			spriteRenderer->render();
-			spriteRenderer2->render();
+			//spriteRenderer2->render();
 			Renderer::render();
 			
 		}

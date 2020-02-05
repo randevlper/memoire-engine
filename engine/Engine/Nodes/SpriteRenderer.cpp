@@ -1,6 +1,7 @@
 #include "SpriteRenderer.h"
 #include "Engine/AssetManagement/Sprite.h"
 #include "Engine/Core/FileUtility.h"
+#include "Engine/Core/Renderer.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
@@ -52,6 +53,22 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::setSprite(Sprite* sprite)
 {
+	bgfx::destroy(vbh);
+
+	float w = (sprite->width / (PPU))/2;
+	float h = (sprite->height / PPU)/2;
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		newVerts[i] = SpriteVertex::planeVerts[i];
+	}
+	newVerts[0].x = -w; newVerts[0].y = -h;
+	newVerts[1].x = w; newVerts[1].y = -h;
+	newVerts[2].x = w; newVerts[2].y = h;
+	newVerts[3].x = -w; newVerts[3].y = h;
+
+	vbh = bgfx::createVertexBuffer(bgfx::makeRef(newVerts, sizeof(newVerts)), SpriteVertex::pcvLayout);
+
 	_sprite = sprite;
 }
 
