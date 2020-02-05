@@ -38,8 +38,8 @@ Physics
 #include "Engine/Nodes/Node.h"
 //#include "Engine/Nodes/Collider.h"
 #include "Engine/Nodes/Body.h"
-#include "Engine/Nodes/Sprite.h"
-#include "Engine/AssetManagement/SpriteRenderer.h"
+#include "Engine/AssetManagement/Sprite.h"
+#include "Engine/Nodes/SpriteRenderer.h"
 
 #include "bgfx/bgfx.h";
 
@@ -107,6 +107,11 @@ int main(int argc, char** argv){
 		SpriteRenderer* spriteRenderer = new SpriteRenderer();
 		spriteRenderer->setSprite(&ayse);
 
+		SpriteRenderer* spriteRenderer2 = new SpriteRenderer();
+		spriteRenderer2->setSprite(&ayse);
+
+		spriteRenderer2->transform.setLocalPosition({ 0.25,0.25 });
+
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
 		{
@@ -166,6 +171,7 @@ int main(int argc, char** argv){
 			Debug::DrawTransform(&test.transform);
 			Debug::DrawTransform(&test2.transform);
 			spriteRenderer->render();
+			spriteRenderer2->render();
 			Renderer::render();
 			
 		}
