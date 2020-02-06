@@ -50,7 +50,7 @@ int main(int argc, char** argv){
 
 		Node test;
 		test.transform.setLocalPosition(glm::vec2(50, 50));
-		test.transform.setLocalScale(glm::vec2(10, 10));
+		//test.transform.setLocalScale(glm::vec2(1, 1));
 		Node test2;
 		test2.transform.setLocalPosition(glm::vec2(50, 50));
 		test.transform.setParent(&test2);
@@ -96,14 +96,17 @@ int main(int argc, char** argv){
 		//SpriteLoader
 		Sprite* ayse = FileUtility::loadTexture("assets/ayse.png",
 			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
+		Sprite* square = FileUtility::loadTexture("assets/square.png",
+			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
 
 		SpriteRenderer* spriteRenderer = new SpriteRenderer();
 		spriteRenderer->setSprite(ayse);
+		//spriteRenderer->transform.setParent(&test);
 
 		SpriteRenderer* spriteRenderer2 = new SpriteRenderer();
-		spriteRenderer2->setSprite(ayse);
+		spriteRenderer2->setSprite(square);
 
-		spriteRenderer2->transform.setLocalPosition({ 0.25,0.25 });
+		spriteRenderer2->transform.setLocalPosition({ 1,1 });
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
@@ -165,13 +168,15 @@ int main(int argc, char** argv){
 			Debug::DrawTransform(&test2.transform);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
 			spriteRenderer->render();
-			//spriteRenderer2->render();
+			spriteRenderer2->render();
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
 			
 		}
 		delete(spriteRenderer);
+		delete(spriteRenderer2);
 		delete(ayse);
+		delete(square);
 		//FileUtility::unloadAse(background);
 		Context::quit();
 	}
