@@ -152,10 +152,10 @@ int main(int argc, char** argv){
 			//		frame = 0;
 			//	}
 			//}
-			Renderer::renderLine({ -2,0 }, { 2,0 }, glm::vec4(255,0,0,255));
-			Renderer::renderLine({ 0,2 }, { 0,-2}, glm::vec4(0, 255, 0, 255));
-			Renderer::renderLine({ 2,2 }, { -2,-2 }, glm::vec4(0, 0, 255, 255));
-			Renderer::renderLine({ -2,2 }, { 2,-2 });
+			Renderer::renderLine({ -20,0 }, { 20,0 }, glm::vec4(255,0,0,255));
+			Renderer::renderLine({ 0,20 }, { 0,-20}, glm::vec4(0, 255, 0, 255));
+			Renderer::renderLine({ 20,20 }, { -20,-20 }, glm::vec4(0, 0, 255, 255));
+			Renderer::renderLine({ -20,20 }, { 20,-20 });
 			test2.transform.setLocalAngle(test2.transform.getLocalAngle() + Context::getDeltaTime());
 			//Mirror option?
 			//Renderer::renderAseFrame(-200, -200, &background->frames[0]);
@@ -166,6 +166,7 @@ int main(int argc, char** argv){
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
 			spriteRenderer->render();
 			//spriteRenderer2->render();
+			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
 			
 		}

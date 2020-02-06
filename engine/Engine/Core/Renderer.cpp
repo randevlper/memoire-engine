@@ -89,10 +89,10 @@ void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float widt
 	glm::vec2 right = glm::rotate(dir, glm::radians(-90.0f));
 	glm::vec2 left = glm::rotate(dir, glm::radians(90.0f));
 	//Get Verts
-	glm::vec2 ar = (a/PPU + right);
-	glm::vec2 br = (b/PPU + right);
-	glm::vec2 bl = (b/PPU + left);
-	glm::vec2 al = (a/PPU + left);
+	glm::vec2 ar = (a + right);
+	glm::vec2 br = (b + right);
+	glm::vec2 bl = (b + left);
+	glm::vec2 al = (a + left);
 
 	//verts[0] = {ar.x,ar.y, 0.f, 0xff0000ff };
 	//verts[1] = { br.x, br.y, 0.f, 0xff0000ff };
@@ -169,12 +169,18 @@ void Renderer::render()
 	}
 
 	bx::Vec3 at = { 0.0f, 0.0f,  0.0f };
-	bx::Vec3 eye = { 0.0f, 0.0f, -5.0f };
+	bx::Vec3 eye = { 0.0f, 0.0f, -10.0f };
 	float view[16];
 	bx::mtxLookAt(view, eye, at);
 	float proj[16];
-	bx::mtxProj(proj, 60.0f, float(Context::getWindowWidth()) / float(Context::getWindowHeight()), 0.1f, 100.0f, bgfx::getCaps()->homogeneousDepth);
+	float left = -float(Context::getWindowWidth()) / 2;
+	float right = float(Context::getWindowWidth()) / 2;
+	float bottom = -float(Context::getWindowHeight()) / 2;
+	float top = float(Context::getWindowHeight()) / 2;
+
+	bx::mtxOrtho(proj, left, right, bottom, top, 0.1f, 100.0f, 0, bgfx::getCaps()->homogeneousDepth);
 	bgfx::setViewTransform(0, view, proj);
+	//bx:mtxOrtho(proj, -size * aspectRatio, size * aspectRatio, -size, size)
 
 	//SDL_Log("FPS: %f", _frameCount / ( _fpsTimer.getTicks() / 1000.f));
 

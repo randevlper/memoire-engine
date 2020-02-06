@@ -55,8 +55,8 @@ void SpriteRenderer::setSprite(Sprite* sprite)
 {
 	bgfx::destroy(vbh);
 
-	float w = (sprite->width / (PPU))/2;
-	float h = (sprite->height / PPU)/2;
+	float w = (sprite->width)/2;
+	float h = (sprite->height)/2;
 
 	for (size_t i = 0; i < 4; i++)
 	{
