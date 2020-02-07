@@ -168,8 +168,8 @@ void Renderer::render()
 		bgfx::submit(0, lineProgram);
 	}
 
-	bx::Vec3 at = { 0.0f, 0.0f,  0.0f };
-	bx::Vec3 eye = { 0.0f, 0.0f, -10.0f };
+	bx::Vec3 at = { _cameraPos->x, _cameraPos->y,  0.0f };
+	bx::Vec3 eye = { _cameraPos->x, _cameraPos->y, -10.0f };
 	float view[16];
 	bx::mtxLookAt(view, eye, at);
 	float proj[16];
@@ -179,6 +179,7 @@ void Renderer::render()
 	float top = float(Context::getWindowHeight()) / 2;
 
 	bx::mtxOrtho(proj, left, right, bottom, top, 0.1f, 100.0f, 0, bgfx::getCaps()->homogeneousDepth);
+	//glm::mat4 projection = glm::ortho(), )
 	bgfx::setViewTransform(0, view, proj);
 	//bx:mtxOrtho(proj, -size * aspectRatio, size * aspectRatio, -size, size)
 

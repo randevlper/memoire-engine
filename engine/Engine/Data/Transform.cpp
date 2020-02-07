@@ -71,8 +71,8 @@ glm::mat3x3 Transform::getLocalMatrix()
 {
 	glm::mat3x3 retval = glm::mat3x3::mat(1.0f); 
 	retval = glm::translate(retval, _position);
-	retval = glm::scale(retval, _scale);
 	retval = glm::rotate(retval, _angle);
+	retval = glm::scale(retval, _scale);
 	return  retval;
 }
 
