@@ -1,6 +1,6 @@
 #include "Transform.h"
 #include "Engine/Nodes/Node.h"
-#include "glm/gtx/matrix_transform_2d.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 Transform::Transform()
 {
@@ -8,6 +8,7 @@ Transform::Transform()
 	_scale = { 1,1 };
 	_angle = 0;
 	_parent = nullptr;
+	depth = 0;
 }
 
 Transform::~Transform()
@@ -27,8 +28,8 @@ void Transform::setLocalPosition(glm::vec2 value)
 
 glm::vec2 Transform::getPosition()
 {
-	glm::mat3x3 m = getGlobalMatrix();
-	glm::vec2 pos = { m[2].x,m[2].y };
+	glm::mat4x4 m = getGlobalMatrix();
+	glm::vec2 pos = { m[3].x,m[3].y };
 	return pos;
 }
 
@@ -67,16 +68,16 @@ void Transform::translate(glm::vec2 value)
 	_position += value;
 }
 
-glm::mat3x3 Transform::getLocalMatrix()
+glm::mat4x4 Transform::getLocalMatrix()
 {
-	glm::mat3x3 retval = glm::mat3x3::mat(1.0f); 
-	retval = glm::translate(retval, _position);
-	retval = glm::rotate(retval, _angle);
-	retval = glm::scale(retval, _scale);
+	glm::mat4x4 retval = glm::mat4x4::mat(1.0f);
+	retval = glm::translate(retval, glm::vec3(_position, 1.0f));
+	retval = glm::scale(retval, glm::vec3(_scale,depth));
+	retval = glm::rotate(retval, _angle, glm::vec3(0, 0, 1));
 	return  retval;
 }
 
-glm::mat3x3 Transform::getGlobalMatrix()
+glm::mat4x4 Transform::getGlobalMatrix()
 {
 	if (_parent != nullptr) {
 		return _parent->transform.getGlobalMatrix() * getLocalMatrix();

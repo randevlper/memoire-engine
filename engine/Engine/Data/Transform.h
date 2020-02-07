@@ -25,12 +25,13 @@ public:
 
 	void translate(glm::vec2 value);
 
-	glm::mat3x3 getLocalMatrix();
-	glm::mat3x3 getGlobalMatrix();
-
+	glm::mat4x4 getLocalMatrix();
+	glm::mat4x4 getGlobalMatrix();
+	float depth;
 private:
 	glm::vec2 _position;
 	glm::vec2 _scale;
+	
 	float _angle;
 	Node* _parent;
 };

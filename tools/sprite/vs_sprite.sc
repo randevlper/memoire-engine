@@ -11,8 +11,7 @@ uniform mat3 s_world;
 
 void main()
 {
-	mat4 m = mul(mat4(s_world), u_modelViewProj);
-	gl_Position = mul(m, vec4(a_position, 1.0));
+	gl_Position = mul(u_modelViewProj, vec4(a_position, 1.0));
 	v_color0 = a_color0;
 	v_texcoord0 = a_texcoord0;
 }

@@ -49,7 +49,7 @@ int main(int argc, char** argv){
 		SDL_Color white = { 255,255,255,255 };
 
 		Node test;
-		test.transform.setLocalPosition(glm::vec2(50, 50));
+		test.transform.setLocalPosition(glm::vec2(20, 20));
 		test.transform.setLocalScale(glm::vec2(10, 10));
 		Node test2;
 		test2.transform.setLocalPosition(glm::vec2(50, 50));
@@ -96,14 +96,17 @@ int main(int argc, char** argv){
 		//SpriteLoader
 		Sprite* ayse = FileUtility::loadTexture("assets/ayse.png",
 			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
+		Sprite* sprite = FileUtility::loadTexture("assets/sprite.png",
+			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
 
 		SpriteRenderer* spriteRenderer = new SpriteRenderer();
 		spriteRenderer->setSprite(ayse);
 
 		SpriteRenderer* spriteRenderer2 = new SpriteRenderer();
-		spriteRenderer2->setSprite(ayse);
+		spriteRenderer2->setSprite(sprite);
+		spriteRenderer2->transform.depth = 0.1f;
 
-		spriteRenderer2->transform.setLocalPosition({ 25,25 });
+		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
@@ -127,8 +130,7 @@ int main(int argc, char** argv){
 				movement.y = -Context::getDeltaTime();
 			}
 			float speed = 50.0f;
-			spriteRenderer->transform.translate((movement * speed));
-			//Renderer::setCameraPos(cameraPos.getPosition().x, cameraPos.getPosition().y);
+			cameraPos.translate((movement * speed));
 			Physics::tick();
 
 			Renderer::clearRenderer(white);
@@ -156,6 +158,7 @@ int main(int argc, char** argv){
 			Renderer::renderLine({ 0,20 }, { 0,-20}, glm::vec4(0, 255, 0, 255));
 			Renderer::renderLine({ 20,20 }, { -20,-20 }, glm::vec4(0, 0, 255, 255));
 			Renderer::renderLine({ -20,20 }, { 20,-20 });
+			Renderer::renderLine({ 0,0 }, { -100,-100 });
 			test2.transform.setLocalAngle(test2.transform.getLocalAngle() + Context::getDeltaTime());
 			//Mirror option?
 			//Renderer::renderAseFrame(-200, -200, &background->frames[0]);
@@ -164,8 +167,9 @@ int main(int argc, char** argv){
 			Debug::DrawTransform(&test.transform);
 			Debug::DrawTransform(&test2.transform);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
-			//spriteRenderer2->render();
+			spriteRenderer2->render();
 			spriteRenderer->render();
+			
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
 			

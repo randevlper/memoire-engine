@@ -79,10 +79,12 @@ Sprite* SpriteRenderer::getSprite()
 
 void SpriteRenderer::render()
 {
+	bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 	bgfx::setVertexBuffer(0, vbh);
 	bgfx::setIndexBuffer(ibh);
 	bgfx::setTexture(0, s_sprite, _sprite->handle);
-	bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
+	//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
+	
 
 	bgfx::submit(0, s_program);
 }
