@@ -103,7 +103,7 @@ int main(int argc, char** argv){
 		SpriteRenderer* spriteRenderer2 = new SpriteRenderer();
 		spriteRenderer2->setSprite(ayse);
 
-		spriteRenderer2->transform.setLocalPosition({ 0.25,0.25 });
+		spriteRenderer2->transform.setLocalPosition({ 25,25 });
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
@@ -127,7 +127,7 @@ int main(int argc, char** argv){
 				movement.y = -Context::getDeltaTime();
 			}
 			float speed = 50.0f;
-			//col1.transform.translate((movement * speed));
+			spriteRenderer->transform.translate((movement * speed));
 			//Renderer::setCameraPos(cameraPos.getPosition().x, cameraPos.getPosition().y);
 			Physics::tick();
 
@@ -164,13 +164,14 @@ int main(int argc, char** argv){
 			Debug::DrawTransform(&test.transform);
 			Debug::DrawTransform(&test2.transform);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
-			spriteRenderer->render();
 			//spriteRenderer2->render();
+			spriteRenderer->render();
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
 			
 		}
 		delete(spriteRenderer);
+		delete(spriteRenderer2);
 		delete(ayse);
 		//FileUtility::unloadAse(background);
 		Context::quit();
