@@ -177,7 +177,7 @@ int main(int argc, char** argv){
 		delete(spriteRenderer);
 		delete(spriteRenderer2);
 		delete(ayse);
-		//FileUtility::unloadAse(background);
+		delete(sprite);
 		Context::quit();
 	}
 	
