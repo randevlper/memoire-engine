@@ -7,7 +7,6 @@ $output v_color0, v_texcoord0
  */
 
 #include "../common/common.sh"
-uniform mat3 s_world;
 
 void main()
 {

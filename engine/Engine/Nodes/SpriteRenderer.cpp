@@ -39,7 +39,6 @@ SpriteRenderer::SpriteRenderer()
 	vbh = bgfx::createVertexBuffer(bgfx::makeRef(SpriteVertex::planeVerts, sizeof(SpriteVertex::planeVerts)), SpriteVertex::pcvLayout);
 	ibh = bgfx::createIndexBuffer(bgfx::makeRef(SpriteVertex::planeTriList, sizeof(SpriteVertex::planeTriList)));
 	s_sprite = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
-	s_world = bgfx::createUniform("s_world", bgfx::UniformType::Mat3);
 	_sprite = nullptr;
 }
 
@@ -48,7 +47,6 @@ SpriteRenderer::~SpriteRenderer()
 	bgfx::destroy(vbh);
 	bgfx::destroy(ibh);
 	bgfx::destroy(s_sprite);
-	bgfx::destroy(s_world);
 }
 
 void SpriteRenderer::setSprite(Sprite* sprite)

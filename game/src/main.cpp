@@ -154,6 +154,8 @@ int main(int argc, char** argv){
 
 			Renderer::clearRenderer(white);
 
+			spriteRenderer->transform.setLocalScale({ sin(ticks * Context::getDeltaTime()), 1 });
+
 			//double value = sin(ticks* 0.01);
 			//ayse.transform.translate(movement);
 			//ayse.transform.setLocalScale({ value * 2, value * 2 });
@@ -196,9 +198,11 @@ int main(int argc, char** argv){
 		}
 		delete(spriteRenderer);
 		delete(spriteRenderer2);
+		delete(spriteRendererFontTest);
 		delete(ayse);
 		delete(sprite);
 		delete(fontTest);
+		delete(fontTestA);
 		FontLoader::destroy();
 		Context::quit();
 	}
