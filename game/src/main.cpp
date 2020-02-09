@@ -37,6 +37,8 @@ Data Oriented
 #include "Engine/AssetManagement/Sprite.h"
 #include "Engine/Nodes/SpriteRenderer.h"
 
+#include "Engine/AssetManagement/FontLoader.h"
+
 #include "bgfx/bgfx.h";
 
 int main(int argc, char** argv){
@@ -107,6 +109,13 @@ int main(int argc, char** argv){
 		spriteRenderer2->transform.depth = 0.1f;
 
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
+
+
+		FontLoader::Load("assets/fonts/cmunrm.ttf");
+
+
+
+
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
