@@ -38,6 +38,7 @@ Data Oriented
 #include "Engine/Nodes/SpriteRenderer.h"
 
 #include "Engine/AssetManagement/FontLoader.h"
+#include "Engine/AssetManagement/Font.h"
 
 #include "bgfx/bgfx.h";
 
@@ -110,9 +111,9 @@ int main(int argc, char** argv){
 
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
 
-
-		FontLoader::Load("assets/fonts/cmunrm.ttf");
-
+		FontLoader::init();
+		Font* fontTest = FontLoader::load("assets/fonts/cmunrm.ttf", 48);
+		delete(fontTest);
 
 
 
@@ -187,6 +188,7 @@ int main(int argc, char** argv){
 		delete(spriteRenderer2);
 		delete(ayse);
 		delete(sprite);
+		FontLoader::destroy();
 		Context::quit();
 	}
 	

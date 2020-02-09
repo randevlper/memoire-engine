@@ -1,3 +1,4 @@
-shaderc -f sprite/vs_sprite.sc --varyingdedf sprite/varying.def.sc --type v -platform windows -o sprite/vs_sprite.bin
-shaderc -f sprite/fs_sprite.sc --varyingdedf sprite/varying.def.sc --type f -platform windows -o sprite/fs_sprite.bin
+SET SHADERNAME=font
+shaderc -f %SHADERNAME%/vs_%SHADERNAME%.sc --varyingdedf %SHADERNAME%/varying.def.sc --type v -platform windows -o %SHADERNAME%/vs_%SHADERNAME%.bin
+shaderc -f %SHADERNAME%/fs_%SHADERNAME%.sc --varyingdedf %SHADERNAME%/varying.def.sc --type f -platform windows -o %SHADERNAME%/fs_%SHADERNAME%.bin
 pause

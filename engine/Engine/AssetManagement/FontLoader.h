@@ -4,11 +4,11 @@ class Font;
 class FontLoader
 {
 public:
-	FontLoader();
-	~FontLoader();
-
-	static Font* Load(char* path);
+	static void init();
+	static void destroy();
+	static Font* load(char* path, int fontSize);
 
 private:
 
+	static void* _FT_LIB;
 };
