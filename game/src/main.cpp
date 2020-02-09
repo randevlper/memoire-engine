@@ -19,12 +19,17 @@ Data Oriented
 	#define new DEBUG_NEW
 #endif
 
+#include <iostream>
+
+#include <bgfx/bgfx.h>
+#include <glm/vec2.hpp>
+#include <SDL_pixels.h>
+#include <SDL_keycode.h>
+
+
 #include "Engine/Core/Context.h"
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Core/Renderer.h"
-#include "glm/vec2.hpp"
-#include "SDL_pixels.h"
-#include "SDL_keycode.h"
 #include "Engine/Core/Physics.h"
 #include "Engine/Data/AseData.h"
 //#include "Engine/Tools/aseprite.h"
@@ -40,7 +45,7 @@ Data Oriented
 #include "Engine/AssetManagement/FontLoader.h"
 #include "Engine/AssetManagement/Font.h"
 
-#include "bgfx/bgfx.h";
+
 
 int main(int argc, char** argv){
 	{
@@ -112,11 +117,15 @@ int main(int argc, char** argv){
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
 
 		FontLoader::init();
-		Font* fontTest = FontLoader::load("assets/fonts/cmunrm.ttf", 48);
-		delete(fontTest);
+		Font* fontTest = FontLoader::load("assets/fonts/cmunrm.ttf", 128);
+		
+		Character charA = fontTest->getCharacter('E');
+		std::cout << charA.Handle.idx << std::endl;
+		Sprite* fontTestA = new Sprite(charA.Handle, charA.size.x, charA.size.y);
 
-
-
+		SpriteRenderer* spriteRendererFontTest = new SpriteRenderer();
+		spriteRendererFontTest->setSprite(fontTestA);
+		spriteRendererFontTest->transform.setLocalPosition({ 100, -100 });
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
@@ -179,6 +188,7 @@ int main(int argc, char** argv){
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
 			spriteRenderer2->render();
 			spriteRenderer->render();
+			spriteRendererFontTest->render();
 			
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
@@ -188,6 +198,7 @@ int main(int argc, char** argv){
 		delete(spriteRenderer2);
 		delete(ayse);
 		delete(sprite);
+		delete(fontTest);
 		FontLoader::destroy();
 		Context::quit();
 	}

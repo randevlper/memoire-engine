@@ -11,9 +11,9 @@ Font::Font(void* face, unsigned int fontSize)
 	_fontHeight = fontSize;
 	FT_Face FTface = (FT_Face)_ft_face;
 
-	FT_Set_Pixel_Sizes(FTface, 0, 48);
+	FT_Set_Pixel_Sizes(FTface, 0, _fontHeight);
 
-	uint64_t flags = BGFX_TEXTURE_NONE | BGFX_SAMPLER_NONE;
+	uint64_t flags = BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT;
 
 	for (size_t c = 0; c < 128; c++)
 	{
@@ -26,7 +26,30 @@ Font::Font(void* face, unsigned int fontSize)
 		//}
 
 		bgfx::TextureHandle handle;
-		bgfx::TextureFormat::Enum format = bgfx::TextureFormat::Enum::R8;
+		bgfx::TextureFormat::Enum format = bgfx::TextureFormat::Enum::A8;
+
+		switch (FTface->glyph->bitmap.pixel_mode)
+		{
+		case FT_PIXEL_MODE_MONO:
+			format = bgfx::TextureFormat::Enum::ETC2A1;
+			break;
+		case FT_PIXEL_MODE_GRAY:
+			format = bgfx::TextureFormat::Enum::A8;
+			break;
+		case FT_PIXEL_MODE_LCD:
+			format = bgfx::TextureFormat::Enum::RGB8;
+			break;
+		case FT_PIXEL_MODE_LCD_V:
+			format = bgfx::TextureFormat::Enum::RGB8;
+			break;
+		case FT_PIXEL_MODE_BGRA:
+			format = bgfx::TextureFormat::Enum::BGRA8;
+			break;
+		default:
+			continue;
+		}
+
+		
 		if (bgfx::isTextureValid(0, false, 1, format, flags)
 			&& (FTface->glyph->bitmap.pitch * FTface->glyph->bitmap.rows > 0)) {
 
@@ -52,11 +75,20 @@ Font::Font(void* face, unsigned int fontSize)
 			std::cout << "ERROR::FREETYTPE:FONT Failed to create Handle! |" << (char)c << std::endl;
 		}
 	}
-
-	FT_Done_Face(FTface);
+	FT_Done_Face((FT_Face)_ft_face);
 }
 
 Font::~Font()
 {
 	
+}
+
+Character Font::getCharacter(char c)
+{
+	std::map<char, Character>::iterator it = characters.find(c);
+	if (it == characters.end())
+	{
+		std::cout << "Tim is not in the map!" << std::endl;
+	}
+	return it->second;
 }

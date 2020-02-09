@@ -9,7 +9,7 @@ Sprite::Sprite()
 
 Sprite::Sprite(bgfx::TextureHandle handle, int width, int height)
 {
-	handle = handle;
+	this->handle = handle;
 	this->width = width;
 	this->height = height;
 }

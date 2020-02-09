@@ -79,10 +79,14 @@ Sprite* SpriteRenderer::getSprite()
 
 void SpriteRenderer::render()
 {
+	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 	bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 	bgfx::setVertexBuffer(0, vbh);
 	bgfx::setIndexBuffer(ibh);
-	bgfx::setTexture(0, s_sprite, _sprite->handle);
+
+	if (bgfx::isValid(_sprite->handle)) {
+		bgfx::setTexture(0, s_sprite, _sprite->handle);
+	}
 	//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
 	
 

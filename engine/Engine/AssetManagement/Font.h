@@ -17,6 +17,8 @@ public:
 	Font(void* face, unsigned int fontSize);
 	~Font();
 
+	Character getCharacter(char c);
+
 private:
 	void* _ft_face;
 	int _fontHeight;
