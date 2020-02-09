@@ -31,6 +31,9 @@ set_target_properties(example PROPERTIES FOLDER "Thirdparty/Tests")
 add_subdirectory(thirdparty/Box2D-cmake)
 set_target_properties(Box2D-cmake PROPERTIES FOLDER "Thirdparty")
 
+add_subdirectory(thirdparty/freetype2)
+set_target_properties(freetype PROPERTIES FOLDER "Thirdparty")
+
 add_library(stb INTERFACE)
 target_include_directories(stb INTERFACE thirdparty/stb)
 #set_target_properties(stb PROPERTIES FOLDER "Thirdparty")

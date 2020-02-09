@@ -19,3 +19,6 @@
 [submodule "thirdparty/Box2D-cmake"]
 	path = thirdparty/Box2D-cmake
 	url = https://github.com/tobanteGaming/Box2D-cmake.git
+[submodule "thirdparty/freetype2"]
+	path = thirdparty/freetype2
+	url = https://github.com/aseprite/freetype2.git
