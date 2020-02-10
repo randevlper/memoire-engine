@@ -45,6 +45,8 @@ Data Oriented
 #include "Engine/AssetManagement/FontLoader.h"
 #include "Engine/AssetManagement/Font.h"
 
+#include "Engine/Nodes/TextRenderer.h"
+
 
 
 int main(int argc, char** argv){
@@ -126,6 +128,9 @@ int main(int argc, char** argv){
 		SpriteRenderer* spriteRendererFontTest = new SpriteRenderer();
 		spriteRendererFontTest->setSprite(fontTestA);
 		spriteRendererFontTest->transform.setLocalPosition({ 100, -100 });
+
+		TextRenderer* textRenderer = new TextRenderer();
+
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
