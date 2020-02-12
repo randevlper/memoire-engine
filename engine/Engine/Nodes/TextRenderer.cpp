@@ -68,15 +68,18 @@ void TextRenderer::setText(char* text)
 void TextRenderer::render()
 {
 	if (strlen(_text) > 0) {
-		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
-		bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
-		//bgfx::setVertexBuffer(0, vbh);
-		bgfx::setIndexBuffer(ibh);
-		bgfx::setTexture(0, s_font, textureHandle);
-		//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
 
-
-		bgfx::submit(0, s_program);
+		for (size_t i = 0; i < _tvbs.size(); i++)
+		{
+			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
+			bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
+			//bgfx::setVertexBuffer(0, vbh);
+			bgfx::setVertexBuffer(0, &_tvbs[i],0,4);
+			bgfx::setIndexBuffer(ibh);
+			bgfx::setTexture(0, s_font, _font->getCharacter(_text[i]).Handle);
+			//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
+			bgfx::submit(0, s_program);
+		}
 	}
 }
 

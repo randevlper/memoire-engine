@@ -121,7 +121,7 @@ int main(int argc, char** argv){
 		FontLoader::init();
 		Font* fontTest = FontLoader::load("assets/fonts/cmunrm.ttf", 128);
 		
-		Character charA = fontTest->getCharacter('E');
+		Character charA = fontTest->getCharacter('@');
 		std::cout << charA.Handle.idx << std::endl;
 		Sprite* fontTestA = new Sprite(charA.Handle, charA.size.x, charA.size.y);
 
@@ -132,6 +132,7 @@ int main(int argc, char** argv){
 		TextRenderer* textRenderer = new TextRenderer();
 		textRenderer->setFont(fontTest);
 		textRenderer->setText("Test!");
+		textRenderer->transform.setLocalScale({ 1,1 });
 
 
 		Uint32 ticks = 0;
@@ -198,6 +199,7 @@ int main(int argc, char** argv){
 			spriteRenderer2->render();
 			spriteRenderer->render();
 			spriteRendererFontTest->render();
+			textRenderer->render();
 			
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
