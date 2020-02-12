@@ -1,9 +1,12 @@
 #include "TextRenderer.h"
+
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include "Engine/AssetManagement/Font.h"
 #include "Engine/Core/Renderer.h"
 #include "Engine/Core/FileUtility.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "Engine/Utilities/TypeConversion.h"
 
 bgfx::VertexLayout TextVertex::pcvLayout;
 TextVertex TextVertex::planeVerts[] = {
@@ -37,29 +40,29 @@ TextRenderer::TextRenderer()
 		init = true;
 	}
 
-	vbh = bgfx::createVertexBuffer(bgfx::makeRef(TextVertex::planeVerts, sizeof(TextVertex::planeVerts)), TextVertex::pcvLayout);
 	ibh = bgfx::createIndexBuffer(bgfx::makeRef(TextVertex::planeTriList, sizeof(TextVertex::planeTriList)));
 	s_font = bgfx::createUniform("s_font", bgfx::UniformType::Sampler);
 	_font = nullptr;
 	_text = "";
+	_tvbs = std::vector < bgfx::TransientVertexBuffer>();
 }
 
 TextRenderer::~TextRenderer()
 {
-	bgfx::destroy(vbh);
 	bgfx::destroy(ibh);
 	bgfx::destroy(s_font);
 }
 
 void TextRenderer::setFont(Font* font)
 {
-	bgfx::destroy(vbh);
-
+	_font = font;
+	buildVertexBuffers();
 }
 
 void TextRenderer::setText(char* text)
 {
-
+	_text = text;
+	buildVertexBuffers();
 }
 
 void TextRenderer::render()
@@ -67,12 +70,42 @@ void TextRenderer::render()
 	if (strlen(_text) > 0) {
 		bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 		bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
-		bgfx::setVertexBuffer(0, vbh);
+		//bgfx::setVertexBuffer(0, vbh);
 		bgfx::setIndexBuffer(ibh);
 		bgfx::setTexture(0, s_font, textureHandle);
 		//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
 
 
 		bgfx::submit(0, s_program);
+	}
+}
+
+void TextRenderer::buildVertexBuffers()
+{
+	if (_font == nullptr) { return; }
+	//Clear out the old text
+	float x = 0;
+	float y = 0;
+	glm::vec4 color = { 255,255,255, 255 };
+
+	for (size_t i = 0; i < strlen(_text); i++)
+	{
+		Character ch = _font->getCharacter(_text[i]);
+
+		float xpos = x + ch.bearing.x;
+		float ypos = y - (ch.size.y - ch.bearing.y);
+
+		float w = ch.size.x;
+		float h = ch.size.y;
+
+		bgfx::TransientVertexBuffer tvb;
+		bgfx::allocTransientVertexBuffer(&tvb, 4, LineVertex::layout);
+		TextVertex* lineData = (TextVertex*)tvb.data;
+		lineData[0] = TextVertex{ xpos, ypos, 0.0f, Utility::colorToHex(color), 0, 0x7fff };
+		lineData[1] = TextVertex{ xpos + w, ypos, 0.0f, Utility::colorToHex(color), 0x7fff, 0x7fff };
+		lineData[2] = TextVertex{ xpos + w, ypos + h, 0.0f, Utility::colorToHex(color),  0x7fff, 0 };
+		lineData[3] = TextVertex{ xpos, ypos + h, 0.0f, Utility::colorToHex(color), 0, 0 };
+		_tvbs.push_back(tvb);
+
 	}
 }

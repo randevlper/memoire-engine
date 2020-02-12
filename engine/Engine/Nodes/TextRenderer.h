@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Engine/Nodes/Node.h"
 #include "bgfx/bgfx.h"
 class Font;
@@ -34,10 +35,12 @@ private:
 	unsigned int width;
 	unsigned int height;
 
-	TextVertex newVerts[4];
-	bgfx::VertexBufferHandle vbh;
+	std::vector<bgfx::TransientVertexBuffer> _tvbs;
 	bgfx::IndexBufferHandle ibh;
 	bgfx::UniformHandle s_font;
+
+	void buildVertexBuffers();
+
 	static bgfx::ProgramHandle s_program;
 	static bool init;
 };

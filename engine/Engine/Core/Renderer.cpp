@@ -11,6 +11,7 @@
 #include "Engine/Core/Context.h"
 #include "Engine/Utilities/Timer.h"
 #include "FileUtility.h"
+#include "Engine/Utilities/TypeConversion.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
@@ -77,7 +78,6 @@ void Renderer::quit()
 void Renderer::tick()
 {
 	_capTimer.start();
-	_tvbs.clear();
 }
 
 void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float width)
@@ -104,10 +104,10 @@ void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float widt
 	bgfx::TransientVertexBuffer tvb;
 	bgfx::allocTransientVertexBuffer(&tvb, 4, LineVertex::layout);
 	LineVertex* lineData = (LineVertex*)tvb.data;
-	lineData[0] = LineVertex{ ar.x, ar.y, 0, colorToHex(color) };
-	lineData[1] = LineVertex{ br.x, br.y, 0, colorToHex(color) };
-	lineData[2] = LineVertex{ bl.x, bl.y, 0, colorToHex(color) };
-	lineData[3] = LineVertex{ al.x, al.y, 0, colorToHex(color) };
+	lineData[0] = LineVertex{ ar.x, ar.y, 0, Utility::colorToHex(color) };
+	lineData[1] = LineVertex{ br.x, br.y, 0, Utility::colorToHex(color) };
+	lineData[2] = LineVertex{ bl.x, bl.y, 0, Utility::colorToHex(color) };
+	lineData[3] = LineVertex{ al.x, al.y, 0, Utility::colorToHex(color) };
 	_tvbs.push_back(tvb);
 }
 
@@ -212,6 +212,7 @@ void Renderer::render()
 	if (frameTicks < (1000 / Context::getMaxFps())) {
 		SDL_Delay((1000 / Context::getMaxFps()) - frameTicks);
 	}
+	_tvbs.clear();
 }
 
 void Renderer::setCameraPos(int x, int y)
@@ -223,9 +224,4 @@ void Renderer::setCameraPos(int x, int y)
 glm::vec2 Renderer::getCameraPos()
 {
 	return *_cameraPos;
-}
-
-unsigned int Renderer::colorToHex(glm::vec4& color)
-{
-	return (int)color.a << 24 | (int)color.b << 16 | (int)color.g << 8 | (int)color.r << 0;
 }

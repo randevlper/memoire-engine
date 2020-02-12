@@ -56,8 +56,6 @@ public:
 
 	static void setCameraPos(int x, int y);
 	static glm::vec2 getCameraPos();
-
-	static unsigned int colorToHex(glm::vec4& color);
 private:
 	static glm::vec2* _cameraPos;
 	static Renderer* _instance;

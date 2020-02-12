@@ -26,6 +26,7 @@ public:
 	void setSprite(Sprite* sprite);
 	Sprite* getSprite();
 	void render();
+	static void destroy();
 
 private:
 	Sprite* _sprite;

@@ -130,6 +130,8 @@ int main(int argc, char** argv){
 		spriteRendererFontTest->transform.setLocalPosition({ 100, -100 });
 
 		TextRenderer* textRenderer = new TextRenderer();
+		textRenderer->setFont(fontTest);
+		textRenderer->setText("Test!");
 
 
 		Uint32 ticks = 0;
@@ -201,6 +203,7 @@ int main(int argc, char** argv){
 			Renderer::render();
 			
 		}
+		delete(textRenderer);
 		delete(spriteRenderer);
 		delete(spriteRenderer2);
 		delete(spriteRendererFontTest);
@@ -209,6 +212,7 @@ int main(int argc, char** argv){
 		delete(fontTest);
 		delete(fontTestA);
 		FontLoader::destroy();
+		SpriteRenderer::destroy();
 		Context::quit();
 	}
 	

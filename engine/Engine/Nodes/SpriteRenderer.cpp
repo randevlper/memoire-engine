@@ -90,3 +90,8 @@ void SpriteRenderer::render()
 
 	bgfx::submit(0, s_program);
 }
+
+void SpriteRenderer::destroy()
+{
+	bgfx::destroy(s_program);
+}
