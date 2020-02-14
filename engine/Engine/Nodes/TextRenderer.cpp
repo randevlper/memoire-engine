@@ -41,10 +41,11 @@ TextRenderer::TextRenderer()
 	}
 
 	ibh = bgfx::createIndexBuffer(bgfx::makeRef(TextVertex::planeTriList, sizeof(TextVertex::planeTriList)));
-	s_font = bgfx::createUniform("s_font", bgfx::UniformType::Sampler);
+	s_font = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
 	_font = nullptr;
 	_text = "";
-	_tvbs = std::vector < bgfx::TransientVertexBuffer>();
+	_vbs = std::vector < bgfx::VertexBufferHandle>();
+	scale = 0.5f;
 }
 
 TextRenderer::~TextRenderer()
@@ -69,15 +70,13 @@ void TextRenderer::render()
 {
 	if (strlen(_text) > 0) {
 
-		for (size_t i = 0; i < _tvbs.size(); i++)
+		for (size_t i = 0; i < _vbs.size(); i++)
 		{
 			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 			bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
-			//bgfx::setVertexBuffer(0, vbh);
-			bgfx::setVertexBuffer(0, &_tvbs[i],0,4);
+			bgfx::setVertexBuffer(0, _vbs[i]);
 			bgfx::setIndexBuffer(ibh);
 			bgfx::setTexture(0, s_font, _font->getCharacter(_text[i]).Handle);
-			//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
 			bgfx::submit(0, s_program);
 		}
 	}
@@ -91,6 +90,12 @@ void TextRenderer::buildVertexBuffers()
 	float y = 0;
 	glm::vec4 color = { 255,255,255, 255 };
 
+	for (size_t i = 0; i < _vbs.size(); i++)
+	{
+		bgfx::destroy(_vbs[i]);
+	}
+	_vbs.clear();
+
 	for (size_t i = 0; i < strlen(_text); i++)
 	{
 		Character ch = _font->getCharacter(_text[i]);
@@ -101,14 +106,14 @@ void TextRenderer::buildVertexBuffers()
 		float w = ch.size.x;
 		float h = ch.size.y;
 
-		bgfx::TransientVertexBuffer tvb;
-		bgfx::allocTransientVertexBuffer(&tvb, 4, LineVertex::layout);
-		TextVertex* lineData = (TextVertex*)tvb.data;
+		TextVertex lineData[4];
 		lineData[0] = TextVertex{ xpos, ypos, 0.0f, Utility::colorToHex(color), 0, 0x7fff };
 		lineData[1] = TextVertex{ xpos + w, ypos, 0.0f, Utility::colorToHex(color), 0x7fff, 0x7fff };
 		lineData[2] = TextVertex{ xpos + w, ypos + h, 0.0f, Utility::colorToHex(color),  0x7fff, 0 };
 		lineData[3] = TextVertex{ xpos, ypos + h, 0.0f, Utility::colorToHex(color), 0, 0 };
-		_tvbs.push_back(tvb);
+		bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::copy(lineData, sizeof(lineData)), TextVertex::pcvLayout);
 
+		_vbs.push_back(vbh);
+		x += (ch.advance >> 6);
 	}
 }

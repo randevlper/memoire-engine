@@ -119,20 +119,13 @@ int main(int argc, char** argv){
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
 
 		FontLoader::init();
-		Font* fontTest = FontLoader::load("assets/fonts/cmunrm.ttf", 128);
-		
-		Character charA = fontTest->getCharacter('@');
-		std::cout << charA.Handle.idx << std::endl;
-		Sprite* fontTestA = new Sprite(charA.Handle, charA.size.x, charA.size.y);
-
-		SpriteRenderer* spriteRendererFontTest = new SpriteRenderer();
-		spriteRendererFontTest->setSprite(fontTestA);
-		spriteRendererFontTest->transform.setLocalPosition({ 100, -100 });
+		Font* fontTest = FontLoader::load("assets/fonts/cmunrm.ttf", 64);
 
 		TextRenderer* textRenderer = new TextRenderer();
 		textRenderer->setFont(fontTest);
-		textRenderer->setText("Test!");
-		textRenderer->transform.setLocalScale({ 1,1 });
+		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
+		textRenderer->setText("OHAYOUUUUUU!!!!!");
+		textRenderer->setText("YEEHAW");
 
 
 		Uint32 ticks = 0;
@@ -183,22 +176,21 @@ int main(int argc, char** argv){
 			//		frame = 0;
 			//	}
 			//}
-			Renderer::renderLine({ -20,0 }, { 20,0 }, glm::vec4(255,0,0,255));
-			Renderer::renderLine({ 0,20 }, { 0,-20}, glm::vec4(0, 255, 0, 255));
-			Renderer::renderLine({ 20,20 }, { -20,-20 }, glm::vec4(0, 0, 255, 255));
-			Renderer::renderLine({ -20,20 }, { 20,-20 });
-			Renderer::renderLine({ 0,0 }, { -100,-100 });
-			test2.transform.setLocalAngle(test2.transform.getLocalAngle() + Context::getDeltaTime());
-			//Mirror option?
-			//Renderer::renderAseFrame(-200, -200, &background->frames[0]);
-			//Renderer::renderAseFrame(0, -200, &background->frames[0]);
-			//Renderer::renderAseFrame(-400, -200, &background->frames[0]);
-			Debug::DrawTransform(&test.transform);
-			Debug::DrawTransform(&test2.transform);
-			bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
-			spriteRenderer2->render();
-			spriteRenderer->render();
-			spriteRendererFontTest->render();
+			//Renderer::renderLine({ -20,0 }, { 20,0 }, glm::vec4(255,0,0,255));
+			//Renderer::renderLine({ 0,20 }, { 0,-20}, glm::vec4(0, 255, 0, 255));
+			//Renderer::renderLine({ 20,20 }, { -20,-20 }, glm::vec4(0, 0, 255, 255));
+			//Renderer::renderLine({ -20,20 }, { 20,-20 });
+			//Renderer::renderLine({ 0,0 }, { -100,-100 });
+			//test2.transform.setLocalAngle(test2.transform.getLocalAngle() + Context::getDeltaTime());
+			////Mirror option?
+			////Renderer::renderAseFrame(-200, -200, &background->frames[0]);
+			////Renderer::renderAseFrame(0, -200, &background->frames[0]);
+			////Renderer::renderAseFrame(-400, -200, &background->frames[0]);
+			//Debug::DrawTransform(&test.transform);
+			//Debug::DrawTransform(&test2.transform);
+			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
+			//spriteRenderer2->render();
+			//spriteRenderer->render();
 			textRenderer->render();
 			
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
@@ -208,11 +200,9 @@ int main(int argc, char** argv){
 		delete(textRenderer);
 		delete(spriteRenderer);
 		delete(spriteRenderer2);
-		delete(spriteRendererFontTest);
 		delete(ayse);
 		delete(sprite);
 		delete(fontTest);
-		delete(fontTestA);
 		FontLoader::destroy();
 		SpriteRenderer::destroy();
 		Context::quit();

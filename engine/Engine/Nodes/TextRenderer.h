@@ -34,8 +34,9 @@ private:
 	bgfx::TextureHandle textureHandle;
 	unsigned int width;
 	unsigned int height;
+	int scale;
 
-	std::vector<bgfx::TransientVertexBuffer> _tvbs;
+	std::vector<bgfx::VertexBufferHandle> _vbs;
 	bgfx::IndexBufferHandle ibh;
 	bgfx::UniformHandle s_font;
 
