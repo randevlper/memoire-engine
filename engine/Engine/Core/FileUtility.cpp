@@ -267,3 +267,8 @@ bx::FileReaderI* FileUtility::getFileReader()
 {
 	return s_fileReader;
 }
+
+void FileUtility::destroy()
+{
+	BX_DELETE(g_allocator, s_fileReader);
+}

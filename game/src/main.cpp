@@ -208,6 +208,7 @@ int main(int argc, char** argv){
 		FontLoader::destroy();
 		TextRenderer::destroy();
 		SpriteRenderer::destroy();
+		FileUtility::destroy();
 		Context::quit();
 	}
 	

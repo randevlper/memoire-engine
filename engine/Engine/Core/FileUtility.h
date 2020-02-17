@@ -36,6 +36,8 @@ public:
 	
 	static bx::AllocatorI* getAllocator();
 	static bx::FileReaderI* getFileReader();
+
+	static void destroy();
 private:
 
 	static bx::AllocatorI* getDefaultAllocator();
