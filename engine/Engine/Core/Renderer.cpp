@@ -69,6 +69,7 @@ void Renderer::quit()
 	if (_instance != nullptr) {
 		bgfx::destroy(lineVerts);
 		bgfx::destroy(lineIndicies);
+		bgfx::destroy(lineProgram);
 		_fpsTimer.stop();
 		delete(_instance);
 		delete(_cameraPos);
