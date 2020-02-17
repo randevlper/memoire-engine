@@ -27,6 +27,7 @@ public:
 	void setFont(Font* font);
 	void setText(char* text);
 	void render();
+	static void destroy();
 
 private:
 	char* _text;
@@ -41,6 +42,7 @@ private:
 	bgfx::UniformHandle s_font;
 
 	void buildVertexBuffers();
+	void clearVertexBuffers();
 
 	static bgfx::ProgramHandle s_program;
 	static bool init;

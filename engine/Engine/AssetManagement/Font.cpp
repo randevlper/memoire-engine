@@ -63,13 +63,15 @@ Font::Font(void* face, unsigned int fontSize)
 					FTface->glyph->bitmap.pitch * FTface->glyph->bitmap.rows
 				));
 
-			Character character = {
-				handle,
-				glm::ivec2(FTface->glyph->bitmap.width, FTface->glyph->bitmap.rows),
-				glm::ivec2(FTface->glyph->bitmap_left, FTface->glyph->bitmap_top),
-				FTface->glyph->advance.x
-			};
-			characters.insert(std::pair<char, Character>(c, character));
+			if (bgfx::isValid(handle)) {
+				Character character = {
+					handle,
+					glm::ivec2(FTface->glyph->bitmap.width, FTface->glyph->bitmap.rows),
+					glm::ivec2(FTface->glyph->bitmap_left, FTface->glyph->bitmap_top),
+					FTface->glyph->advance.x
+				};
+				characters.insert(std::pair<char, Character>(c, character));
+			}
 		}
 		else {
 			std::cout << "ERROR::FREETYTPE:FONT Failed to create Handle! |" << (char)c << std::endl;
@@ -80,7 +82,12 @@ Font::Font(void* face, unsigned int fontSize)
 
 Font::~Font()
 {
-	
+	for (size_t i = 0; i < characters.size(); i++)
+	{
+		if (bgfx::isValid(characters[i].Handle) && characters[i].Handle.idx != 0) {
+			bgfx::destroy(characters[i].Handle);
+		}
+	}
 }
 
 Character Font::getCharacter(char c)

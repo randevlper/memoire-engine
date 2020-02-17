@@ -31,6 +31,11 @@ void TextVertex::init() {
 bgfx::ProgramHandle TextRenderer::s_program;
 bool TextRenderer::init = false;
 
+void TextRenderer::destroy()
+{
+	bgfx::destroy(s_program);
+}
+
 TextRenderer::TextRenderer()
 {
 	if (!init) {
@@ -52,6 +57,7 @@ TextRenderer::~TextRenderer()
 {
 	bgfx::destroy(ibh);
 	bgfx::destroy(s_font);
+	clearVertexBuffers();
 }
 
 void TextRenderer::setFont(Font* font)
@@ -82,6 +88,15 @@ void TextRenderer::render()
 	}
 }
 
+void TextRenderer::clearVertexBuffers()
+{
+	for (size_t i = 0; i < _vbs.size(); i++)
+	{
+		bgfx::destroy(_vbs[i]);
+	}
+	_vbs.clear();
+}
+
 void TextRenderer::buildVertexBuffers()
 {
 	if (_font == nullptr) { return; }
@@ -90,11 +105,7 @@ void TextRenderer::buildVertexBuffers()
 	float y = 0;
 	glm::vec4 color = { 255,255,255, 255 };
 
-	for (size_t i = 0; i < _vbs.size(); i++)
-	{
-		bgfx::destroy(_vbs[i]);
-	}
-	_vbs.clear();
+	clearVertexBuffers();
 
 	for (size_t i = 0; i < strlen(_text); i++)
 	{

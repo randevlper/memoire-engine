@@ -50,8 +50,6 @@ public:
 	static void renderAseFrame(int x, int y, AseFrame* frame);
 	static void renderAseSprite(int x, int y, AseSprite* ase);
 
-	static void clearRenderer(SDL_Color& color);
-	static void clearRenderer(int r, int g, int b, int a);
 	static void render();
 
 	static void setCameraPos(int x, int y);

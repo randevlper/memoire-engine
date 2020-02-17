@@ -12,12 +12,16 @@ Data Oriented
 */
 
 #define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
+#include <cstdlib>
 #include <crtdbg.h>
 #ifdef _DEBUG
-	#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
-	#define new DEBUG_NEW
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
+// allocations to be of _CLIENT_BLOCK type
+#else
+#define DBG_NEW new
 #endif
+
 
 #include <iostream>
 
@@ -109,10 +113,10 @@ int main(int argc, char** argv){
 		Sprite* sprite = FileUtility::loadTexture("assets/sprite.png",
 			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
 
-		SpriteRenderer* spriteRenderer = new SpriteRenderer();
+		SpriteRenderer* spriteRenderer = DBG_NEW SpriteRenderer();
 		spriteRenderer->setSprite(ayse);
 
-		SpriteRenderer* spriteRenderer2 = new SpriteRenderer();
+		SpriteRenderer* spriteRenderer2 = DBG_NEW SpriteRenderer();
 		spriteRenderer2->setSprite(sprite);
 		spriteRenderer2->transform.depth = 0.1f;
 
@@ -121,7 +125,7 @@ int main(int argc, char** argv){
 		FontLoader::init();
 		Font* fontTest = FontLoader::load("assets/fonts/cmunrm.ttf", 64);
 
-		TextRenderer* textRenderer = new TextRenderer();
+		TextRenderer* textRenderer = DBG_NEW TextRenderer();
 		textRenderer->setFont(fontTest);
 		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
@@ -152,8 +156,6 @@ int main(int argc, char** argv){
 			float speed = 50.0f;
 			cameraPos.translate((movement * speed));
 			Physics::tick();
-
-			Renderer::clearRenderer(white);
 
 			spriteRenderer->transform.setLocalScale({ sin(ticks * Context::getDeltaTime()), 1 });
 
@@ -204,6 +206,7 @@ int main(int argc, char** argv){
 		delete(sprite);
 		delete(fontTest);
 		FontLoader::destroy();
+		TextRenderer::destroy();
 		SpriteRenderer::destroy();
 		Context::quit();
 	}

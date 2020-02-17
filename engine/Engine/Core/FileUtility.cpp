@@ -161,7 +161,7 @@ void FileUtility::unload(void* _ptr)
 Sprite* FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath, unsigned long long _flags, unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
 {
 	BX_UNUSED(_skip);
-	Sprite* sprite = new Sprite();
+	Sprite* sprite = DBG_NEW Sprite();
 	sprite->handle = BGFX_INVALID_HANDLE;
 
 

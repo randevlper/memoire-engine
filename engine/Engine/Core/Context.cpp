@@ -68,7 +68,7 @@ void Context::init(ContextWindowParems* parems)
 			return;
 		}
 
-		_wmInfo = new SDL_SysWMinfo();
+		_wmInfo = DBG_NEW SDL_SysWMinfo();
 		SDL_VERSION(&_wmInfo->version);
 		//SDL_GetWindowWMInfo(_window, _wmInfo);
 		
@@ -163,6 +163,7 @@ void Context::quit()
 	delete(_instance);
 	//SDL_DestroyRenderer(_renderer);
 	bgfx::shutdown();
+	delete(_wmInfo);
 	SDL_DestroyWindow(_window);
 	SDL_Quit();
 }

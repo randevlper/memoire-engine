@@ -145,17 +145,6 @@ void Renderer::renderAseSprite(int x, int y, AseSprite* ase)
 	//SDL_RenderCopy(Context::getRenderer(), ase->texture, nullptr, &renderQuad);
 }
 
-void Renderer::clearRenderer(SDL_Color& color)
-{
-	clearRenderer(color.r, color.g, color.b, color.a);
-}
-
-void Renderer::clearRenderer(int r, int g, int b, int a)
-{
-	//SDL_SetRenderDrawColor(Context::getRenderer(), r, g, b, a);
-	//SDL_RenderClear(Context::getRenderer());
-}
-
 void Renderer::render()
 {
 	//bgfx::update(lineVerts, 0, bgfx::makeRef( verts.data(), verts.size() * sizeof(LineVertex)));

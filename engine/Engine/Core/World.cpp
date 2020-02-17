@@ -11,6 +11,7 @@ World::World()
 
 World::~World()
 {
+	delete(_world);
 }
 
 void World::tick(float delta)
