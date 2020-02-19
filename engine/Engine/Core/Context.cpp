@@ -7,18 +7,7 @@
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Renderer.h"
 
-#define _CRTDBG_MAP_ALLOC
-#include <cstdlib>
-#include <crtdbg.h>
-
-
-#ifdef _DEBUG
-#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
-// allocations to be of _CLIENT_BLOCK type
-#else
-#define DBG_NEW new
-#endif
+#include "Engine/Utilities/DebugMemory.h"
 
 Context* Context::_instance = nullptr;
 bool Context::_shouldClose = nullptr;
@@ -161,8 +150,6 @@ void Context::quit()
 	Input::quit();
 	Renderer::quit();
 	delete(_instance);
-	//SDL_DestroyRenderer(_renderer);
-	bgfx::shutdown();
 	delete(_wmInfo);
 	SDL_DestroyWindow(_window);
 	SDL_Quit();

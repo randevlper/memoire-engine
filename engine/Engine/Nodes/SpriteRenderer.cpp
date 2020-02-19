@@ -5,6 +5,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "Engine/Utilities/DebugMemory.h"
+
 bgfx::VertexLayout SpriteVertex::pcvLayout;
 SpriteVertex SpriteVertex::planeVerts[] = {
 	{-1.0f, -1.0f, 0.0f, 0xffffffff, 0, 0x7fff},

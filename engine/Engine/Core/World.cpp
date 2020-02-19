@@ -3,10 +3,12 @@
 #include "Box2D/Box2D.h"
 #include "Engine/Nodes/Body.h"
 
+#include "Engine/Utilities/DebugMemory.h"
+
 World::World()
 {
 	_root = nullptr;
-	_world = new b2World({0,-9.8});
+	_world = DBG_NEW b2World({0,-9.8});
 }
 
 World::~World()

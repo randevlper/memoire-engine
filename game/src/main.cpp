@@ -11,17 +11,7 @@ Data Oriented
 	Generate Data -> Modify -> Renderer
 */
 
-#define _CRTDBG_MAP_ALLOC
-#include <cstdlib>
-#include <crtdbg.h>
-#ifdef _DEBUG
-#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-// Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
-// allocations to be of _CLIENT_BLOCK type
-#else
-#define DBG_NEW new
-#endif
-
+#include "Engine/Utilities/DebugMemory.h"
 
 #include <iostream>
 
@@ -50,6 +40,7 @@ Data Oriented
 #include "Engine/AssetManagement/Font.h"
 
 #include "Engine/Nodes/TextRenderer.h"
+#include "Engine/AssetManagement/AssetManager.h"
 
 
 
@@ -122,7 +113,7 @@ int main(int argc, char** argv){
 
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
 
-		FontLoader::init();
+		AssetManager::init();
 		Font* fontTest = FontLoader::load("assets/fonts/cmunrm.ttf", 64);
 
 		TextRenderer* textRenderer = DBG_NEW TextRenderer();

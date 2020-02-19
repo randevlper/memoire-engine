@@ -3,6 +3,8 @@
 #include <iostream>
 #include "tinf.h";
 
+#include "Engine/Utilities/DebugMemory.h"
+
 
 namespace Aseprite {
 	AsepriteFile::AsepriteFile(char filename[])

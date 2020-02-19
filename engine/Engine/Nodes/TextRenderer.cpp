@@ -8,6 +8,8 @@
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Utilities/TypeConversion.h"
 
+#include "Engine/Utilities/DebugMemory.h"
+
 bgfx::VertexLayout TextVertex::pcvLayout;
 TextVertex TextVertex::planeVerts[] = {
 	{-1.0f, -1.0f, 0.0f, 0xffffffff, 0, 0x7fff},

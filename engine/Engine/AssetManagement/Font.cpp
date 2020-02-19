@@ -5,6 +5,8 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#include "Engine/Utilities/DebugMemory.h"
+
 Font::Font(void* face, unsigned int fontSize)
 {
 	_ft_face = face;
