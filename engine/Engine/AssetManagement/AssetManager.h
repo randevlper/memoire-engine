@@ -1,6 +1,9 @@
 #pragma once
 #include <map>
 #include <string>
+#include "Engine/Utilities/Debug.h"
+
+class AssetLoader;
 
 class AssetManager
 {
@@ -14,14 +17,20 @@ public:
 	static T* get(std::string name);
 
 private:
-	std::map<std::string, void*> assets;
-
-	//Loaders
+	//Asset, Pointer
+	static std::map<std::string, void*> _assets;
+	//Extension, Pointer
+	static std::map<std::string, AssetLoader*> _loaders;
 };
 
 template<class T>
 inline T* AssetManager::get(std::string name)
 {
-
-	return nullptr;
+	std::map<std::string, void*>::iterator it = _assets.find(name);
+	if (it == _assets.end())
+	{
+		Debug::Log(" AssetManager: " + name + " is not loaded!");
+		return nullptr;
+	}
+	return (T*)it->second;
 }

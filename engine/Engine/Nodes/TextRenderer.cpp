@@ -35,7 +35,9 @@ bool TextRenderer::init = false;
 
 void TextRenderer::destroy()
 {
-	bgfx::destroy(s_program);
+	if (s_program.idx != 0) {
+		bgfx::destroy(s_program);
+	}
 }
 
 TextRenderer::TextRenderer()

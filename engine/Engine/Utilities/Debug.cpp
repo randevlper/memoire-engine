@@ -10,7 +10,7 @@
 #include "SDL.h"
 #include <iostream>
 
-void Debug::Log(char* value)
+void Debug::Log(std::string value)
 {
 	std::cout << "[" << SDL_GetTicks() << "] " << value << std::endl;
 }

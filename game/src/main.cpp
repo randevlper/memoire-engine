@@ -114,13 +114,15 @@ int main(int argc, char** argv){
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
 
 		AssetManager::init();
-		Font* fontTest = FontLoader::load("assets/fonts/cmunrm.ttf", 64);
+		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
+		AssetManager::load("assets/fonts/heh.ttf", "64");
+		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 
-		TextRenderer* textRenderer = DBG_NEW TextRenderer();
-		textRenderer->setFont(fontTest);
-		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
-		textRenderer->setText("OHAYOUUUUUU!!!!!");
-		textRenderer->setText("YEEHAW");
+		//TextRenderer* textRenderer = DBG_NEW TextRenderer();
+		//textRenderer->setFont(fontTest);
+		//textRenderer->transform.setLocalScale({ 0.5f,0.5f });
+		//textRenderer->setText("OHAYOUUUUUU!!!!!");
+		//textRenderer->setText("YEEHAW");
 
 
 		Uint32 ticks = 0;
@@ -184,22 +186,21 @@ int main(int argc, char** argv){
 			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
 			//spriteRenderer2->render();
 			//spriteRenderer->render();
-			textRenderer->render();
+			/*textRenderer->render();*/
 			
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
 			
 		}
-		delete(textRenderer);
+		/*delete(textRenderer);*/
 		delete(spriteRenderer);
 		delete(spriteRenderer2);
 		delete(ayse);
 		delete(sprite);
-		delete(fontTest);
-		FontLoader::destroy();
 		TextRenderer::destroy();
 		SpriteRenderer::destroy();
 		FileUtility::destroy();
+		AssetManager::destroy();
 		Context::quit();
 	}
 	
