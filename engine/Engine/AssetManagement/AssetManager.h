@@ -4,6 +4,7 @@
 #include "Engine/Utilities/Debug.h"
 
 class AssetLoader;
+#include "Asset.h"
 
 class AssetManager
 {
@@ -18,7 +19,7 @@ public:
 
 private:
 	//Asset, Pointer
-	static std::map<std::string, void*> _assets;
+	static std::map<std::string, Asset*> _assets;
 	//Extension, Pointer
 	static std::map<std::string, AssetLoader*> _loaders;
 };
@@ -26,7 +27,7 @@ private:
 template<class T>
 inline T* AssetManager::get(std::string name)
 {
-	std::map<std::string, void*>::iterator it = _assets.find(name);
+	std::map<std::string, Asset*>::iterator it = _assets.find(name);
 	if (it == _assets.end())
 	{
 		Debug::Log(" AssetManager: " + name + " is not loaded!");

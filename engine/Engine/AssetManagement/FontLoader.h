@@ -1,5 +1,6 @@
 #pragma once
 #include "AssetLoader.h"
+#include "Asset.h"
 class Font;
 
 class FontLoader : public AssetLoader
@@ -10,7 +11,7 @@ public:
 
 	void init() override;
 	void destroy() override;
-	void* load(std::string path, std::string vars) override;
+	Asset* load(std::string path, std::string vars) override;
 	const std::string _fileExtension = ".ttf";
 
 private:

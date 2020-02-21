@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+class Asset;
 
 class AssetLoader
 {
@@ -10,7 +11,7 @@ public:
 
 	virtual void init();
 	virtual void destroy();
-	virtual void* load(std::string path, std::string vars);
+	virtual Asset* load(std::string path, std::string vars);
 	std::string _fileExtension;
 
 private:

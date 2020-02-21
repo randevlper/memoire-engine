@@ -1,4 +1,6 @@
 #pragma once
+#include "Engine/AssetManagement/Asset.h"
+
 #include <bgfx/bgfx.h>;
 #include <glm/glm.hpp>
 #include <map>
@@ -11,7 +13,7 @@ struct Character
 	unsigned int advance;
 };
 
-class Font
+class Font : public Asset
 {
 public:
 	Font(void* face, unsigned int fontSize);

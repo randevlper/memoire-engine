@@ -44,15 +44,13 @@ Data Oriented
 
 
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
 	{
 		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 640, 360, 60 , argc, argv};
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
-		SDL_Color white = { 255,255,255,255 };
-
 		Node test;
 		test.transform.setLocalPosition(glm::vec2(20, 20));
 		test.transform.setLocalScale(glm::vec2(10, 10));
@@ -118,11 +116,11 @@ int main(int argc, char** argv){
 		AssetManager::load("assets/fonts/heh.ttf", "64");
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 
-		//TextRenderer* textRenderer = DBG_NEW TextRenderer();
-		//textRenderer->setFont(fontTest);
-		//textRenderer->transform.setLocalScale({ 0.5f,0.5f });
-		//textRenderer->setText("OHAYOUUUUUU!!!!!");
-		//textRenderer->setText("YEEHAW");
+		TextRenderer* textRenderer = DBG_NEW TextRenderer();
+		textRenderer->setFont(fontTest);
+		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
+		textRenderer->setText("OHAYOUUUUUU!!!!!");
+		textRenderer->setText("YEEHAW");
 
 
 		Uint32 ticks = 0;
@@ -186,13 +184,13 @@ int main(int argc, char** argv){
 			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
 			//spriteRenderer2->render();
 			//spriteRenderer->render();
-			/*textRenderer->render();*/
+			textRenderer->render();
 			
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
 			
 		}
-		/*delete(textRenderer);*/
+		delete(textRenderer);
 		delete(spriteRenderer);
 		delete(spriteRenderer2);
 		delete(ayse);

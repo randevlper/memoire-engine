@@ -1,5 +1,6 @@
 #include "AssetLoader.h"
 #include "Engine/Utilities/Debug.h"
+#include "Engine/AssetManagement/Asset.h"
 
 AssetLoader::AssetLoader(){}
 
@@ -15,7 +16,7 @@ void AssetLoader::destroy()
 	Debug::Log("Unimplemented Loader Destroy");
 }
 
-void* AssetLoader::load(std::string path, std::string vars)
+Asset* AssetLoader::load(std::string path, std::string vars)
 {
 	Debug::Log("Unimplemented Loader Load");
 	return nullptr;

@@ -26,7 +26,7 @@ void FontLoader::destroy()
 	FT_Done_FreeType((FT_Library)_FT_LIB);
 }
 
-void* FontLoader::load(std::string path, std::string vars)
+Asset* FontLoader::load(std::string path, std::string vars)
 {
 	FT_Face face;
 	if (FT_New_Face((FT_Library)_FT_LIB, path.c_str(), 0, &face)) {
