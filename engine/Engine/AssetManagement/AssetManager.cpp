@@ -22,8 +22,14 @@ void AssetManager::load(std::string path, std::string vars)
 		}
 		else {
 			//TODO Add to assets
-			it->second->load(path, vars);
-			Debug::Log("AssetManager: Loaded asset at " + path);
+			Asset* asset = it->second->load(path, vars);
+			if (asset != nullptr) {
+				_assets.insert(std::pair<std::string, Asset*>(path, asset));
+				Debug::Log("AssetManager: Loaded asset at " + path);
+			}
+			else {
+				Debug::Log("AssetManager: Failed to load asset at " + path);
+			}
 		}
 	}
 	else {
@@ -38,9 +44,14 @@ void AssetManager::init() {
 }
 
 void AssetManager::destroy() {
-	std::map<std::string, AssetLoader*>::iterator it = _loaders.begin();
 	for (std::pair<std::string, AssetLoader*> element : _loaders) {
 		element.second->destroy();
 		delete(element.second);
 	}
+	_loaders.clear();
+
+	for (std::pair<std::string, Asset*> element : _assets) {
+		delete(element.second);
+	}
+	_assets.clear();
 }
