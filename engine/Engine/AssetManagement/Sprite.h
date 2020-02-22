@@ -1,7 +1,8 @@
 #pragma once
-#include "bgfx/bgfx.h"
+#include <bgfx/bgfx.h>
+#include "Asset.h"
 
-class Sprite
+class Sprite : public Asset
 {
 public:
 	Sprite();

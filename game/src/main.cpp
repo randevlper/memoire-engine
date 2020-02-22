@@ -96,11 +96,17 @@ int main(int argc, char** argv) {
 		cameraPos.setLocalPosition({ 0,0 });
 		//cameraPos.setParent(&col1.transform);
 
+		AssetManager::init();
+
+		AssetManager::load("assets/ayse.png","");
+		AssetManager::load("assets/sprite.png", "");
+
+		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
+		//AssetManager::load("assets/fonts/heh.ttf", "64");
+
 		//SpriteLoader
-		Sprite* ayse = FileUtility::loadTexture("assets/ayse.png",
-			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
-		Sprite* sprite = FileUtility::loadTexture("assets/sprite.png",
-			BGFX_TEXTURE_NONE | BGFX_SAMPLER_POINT, 0, NULL, NULL);
+		Sprite* ayse = AssetManager::get<Sprite>("assets/ayse.png");
+		Sprite* sprite = AssetManager::get<Sprite>("assets/sprite.png");
 
 		SpriteRenderer* spriteRenderer = DBG_NEW SpriteRenderer();
 		spriteRenderer->setSprite(ayse);
@@ -111,9 +117,7 @@ int main(int argc, char** argv) {
 
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
 
-		AssetManager::init();
-		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
-		AssetManager::load("assets/fonts/heh.ttf", "64");
+		
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 
 		TextRenderer* textRenderer = DBG_NEW TextRenderer();
@@ -182,19 +186,18 @@ int main(int argc, char** argv) {
 			//Debug::DrawTransform(&test.transform);
 			//Debug::DrawTransform(&test2.transform);
 			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
-			//spriteRenderer2->render();
-			//spriteRenderer->render();
+			spriteRenderer2->render();
+			spriteRenderer->render();
 			textRenderer->render();
 			
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
 			
 		}
+		
 		delete(textRenderer);
 		delete(spriteRenderer);
 		delete(spriteRenderer2);
-		delete(ayse);
-		delete(sprite);
 		TextRenderer::destroy();
 		SpriteRenderer::destroy();
 		FileUtility::destroy();

@@ -33,5 +33,12 @@ inline T* AssetManager::get(std::string name)
 		Debug::Log(" AssetManager: " + name + " is not loaded!");
 		return nullptr;
 	}
-	return (T*)it->second;
+	
+	if (T * retval = dynamic_cast<T*>(it->second)) {
+		
+		return retval;
+	}
+	
+	Debug::Log("AssetManager: Cast failed!");
+	return nullptr;
 }

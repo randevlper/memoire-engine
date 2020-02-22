@@ -53,6 +53,7 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::setSprite(Sprite* sprite)
 {
+	if (sprite == nullptr) { return; }
 	bgfx::destroy(vbh);
 
 	float w = (sprite->width)/2;
@@ -79,6 +80,7 @@ Sprite* SpriteRenderer::getSprite()
 
 void SpriteRenderer::render()
 {
+	if (_sprite == nullptr) { return; }
 	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 	bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 	bgfx::setVertexBuffer(0, vbh);

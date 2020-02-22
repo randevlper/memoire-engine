@@ -1,9 +1,11 @@
 #include "AssetManager.h"
 
 #include <filesystem>
+#include <memory>
 
-#include "FontLoader.h"
 #include "AssetLoader.h"
+#include "FontLoader.h"
+#include "SpriteLoader.h"
 
 #include "Engine/Utilities/DebugMemory.h"
 
@@ -35,23 +37,38 @@ void AssetManager::load(std::string path, std::string vars)
 	else {
 		Debug::Log("AssetManager: Does Not Exist: " + path);
 	}
+	
 }
 
 void AssetManager::init() {
 	FontLoader* _fontLoader = DBG_NEW FontLoader();
 	_fontLoader->init();
 	_loaders.insert(std::pair<std::string, AssetLoader*>(_fontLoader->_fileExtension, _fontLoader));
+
+	SpriteLoader* _spriteLoader = DBG_NEW SpriteLoader();
+	_spriteLoader->init();
+	_loaders.insert(std::pair<std::string, AssetLoader*>(_spriteLoader->_fileExtension, _spriteLoader));
 }
 
 void AssetManager::destroy() {
-	for (std::pair<std::string, AssetLoader*> element : _loaders) {
-		element.second->destroy();
-		delete(element.second);
-	}
-	_loaders.clear();
+	//for (std::pair<std::string, Asset*> element : _assets) {
+	//	Debug::Log("Deleting " + element.first);
+	//	element.second->destroy();
+	//	delete(element.second);
+	//}
 
-	for (std::pair<std::string, Asset*> element : _assets) {
-		delete(element.second);
+	for (auto const& [key, val] : _assets)
+	{
+		Debug::Log("AssetManager: Destroying: " + key);
+		val->destroy();
+		delete(val);
 	}
 	_assets.clear();
+
+	for (auto const& [key, val] : _loaders)
+	{
+		val->destroy();
+		delete(val);
+	}
+	_loaders.clear();
 }

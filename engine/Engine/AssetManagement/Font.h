@@ -19,6 +19,7 @@ public:
 	Font(void* face, unsigned int fontSize);
 	~Font();
 
+	void destroy() override;
 	Character getCharacter(char c);
 
 private:
