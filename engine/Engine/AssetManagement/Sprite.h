@@ -7,7 +7,8 @@ class Sprite : public Asset
 public:
 	Sprite();
 	Sprite(bgfx::TextureHandle handle, int width, int height);
-	~Sprite();
+	~Sprite() override;
+	//~Asset() override;
 	/*
 	Texture
 	*/

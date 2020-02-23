@@ -194,7 +194,7 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
-		
+
 		delete(textRenderer);
 		delete(spriteRenderer);
 		delete(spriteRenderer2);

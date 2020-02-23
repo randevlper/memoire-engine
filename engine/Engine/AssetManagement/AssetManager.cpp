@@ -12,9 +12,15 @@
 
 std::map<std::string, AssetLoader*> AssetManager::_loaders = std::map<std::string, AssetLoader*>();
 std::map<std::string, Asset*> AssetManager::_assets = std::map<std::string, Asset*>();
+bool AssetManager::isInit = false;
 
 void AssetManager::load(std::string path, std::string vars)
 {
+	if (!isInit) {
+		Debug::Log("AssetManager: Is not init!");
+		return;
+	}
+
 	std::filesystem::path p = std::filesystem::path(path);
 	if (std::filesystem::exists(path)) {
 		Debug::Log("AssetManager: Exists: " + path);
@@ -48,6 +54,8 @@ void AssetManager::init() {
 	SpriteLoader* _spriteLoader = DBG_NEW SpriteLoader();
 	_spriteLoader->init();
 	_loaders.insert(std::pair<std::string, AssetLoader*>(_spriteLoader->_fileExtension, _spriteLoader));
+	
+	isInit = true;
 }
 
 void AssetManager::destroy() {
@@ -56,11 +64,14 @@ void AssetManager::destroy() {
 	//	element.second->destroy();
 	//	delete(element.second);
 	//}
+	if (!isInit) {
+		Debug::Log("AssetManager: Is not init!");
+	}
 
 	for (auto const& [key, val] : _assets)
 	{
 		Debug::Log("AssetManager: Destroying: " + key);
-		val->destroy();
+		//val->destroy();
 		delete(val);
 	}
 	_assets.clear();
@@ -71,4 +82,6 @@ void AssetManager::destroy() {
 		delete(val);
 	}
 	_loaders.clear();
+
+	isInit = false;
 }

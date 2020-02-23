@@ -22,11 +22,18 @@ private:
 	static std::map<std::string, Asset*> _assets;
 	//Extension, Pointer
 	static std::map<std::string, AssetLoader*> _loaders;
+
+	static bool isInit;
 };
 
 template<class T>
 inline T* AssetManager::get(std::string name)
 {
+	if (!isInit) {
+		Debug::Log("AssetManager: Is not init!");
+		return nullptr;
+	}
+
 	std::map<std::string, Asset*>::iterator it = _assets.find(name);
 	if (it == _assets.end())
 	{

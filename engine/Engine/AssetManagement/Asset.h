@@ -3,7 +3,7 @@ class Asset
 {
 public:
 	Asset(){}
-	~Asset(){}
+	virtual ~Asset(){}
 
 	virtual void load(){}
 	virtual void destroy(){}

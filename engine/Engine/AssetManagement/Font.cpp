@@ -85,11 +85,6 @@ Font::Font(void* face, unsigned int fontSize)
 
 Font::~Font()
 {
-
-}
-
-void Font::destroy()
-{
 	Debug::Log("Destroying font!");
 	for (size_t i = 0; i < characters.size(); i++)
 	{

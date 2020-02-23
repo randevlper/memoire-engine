@@ -17,9 +17,8 @@ class Font : public Asset
 {
 public:
 	Font(void* face, unsigned int fontSize);
-	~Font();
+	~Font() override;
 
-	void destroy() override;
 	Character getCharacter(char c);
 
 private:
