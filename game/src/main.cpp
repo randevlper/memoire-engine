@@ -60,41 +60,8 @@ int main(int argc, char** argv) {
 
 		Body col({});
 
-		//Collider col1;
-		//col1.isDebug = true;
-		//Collider box;
-		//box.transform.translate({ 0,-40 });
-		//Physics::addCollider(&box);
-		//Collider trigger;
-		//trigger.transform.translate({ -40, 0 });
-		//trigger.isTrigger = true;
-		//Physics::addCollider(&trigger);
-
-
-		//Physics::addCollider(&col1);
-		//Physics::removeCollider(&col1);
-		//Physics::addCollider(&col1);
-		//Collider col2;
-		//col2.isStatic = true;
-		//Physics::addCollider(&col2);
-
-		//col1.transform.setLocalPosition({ 0, 0 });
-		//col2.transform.setLocalPosition({ 0, 0 });
-
-		//Generic File type to inherit from
-		//AseData* aseFile = FileUtility::loadAse("assets/ayse.aseprite");
-		//AseData* background = FileUtility::loadAse("assets/background.aseprite");
-
-
-		float groundFriction = 1.0f;
-
-		//Aseprite::AsepriteFile aseFile();
-		//double sum = 0;
-		//int frame = 0;
-
 		Transform cameraPos;
 		cameraPos.setLocalPosition({ 0,0 });
-		//cameraPos.setParent(&col1.transform);
 
 		AssetManager::init();
 
@@ -102,9 +69,7 @@ int main(int argc, char** argv) {
 		AssetManager::load("assets/sprite.png", "");
 
 		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
-		//AssetManager::load("assets/fonts/heh.ttf", "64");
 
-		//SpriteLoader
 		Sprite* ayse = AssetManager::get<Sprite>("assets/ayse.png");
 		Sprite* sprite = AssetManager::get<Sprite>("assets/sprite.png");
 
@@ -116,7 +81,6 @@ int main(int argc, char** argv) {
 		spriteRenderer2->transform.depth = 0.1f;
 
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
-
 		
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 
