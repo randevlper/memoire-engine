@@ -1,5 +1,6 @@
 #pragma once
 union SDL_Event;
+#include  "glm/fwd.hpp"
 
 enum Mouse
 {
@@ -15,6 +16,8 @@ public:
 	static bool getKeyDown(int key);
 	static bool getKeyUp(int key);
 	static bool getKey(int key);
+
+	static glm::vec2 getMousePos();
 
 	static void init();
 	static void quit();

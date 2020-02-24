@@ -90,7 +90,6 @@ int main(int argc, char** argv) {
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
 		textRenderer->setText("YEEHAW");
 
-
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
 		{
@@ -117,43 +116,13 @@ int main(int argc, char** argv) {
 			Physics::tick();
 
 			spriteRenderer->transform.setLocalScale({ sin(ticks * Context::getDeltaTime()), 1 });
-
-			//double value = sin(ticks* 0.01);
-			//ayse.transform.translate(movement);
-			//ayse.transform.setLocalScale({ value * 2, value * 2 });
-			//ayse.transform.setLocalAngle(ticks * 0.01);
-
-			//if (Collider::doesCollide(&col1.getWorldGeo(), &col2.getWorldGeo()).penetration > 0) {
-			//	Debug::Log("Collide!!");
-			//}
-
-			//Need to create animator and animation clips
-			//sum += Context::getDeltaTime();
-			//double frameLength = (aseFile->frames[frame].frameDuration / 1000);
-			//if (sum > frameLength) {
-			//	sum = 0;
-			//	frame++;
-			//	if (frame >= aseFile->frames.size()) {
-			//		frame = 0;
-			//	}
-			//}
-			//Renderer::renderLine({ -20,0 }, { 20,0 }, glm::vec4(255,0,0,255));
-			//Renderer::renderLine({ 0,20 }, { 0,-20}, glm::vec4(0, 255, 0, 255));
-			//Renderer::renderLine({ 20,20 }, { -20,-20 }, glm::vec4(0, 0, 255, 255));
-			//Renderer::renderLine({ -20,20 }, { 20,-20 });
-			//Renderer::renderLine({ 0,0 }, { -100,-100 });
-			//test2.transform.setLocalAngle(test2.transform.getLocalAngle() + Context::getDeltaTime());
-			////Mirror option?
-			////Renderer::renderAseFrame(-200, -200, &background->frames[0]);
-			////Renderer::renderAseFrame(0, -200, &background->frames[0]);
-			////Renderer::renderAseFrame(-400, -200, &background->frames[0]);
-			//Debug::DrawTransform(&test.transform);
-			//Debug::DrawTransform(&test2.transform);
-			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Ayse %dW x %dH in pixels", ayse->width, ayse->height);
 			spriteRenderer2->render();
 			spriteRenderer->render();
 			textRenderer->render();
-			
+
+			glm::ivec2 mousePos = Input::getMousePos();
+			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %i Mouse Y: %i", mousePos.x, mousePos.y);
+
 			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
 			Renderer::render();
 			

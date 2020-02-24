@@ -3,6 +3,7 @@
 #include "SDL.h"
 #include "Context.h"
 #include <algorithm>
+#include <glm/glm.hpp>
 
 #include "Engine/Utilities/DebugMemory.h"
 
@@ -45,6 +46,13 @@ bool Input::getKey(int key)
 		}
 	}
 	return false;
+}
+
+glm::vec2 Input::getMousePos()
+{
+	glm::ivec2 retval;
+	SDL_GetMouseState(&retval.x, &retval.y);
+	return retval;
 }
 
 void Input::init()
