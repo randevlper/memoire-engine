@@ -14,6 +14,7 @@ Data Oriented
 #include "Engine/Utilities/DebugMemory.h"
 
 #include <iostream>
+#include <list>
 
 #include <bgfx/bgfx.h>
 #include <glm/vec2.hpp>
@@ -42,7 +43,23 @@ Data Oriented
 #include "Engine/Nodes/TextRenderer.h"
 #include "Engine/AssetManagement/AssetManager.h"
 
+struct GridNode
+{
+	unsigned int floorID;
+	unsigned int thingID;
+	unsigned int roofID;
+};
 
+struct Grid
+{
+	unsigned int width, height;
+	std::list<GridNode> nodes;
+};
+
+
+//ThingData
+//Grid
+//GridRenderer
 
 int main(int argc, char** argv) {
 	{
@@ -115,7 +132,7 @@ int main(int argc, char** argv) {
 			cameraPos.translate((movement * speed));
 			Physics::tick();
 
-			spriteRenderer->transform.setLocalScale({ sin(ticks * Context::getDeltaTime()), 1 });
+			spriteRenderer->transform.setLocalScale({ sin((ticks * Context::getDeltaTime()) /10), 1 });
 			spriteRenderer2->render();
 			spriteRenderer->render();
 			textRenderer->render();
