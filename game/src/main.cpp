@@ -45,9 +45,9 @@ Data Oriented
 
 struct GridNode
 {
-	unsigned int floorID;
-	unsigned int thingID;
-	unsigned int roofID;
+	unsigned int floorID; //ground
+	unsigned int thingID; //nothing, wall
+	unsigned int roofID; //none, ceiling
 };
 
 struct Grid

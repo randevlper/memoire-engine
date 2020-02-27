@@ -1,5 +1,7 @@
 #include "Engine/Core/Renderer.h"
 
+#include <string>
+
 #include "glm/vec2.hpp"
 #include "glm/geometric.hpp"
 #include "glm/gtx/rotate_vector.hpp"
@@ -167,14 +169,10 @@ void Renderer::render()
 
 	//SDL_Log("FPS: %f", _frameCount / ( _fpsTimer.getTicks() / 1000.f));
 
-	char title[80] = {};
-
-	strcpy(title, Context::getWindowTitle());
-	strcat(title, "FPS: ");
-	//strcat(title, (_frameCount / (_fpsTimer.getTicks() / 1000.f)));
-		//+  + (_frameCount / (_fpsTimer.getTicks() / 1000.f));
-
-	Context::setWindowTitle(title);
+	std::string title = Context::getWindowTitle();
+	title += " FPS: ";
+	title += std::to_string((int)(_frameCount / (_fpsTimer.getTicks() / 1000.f)));
+	Context::setWindowTitle(title.data());
 
 	const bgfx::Stats* stats = bgfx::getStats();
 	bgfx::dbgTextPrintf(0, 2, 0x0f, "Backbuffer %dW x %dH in pixels, debug text %dW x %dH in characters."

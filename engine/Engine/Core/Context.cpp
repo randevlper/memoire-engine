@@ -199,7 +199,6 @@ char* Context::getWindowTitle()
 
 void Context::setWindowTitle(char* value)
 {
-	_windowParems.windowName = value;
 	SDL_SetWindowTitle(_window, value);
 }
 
