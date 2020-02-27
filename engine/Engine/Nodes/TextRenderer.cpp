@@ -8,6 +8,9 @@
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Utilities/TypeConversion.h"
 
+#include "Engine/AssetManagement/AssetManager.h"
+#include "Engine/AssetManagement/Shader.h"
+
 #include "Engine/Utilities/DebugMemory.h"
 
 bgfx::VertexLayout TextVertex::pcvLayout;
@@ -30,22 +33,18 @@ void TextVertex::init() {
 		.end();
 }
 
-bgfx::ProgramHandle TextRenderer::s_program;
+Shader* TextRenderer::_shader = nullptr;
 bool TextRenderer::init = false;
 
 void TextRenderer::destroy()
 {
-	if (s_program.idx != 0) {
-		bgfx::destroy(s_program);
-	}
 }
 
 TextRenderer::TextRenderer()
 {
 	if (!init) {
 		TextVertex::init();
-		s_program = FileUtility::loadProgram("assets/shaders/vs_sprite.bin",
-			"assets/shaders/fs_sprite.bin");
+		_shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
 		init = true;
 	}
 
@@ -87,7 +86,7 @@ void TextRenderer::render()
 			bgfx::setVertexBuffer(0, _vbs[i]);
 			bgfx::setIndexBuffer(ibh);
 			bgfx::setTexture(0, s_font, _font->getCharacter(_text[i]).Handle);
-			bgfx::submit(0, s_program);
+			bgfx::submit(0, _shader->getHandle());
 		}
 	}
 }

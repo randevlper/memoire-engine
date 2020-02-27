@@ -3,6 +3,7 @@
 #include "Engine/Nodes/Node.h"
 #include "bgfx/bgfx.h"
 class Font;
+class Shader;
 
 struct TextVertex
 {
@@ -44,6 +45,6 @@ private:
 	void buildVertexBuffers();
 	void clearVertexBuffers();
 
-	static bgfx::ProgramHandle s_program;
+	static Shader* _shader;
 	static bool init;
 };

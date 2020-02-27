@@ -61,6 +61,9 @@ void AssetManager::init() {
 	_loaders.insert(std::pair<std::string, AssetLoader*>(_shaderLoader->_fileExtension, _shaderLoader));
 
 	isInit = true;
+
+	//Need to make some sort of system for required Assets for the loader to load
+	AssetManager::load("assets/shaders/vs_sprite.bin", "assets/shaders/fs_sprite.bin");
 }
 
 void AssetManager::destroy() {

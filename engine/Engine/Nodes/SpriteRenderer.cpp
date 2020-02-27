@@ -38,11 +38,6 @@ SpriteRenderer::SpriteRenderer()
 	if (!init) {
 		SpriteVertex::init();
 		shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
-
-		if (shader == nullptr) {
-			AssetManager::load("assets/shaders/vs_sprite.bin", "assets/shaders/fs_sprite.bin");
-			shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
-		}
 		//FileUtility::loadProgram("assets/shaders/vs_sprite.bin","assets/shaders/fs_sprite.bin");
 		init = true;
 	}
