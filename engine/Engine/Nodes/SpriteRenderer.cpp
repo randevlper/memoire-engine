@@ -5,6 +5,10 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+
+#include "Engine/AssetManagement/Shader.h"
+#include "Engine/AssetManagement/AssetManager.h"
+
 #include "Engine/Utilities/DebugMemory.h"
 
 bgfx::VertexLayout SpriteVertex::pcvLayout;
@@ -27,14 +31,19 @@ void SpriteVertex::init() {
 		.end();
 }
 
-bgfx::ProgramHandle SpriteRenderer::s_program;
+Shader* SpriteRenderer::shader = nullptr;
 bool SpriteRenderer::init = false;
 SpriteRenderer::SpriteRenderer()
 {
 	if (!init) {
 		SpriteVertex::init();
-		s_program = FileUtility::loadProgram("assets/shaders/vs_sprite.bin",
-			"assets/shaders/fs_sprite.bin");
+		shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
+
+		if (shader == nullptr) {
+			AssetManager::load("assets/shaders/vs_sprite.bin", "assets/shaders/fs_sprite.bin");
+			shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
+		}
+		//FileUtility::loadProgram("assets/shaders/vs_sprite.bin","assets/shaders/fs_sprite.bin");
 		init = true;
 	}
 
@@ -92,10 +101,9 @@ void SpriteRenderer::render()
 	//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
 	
 
-	bgfx::submit(0, s_program);
+	bgfx::submit(0, shader->getHandle());
 }
 
 void SpriteRenderer::destroy()
 {
-	bgfx::destroy(s_program);
 }

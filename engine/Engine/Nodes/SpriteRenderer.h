@@ -2,6 +2,7 @@
 #include "Engine/Nodes/Node.h"
 #include "bgfx/bgfx.h"
 class Sprite;
+class Shader;
 
 struct SpriteVertex
 {
@@ -34,6 +35,8 @@ private:
 	bgfx::VertexBufferHandle vbh;
 	bgfx::IndexBufferHandle ibh;
 	bgfx::UniformHandle s_sprite;
-	static bgfx::ProgramHandle s_program;
+
+	static Shader* shader;
+
 	static bool init;
 };

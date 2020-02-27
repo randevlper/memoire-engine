@@ -6,6 +6,7 @@
 #include "AssetLoader.h"
 #include "FontLoader.h"
 #include "SpriteLoader.h"
+#include "ShaderLoader.h"
 
 #include "Engine/Utilities/DebugMemory.h"
 
@@ -55,6 +56,10 @@ void AssetManager::init() {
 	_spriteLoader->init();
 	_loaders.insert(std::pair<std::string, AssetLoader*>(_spriteLoader->_fileExtension, _spriteLoader));
 	
+	ShaderLoader* _shaderLoader = DBG_NEW ShaderLoader();
+	_shaderLoader->init();
+	_loaders.insert(std::pair<std::string, AssetLoader*>(_shaderLoader->_fileExtension, _shaderLoader));
+
 	isInit = true;
 }
 

@@ -83,12 +83,12 @@ int main(int argc, char** argv) {
 		AssetManager::init();
 
 		AssetManager::load("assets/ayse.png","");
-		AssetManager::load("assets/sprite.png", "");
+		AssetManager::load("assets/tiles/grass.png", "");
 
 		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
 
 		Sprite* ayse = AssetManager::get<Sprite>("assets/ayse.png");
-		Sprite* sprite = AssetManager::get<Sprite>("assets/sprite.png");
+		Sprite* sprite = AssetManager::get<Sprite>("assets/tiles/grass.png");
 
 		SpriteRenderer* spriteRenderer = DBG_NEW SpriteRenderer();
 		spriteRenderer->setSprite(ayse);
