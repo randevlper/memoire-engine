@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
 
 		SpriteRenderer* spriteRenderer2 = DBG_NEW SpriteRenderer();
 		spriteRenderer2->setSprite(sprite);
-		spriteRenderer2->transform.depth = 0.1f;
+		spriteRenderer2->transform.depth = 2.0f;
 
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
 		
@@ -103,9 +103,10 @@ int main(int argc, char** argv) {
 
 		TextRenderer* textRenderer = DBG_NEW TextRenderer();
 		textRenderer->setFont(fontTest);
+		textRenderer->transform.setLocalPosition({ -Context::getWindowWidth() / 2,0 });
 		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
-		textRenderer->setText("YEEHAW");
+		textRenderer->setText("Malika_is_fucking_bay");
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())

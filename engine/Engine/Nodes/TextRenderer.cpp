@@ -44,6 +44,7 @@ TextRenderer::TextRenderer()
 {
 	if (!init) {
 		TextVertex::init();
+		//Replace with text shader
 		_shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
 		init = true;
 	}
