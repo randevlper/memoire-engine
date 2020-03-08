@@ -1,9 +1,13 @@
 #pragma once
 
 #include "Engine/Nodes/Node.h"
-#include "bgfx/bgfx.h"
+
+#include <vector>
+
+#include <bgfx/bgfx.h>
 
 class Shader;
+class Tilemap;
 
 struct TilemapVertex
 {
@@ -26,10 +30,16 @@ public:
 	TilemapRenderer();
 	~TilemapRenderer();
 
+	void render();
+	void setTilemap(Tilemap* tm);
+
 	bgfx::IndexBufferHandle _ibh;
 	bgfx::UniformHandle _s_tilemap;
 
 private:
+	void destroyVerticies();
+	Tilemap* tilemap;
+	std::vector<bgfx::VertexBufferHandle> _tileVertexBuffers;
 
 	static Shader* _shader;
 	static bool init;

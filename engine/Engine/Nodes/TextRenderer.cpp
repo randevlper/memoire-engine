@@ -122,10 +122,16 @@ void TextRenderer::buildVertexBuffers()
 		float h = ch.size.y;
 
 		TextVertex lineData[4];
-		lineData[0] = TextVertex{ xpos, ypos, 0.0f, Utility::colorToHex(color), 0, 0x7fff };
-		lineData[1] = TextVertex{ xpos + w, ypos, 0.0f, Utility::colorToHex(color), 0x7fff, 0x7fff };
-		lineData[2] = TextVertex{ xpos + w, ypos + h, 0.0f, Utility::colorToHex(color),  0x7fff, 0 };
-		lineData[3] = TextVertex{ xpos, ypos + h, 0.0f, Utility::colorToHex(color), 0, 0 };
+		//lineData[0] = TextVertex{ xpos, ypos, 0.0f, Utility::colorToHex(color), 0, 0x7fff };
+		//lineData[1] = TextVertex{ xpos + w, ypos, 0.0f, Utility::colorToHex(color), 0x7fff, 0x7fff };
+		//lineData[2] = TextVertex{ xpos + w, ypos + h, 0.0f, Utility::colorToHex(color),  0x7fff, 0 };
+		//lineData[3] = TextVertex{ xpos, ypos + h, 0.0f, Utility::colorToHex(color), 0, 0 };
+		memcpy(lineData, TextVertex::planeVerts, sizeof(TextVertex::planeVerts));
+		lineData[0].x = xpos; lineData[0].y = ypos;
+		lineData[1].x = xpos + w; lineData[1].y = ypos;
+		lineData[2].x = xpos + w; lineData[2].y = ypos + h;
+		lineData[3].x = xpos; lineData[3].y = ypos + h;
+
 		bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::copy(lineData, sizeof(lineData)), TextVertex::pcvLayout);
 
 		_vbs.push_back(vbh);

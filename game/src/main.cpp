@@ -43,6 +43,9 @@ Data Oriented
 #include "Engine/Nodes/TextRenderer.h"
 #include "Engine/AssetManagement/AssetManager.h"
 
+#include"Engine/Nodes/TilemapRenderer.h"
+#include "Engine/AssetManagement/Tilemap.h"
+
 struct GridNode
 {
 	unsigned int floorID; //ground
@@ -106,7 +109,12 @@ int main(int argc, char** argv) {
 		textRenderer->transform.setLocalPosition({ -Context::getWindowWidth() / 2,0 });
 		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
-		textRenderer->setText("Malika_is_fucking_bay");
+		textRenderer->setText("YEEEEEEEhAw");
+
+		TilemapRenderer* tilemapRen = DBG_NEW TilemapRenderer();
+		Tilemap* tilemap = DBG_NEW Tilemap();
+		tilemapRen->setTilemap(tilemap);
+		tilemap->testSprite = sprite;
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
@@ -137,6 +145,7 @@ int main(int argc, char** argv) {
 			spriteRenderer2->render();
 			spriteRenderer->render();
 			textRenderer->render();
+			tilemapRen->render();
 
 			glm::ivec2 mousePos = Input::getMousePos();
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %i Mouse Y: %i", mousePos.x, mousePos.y);
@@ -146,6 +155,8 @@ int main(int argc, char** argv) {
 			
 		}
 
+		delete(tilemapRen);
+		delete(tilemap);
 		delete(textRenderer);
 		delete(spriteRenderer);
 		delete(spriteRenderer2);
