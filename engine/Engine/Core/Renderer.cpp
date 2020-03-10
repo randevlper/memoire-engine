@@ -23,6 +23,8 @@ Renderer* Renderer ::_instance = nullptr;
 Timer Renderer::_fpsTimer = Timer();
 Timer Renderer::_capTimer = Timer();
 Uint64 Renderer::_frameCount = 0;
+float Renderer::_proj[16] = {};
+float Renderer::_view[16] = {};
 
 bgfx::DynamicVertexBufferHandle Renderer::lineVerts;
 bgfx::IndexBufferHandle Renderer::lineIndicies;
@@ -154,17 +156,15 @@ void Renderer::render()
 
 	bx::Vec3 at = { _cameraPos->x, _cameraPos->y,  0.0f };
 	bx::Vec3 eye = { _cameraPos->x, _cameraPos->y, -10.0f };
-	float view[16];
-	bx::mtxLookAt(view, eye, at);
-	float proj[16];
+	bx::mtxLookAt(_view, eye, at);
 	float left = -float(Context::getWindowWidth()) / 2;
 	float right = float(Context::getWindowWidth()) / 2;
 	float bottom = -float(Context::getWindowHeight()) / 2;
 	float top = float(Context::getWindowHeight()) / 2;
 
-	bx::mtxOrtho(proj, left, right, bottom, top, 0.1f, 100.0f, 0, bgfx::getCaps()->homogeneousDepth);
+	bx::mtxOrtho(_proj, left, right, bottom, top, 0.1f, 100.0f, 0, bgfx::getCaps()->homogeneousDepth);
 	//glm::mat4 projection = glm::ortho(), )
-	bgfx::setViewTransform(0, view, proj);
+	bgfx::setViewTransform(0, _view, _proj);
 	//bx:mtxOrtho(proj, -size * aspectRatio, size * aspectRatio, -size, size)
 
 	//SDL_Log("FPS: %f", _frameCount / ( _fpsTimer.getTicks() / 1000.f));

@@ -137,6 +137,7 @@ int main(int argc, char** argv) {
 				//Debug::Log("Up!");
 				movement.y = -Context::getDeltaTime();
 			}
+
 			float speed = 50.0f;
 			cameraPos.translate((movement * speed));
 			Physics::tick();
@@ -147,10 +148,16 @@ int main(int argc, char** argv) {
 			textRenderer->render();
 			tilemapRen->render();
 
-			glm::ivec2 mousePos = Input::getMousePos();
+			
+			
+			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
+
+			glm::ivec2 mousePos = Input::getMouseWorldPos();
+
+			bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cameraPos.getPosition().x, cameraPos.getPosition().y);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %i Mouse Y: %i", mousePos.x, mousePos.y);
 
-			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
+
 			Renderer::render();
 			
 		}

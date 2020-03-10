@@ -17,7 +17,8 @@ public:
 	static bool getKeyUp(int key);
 	static bool getKey(int key);
 
-	static glm::vec2 getMousePos();
+	static glm::ivec2 getMousePos();
+	static glm::vec2 getMouseWorldPos();
 
 	static void init();
 	static void quit();

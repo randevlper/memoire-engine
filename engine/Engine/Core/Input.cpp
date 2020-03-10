@@ -5,7 +5,11 @@
 #include <algorithm>
 #include <glm/glm.hpp>
 
+#include "Engine/Core/Renderer.h"
 #include "Engine/Utilities/DebugMemory.h"
+
+#include "Engine/Nodes/Node.h"
+#include "Engine/Data/Transform.h"
 
 const unsigned char* Input::_source = nullptr;
 unsigned char* Input::_currentPoll = nullptr;
@@ -48,11 +52,15 @@ bool Input::getKey(int key)
 	return false;
 }
 
-glm::vec2 Input::getMousePos()
+glm::ivec2 Input::getMousePos()
 {
 	glm::ivec2 retval;
 	SDL_GetMouseState(&retval.x, &retval.y);
 	return retval;
+}
+
+glm::vec2 Input::getMouseWorldPos() {
+	return getMousePos();
 }
 
 void Input::init()

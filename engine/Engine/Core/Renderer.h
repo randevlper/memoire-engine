@@ -54,7 +54,11 @@ public:
 
 	static void setCameraPos(int x, int y);
 	static glm::vec2 getCameraPos();
+
+	//Create Camera class to store projections and to transform mouse pos to world pos
 private:
+	static float _proj[16];
+	static float _view[16];
 	static glm::vec2* _cameraPos;
 	static Renderer* _instance;
 	static Timer _fpsTimer;
