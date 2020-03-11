@@ -42,12 +42,12 @@ void Context::init(ContextWindowParems* parems)
 
 		//Validate parems then store copy
 		_windowParems = *parems;
-		if (_windowParems.renderHeight == 0) {
-			_windowParems.renderHeight = _windowParems.windowHeight;
-		}
-		if (_windowParems.renderWidth == 0) {
-			_windowParems.renderWidth = _windowParems.windowWidth;
-		}
+		//if (_windowParems.windowHeight == 0) {
+		//	_windowParems.windowHeight = _windowParems.windowHeight;
+		//}
+		//if (_windowParems.windowWidth == 0) {
+		//	_windowParems.windowWidth = _windowParems.windowWidth;
+		//}
 
 		_window = SDL_CreateWindow(_windowParems.windowName, 100, 100, 
 				_windowParems.windowWidth, _windowParems.windowHeight, SDL_WINDOW_SHOWN);
@@ -179,12 +179,12 @@ int Context::getErrorCode()
 
 int Context::getWindowHeight()
 {
-	return _windowParems.renderHeight;
+	return _windowParems.windowHeight;
 }
 
 int Context::getWindowWidth()
 {
-	return _windowParems.renderWidth;
+	return _windowParems.windowWidth;
 }
 
 unsigned int Context::getMaxFps()

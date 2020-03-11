@@ -10,7 +10,6 @@ struct ContextWindowParems
 	//Actual window size
 	unsigned int windowWidth, windowHeight;
 	//The internal render size
-	unsigned int renderWidth, renderHeight;
 	unsigned int fps;
 	int argc;
 	char** argv;

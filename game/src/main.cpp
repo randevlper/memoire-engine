@@ -68,7 +68,7 @@ struct Grid
 
 int main(int argc, char** argv) {
 	{
-		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 640, 360, 60 , argc, argv};
+		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 60 , argc, argv};
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
@@ -152,10 +152,15 @@ int main(int argc, char** argv) {
 			textRenderer->render();
 			tilemapRen->render();
 
-			glm::ivec2 mousePos = Input::getMousePos();
+			glm::vec2 mousePos = Input::getMousePos();
+			mousePos = cam->screenToWorld(mousePos);
+			
+			Renderer::renderLine({ -10, 0 }, { 10,0 });
+			Renderer::renderLine({ 0, 10 }, { 0,-10 });
+			//Renderer::renderLine(mousePos, mousePos, glm::vec4(255,0,0,255), 10.0f);
 
 			bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
-			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %i Mouse Y: %i", mousePos.x, mousePos.y);
+			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
 
 
 			Renderer::render();
