@@ -1,14 +1,16 @@
 #include "World.h"
-#include "Engine\Nodes\Node.h"
-#include "Box2D/Box2D.h"
-#include "Engine/Nodes/Body.h"
 
+#include <Box2D/Box2D.h>
+
+
+#include "Engine/Nodes/Body.h"
 #include "Engine/Utilities/DebugMemory.h"
 
 World::World()
 {
-	_root = nullptr;
+	_root = DBG_NEW Node();
 	_world = DBG_NEW b2World({0,-9.8});
+	_nodes = std::vector<Node*>();
 }
 
 World::~World()

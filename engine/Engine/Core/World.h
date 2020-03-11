@@ -1,5 +1,7 @@
 #pragma once
-#include "glm/vec2.hpp"
+#include <vector>
+#include <glm/vec2.hpp>
+#include "Engine\Nodes\Node.h"
 //#include "Box2D/Box2D.h"
 
 class b2World;
@@ -16,15 +18,17 @@ public:
 	//Raycast
 	//AABB Query
 	//Node Creation
-	
-	//void tick();
-	//void AddNode(Node* node);
-	//void RemoveNode(Node* node);
 	void tick(float delta);
 	Body* CreateBody(BodyDef& def);
 
 	void setGravity(glm::vec2& value);
 	glm::vec2 getGravity();
+
+
+	//Create node <Templated>
+	template<class T>
+	T* create();
+
 
 private:
 	//Contain Nodes
@@ -32,4 +36,15 @@ private:
 	b2World* _world;
 	glm::vec2 _gravity;
 
+	std::vector<Node*> _nodes;
+	//For now use a list of nodes
+	//Ideally better to use a hierarchy? A node knows its children.
 };
+
+template<class T>
+inline T* World::create()
+{
+	T* node = new T();
+	_nodes.push_back(node);
+	return node;
+}
