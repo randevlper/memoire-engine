@@ -16,6 +16,8 @@
 #include "Engine/Utilities/TypeConversion.h"
 #include "Engine/Nodes/Camera.h"
 
+#include "Engine/Utilities/Debug.h"
+
 #include "Engine/Utilities/DebugMemory.h"
 
 Renderer* Renderer ::_instance = nullptr;
@@ -159,6 +161,9 @@ void Renderer::render()
 		bgfx::submit(0, lineProgram);
 	}
 	//glm::mat4 projection = glm::ortho(), )
+	if (_camera == nullptr) {
+		Debug::Log("[Renderer] Camera has not been set!");
+	}
 	bgfx::setViewTransform(0, _camera->getViewMatrix(), _camera->getProjectionMatrix());
 	//bx:mtxOrtho(proj, -size * aspectRatio, size * aspectRatio, -size, size)
 
