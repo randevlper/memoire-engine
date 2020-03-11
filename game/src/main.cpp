@@ -46,6 +46,8 @@ Data Oriented
 #include"Engine/Nodes/TilemapRenderer.h"
 #include "Engine/AssetManagement/Tilemap.h"
 
+#include "Engine/Nodes/Camera.h"
+
 struct GridNode
 {
 	unsigned int floorID; //ground
@@ -80,8 +82,10 @@ int main(int argc, char** argv) {
 
 		Body col({});
 
-		Transform cameraPos;
-		cameraPos.setLocalPosition({ 0,0 });
+		Camera* cam = new Camera();
+		cam->transform.setLocalPosition({ 0,0 });
+
+		Renderer::setCamera(cam);
 
 		AssetManager::init();
 
@@ -139,7 +143,7 @@ int main(int argc, char** argv) {
 			}
 
 			float speed = 50.0f;
-			cameraPos.translate((movement * speed));
+			cam->transform.translate((movement * speed));
 			Physics::tick();
 
 			spriteRenderer->transform.setLocalScale({ sin((ticks * Context::getDeltaTime()) /10), 1 });
@@ -148,13 +152,9 @@ int main(int argc, char** argv) {
 			textRenderer->render();
 			tilemapRen->render();
 
-			
-			
-			Renderer::setCameraPos(cameraPos.getPosition().x,cameraPos.getPosition().y);
+			glm::ivec2 mousePos = Input::getMousePos();
 
-			glm::ivec2 mousePos = Input::getMouseWorldPos();
-
-			bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cameraPos.getPosition().x, cameraPos.getPosition().y);
+			bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %i Mouse Y: %i", mousePos.x, mousePos.y);
 
 

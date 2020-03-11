@@ -7,6 +7,10 @@ public:
 	Camera();
 	~Camera();
 
-private:
+	float* getProjectionMatrix();
+	float* getViewMatrix();
 
+private:
+	float _proj[16];
+	float _view[16];
 };

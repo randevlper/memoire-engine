@@ -14,17 +14,15 @@
 #include "Engine/Utilities/Timer.h"
 #include "FileUtility.h"
 #include "Engine/Utilities/TypeConversion.h"
+#include "Engine/Nodes/Camera.h"
 
 #include "Engine/Utilities/DebugMemory.h"
 
-
-glm::vec2* Renderer::_cameraPos = DBG_NEW glm::vec2();
 Renderer* Renderer ::_instance = nullptr;
 Timer Renderer::_fpsTimer = Timer();
 Timer Renderer::_capTimer = Timer();
 Uint64 Renderer::_frameCount = 0;
-float Renderer::_proj[16] = {};
-float Renderer::_view[16] = {};
+Camera* Renderer::_camera = nullptr;
 
 bgfx::DynamicVertexBufferHandle Renderer::lineVerts;
 bgfx::IndexBufferHandle Renderer::lineIndicies;
@@ -56,6 +54,7 @@ void Renderer::init()
 		lineVerts = bgfx::createDynamicVertexBuffer(4, LineVertex::layout, BGFX_BUFFER_ALLOW_RESIZE);
 		lineIndicies = bgfx::createIndexBuffer(bgfx::makeRef(&planeIndexList, sizeof(planeIndexList)));
 		lineProgram = FileUtility::loadProgram("assets/shaders/vs_line.bin", "assets/shaders/fs_line.bin");
+	
 	}
 }
 
@@ -67,7 +66,8 @@ void Renderer::quit()
 		bgfx::destroy(lineProgram);
 		_fpsTimer.stop();
 		delete(_instance);
-		delete(_cameraPos);
+		//This should be handled by the node creator
+		//delete(_camera);
 		bgfx::shutdown();
 	}
 }
@@ -121,8 +121,8 @@ void Renderer::renderLines(glm::vec2* points, int pointsCount, glm::vec4& color)
 
 void Renderer::renderSquare(SDL_Rect& rect, SDL_Color& color)
 {
-	rect.x -= _cameraPos->x;
-	rect.y -= _cameraPos->y;
+	rect.x -= _camera->transform.getPosition().x;
+	rect.y -= _camera->transform.getPosition().y;
 	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
 	//SDL_RenderFillRect(Context::getRenderer(), &rect);
 }
@@ -137,9 +137,14 @@ void Renderer::renderAseFrame(int x, int y, AseFrame* frame)
 
 void Renderer::renderAseSprite(int x, int y, AseSprite* ase)
 {
-	SDL_Rect renderQuad = {(x + ase->xPos)  - _cameraPos->x, (y + ase->yPos) - _cameraPos->y, ase->width, ase->height };
+	SDL_Rect renderQuad = {(x + ase->xPos)  - _camera->transform.getPosition().x, (y + ase->yPos) - _camera->transform.getPosition().y, ase->width, ase->height };
 	//SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 	//SDL_RenderCopy(Context::getRenderer(), ase->texture, nullptr, &renderQuad);
+}
+
+void Renderer::setCamera(Camera* cam)
+{
+	_camera = cam;
 }
 
 void Renderer::render()
@@ -153,18 +158,8 @@ void Renderer::render()
 		bgfx::setIndexBuffer(lineIndicies);
 		bgfx::submit(0, lineProgram);
 	}
-
-	bx::Vec3 at = { _cameraPos->x, _cameraPos->y,  0.0f };
-	bx::Vec3 eye = { _cameraPos->x, _cameraPos->y, -10.0f };
-	bx::mtxLookAt(_view, eye, at);
-	float left = -float(Context::getWindowWidth()) / 2;
-	float right = float(Context::getWindowWidth()) / 2;
-	float bottom = -float(Context::getWindowHeight()) / 2;
-	float top = float(Context::getWindowHeight()) / 2;
-
-	bx::mtxOrtho(_proj, left, right, bottom, top, 0.1f, 100.0f, 0, bgfx::getCaps()->homogeneousDepth);
 	//glm::mat4 projection = glm::ortho(), )
-	bgfx::setViewTransform(0, _view, _proj);
+	bgfx::setViewTransform(0, _camera->getViewMatrix(), _camera->getProjectionMatrix());
 	//bx:mtxOrtho(proj, -size * aspectRatio, size * aspectRatio, -size, size)
 
 	//SDL_Log("FPS: %f", _frameCount / ( _fpsTimer.getTicks() / 1000.f));
@@ -193,15 +188,4 @@ void Renderer::render()
 		SDL_Delay((1000 / Context::getMaxFps()) - frameTicks);
 	}
 	_tvbs.clear();
-}
-
-void Renderer::setCameraPos(int x, int y)
-{
-	_cameraPos->x = x; //- (Context::getWindowWidth()/2);
-	_cameraPos->y = y; //- (Context::getWindowHeight()/2);
-}
-
-glm::vec2 Renderer::getCameraPos()
-{
-	return *_cameraPos;
 }

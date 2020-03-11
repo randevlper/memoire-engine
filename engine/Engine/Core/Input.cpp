@@ -59,10 +59,6 @@ glm::ivec2 Input::getMousePos()
 	return retval;
 }
 
-glm::vec2 Input::getMouseWorldPos() {
-	return getMousePos();
-}
-
 void Input::init()
 {
 	if (_instance == nullptr) {

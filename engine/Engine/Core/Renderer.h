@@ -10,6 +10,7 @@ struct SDL_Point;
 struct AseSprite;
 struct AseFrame;
 class Timer;
+class Camera;
 
 namespace bgfx {
 	struct DynamicVertexBufferHandle;
@@ -50,17 +51,14 @@ public:
 	static void renderAseFrame(int x, int y, AseFrame* frame);
 	static void renderAseSprite(int x, int y, AseSprite* ase);
 
-	static void render();
+	static void setCamera(Camera* cam);
 
-	static void setCameraPos(int x, int y);
-	static glm::vec2 getCameraPos();
+	static void render();
 
 	//Create Camera class to store projections and to transform mouse pos to world pos
 private:
-	static float _proj[16];
-	static float _view[16];
-	static glm::vec2* _cameraPos;
 	static Renderer* _instance;
+	static Camera* _camera;
 	static Timer _fpsTimer;
 	static Timer _capTimer;
 	static Uint64 _frameCount;
