@@ -166,7 +166,7 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
-
+		delete(cam);
 		delete(tilemapRen);
 		delete(tilemap);
 		delete(textRenderer);
