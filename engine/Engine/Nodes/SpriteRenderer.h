@@ -22,7 +22,7 @@ class SpriteRenderer : public Node
 {
 public:
 	SpriteRenderer();
-	~SpriteRenderer();
+	~SpriteRenderer() override;
 
 	void setSprite(Sprite* sprite);
 	Sprite* getSprite();

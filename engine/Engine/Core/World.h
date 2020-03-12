@@ -44,6 +44,7 @@ private:
 template<class T>
 inline T* World::create()
 {
+	static_assert(std::is_base_of<Node, T>::value, "T not derived from Node");
 	T* node = new T();
 	_nodes.push_back(node);
 	return node;

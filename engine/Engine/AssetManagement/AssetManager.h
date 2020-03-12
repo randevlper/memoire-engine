@@ -29,6 +29,7 @@ private:
 template<class T>
 inline T* AssetManager::get(std::string name)
 {
+	static_assert(std::is_base_of<Asset, T>::value, "T not derived from Asset");
 	if (!isInit) {
 		Debug::Log("AssetManager: Is not init!");
 		return nullptr;

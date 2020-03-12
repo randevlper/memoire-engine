@@ -7,7 +7,7 @@ class Camera : public Node
 {
 public:
 	Camera();
-	~Camera();
+	~Camera() override;
 
 	glm::mat4* getProjectionMatrix();
 	glm::mat4* getViewMatrix();

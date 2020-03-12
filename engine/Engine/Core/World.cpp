@@ -15,6 +15,13 @@ World::World()
 
 World::~World()
 {
+	for (size_t i = 0; i < _nodes.size(); i++)
+	{
+		if (_nodes[i] != nullptr) {
+			delete(_nodes[i]);
+		}
+	}
+	delete(_root);
 	delete(_world);
 }
 

@@ -27,6 +27,9 @@ Data Oriented
 #include "Engine/Core/Renderer.h"
 #include "Engine/Core/Physics.h"
 #include "Engine/Data/AseData.h"
+
+#include "Engine/Core/World.h"
+
 //#include "Engine/Tools/aseprite.h"
 #include "Engine/Core/Input.h"
 #include "Engine/Data/Transform.h"
@@ -82,11 +85,6 @@ int main(int argc, char** argv) {
 
 		Body col({});
 
-		Camera* cam = new Camera();
-		cam->transform.setLocalPosition({ 0,0 });
-
-		Renderer::setCamera(cam);
-
 		AssetManager::init();
 
 		AssetManager::load("assets/ayse.png","");
@@ -97,10 +95,17 @@ int main(int argc, char** argv) {
 		Sprite* ayse = AssetManager::get<Sprite>("assets/ayse.png");
 		Sprite* sprite = AssetManager::get<Sprite>("assets/tiles/grass.png");
 
-		SpriteRenderer* spriteRenderer = DBG_NEW SpriteRenderer();
+		World* world = DBG_NEW World();
+
+		Camera* cam = world->create <Camera>();
+		cam->transform.setLocalPosition({ 0,0 });
+
+		Renderer::setCamera(cam);
+
+		SpriteRenderer* spriteRenderer = world->create<SpriteRenderer>();
 		spriteRenderer->setSprite(ayse);
 
-		SpriteRenderer* spriteRenderer2 = DBG_NEW SpriteRenderer();
+		SpriteRenderer* spriteRenderer2 = world->create<SpriteRenderer>();
 		spriteRenderer2->setSprite(sprite);
 		spriteRenderer2->transform.depth = 2.0f;
 
@@ -108,14 +113,14 @@ int main(int argc, char** argv) {
 		
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 
-		TextRenderer* textRenderer = DBG_NEW TextRenderer();
+		TextRenderer* textRenderer = world->create <TextRenderer>();
 		textRenderer->setFont(fontTest);
 		textRenderer->transform.setLocalPosition({ -Context::getWindowWidth() / 2,0 });
 		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
 		textRenderer->setText("YEEEEEEEhAw");
 
-		TilemapRenderer* tilemapRen = DBG_NEW TilemapRenderer();
+		TilemapRenderer* tilemapRen = world->create <TilemapRenderer>();
 		Tilemap* tilemap = DBG_NEW Tilemap();
 		tilemapRen->setTilemap(tilemap);
 		tilemap->testSprite = sprite;
@@ -166,12 +171,8 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
-		delete(cam);
-		delete(tilemapRen);
+		delete(world);
 		delete(tilemap);
-		delete(textRenderer);
-		delete(spriteRenderer);
-		delete(spriteRenderer2);
 		TextRenderer::destroy();
 		SpriteRenderer::destroy();
 		FileUtility::destroy();

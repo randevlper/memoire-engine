@@ -5,7 +5,7 @@ class Node
 {
 public:
 	Node();
-	~Node();
+	virtual ~Node();
 	Transform transform;
 private:
 	

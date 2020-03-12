@@ -23,7 +23,7 @@ class TextRenderer : public Node
 {
 public:
 	TextRenderer();
-	~TextRenderer();
+	~TextRenderer() override;
 
 	void setFont(Font* font);
 	void setText(char* text);

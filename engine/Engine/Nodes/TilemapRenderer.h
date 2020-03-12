@@ -28,7 +28,7 @@ class TilemapRenderer : public Node
 {
 public:
 	TilemapRenderer();
-	~TilemapRenderer();
+	~TilemapRenderer() override;
 
 	void render();
 	void setTilemap(Tilemap* tm);
