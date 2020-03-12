@@ -26,8 +26,8 @@ public:
 
 
 	//Create node <Templated>
-	template<class T>
-	T* create();
+	template<class nodeclass>
+	nodeclass* create();
 
 
 private:
@@ -41,11 +41,11 @@ private:
 	//Ideally better to use a hierarchy? A node knows its children.
 };
 
-template<class T>
-inline T* World::create()
+template<class nodeclass>
+inline nodeclass* World::create()
 {
-	static_assert(std::is_base_of<Node, T>::value, "T not derived from Node");
-	T* node = new T();
+	static_assert(std::is_base_of<Node, nodeclass>::value, "Nodeclass not derived from Node");
+	nodeclass* node = new nodeclass();
 	_nodes.push_back(node);
 	return node;
 }
