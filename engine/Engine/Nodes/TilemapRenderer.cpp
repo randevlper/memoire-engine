@@ -137,3 +137,11 @@ int TilemapRenderer::worldToTile(glm::vec2 pos) {
 
 	return std::floor(relPos.x) + (std::floor(relPos.y) * tilemap->getHeight());
 }
+
+glm::vec2 TilemapRenderer::tileToPosition(int index)
+{
+	glm::vec2 retval = transform.getPosition();
+	retval.x += (index % tilemap->getWidth()) * tilemap->tileWidth;
+	retval.y += (index / tilemap->getWidth()) * tilemap->tileHeight;
+	return retval;
+}

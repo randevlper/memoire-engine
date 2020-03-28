@@ -152,9 +152,11 @@ int main(int argc, char** argv) {
 
 			//Check if the mouse is in the bounds of the tilemapRenderer
 			int tileIndex = tilemapRen->worldToTile(mousePos);
+			glm::vec2 tilePos = {0,0};
 			if ( tileIndex != -1) {
-				Renderer::renderLine({ -10, 0 }, { 10,0 });
-				Renderer::renderLine({ 0, 10 }, { 0,-10 });
+				tilePos = tilemapRen->tileToPosition(tileIndex);
+				Renderer::renderLine({ tilePos.x, tilePos.y }, { tilePos.x + tilemap->tileWidth,tilePos.y });
+				Renderer::renderLine({ tilePos.x, tilePos.y }, { tilePos.x,tilePos.y + tilemap->tileHeight });
 			}
 
 			float speed = 50.0f;
@@ -173,6 +175,7 @@ int main(int argc, char** argv) {
 			bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
 			bgfx::dbgTextPrintf(0, 5, 0x0f, "Tilemap Tile: %i", tileIndex);
+			bgfx::dbgTextPrintf(0, 6, 0x0f, "Tilepos X: %f Tilepos Y: %f", tilePos.x, tilePos.y);
 
 			Renderer::render();
 			
