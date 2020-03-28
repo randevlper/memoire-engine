@@ -1,5 +1,7 @@
 #include "TilemapRenderer.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/AssetManagement/Shader.h"
 #include "Engine/AssetManagement/Tilemap.h"
@@ -8,10 +10,10 @@
 
 bgfx::VertexLayout TilemapVertex::pcvLayout;
 TilemapVertex TilemapVertex::planeVerts[] = {
-	{-1.0f, -1.0f, 0.0f, 0xffffffff, 0, 0x7fff},
-	{1.0f, -1.0f, 0.0f, 0xffffffff, 0x7fff, 0x7fff},
+	{0.0f, 0.0f, 0.0f, 0xffffffff, 0, 0x7fff},
+	{1.0f, 0.0f, 0.0f, 0xffffffff, 0x7fff, 0x7fff},
 	{1.0f, 1.0f, 0.0f, 0xffffffff, 0x7fff, 0},
-	{-1.0f, 1.0f, 0.0f, 0xffffffff, 0, 0}
+	{0.0f, 1.0f, 0.0f, 0xffffffff, 0, 0}
 };
 const uint16_t TilemapVertex::planeTriList[] = {
 	0,1,2,
@@ -60,6 +62,7 @@ void TilemapRenderer::render()
 		bgfx::setVertexBuffer(0, _tileVertexBuffers[i]);
 		bgfx::setIndexBuffer(_ibh);
 		bgfx::setTexture(0, _s_tilemap, tilemap->testSprite->handle);
+		bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 		bgfx::submit(0, _shader->getHandle());
 	}
 }
@@ -86,9 +89,9 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 
 		for (size_t v = 0; v < 4; v++)
 		{
-			vertex[v].x *= (tm->tileWidth/2);
+			vertex[v].x *= (tm->tileWidth);
 			vertex[v].x += x;
-			vertex[v].y *= (tm->tileHeight/2);
+			vertex[v].y *= (tm->tileHeight);
 			vertex[v].y += y;
 			//vertex[v].y += y;
 		}
@@ -113,7 +116,24 @@ void TilemapRenderer::destroyVerticies()
 }
 
 int TilemapRenderer::worldToTile(glm::vec2 pos) {
+
+	glm::vec2 renPos = transform.getPosition();
 	unsigned int pixelWidth = tilemap->getWidth() * tilemap->tileWidth;
 	unsigned int pixelHeiht = tilemap->getHeight() * tilemap->tileHeight;
-	return 0;
+	pixelWidth += renPos.x;
+	pixelHeiht += renPos.y;
+
+	if (pos.x > pixelWidth || pos.x < renPos.x) {
+		return -1;
+	}
+
+	if (pos.y > pixelHeiht || pos.y < renPos.y) {
+		return -1;
+	}
+
+	glm::vec2 relPos = pos - renPos;
+	relPos.x /= tilemap->tileWidth;
+	relPos.y /= tilemap->tileHeight;
+
+	return std::floor(relPos.x) + (std::floor(relPos.y) * tilemap->getHeight());
 }

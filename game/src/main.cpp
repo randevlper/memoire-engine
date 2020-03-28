@@ -124,12 +124,15 @@ int main(int argc, char** argv) {
 		Tilemap* tilemap = DBG_NEW Tilemap();
 		tilemapRen->setTilemap(tilemap);
 		tilemap->testSprite = sprite;
+		tilemapRen->transform.setLocalPosition({ -50,-50 });
 
 		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
 		{
 			ticks++;
 			Context::tick();
+			glm::vec2 mousePos = Input::getMousePos();
+			mousePos = cam->screenToWorld(mousePos);
 
 			glm::vec2 movement = glm::vec2();
 			if (Input::getKey(SDL_SCANCODE_D)) {
@@ -147,6 +150,13 @@ int main(int argc, char** argv) {
 				movement.y = -Context::getDeltaTime();
 			}
 
+			//Check if the mouse is in the bounds of the tilemapRenderer
+			int tileIndex = tilemapRen->worldToTile(mousePos);
+			if ( tileIndex != -1) {
+				Renderer::renderLine({ -10, 0 }, { 10,0 });
+				Renderer::renderLine({ 0, 10 }, { 0,-10 });
+			}
+
 			float speed = 50.0f;
 			cam->transform.translate((movement * speed));
 			Physics::tick();
@@ -156,17 +166,13 @@ int main(int argc, char** argv) {
 			spriteRenderer->render();
 			textRenderer->render();
 			tilemapRen->render();
-
-			glm::vec2 mousePos = Input::getMousePos();
-			mousePos = cam->screenToWorld(mousePos);
 			
-			Renderer::renderLine({ -10, 0 }, { 10,0 });
-			Renderer::renderLine({ 0, 10 }, { 0,-10 });
+			
 			//Renderer::renderLine(mousePos, mousePos, glm::vec4(255,0,0,255), 10.0f);
 
 			bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
-
+			bgfx::dbgTextPrintf(0, 5, 0x0f, "Tilemap Tile: %i", tileIndex);
 
 			Renderer::render();
 			
