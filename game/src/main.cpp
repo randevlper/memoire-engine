@@ -89,11 +89,15 @@ int main(int argc, char** argv) {
 
 		AssetManager::load("assets/ayse.png","");
 		AssetManager::load("assets/tiles/grass.png", "");
+		AssetManager::load("assets/tiles/wall.png", "");
 
 		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
 
 		Sprite* ayse = AssetManager::get<Sprite>("assets/ayse.png");
-		Sprite* sprite = AssetManager::get<Sprite>("assets/tiles/grass.png");
+		Sprite* grassSprite = AssetManager::get<Sprite>("assets/tiles/grass.png");
+		Sprite* wallSprite = AssetManager::get<Sprite>("assets/tiles/wall.png");
+		Tile grassTile = { grassSprite, 0 };
+		Tile wallTile = { wallSprite, 1 };
 
 		World* world = DBG_NEW World();
 
@@ -106,7 +110,7 @@ int main(int argc, char** argv) {
 		spriteRenderer->setSprite(ayse);
 
 		SpriteRenderer* spriteRenderer2 = world->create<SpriteRenderer>();
-		spriteRenderer2->setSprite(sprite);
+		spriteRenderer2->setSprite(grassSprite);
 		spriteRenderer2->transform.depth = 2.0f;
 
 		spriteRenderer2->transform.setLocalPosition({ -100,-100 });
@@ -121,9 +125,14 @@ int main(int argc, char** argv) {
 		textRenderer->setText("YEEEEEEEhAw");
 
 		TilemapRenderer* tilemapRen = world->create <TilemapRenderer>();
-		Tilemap* tilemap = DBG_NEW Tilemap();
+		Tilemap* tilemap = DBG_NEW Tilemap(32,32);
+		tilemap->addTile(grassTile);
+		tilemap->addTile(wallTile);
+		tilemap->setTile(0, 1);
+		tilemap->setTile(23, 1);
+
 		tilemapRen->setTilemap(tilemap);
-		tilemap->testSprite = sprite;
+		tilemap->testSprite = grassSprite;
 		tilemapRen->transform.setLocalPosition({ -50,-50 });
 
 		Uint32 ticks = 0;
@@ -158,6 +167,13 @@ int main(int argc, char** argv) {
 				Renderer::renderLine({ tilePos.x, tilePos.y }, { tilePos.x + tilemap->tileWidth,tilePos.y });
 				Renderer::renderLine({ tilePos.x, tilePos.y }, { tilePos.x,tilePos.y + tilemap->tileHeight });
 			}
+
+			if (Input::getKey(SDL_SCANCODE_SPACE)) {
+				if (tileIndex != -1) {
+					tilemap->setTile(tileIndex, 1);
+				}
+			}
+
 
 			float speed = 50.0f;
 			cam->transform.translate((movement * speed));

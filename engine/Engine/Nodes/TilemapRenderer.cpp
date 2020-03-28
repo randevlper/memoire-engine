@@ -61,12 +61,13 @@ void TilemapRenderer::render()
 	{
 		bgfx::setVertexBuffer(0, _tileVertexBuffers[i]);
 		bgfx::setIndexBuffer(_ibh);
-		bgfx::setTexture(0, _s_tilemap, tilemap->testSprite->handle);
+		bgfx::setTexture(0, _s_tilemap, tilemap->getTile(i).sprite->handle);
 		bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 		bgfx::submit(0, _shader->getHandle());
 	}
 }
 
+//Likely need to optomize this to not use so many verts
 void TilemapRenderer::setTilemap(Tilemap* tm)
 {
 	//Clear VBS

@@ -2,11 +2,21 @@
 #include "Sprite.h"
 
 Tilemap::Tilemap() : 
-	width(5) , height(5), 
+	width(20) , height(20), 
 	tileWidth(32), tileHeight(32), 
 	testSprite(nullptr)
 {
-	tiles = std::vector<Tile>(width * height);
+	tiles = std::vector<Tile>();
+	map = std::vector<unsigned int>(width * height);
+}
+
+Tilemap::Tilemap(unsigned int width, unsigned int height) :
+	width(width), height(height),
+	tileWidth(32), tileHeight(32),
+	testSprite(nullptr)
+{
+	tiles = std::vector<Tile>();
+	map = std::vector<unsigned int>(width * height);
 }
 
 Tilemap::~Tilemap()

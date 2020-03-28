@@ -1,11 +1,11 @@
 #pragma once
-
 #include <vector>
 
 class Sprite;
 
 struct Tile {
-	unsigned int value;
+	Sprite* sprite;
+	unsigned int index;
 };
 
 class Tilemap
@@ -13,30 +13,44 @@ class Tilemap
 public:
 	Tilemap();
 	~Tilemap();
-
-	void setWidth(unsigned int w) {
-		width = w;
-	}
+	Tilemap(unsigned int width, unsigned int height);
 
 	unsigned int getWidth() {
 		return width;
 	}
-
-	void setHeight(unsigned int h) {
-		height = h;
-	}
-
 	unsigned int getHeight() {
 		return height;
-	}
-
-	std::vector<Tile> getTiles() {
-		return tiles;
 	}
 
 	unsigned int size() {
 		return height * width;
 	}
+
+	bool addTile(Tile value) {
+		if (tiles.size() < (size_t)value.index + 1) {
+			tiles.resize((size_t)value.index + 1);
+		}
+
+		tiles[value.index] = value;
+		return true;
+	}
+
+	bool setTile(unsigned int index, unsigned int value) {
+		if (value + 1 > tiles.size()) {
+			return false;
+		}
+
+		if (index + 1 > map.size()) {
+			return false;
+		}
+
+		map[index] = value;
+	}
+
+	Tile getTile(unsigned int index) {
+		return tiles[map[index]];
+	}
+
 
 	Sprite* testSprite;
 
@@ -46,4 +60,5 @@ private:
 	unsigned int width, height;
 	
 	std::vector<Tile> tiles;
+	std::vector<unsigned int> map;
 };
