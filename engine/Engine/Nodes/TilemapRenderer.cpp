@@ -111,3 +111,9 @@ void TilemapRenderer::destroyVerticies()
 	}
 	_tileVertexBuffers.clear();
 }
+
+int TilemapRenderer::worldToTile(glm::vec2 pos) {
+	unsigned int pixelWidth = tilemap->getWidth() * tilemap->tileWidth;
+	unsigned int pixelHeiht = tilemap->getHeight() * tilemap->tileHeight;
+	return 0;
+}

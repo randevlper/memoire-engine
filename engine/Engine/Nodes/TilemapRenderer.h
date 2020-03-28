@@ -3,8 +3,8 @@
 #include "Engine/Nodes/Node.h"
 
 #include <vector>
-
 #include <bgfx/bgfx.h>
+#include <glm/vec2.hpp>
 
 class Shader;
 class Tilemap;
@@ -32,6 +32,7 @@ public:
 
 	void render();
 	void setTilemap(Tilemap* tm);
+	int worldToTile(glm::vec2 pos);
 
 	bgfx::IndexBufferHandle _ibh;
 	bgfx::UniformHandle _s_tilemap;
