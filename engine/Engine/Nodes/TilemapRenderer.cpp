@@ -28,8 +28,7 @@ void TilemapVertex::init()
 		.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
 		.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
 		.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
-		.end();
-	
+		.end();	
 }
 
 Shader* TilemapRenderer::_shader = nullptr;
@@ -48,7 +47,7 @@ TilemapRenderer::TilemapRenderer()
 	_s_tilemap = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
 	_u_pos = bgfx::createUniform("u_pos", bgfx::UniformType::Vec4);
 	_ibh = bgfx::createIndexBuffer(bgfx::makeRef(TilemapVertex::planeTriList, sizeof(TilemapVertex::planeTriList)));
-	
+	_vbh.idx = -1;
 }
 
 TilemapRenderer::~TilemapRenderer()
@@ -59,6 +58,9 @@ TilemapRenderer::~TilemapRenderer()
 	bgfx::destroy(_u_pos);
 }
 
+
+//Need to make it so the draw is one call
+//This is too expensive
 void TilemapRenderer::render()
 {
 	if (tilemap == nullptr) { return; }
@@ -79,8 +81,12 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 {
 	//Clear VBS
 
+	if (bgfx::isValid(_vbh)) {
+		bgfx::destroy(_vbh);
+	}
+
 	tilemap = tm;
-	_positions = std::vector<glm::vec4>(tm->size());
+	_positions.resize(tm->size());
 
 	TilemapVertex verts[4];
 	memcpy(verts, TilemapVertex::planeVerts, sizeof(TilemapVertex::planeVerts));
