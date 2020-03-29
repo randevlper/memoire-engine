@@ -64,6 +64,7 @@ void AssetManager::init() {
 
 	//Need to make some sort of system for required Assets for the loader to load
 	AssetManager::load("assets/shaders/vs_sprite.bin", "assets/shaders/fs_sprite.bin");
+	AssetManager::load("assets/shaders/vs_tile.bin", "assets/shaders/fs_tile.bin");
 }
 
 void AssetManager::destroy() {

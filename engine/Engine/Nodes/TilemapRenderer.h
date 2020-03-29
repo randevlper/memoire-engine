@@ -37,15 +37,16 @@ public:
 	//returns the position of the tile using the index
 	//with the position being the bottom left corner
 	glm::vec2 tileToPosition(int index);
-
-	bgfx::IndexBufferHandle _ibh;
-	bgfx::UniformHandle _s_tilemap;
-
+	
 private:
-	void destroyVerticies();
 	Tilemap* tilemap;
-	std::vector<bgfx::VertexBufferHandle> _tileVertexBuffers;
+	std::vector<glm::vec4> _positions;
 
 	static Shader* _shader;
 	static bool init;
+
+	bgfx::IndexBufferHandle _ibh;
+	bgfx::VertexBufferHandle _vbh;
+	bgfx::UniformHandle _s_tilemap;
+	bgfx::UniformHandle _u_pos;
 };

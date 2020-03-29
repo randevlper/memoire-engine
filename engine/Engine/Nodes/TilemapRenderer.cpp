@@ -2,6 +2,7 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Engine/Core/Context.h"
 #include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/AssetManagement/Shader.h"
 #include "Engine/AssetManagement/Tilemap.h"
@@ -9,6 +10,7 @@
 #include "Engine/Utilities/Debug.h"
 
 bgfx::VertexLayout TilemapVertex::pcvLayout;
+
 TilemapVertex TilemapVertex::planeVerts[] = {
 	{0.0f, 0.0f, 0.0f, 0xffffffff, 0, 0x7fff},
 	{1.0f, 0.0f, 0.0f, 0xffffffff, 0x7fff, 0x7fff},
@@ -27,6 +29,7 @@ void TilemapVertex::init()
 		.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
 		.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
 		.end();
+	
 }
 
 Shader* TilemapRenderer::_shader = nullptr;
@@ -37,20 +40,23 @@ TilemapRenderer::TilemapRenderer()
 {
 	if (!init) {
 		TilemapVertex::init();
-		_shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
+		_shader = AssetManager::get<Shader>("assets/shaders/vs_tile.bin");
 		init = true;
 	}
 
 	tilemap = nullptr;
 	_s_tilemap = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
+	_u_pos = bgfx::createUniform("u_pos", bgfx::UniformType::Vec4);
 	_ibh = bgfx::createIndexBuffer(bgfx::makeRef(TilemapVertex::planeTriList, sizeof(TilemapVertex::planeTriList)));
+	
 }
 
 TilemapRenderer::~TilemapRenderer()
 {
-	destroyVerticies();
 	bgfx::destroy(_s_tilemap);
 	bgfx::destroy(_ibh);
+	bgfx::destroy(_vbh);
+	bgfx::destroy(_u_pos);
 }
 
 void TilemapRenderer::render()
@@ -59,9 +65,10 @@ void TilemapRenderer::render()
 	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 	for (size_t i = 0; i < tilemap->size(); i++)
 	{
-		bgfx::setVertexBuffer(0, _tileVertexBuffers[i]);
+		bgfx::setVertexBuffer(0, _vbh);
 		bgfx::setIndexBuffer(_ibh);
 		bgfx::setTexture(0, _s_tilemap, tilemap->getTile(i).sprite->handle);
+		bgfx::setUniform(_u_pos, glm::value_ptr(_positions[i]));
 		bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 		bgfx::submit(0, _shader->getHandle());
 	}
@@ -73,47 +80,25 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 	//Clear VBS
 
 	tilemap = tm;
-	_tileVertexBuffers = std::vector<bgfx::VertexBufferHandle>(tm->size());
+	_positions = std::vector<glm::vec4>(tm->size());
 
-	int x = 0;
-	int y = 0;
+	TilemapVertex verts[4];
+	memcpy(verts, TilemapVertex::planeVerts, sizeof(TilemapVertex::planeVerts));
+	for (size_t i = 0; i < 4; i++)
+	{
+		verts[i].x *= tm->tileWidth;
+		verts[i].y *= tm->tileHeight;
+	}
+
+	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(TilemapVertex::planeVerts)), TilemapVertex::pcvLayout);
 
 	for (size_t i = 0; i < tm->size(); i++)
 	{
-		bgfx::VertexBufferHandle vbh;
-		TilemapVertex vertex[4];
-		memcpy(vertex, TilemapVertex::planeVerts, sizeof(TilemapVertex::planeVerts));
-
-
-		x = (i % tm->getWidth()) * tm->tileWidth;
-		y = (i / tm->getWidth()) * tm->tileHeight;
-
-		for (size_t v = 0; v < 4; v++)
-		{
-			vertex[v].x *= (tm->tileWidth);
-			vertex[v].x += x;
-			vertex[v].y *= (tm->tileHeight);
-			vertex[v].y += y;
-			//vertex[v].y += y;
-		}
-
-		vbh = bgfx::createVertexBuffer(
-			bgfx::copy(vertex,
-				sizeof(TilemapVertex::planeVerts)),
-			TilemapVertex::pcvLayout);
-
-		_tileVertexBuffers[i] = vbh;
-		//Debug::Log(std::to_string(i) + " Created VBH idx: " + std::to_string(vbh.idx));
+		_positions[i].x = (i % tm->getWidth()) * tm->tileWidth;
+		_positions[i].y = (i / tm->getWidth()) * tm->tileHeight;
+		_positions[i].x /= Context::getWindowWidth()/2;
+		_positions[i].y /= Context::getWindowHeight()/2;
 	}
-}
-
-void TilemapRenderer::destroyVerticies()
-{
-	for (size_t i = 0; i < _tileVertexBuffers.size(); i++)
-	{
-		bgfx::destroy(_tileVertexBuffers[i]);
-	}
-	_tileVertexBuffers.clear();
 }
 
 int TilemapRenderer::worldToTile(glm::vec2 pos) {
