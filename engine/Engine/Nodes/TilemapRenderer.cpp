@@ -44,18 +44,21 @@ TilemapRenderer::TilemapRenderer()
 	}
 
 	tilemap = nullptr;
-	_s_tilemap = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
-	_u_pos = bgfx::createUniform("u_pos", bgfx::UniformType::Vec4);
+	u_tilemap = bgfx::createUniform("u_tilemap", bgfx::UniformType::Sampler);
+	u_tileset = bgfx::createUniform("u_tileset", bgfx::UniformType::Sampler);
+	u_tileInfo = bgfx::createUniform("u_tileInfo", bgfx::UniformType::Vec4);
+	u_viewport = bgfx::createUniform("u_viewport", bgfx::UniformType::Vec4);
 	_ibh = bgfx::createIndexBuffer(bgfx::makeRef(TilemapVertex::planeTriList, sizeof(TilemapVertex::planeTriList)));
 	_vbh.idx = -1;
 }
 
 TilemapRenderer::~TilemapRenderer()
 {
-	bgfx::destroy(_s_tilemap);
+	bgfx::destroy(u_tilemap);
+	bgfx::destroy(u_tileset);
+	bgfx::destroy(u_tileInfo);
 	bgfx::destroy(_ibh);
 	bgfx::destroy(_vbh);
-	bgfx::destroy(_u_pos);
 }
 
 
@@ -65,18 +68,17 @@ void TilemapRenderer::render()
 {
 	if (tilemap == nullptr) { return; }
 	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
-	for (size_t i = 0; i < tilemap->size(); i++)
-	{
-		bgfx::setVertexBuffer(0, _vbh);
-		bgfx::setIndexBuffer(_ibh);
-		bgfx::setTexture(0, _s_tilemap, tilemap->getTile(i).sprite->handle);
-		bgfx::setUniform(_u_pos, glm::value_ptr(_positions[i]));
-		bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
-		bgfx::submit(0, _shader->getHandle());
-	}
+	bgfx::setVertexBuffer(0, _vbh);
+	bgfx::setIndexBuffer(_ibh);
+	bgfx::setTexture(0, u_tilemap, tilemap->getTilemapSprite()->handle);
+	bgfx::setTexture(1, u_tileset, tilemap->getTilesetSprite()->handle);
+	bgfx::setUniform(u_tileInfo, glm::value_ptr(_tileInfo));
+	bgfx::setUniform(u_viewport, glm::value_ptr(_viewport));
+	bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
+	bgfx::submit(0, _shader->getHandle());
 }
 
-//Likely need to optomize this to not use so many verts
+//Generate one single plane
 void TilemapRenderer::setTilemap(Tilemap* tm)
 {
 	//Clear VBS
@@ -86,32 +88,25 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 	}
 
 	tilemap = tm;
-	_positions.resize(tm->size());
-
 	TilemapVertex verts[4];
 	memcpy(verts, TilemapVertex::planeVerts, sizeof(TilemapVertex::planeVerts));
 	for (size_t i = 0; i < 4; i++)
 	{
-		verts[i].x *= tm->tileWidth;
-		verts[i].y *= tm->tileHeight;
+		verts[i].x *= tm->getPixelWidth();
+		verts[i].y *= tm->getPixelHeight();
 	}
+
+	_tileInfo = { tm->getTileWidth(), tm->getTileHeight(), tm->getTilemapSprite()->width, tm->getTilemapSprite()->height };
+	_viewport = { Context::getWindowWidth(), Context::getWindowHeight(), 0, 0 };
 
 	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(TilemapVertex::planeVerts)), TilemapVertex::pcvLayout);
-
-	for (size_t i = 0; i < tm->size(); i++)
-	{
-		_positions[i].x = (i % tm->getWidth()) * tm->tileWidth;
-		_positions[i].y = (i / tm->getWidth()) * tm->tileHeight;
-		_positions[i].x /= Context::getWindowWidth()/2;
-		_positions[i].y /= Context::getWindowHeight()/2;
-	}
 }
 
 int TilemapRenderer::worldToTile(glm::vec2 pos) {
 
 	glm::vec2 renPos = transform.getPosition();
-	unsigned int pixelWidth = tilemap->getWidth() * tilemap->tileWidth;
-	unsigned int pixelHeiht = tilemap->getHeight() * tilemap->tileHeight;
+	unsigned int pixelWidth = tilemap->getPixelWidth();
+	unsigned int pixelHeiht = tilemap->getPixelHeight();
 	pixelWidth += renPos.x;
 	pixelHeiht += renPos.y;
 
@@ -124,8 +119,8 @@ int TilemapRenderer::worldToTile(glm::vec2 pos) {
 	}
 
 	glm::vec2 relPos = pos - renPos;
-	relPos.x /= tilemap->tileWidth;
-	relPos.y /= tilemap->tileHeight;
+	relPos.x /= tilemap->getTileWidth();
+	relPos.y /= tilemap->getTileHeight();
 
 	return std::floor(relPos.x) + (std::floor(relPos.y) * tilemap->getHeight());
 }
@@ -133,7 +128,7 @@ int TilemapRenderer::worldToTile(glm::vec2 pos) {
 glm::vec2 TilemapRenderer::tileToPosition(int index)
 {
 	glm::vec2 retval = transform.getPosition();
-	retval.x += (index % tilemap->getWidth()) * tilemap->tileWidth;
-	retval.y += (index / tilemap->getWidth()) * tilemap->tileHeight;
+	retval.x += (index % tilemap->getWidth()) * tilemap->getTileWidth();
+	retval.y += (index / tilemap->getWidth()) * tilemap->getTileHeight();
 	return retval;
 }

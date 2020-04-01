@@ -5,6 +5,7 @@
 #include <vector>
 #include <bgfx/bgfx.h>
 #include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 
 class Shader;
 class Tilemap;
@@ -41,13 +42,22 @@ public:
 	
 private:
 	Tilemap* tilemap;
-	std::vector<glm::vec4> _positions;
 
 	static Shader* _shader;
 	static bool init;
 
+	glm::vec4 _tileInfo;
+	glm::vec4 _viewport;
+
 	bgfx::IndexBufferHandle _ibh;
 	bgfx::VertexBufferHandle _vbh;
-	bgfx::UniformHandle _s_tilemap;
-	bgfx::UniformHandle _u_pos;
+
+	//Sampler2D handle
+	bgfx::UniformHandle u_tileset;
+	//Vector 4 tile width, tile height, tilemap width, tilemap height
+	bgfx::UniformHandle u_tileInfo;
+	bgfx::UniformHandle u_viewport;
+	//Sampler2D handle
+	bgfx::UniformHandle u_tilemap;
+	
 };
