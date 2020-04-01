@@ -97,7 +97,7 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 	}
 
 	_tileInfo = { tm->getTileWidth(), tm->getTileHeight(), tm->getTilemapSprite()->width, tm->getTilemapSprite()->height };
-	_viewport = { Context::getWindowWidth(), Context::getWindowHeight(), 0, 0 };
+	_viewport = { Context::getWindowWidth(), Context::getWindowHeight(), tm->getPixelWidth(), tm->getPixelHeight() };
 
 	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(TilemapVertex::planeVerts)), TilemapVertex::pcvLayout);
 }
