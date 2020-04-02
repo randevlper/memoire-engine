@@ -70,13 +70,13 @@ TilemapRenderer::~TilemapRenderer()
 void TilemapRenderer::render()
 {
 	if (tilemap == nullptr) { return; }
-	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
+	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 	bgfx::setVertexBuffer(0, _vbh);
 	bgfx::setIndexBuffer(_ibh);
 	bgfx::setTexture(0, u_tilemap, tilemap->getTilemapSprite()->handle);
 	bgfx::setTexture(1, u_tileset, tilemap->getTilesetSprite()->handle);
-	bgfx::setUniform(u_tilesetInfo, glm::value_ptr(_tilesetInfo));
 	bgfx::setUniform(u_tilemapInfo, glm::value_ptr(_tilemapInfo));
+	bgfx::setUniform(u_tilesetInfo, glm::value_ptr(_tilesetInfo));
 	bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 	bgfx::submit(0, _shader->getHandle());
 }
@@ -100,7 +100,10 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 	}
 
 	_tilemapInfo = { tm->getTilemapSprite()->width, tm->getTilemapSprite()->height, 1 , 1 };
-	_tilesetInfo = { tm->getPixelWidth(), tm->getPixelHeight(), tm->getTileWidth(), tm->getTileHeight() };
+	_tilesetInfo = { tm->getTilesetSprite()->width, tm->getTilesetSprite()->height, tm->getTileWidth(), tm->getTileHeight() };
+	Debug::Log("Tileset Pixel : " + std::to_string(_tilesetInfo.x) 
+			+ " Tileset Pixel: " + std::to_string(_tilesetInfo.z) 
+			+ " " +  std::to_string(_tilesetInfo.z / _tilesetInfo.x));
 
 	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(TilemapVertex::planeVerts)), TilemapVertex::pcvLayout);
 }

@@ -9,7 +9,9 @@ uniform vec4 u_tilemapInfo;
 void main()
 {
 	vec4 tileColor = texture2D(u_tilemap, v_texcoord0);
-	vec2 offset = mod(v_texcoord0, vec2(1.0,1.0) / u_tilesetInfo.zw);
 
-	gl_FragColor = texture2D(u_tileset, ((tileColor.rg * u_tilesetInfo.zw) + offset));
+	vec2 spriteCoord = (tileColor.rg * 256.0) * (u_tilesetInfo.zw / u_tilesetInfo.xy);
+	vec2 offset =  mod(v_texcoord0, (u_tilesetInfo.zw / u_tilesetInfo.xy));
+
+	gl_FragColor = texture2D(u_tileset, spriteCoord + offset);
 }

@@ -17,11 +17,12 @@ unsigned int Tilemap::getHeight() {
 }
 
 unsigned int Tilemap::getPixelWidth() {
-	return tilemapSprite->height * tileHeight;
+	return tilemapSprite->width * tileWidth;
 }
 
-unsigned int Tilemap::getPixelHeight() {
-	return tilemapSprite->width * tileWidth;
+unsigned int Tilemap::getPixelHeight()
+{
+	return tilemapSprite->height * tileHeight;
 }
 
 unsigned int Tilemap::getTileWidth()
