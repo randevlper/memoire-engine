@@ -46,8 +46,8 @@ TilemapRenderer::TilemapRenderer()
 	tilemap = nullptr;
 	u_tilemap = bgfx::createUniform("u_tilemap", bgfx::UniformType::Sampler);
 	u_tileset = bgfx::createUniform("u_tileset", bgfx::UniformType::Sampler);
-	u_tileInfo = bgfx::createUniform("u_tileInfo", bgfx::UniformType::Vec4);
-	u_viewport = bgfx::createUniform("u_viewport", bgfx::UniformType::Vec4);
+	u_tilesetInfo = bgfx::createUniform("u_tilesetInfo", bgfx::UniformType::Vec4);
+	u_tilemapInfo = bgfx::createUniform("u_tilemapInfo", bgfx::UniformType::Vec4);
 	_ibh = bgfx::createIndexBuffer(bgfx::makeRef(TilemapVertex::planeTriList, sizeof(TilemapVertex::planeTriList)));
 	_vbh.idx = -1;
 }
@@ -56,7 +56,10 @@ TilemapRenderer::~TilemapRenderer()
 {
 	bgfx::destroy(u_tilemap);
 	bgfx::destroy(u_tileset);
-	bgfx::destroy(u_tileInfo);
+
+	bgfx::destroy(u_tilemapInfo);
+	bgfx::destroy(u_tilesetInfo);
+
 	bgfx::destroy(_ibh);
 	bgfx::destroy(_vbh);
 }
@@ -72,8 +75,8 @@ void TilemapRenderer::render()
 	bgfx::setIndexBuffer(_ibh);
 	bgfx::setTexture(0, u_tilemap, tilemap->getTilemapSprite()->handle);
 	bgfx::setTexture(1, u_tileset, tilemap->getTilesetSprite()->handle);
-	bgfx::setUniform(u_tileInfo, glm::value_ptr(_tileInfo));
-	bgfx::setUniform(u_viewport, glm::value_ptr(_viewport));
+	bgfx::setUniform(u_tilesetInfo, glm::value_ptr(_tilesetInfo));
+	bgfx::setUniform(u_tilemapInfo, glm::value_ptr(_tilemapInfo));
 	bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 	bgfx::submit(0, _shader->getHandle());
 }
@@ -96,8 +99,8 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 		verts[i].y *= tm->getPixelHeight();
 	}
 
-	_tileInfo = { tm->getTileWidth(), tm->getTileHeight(), tm->getTilemapSprite()->width, tm->getTilemapSprite()->height };
-	_viewport = { Context::getWindowWidth(), Context::getWindowHeight(), tm->getPixelWidth(), tm->getPixelHeight() };
+	_tilemapInfo = { tm->getTilemapSprite()->width, tm->getTilemapSprite()->height, 1 , 1 };
+	_tilesetInfo = { tm->getPixelWidth(), tm->getPixelHeight(), tm->getTileWidth(), tm->getTileHeight() };
 
 	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(TilemapVertex::planeVerts)), TilemapVertex::pcvLayout);
 }

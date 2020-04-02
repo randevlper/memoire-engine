@@ -46,18 +46,19 @@ private:
 	static Shader* _shader;
 	static bool init;
 
-	glm::vec4 _tileInfo;
-	glm::vec4 _viewport;
+	glm::vec4 _tilesetInfo;
+	glm::vec4 _tilemapInfo;
 
 	bgfx::IndexBufferHandle _ibh;
 	bgfx::VertexBufferHandle _vbh;
 
 	//Sampler2D handle
 	bgfx::UniformHandle u_tileset;
-	//Vector 4 tile width, tile height, tilemap width, tilemap height
-	bgfx::UniformHandle u_tileInfo;
-	bgfx::UniformHandle u_viewport;
 	//Sampler2D handle
 	bgfx::UniformHandle u_tilemap;
+
+	//Sprite pixel width, height, tile width, tile height
+	bgfx::UniformHandle u_tilesetInfo;
+	bgfx::UniformHandle u_tilemapInfo;
 	
 };
