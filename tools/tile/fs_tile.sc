@@ -8,6 +8,7 @@ uniform vec4 u_tilemapInfo;
 
 void main()
 {
+	//TODO This is ineffecient and should be optimized
 	vec4 tileColor = texture2D(u_tilemap, v_texcoord0);
 	vec2 spriteCoord = (tileColor.rg * 256.0) * (u_tilesetInfo.z / u_tilesetInfo.x);
 	float difX = (u_tilemapInfo.z / u_tilemapInfo.x) / (u_tilesetInfo.z / u_tilesetInfo.x);
