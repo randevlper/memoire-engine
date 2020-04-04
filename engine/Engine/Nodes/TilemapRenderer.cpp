@@ -99,7 +99,9 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 		verts[i].y *= tm->getPixelHeight();
 	}
 
-	_tilemapInfo = { tm->getTilemapSprite()->width, tm->getTilemapSprite()->height, 1 , 1 };
+
+	//Should modify the shader and data passed in to only what is needed. The ratio of tiles to width/length
+	_tilemapInfo = { tm->getTilemapSprite()->width, tm->getTilemapSprite()->height, 1 , 1};
 	_tilesetInfo = { tm->getTilesetSprite()->width, tm->getTilesetSprite()->height, tm->getTileWidth(), tm->getTileHeight() };
 	Debug::Log("Tileset Pixel : " + std::to_string(_tilesetInfo.x) 
 			+ " Tileset Pixel: " + std::to_string(_tilesetInfo.z) 
