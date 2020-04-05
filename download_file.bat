@@ -1,1 +1,0 @@
-if not exist "%DLLOC%" wget -O "%DLLOC%" "%DLURL%"

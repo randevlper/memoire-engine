@@ -70,7 +70,7 @@ TilemapRenderer::~TilemapRenderer()
 void TilemapRenderer::render()
 {
 	if (tilemap == nullptr) { return; }
-	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
+	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_DEPTH_TEST_LESS, BGFX_STATE_BLEND_ADD);
 	bgfx::setVertexBuffer(0, _vbh);
 	bgfx::setIndexBuffer(_ibh);
 	bgfx::setTexture(0, u_tilemap, tilemap->getTilemapSprite()->handle);
