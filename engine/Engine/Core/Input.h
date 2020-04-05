@@ -17,6 +17,10 @@ public:
 	static bool getKeyUp(int key);
 	static bool getKey(int key);
 
+	static bool getMouseKeyDown(int key);
+	static bool getMouseKeyUp(int key);
+	static bool getMouseKey(int key);
+
 	static glm::ivec2 getMousePos();
 
 	static void init();
@@ -31,6 +35,10 @@ private:
 	static unsigned char* _lastPoll;
 	static unsigned char* _currentPoll;
 	static const unsigned char* _source;
+
+	static int _numMouseKeys;
+	static unsigned char* _lastMousePoll;
+	static unsigned char* _currentMousePoll;
 
 	static SDL_Event _event;
 	static Input* _instance;

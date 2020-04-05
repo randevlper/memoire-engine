@@ -20,6 +20,7 @@ Data Oriented
 #include <glm/vec2.hpp>
 #include <SDL_pixels.h>
 #include <SDL_keycode.h>
+#include <SDL_mouse.h>
 
 
 #include "Engine/Core/Context.h"
@@ -122,11 +123,8 @@ int main(int argc, char** argv) {
 
 		tilemapRen->setTilemap(tilemap);
 		tilemapRen->transform.setLocalPosition({ -50,-50 });
-
-		Uint32 ticks = 0;
 		while (!Context::getShouldClose())
 		{
-			ticks++;
 			Context::tick();
 			glm::vec2 mousePos = Input::getMousePos();
 			mousePos = cam->screenToWorld(mousePos);
@@ -156,10 +154,14 @@ int main(int argc, char** argv) {
 				Renderer::renderLine({ tilePos.x, tilePos.y }, { tilePos.x,tilePos.y + tilemap->getTileHeight() });
 			}
 
-			if (Input::getKey(SDL_SCANCODE_SPACE)) {
-				if (tileIndex != -1) {
-					//tilemap->setTile(tileIndex, 1);
-				}
+			if (Input::getMouseKeyDown(SDL_BUTTON_LEFT)) {
+				Debug::Log("Down!");
+			}
+			if (Input::getMouseKeyUp(SDL_BUTTON_LEFT)) {
+				Debug::Log("Up!");
+			}
+			if (Input::getMouseKey(SDL_BUTTON_LEFT)) {
+				Debug::Log("Held!");
 			}
 
 
@@ -167,7 +169,6 @@ int main(int argc, char** argv) {
 			cam->transform.translate((movement * speed));
 			Physics::tick();
 
-			spriteRenderer->transform.setLocalScale({ sin((ticks * Context::getDeltaTime()) /10), 1 });
 			spriteRenderer->render();
 			textRenderer->render();
 			tilemapRen->render();
