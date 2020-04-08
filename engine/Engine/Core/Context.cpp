@@ -108,7 +108,11 @@ void Context::init(ContextWindowParems* parems)
 		init.resolution.height = _windowParems.windowHeight;
 		init.resolution.width = _windowParems.windowWidth;
 		init.resolution.reset = BGFX_RESET_VSYNC;
-		bgfx::init(init);
+
+		if (!bgfx::init(init)) {
+			_errorCode = EXIT_FAILURE;
+			return;
+		}
 
 		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
 

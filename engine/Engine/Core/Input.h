@@ -2,13 +2,6 @@
 union SDL_Event;
 #include  "glm/fwd.hpp"
 
-enum Mouse
-{
-	Left = 0,
-	Middle = 1,
-	Right = 2
-};
-
 
 class Input
 {

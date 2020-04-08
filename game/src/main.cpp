@@ -77,22 +77,11 @@ int main(int argc, char** argv) {
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
-		Node test;
-		test.transform.setLocalPosition(glm::vec2(20, 20));
-		test.transform.setLocalScale(glm::vec2(10, 10));
-		Node test2;
-		test2.transform.setLocalPosition(glm::vec2(50, 50));
-		test.transform.setParent(&test2);
-
-		Body col({});
 
 		AssetManager::init();
-
 		AssetManager::load("assets/ayse.png","");
-
 		AssetManager::load("assets/tilesets/default.png", "");
 		AssetManager::load("assets/tilemaps/test.png", "");
-
 		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
 
 		Sprite* ayse = AssetManager::get<Sprite>("assets/ayse.png");
