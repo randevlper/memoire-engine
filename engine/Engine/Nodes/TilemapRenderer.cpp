@@ -110,13 +110,29 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(TilemapVertex::planeVerts)), TilemapVertex::pcvLayout);
 }
 
-int TilemapRenderer::worldToTile(glm::vec2 pos) {
+int TilemapRenderer::worldToTile(glm::vec2 pos, bool topLeft) {
 
 	glm::vec2 renPos = transform.getPosition();
 	unsigned int pixelWidth = tilemap->getPixelWidth();
 	unsigned int pixelHeiht = tilemap->getPixelHeight();
 	pixelWidth += renPos.x;
 	pixelHeiht += renPos.y;
+
+	
+
+	if (topLeft) {
+		glm::vec2 posNorm = pos - renPos;
+		float halfHeight = tilemap->getPixelHeight() / 2;
+		if (posNorm.y > halfHeight)
+		{
+			posNorm.y -= (halfHeight - (tilemap->getPixelHeight() - posNorm.y)) * 2;
+		}
+		else {
+			posNorm.y += (halfHeight - posNorm.y)*2;
+		}
+
+		pos = posNorm + renPos;
+	}
 
 	if (pos.x > pixelWidth || pos.x < renPos.x) {
 		return -1;

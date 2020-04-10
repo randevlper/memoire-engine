@@ -136,22 +136,19 @@ int main(int argc, char** argv) {
 
 			//Check if the mouse is in the bounds of the tilemapRenderer
 			int tileIndex = tilemapRen->worldToTile(mousePos);
+			int tileIndexGraphics = tilemapRen->worldToTile(mousePos, true);
 			glm::vec2 tilePos = {0,0};
 			if ( tileIndex != -1) {
 				tilePos = tilemapRen->tileToPosition(tileIndex);
 				Renderer::renderLine({ tilePos.x, tilePos.y }, { tilePos.x + tilemap->getTileWidth(),tilePos.y });
 				Renderer::renderLine({ tilePos.x, tilePos.y }, { tilePos.x,tilePos.y + tilemap->getTileHeight() });
+
+				if (Input::getMouseKeyDown(SDL_BUTTON_LEFT)) {
+					tilemap->getTilemapSprite()->setPixel(tileIndexGraphics, 2, 0, 0, 255);
+				}
 			}
 
-			if (Input::getMouseKeyDown(SDL_BUTTON_LEFT)) {
-				Debug::Log("Down!");
-			}
-			if (Input::getMouseKeyUp(SDL_BUTTON_LEFT)) {
-				Debug::Log("Up!");
-			}
-			if (Input::getMouseKey(SDL_BUTTON_LEFT)) {
-				Debug::Log("Held!");
-			}
+
 
 
 			float speed = 250.0f;

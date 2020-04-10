@@ -152,8 +152,8 @@ void FileUtility::unload(void* _ptr)
 Sprite* FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath, unsigned long long _flags, unsigned char _skip, bgfx::TextureInfo* _info, bimg::Orientation::Enum* _orientation)
 {
 	BX_UNUSED(_skip);
-	Sprite* sprite = DBG_NEW Sprite();
-	sprite->handle = BGFX_INVALID_HANDLE;
+	Sprite* sprite = nullptr;
+	bgfx::TextureHandle spriteHandle = BGFX_INVALID_HANDLE;
 
 
 	uint32_t size;
@@ -179,7 +179,7 @@ Sprite* FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath
 
 			if (imageContainer->m_cubeMap)
 			{
-				sprite->handle = bgfx::createTextureCube(
+				spriteHandle = bgfx::createTextureCube(
 					uint16_t(imageContainer->m_width)
 					, 1 < imageContainer->m_numMips
 					, imageContainer->m_numLayers
@@ -190,7 +190,7 @@ Sprite* FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath
 			}
 			else if (1 < imageContainer->m_depth)
 			{
-				sprite->handle = bgfx::createTexture3D(
+				spriteHandle = bgfx::createTexture3D(
 					uint16_t(imageContainer->m_width)
 					, uint16_t(imageContainer->m_height)
 					, uint16_t(imageContainer->m_depth)
@@ -202,7 +202,7 @@ Sprite* FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath
 			}
 			else if (bgfx::isTextureValid(0, false, imageContainer->m_numLayers, bgfx::TextureFormat::Enum(imageContainer->m_format), _flags))
 			{
-				sprite->handle = bgfx::createTexture2D(
+				spriteHandle = bgfx::createTexture2D(
 					uint16_t(imageContainer->m_width)
 					, uint16_t(imageContainer->m_height)
 					, 1 < imageContainer->m_numMips
@@ -213,14 +213,20 @@ Sprite* FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath
 				);
 			}
 
-			if (bgfx::isValid(sprite->handle))
+			if (bgfx::isValid(spriteHandle))
 			{
-				bgfx::setName(sprite->handle, _filePath);
+				bgfx::setName(spriteHandle, _filePath);
+				sprite = DBG_NEW Sprite(
+					spriteHandle
+					, uint16_t(imageContainer->m_width)
+					, uint16_t(imageContainer->m_height)
+					, 1 < imageContainer->m_numMips
+					, imageContainer->m_numLayers
+					, bgfx::TextureFormat::Enum(imageContainer->m_format)
+					, _flags
+					, mem
+				);
 			}
-
-			sprite->height = imageContainer->m_height;
-			sprite->width = imageContainer->m_width;
-
 
 			if (NULL != _info)
 			{
