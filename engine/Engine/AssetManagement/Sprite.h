@@ -7,7 +7,6 @@
 class Sprite : public Asset
 {
 public:
-	Sprite();
 	Sprite(bgfx::TextureHandle handle, uint16_t width, uint16_t height, bool hasMips, 
 		uint16_t numLayers, bgfx::TextureFormat::Enum format, 
 		uint16_t flags = 0Ui64, const bgfx::Memory * mem = (const bgfx::Memory*)0);

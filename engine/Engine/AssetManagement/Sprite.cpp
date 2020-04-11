@@ -2,19 +2,13 @@
 #include <chrono>
 #include "Engine/Utilities/Debug.h"
 
-Sprite::Sprite()
-{
-	handle.idx = -1;
-	width = -1;
-	height = -1;
-}
-
 Sprite::Sprite(bgfx::TextureHandle handle, uint16_t width, uint16_t height, bool hasMips, uint16_t numLayers, bgfx::TextureFormat::Enum format, uint16_t flags, const bgfx::Memory* mem)
 {
 	this->handle = handle;
 	this->width = width;
 	this->height = height;
 	this->_memory = bgfx::copy(mem->data, mem->size);
+	_memoryTemp = nullptr;
 	_hasMips = hasMips;
 	_numLayers = numLayers;
 	_flags = flags;
