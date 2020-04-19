@@ -135,11 +135,11 @@ int TilemapRenderer::worldToTile(glm::vec2 pos, bool topLeft) {
 	}
 
 	if (pos.x > pixelWidth || pos.x < renPos.x) {
-		return -1;
+		return ME_TILE_INVALID;
 	}
 
 	if (pos.y > pixelHeiht || pos.y < renPos.y) {
-		return -1;
+		return ME_TILE_INVALID;
 	}
 
 	glm::vec2 relPos = pos - renPos;
@@ -155,4 +155,9 @@ glm::vec2 TilemapRenderer::tileToPosition(int index)
 	retval.x += (index % tilemap->getWidth()) * tilemap->getTileWidth();
 	retval.y += (index / tilemap->getWidth()) * tilemap->getTileHeight();
 	return retval;
+}
+
+bool TilemapRenderer::isTileIndexValid(int index)
+{
+	return (index != ME_TILE_INVALID) && (index < tilemap->size());
 }

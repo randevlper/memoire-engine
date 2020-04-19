@@ -138,7 +138,7 @@ int main(int argc, char** argv) {
 			int tileIndex = tilemapRen->worldToTile(mousePos);
 			int tileIndexGraphics = tilemapRen->worldToTile(mousePos, true);
 			glm::vec2 tilePos = {0,0};
-			if ( tileIndex != -1) {
+			if (tilemapRen->isTileIndexValid(tileIndex)) {
 				tilePos = tilemapRen->tileToPosition(tileIndex);
 				Renderer::renderLine({ tilePos.x, tilePos.y }, { tilePos.x + tilemap->getTileWidth(),tilePos.y });
 				Renderer::renderLine({ tilePos.x, tilePos.y }, { tilePos.x,tilePos.y + tilemap->getTileHeight() });

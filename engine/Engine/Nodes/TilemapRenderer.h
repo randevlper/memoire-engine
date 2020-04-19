@@ -10,6 +10,8 @@
 class Shader;
 class Tilemap;
 
+#define ME_TILE_INVALID -1
+
 struct TilemapVertex
 {
 	float x;
@@ -39,6 +41,7 @@ public:
 	//returns the position of the tile using the index
 	//with the position being the bottom left corner
 	glm::vec2 tileToPosition(int index);
+	bool isTileIndexValid(int index);
 	
 private:
 	Tilemap* tilemap;
