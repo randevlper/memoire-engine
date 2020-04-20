@@ -12,11 +12,12 @@
 #include "Engine/Utilities/Debug.h"
 #include "glm/gtx/perpendicular.hpp"
 
+
+//Severely out of date
 int main()
 	{
 		ContextWindowParems cWinParems = { "Ayse why.", 1280, 720, 640, 360, 60 };
 		Context::init(&cWinParems);
-		Physics::setGravity(glm::vec2(0, 400));
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}

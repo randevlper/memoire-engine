@@ -43,13 +43,34 @@ int main(int argc, char** argv) {
 
 		Renderer::setCamera(cam);
 		
+		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 
 		TextRenderer* textRenderer = world->create <TextRenderer>();
 		textRenderer->setFont(fontTest);
-		textRenderer->transform.setLocalPosition({ -Context::getWindowWidth() / 2,0 });
+		textRenderer->transform.setLocalPosition({ 0,0 });
 		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
+
+
+		//Scenes Title Screen/Game
+		//UI Buttons
+		//UI Panels
+		//UI Textbox
+		//Audio MiniAudio - https://github.com/dr-soft/miniaudio
+		
+		/*
+		Add maximize and minimize support
+
+		*/
+
+		/*
+		Title Screen
+
+		Start
+		Continue - Store the current state of the game
+		Quit
+		*/
 
 		while (!Context::getShouldClose())
 		{
@@ -59,11 +80,9 @@ int main(int argc, char** argv) {
 
 
 			textRenderer->render();
-			
-			//Renderer::renderLine(mousePos, mousePos, glm::vec4(255,0,0,255), 10.0f);
 
-			bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
-			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
+			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
+			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
 
 			Renderer::render();
 			
