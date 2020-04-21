@@ -19,9 +19,10 @@
 #include "Engine/Utilities/Debug.h"
 
 #include "Engine/AssetManagement/AssetManager.h"
+//Assets should have their own Asset folder for organization
 #include "Engine/AssetManagement/Sprite.h"
-#include "Engine/AssetManagement/FontLoader.h"
 #include "Engine/AssetManagement/Font.h"
+#include "Engine/AssetManagement/AudioClip.h"
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "Engine/Nodes/TextRenderer.h"
 #include "Engine/Nodes/Camera.h"
@@ -45,6 +46,7 @@ int main(int argc, char** argv) {
 		
 		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
+		AudioClip* audioTest = AssetManager::get<AudioClip>("assets/sounds/ohno.mp3");
 
 		TextRenderer* textRenderer = world->create <TextRenderer>();
 		textRenderer->setFont(fontTest);

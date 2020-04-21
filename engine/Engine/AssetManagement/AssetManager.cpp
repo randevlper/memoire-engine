@@ -7,6 +7,7 @@
 #include "FontLoader.h"
 #include "SpriteLoader.h"
 #include "ShaderLoader.h"
+#include "AudioClipLoader.h"
 
 #include "Engine/Utilities/DebugMemory.h"
 
@@ -59,6 +60,10 @@ void AssetManager::init() {
 	ShaderLoader* _shaderLoader = DBG_NEW ShaderLoader();
 	_shaderLoader->init();
 	_loaders.insert(std::pair<std::string, AssetLoader*>(_shaderLoader->_fileExtension, _shaderLoader));
+
+	AudioClipLoader* _audioClipLoader = DBG_NEW AudioClipLoader();
+	_audioClipLoader->init();
+	_loaders.insert(std::pair<std::string, AssetLoader*>(_audioClipLoader->_fileExtension, _audioClipLoader));
 
 	isInit = true;
 

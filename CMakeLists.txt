@@ -38,6 +38,8 @@ add_library(stb INTERFACE)
 target_include_directories(stb INTERFACE thirdparty/stb)
 #set_target_properties(stb PROPERTIES FOLDER "Thirdparty")
 #Interface
+add_library(miniaudio INTERFACE)
+target_include_directories(miniaudio INTERFACE thirdparty/miniaudio)
 
 add_subdirectory(engine)
 add_subdirectory(engine-tests)
