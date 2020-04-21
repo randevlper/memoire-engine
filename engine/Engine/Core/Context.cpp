@@ -6,7 +6,7 @@
 #include "Engine/Core/Physics.h"
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Renderer.h"
-
+#include "Engine/Core/Audio.h"
 #include "Engine/Utilities/DebugMemory.h"
 
 Context* Context::_instance = nullptr;
@@ -137,14 +137,18 @@ void Context::init(ContextWindowParems* parems)
 		//	SDL_Log(SDL_GetError());
 		//}
 
-		//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-		_shouldClose = false;
-		_errorCode = 0;
-
-		
 		Physics::init(parems->argc, parems->argv);
 		Input::init();
 		Renderer::init();
+
+		_errorCode = Audio::init();
+		if (_errorCode != 0) {
+			return;
+		}
+
+		//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+		_shouldClose = false;
+		_errorCode = 0;
 	}
 }
 
@@ -153,6 +157,7 @@ void Context::quit()
 	Physics::quit();
 	Input::quit();
 	Renderer::quit();
+	Audio::destroy();
 	delete(_instance);
 	delete(_wmInfo);
 	SDL_DestroyWindow(_window);

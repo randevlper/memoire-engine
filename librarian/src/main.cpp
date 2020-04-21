@@ -26,6 +26,7 @@
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "Engine/Nodes/TextRenderer.h"
 #include "Engine/Nodes/Camera.h"
+#include "Engine/Core/Audio.h"
 
 int main(int argc, char** argv) {
 	{
@@ -81,6 +82,10 @@ int main(int argc, char** argv) {
 			Context::tick();
 			glm::vec2 mousePos = Input::getMousePos();
 			mousePos = cam->screenToWorld(mousePos);
+
+			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
+				Audio::playTest();
+			}
 
 
 			textRenderer->render();
