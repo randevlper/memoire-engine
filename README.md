@@ -25,6 +25,7 @@ May not be up to date as code is in heavy development
 ```c++
 #include "Engine/Core/Context.h"
 #include "Engine/Core/Renderer.h"
+#include "Engine/Nodes/Camera.h"
 
 int main(int argc, char** argv) {
 	ContextWindowParems cWinParems = { "Hello World", 1280, 720, 60 , argc, argv};
