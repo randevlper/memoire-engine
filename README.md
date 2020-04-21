@@ -27,28 +27,27 @@ May not be up to date as code is in heavy development
 #include "Engine/Core/Renderer.h"
 
 int main(int argc, char** argv) {
-	{
-		ContextWindowParems cWinParems = { "Hello World", 1280, 720, 60 , argc, argv};
-		Context::init(&cWinParems);
-		if (Context::getErrorCode() != 0) {
-			return Context::getErrorCode();
-		}
-
-		Camera* cam = world->create <Camera>();
-		cam->transform.setLocalPosition({ 0,0 });
-		Renderer::setCamera(cam);
-
-		while (!Context::getShouldClose())
-		{
-			Context::tick();
-
-			Renderer::render();
-		}
-
-		Context::quit();
-
-		return 0;
+	ContextWindowParems cWinParems = { "Hello World", 1280, 720, 60 , argc, argv};
+	Context::init(&cWinParems);
+	if (Context::getErrorCode() != 0) {
+		return Context::getErrorCode();
 	}
+
+	Camera* cam = world->create <Camera>();
+	cam->transform.setLocalPosition({ 0,0 });
+	Renderer::setCamera(cam);
+
+	while (!Context::getShouldClose())
+	{
+		Context::tick();
+
+		Renderer::render();
+	}
+
+	Context::quit();
+
+	return 0;
+}
 ```
 
 
