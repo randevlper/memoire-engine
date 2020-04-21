@@ -39,6 +39,8 @@ int main(int argc, char** argv) {
 
 		World* world = DBG_NEW World();
 
+
+		//Renderer should make a default camera?
 		Camera* cam = world->create <Camera>();
 		cam->transform.setLocalPosition({ 0,0 });
 
