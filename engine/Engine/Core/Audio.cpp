@@ -13,6 +13,18 @@ unsigned int Audio::_frame = 0;
 ma_decoder* Audio::_decoder = DBG_NEW ma_decoder();
 ma_device* Audio::_device = DBG_NEW ma_device();
 
+/*
+Refactor thoughts
+
+Asset : AudioClip
+One copy of the data Initial decoder for getting file formats
+
+Node : AudioSource
+Multiple Devices and Decoders
+*/
+
+
+
 //This is called on its own thread?
 void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
 {
