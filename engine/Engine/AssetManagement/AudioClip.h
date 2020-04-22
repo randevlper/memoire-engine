@@ -1,12 +1,18 @@
 #pragma once
 #include "Asset.h"
 
+namespace me {
+	struct Memory;
+}
+
 class AudioClip : public Asset
 {
 public:
-	AudioClip();
+	AudioClip(me::Memory* data);
 	~AudioClip() override;
 
-private:
+	me::Memory* getData();
 
+private:
+	me::Memory* _memory;
 };

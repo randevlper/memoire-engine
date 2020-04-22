@@ -27,6 +27,7 @@
 #include "Engine/Nodes/TextRenderer.h"
 #include "Engine/Nodes/Camera.h"
 #include "Engine/Core/Audio.h"
+#include "Engine/Nodes/AudioSource.h"
 
 int main(int argc, char** argv) {
 	{
@@ -49,14 +50,16 @@ int main(int argc, char** argv) {
 		
 		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
-		AudioClip* audioTest = AssetManager::get<AudioClip>("assets/sounds/ohno.mp3");
+		AssetManager::load("assets/audio/ohno.mp3", "");
+		AudioClip* audioTest = AssetManager::get<AudioClip>("assets/audio/ohno.mp3");
 
 		TextRenderer* textRenderer = world->create <TextRenderer>();
 		textRenderer->setFont(fontTest);
 		textRenderer->transform.setLocalPosition({ 0,0 });
 		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
-
+		AudioSource* audioSource = world->create<AudioSource>();
+		audioSource->setAudioClip(audioTest);
 
 		//Scenes Title Screen/Game
 		//UI Buttons
@@ -84,7 +87,7 @@ int main(int argc, char** argv) {
 			mousePos = cam->screenToWorld(mousePos);
 
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
-				Audio::playTest();
+				audioSource->play();
 			}
 
 

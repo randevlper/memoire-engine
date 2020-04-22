@@ -1,6 +1,14 @@
 #include "AudioClipLoader.h"
-#include "Engine/Utilities/Debug.h"
+
+#define DR_MP3_IMPLEMENTATION
+#include <extras/dr_mp3.h>   /* Enables MP3 decoding. */
+#define MINIAUDIO_IMPLEMENTATION
+#include <miniaudio.h>
+#include "Engine/Data/Memory.h"
+
 #include "Engine/AssetManagement/AudioClip.h"
+#include "Engine/Utilities/Debug.h"
+#include "Engine/Utilities/DebugMemory.h"
 
 AudioClipLoader::AudioClipLoader() {
 
@@ -22,6 +30,6 @@ void AudioClipLoader::destroy()
 
 Asset* AudioClipLoader::load(std::string path, std::string vars)
 {
-	Debug::Log("Unimplemented Loader Load");
-	return nullptr;
+	Debug::Log("AudioClip Loader Load");
+	return DBG_NEW AudioClip(me::readBinaryFile(path.c_str()));
 }
