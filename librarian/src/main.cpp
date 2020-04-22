@@ -29,6 +29,8 @@
 #include "Engine/Core/Audio.h"
 #include "Engine/Nodes/AudioSource.h"
 
+#include "Engine/Nodes/UIButton.h"
+
 int main(int argc, char** argv) {
 	{
 		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 60 , argc, argv};
@@ -61,6 +63,8 @@ int main(int argc, char** argv) {
 		AudioSource* audioSource = world->create<AudioSource>();
 		audioSource->setAudioClip(audioTest);
 
+
+		UIButton* buttonTest = world->create<UIButton>();
 		//Scenes Title Screen/Game
 		//UI Buttons
 		//UI Panels
