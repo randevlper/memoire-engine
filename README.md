@@ -6,17 +6,17 @@ Memoire is a game engine framework built for 2D windows games.
 - Requires CMAKE on PATH
 - Quick setup cmake_generate.bat
 
-
 # Features
 - Transforms
 - Single Pass Tilemap
 - PNG Textures
+- MP3 Audio playback
 
 # In-Progress
 - Virtual Novel game
 - UI System
 - Audio System
-- Basic Scene System
+- Scene System
 
 # Minimal Setup
 
