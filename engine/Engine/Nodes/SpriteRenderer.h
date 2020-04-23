@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/Nodes/Node.h"
-#include "bgfx/bgfx.h"
+#include <bgfx/bgfx.h>
 class Sprite;
 class Shader;
 
@@ -37,6 +37,5 @@ private:
 	bgfx::UniformHandle s_sprite;
 
 	static Shader* shader;
-
 	static bool init;
 };

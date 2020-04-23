@@ -29,7 +29,7 @@
 #include "Engine/Core/Audio.h"
 #include "Engine/Nodes/AudioSource.h"
 
-#include "Engine/Nodes/UIButton.h"
+#include "Engine/UI/Button.h"
 
 int main(int argc, char** argv) {
 	{
@@ -64,7 +64,9 @@ int main(int argc, char** argv) {
 		audioSource->setAudioClip(audioTest);
 
 
-		UIButton* buttonTest = world->create<UIButton>();
+		me::ui::Button* buttonTest = world->create<me::ui::Button>();
+		buttonTest->transform.setLocalPosition({ 0, 0 });
+		buttonTest->setSize({ 0.1, 0.1 });
 		//Scenes Title Screen/Game
 		//UI Buttons
 		//UI Panels
@@ -96,6 +98,7 @@ int main(int argc, char** argv) {
 
 
 			textRenderer->render();
+			buttonTest->render();
 
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
 			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);

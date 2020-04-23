@@ -68,8 +68,6 @@ void Renderer::quit()
 		bgfx::destroy(lineProgram);
 		_fpsTimer.stop();
 		delete(_instance);
-		//This should be handled by the node creator
-		//delete(_camera);
 		bgfx::shutdown();
 	}
 }
