@@ -65,8 +65,18 @@ int main(int argc, char** argv) {
 
 
 		me::ui::Button* buttonTest = world->create<me::ui::Button>();
-		buttonTest->transform.setLocalPosition({ 0, 0 });
-		buttonTest->setSize({ 0.1, 0.1 });
+		
+		int winW = Context::getWindowWidth();
+		int winH = Context::getWindowHeight();
+		
+		buttonTest->transform.setLocalPosition({
+			((float)(winW) / winW),
+			((float)(winH) / winH)
+			});
+
+		Debug::Log(std::to_string(buttonTest->transform.getLocalPosition().x));
+		//buttonTest->transform.setLocalScale({ 1 / Context::getWindowWidth(), 1 / Context::getWindowHeight() });
+		buttonTest->setSize({ Context::getWindowWidth(), 200 });
 		//Scenes Title Screen/Game
 		//UI Buttons
 		//UI Panels

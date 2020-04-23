@@ -6,6 +6,8 @@
 #include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/AssetManagement/Shader.h"
 
+#include "Engine/Core/Context.h"
+
 namespace me {
 	namespace ui {
 		//ButtonVertex
@@ -72,8 +74,8 @@ namespace me {
 			memcpy(_verts, ButtonVertex::planeVerts, sizeof(ButtonVertex::planeVerts));
 			for (size_t i = 0; i < 4; i++)
 			{
-				_verts[i].x *= size.x;
-				_verts[i].y *= size.y;
+				_verts[i].x *= size.x / Context::getWindowWidth() * 2;
+				_verts[i].y *= size.y / Context::getWindowHeight() * 2;
 			}
 
 			_vbh = bgfx::createVertexBuffer(bgfx::makeRef(_verts, sizeof(_verts)), ButtonVertex::pcvLayout);
