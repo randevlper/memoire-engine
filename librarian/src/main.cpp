@@ -66,9 +66,11 @@ int main(int argc, char** argv) {
 
 		me::ui::Button* buttonTest = world->create<me::ui::Button>();
 		
+
+		//Make UI elements not a node
+		//Rect transform, use four transfoms rotate/scale the main one and get the points from all of them
 		int winW = Context::getWindowWidth();
 		int winH = Context::getWindowHeight();
-		
 		buttonTest->transform.setLocalPosition({
 			((float)(winW) / winW),
 			((float)(winH) / winH)
