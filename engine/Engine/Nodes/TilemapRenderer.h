@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Nodes/Node.h"
+#include "Engine/Nodes/Node2D.h"
 
 #include <vector>
 #include <bgfx/bgfx.h>

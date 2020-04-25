@@ -1,5 +1,5 @@
 #pragma once
-#include "Node.h"
+#include "Node2D.h"
 #include "glm/glm.hpp"
 class b2Body;
 

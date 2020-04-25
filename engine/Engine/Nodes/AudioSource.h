@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Nodes/Node.h"
+#include "Engine/Nodes/Node2D.h"
 class AudioClip;
 struct ma_device;
 struct ma_decoder;

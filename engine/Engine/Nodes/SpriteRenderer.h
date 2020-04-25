@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Nodes/Node.h"
+#include "Engine/Nodes/Node2D.h"
 #include <bgfx/bgfx.h>
 class Sprite;
 class Shader;

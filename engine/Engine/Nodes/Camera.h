@@ -1,5 +1,5 @@
 #pragma once
-#include "Node.h"
+#include "Node2D.h"
 #include "glm/vec2.hpp"
 #include "glm/mat4x4.hpp"
 

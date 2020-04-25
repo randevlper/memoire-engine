@@ -88,7 +88,7 @@ namespace me {
 
 		void Button::render() {
 			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
-			bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
+			//bgfx::setTransform(glm::value_ptr(rectTransform.getGlobalMatrix()));
 			bgfx::setVertexBuffer(0, _vbh);
 			bgfx::setIndexBuffer(_ibh);
 			bgfx::setUniform(_u_color, glm::value_ptr(_color));

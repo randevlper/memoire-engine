@@ -1,11 +1,13 @@
 #pragma once
-#include "Engine/Data/Transform.h"
+#include "Engine/Nodes/Node.h"
+#include "Engine/Data/RectTransform.h"
 
-class NodeUI
+class NodeUI : public Node
 {
 public:
 	NodeUI();
 	virtual ~NodeUI();
+	RectTransform rectTransform;
 
 private:
 

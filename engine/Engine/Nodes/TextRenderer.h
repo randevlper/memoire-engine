@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Engine/Nodes/Node.h"
+#include "Engine/Nodes/Node2D.h"
 #include "bgfx/bgfx.h"
 class Font;
 class Shader;

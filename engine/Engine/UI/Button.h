@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Nodes/Node.h"
+#include "Engine/UI/NodeUI.h"
 
 #include <bgfx/bgfx.h>
 
@@ -24,7 +24,7 @@ namespace me {
 		};
 
 
-		class Button : public Node2D
+		class Button : public NodeUI
 		{
 		public:
 			Button();

@@ -12,6 +12,8 @@ public:
 
 	void setSize(glm::ivec2 value);
 	void setPosition(glm::ivec2 value);
+	void setRotation(float value);
+	void setScale(glm::vec2 value);
 
 private:
 

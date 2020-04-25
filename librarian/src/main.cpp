@@ -71,12 +71,12 @@ int main(int argc, char** argv) {
 		//Rect transform, use four transfoms rotate/scale the main one and get the points from all of them
 		int winW = Context::getWindowWidth();
 		int winH = Context::getWindowHeight();
-		buttonTest->transform.setLocalPosition({
+		buttonTest->setSize({
 			((float)(winW) / winW),
 			((float)(winH) / winH)
 			});
 
-		Debug::Log(std::to_string(buttonTest->transform.getLocalPosition().x));
+		//Debug::Log(std::to_string(buttonTest->transform.getLocalPosition().x));
 		//buttonTest->transform.setLocalScale({ 1 / Context::getWindowWidth(), 1 / Context::getWindowHeight() });
 		buttonTest->setSize({ Context::getWindowWidth(), 200 });
 		//Scenes Title Screen/Game
