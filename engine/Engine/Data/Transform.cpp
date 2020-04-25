@@ -53,12 +53,12 @@ void Transform::setLocalAngle(float value)
 	_angle = value;
 }
 
-Node* Transform::getParent()
+Node2D* Transform::getParent()
 {
 	return _parent;
 }
 
-void Transform::setParent(Node* value)
+void Transform::setParent(Node2D* value)
 {
 	_parent = value;
 }

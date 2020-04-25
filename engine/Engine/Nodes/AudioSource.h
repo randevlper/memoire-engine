@@ -4,7 +4,7 @@ class AudioClip;
 struct ma_device;
 struct ma_decoder;
 
-class AudioSource : public Node
+class AudioSource : public Node2D
 {
 public:
 	AudioSource();

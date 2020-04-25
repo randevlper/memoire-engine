@@ -27,7 +27,7 @@ struct TilemapVertex
 };
 
 
-class TilemapRenderer : public Node
+class TilemapRenderer : public Node2D
 {
 public:
 	TilemapRenderer();

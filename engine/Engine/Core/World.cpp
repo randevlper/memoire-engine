@@ -8,9 +8,9 @@
 
 World::World()
 {
-	_root = DBG_NEW Node();
+	_root = DBG_NEW Node2D();
 	_world = DBG_NEW b2World({0,-9.8});
-	_nodes = std::vector<Node*>();
+	_nodes = std::vector<Node2D*>();
 }
 
 World::~World()

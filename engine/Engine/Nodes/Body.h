@@ -12,7 +12,7 @@ struct BodyDef
 	int density;
 };
 
-class Body : public Node
+class Body : public Node2D
 {
 public:
 	Body(BodyDef def);

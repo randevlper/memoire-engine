@@ -18,7 +18,7 @@ struct SpriteVertex
 	static void init();
 };
 
-class SpriteRenderer : public Node
+class SpriteRenderer : public Node2D
 {
 public:
 	SpriteRenderer();

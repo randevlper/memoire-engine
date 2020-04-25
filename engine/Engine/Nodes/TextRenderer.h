@@ -19,7 +19,7 @@ struct TextVertex
 	static void init();
 };
 
-class TextRenderer : public Node
+class TextRenderer : public Node2D
 {
 public:
 	TextRenderer();

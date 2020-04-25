@@ -24,7 +24,7 @@ namespace me {
 		};
 
 
-		class Button : public Node
+		class Button : public Node2D
 		{
 		public:
 			Button();

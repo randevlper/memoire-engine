@@ -3,7 +3,7 @@
 #include "glm/vec2.hpp"
 #include "glm/mat4x4.hpp"
 
-class Camera : public Node
+class Camera : public Node2D
 {
 public:
 	Camera();

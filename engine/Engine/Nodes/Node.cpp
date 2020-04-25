@@ -1,9 +1,9 @@
 #include "Node.h"
 
-Node::Node()
+Node2D::Node2D()
 {
 }
 
-Node::~Node()
+Node2D::~Node2D()
 {
 }

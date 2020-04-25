@@ -1,7 +1,7 @@
 #pragma once
 #include "glm/vec2.hpp"
 #include "glm/mat3x3.hpp"
-class Node;
+class Node2D;
 
 struct Transform
 {
@@ -20,8 +20,8 @@ public:
 	float getLocalAngle();
 	void setLocalAngle(float value);
 
-	Node* getParent();
-	void setParent(Node* value);
+	Node2D* getParent();
+	void setParent(Node2D* value);
 
 	void translate(glm::vec2 value);
 
@@ -33,5 +33,5 @@ private:
 	glm::vec2 _scale;
 	
 	float _angle;
-	Node* _parent;
+	Node2D* _parent;
 };

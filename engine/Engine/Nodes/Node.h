@@ -1,11 +1,11 @@
 #pragma once
 #include "Engine/Data/Transform.h"
 
-class Node
+class Node2D
 {
 public:
-	Node();
-	virtual ~Node();
+	Node2D();
+	virtual ~Node2D();
 	Transform transform;
 private:
 	
