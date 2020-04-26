@@ -100,7 +100,7 @@ namespace me {
 			}
 
 			//Call event
-			if (!_lastMouseClicking && _currentMouseClicking) {
+			if (_currentIsMouseOver && !_lastMouseClicking && _currentMouseClicking) {
 				onClick();
 			}
 		}

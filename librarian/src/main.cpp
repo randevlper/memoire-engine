@@ -57,16 +57,16 @@ int main(int argc, char** argv) {
 
 		Renderer::setCamera(cam);
 		
-		AssetManager::load("assets/fonts/cmunrm.ttf", "64");
+		AssetManager::load("assets/fonts/cmunrm.ttf", "32");
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 		AssetManager::load("assets/audio/ohno.mp3", "");
 		AudioClip* audioTest = AssetManager::get<AudioClip>("assets/audio/ohno.mp3");
 
 		TextRenderer* textRenderer = world->create <TextRenderer>();
 		textRenderer->setFont(fontTest);
-		textRenderer->transform.setLocalPosition({ 0,0 });
-		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
-		textRenderer->setText("OHAYO U U U U UU!!!!! A");
+		textRenderer->transform.setLocalPosition({ -200,0 });
+		textRenderer->transform.setLocalScale({ 1,1 });
+		textRenderer->setText("OHAYO U U U \nUUU!!!!! A\nThis is a test of the texts\n lol	Test");
 		audioSource = world->create<AudioSource>();
 		audioSource->setAudioClip(audioTest);
 
@@ -79,9 +79,8 @@ int main(int argc, char** argv) {
 		
 		//UI button - Sprites
 		//UI Panels - Take code from button and implemnt sprites
-		//UI Textbox - text hell
+		//UI Textbox - text formatting hell
 		//Audio looping
-
 
 		//Scenes Title Screen/Game
 		/*

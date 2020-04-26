@@ -82,7 +82,7 @@ void TextRenderer::render()
 
 		for (size_t i = 0; i < _vbs.size(); i++)
 		{
-			if (_text[i] == ' ') { continue; }
+			if (!bgfx::isValid(_vbs[i])) { continue; }
 			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 			bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 			bgfx::setVertexBuffer(0, _vbs[i]);
@@ -116,12 +116,17 @@ void TextRenderer::buildVertexBuffers()
 
 	for (size_t i = 0; i < strlen(_text); i++)
 	{
-		if (_text[i] == ' ') {
-			Character ch = _font->getCharacter('_');
+		if (_text[i] == '\n') {
 			bgfx::VertexBufferHandle invVbh;
 			invVbh.idx = BGFX_INVALID_HANDLE;
 			_vbs.push_back(invVbh);
-			x += ((ch.advance / 4) >> 6);
+
+			//https://stackoverflow.com/questions/28009564/new-line-pixel-distance-in-freetype
+			//Take a look at this to fix spacing
+
+			Character ch = _font->getCharacter('T');
+			x = 0;
+			y -= (ch.size.y + 10);
 		}
 		else {
 			Character ch = _font->getCharacter(_text[i]);
