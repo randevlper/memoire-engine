@@ -13,26 +13,6 @@
 
 #include "Engine/Utilities/DebugMemory.h"
 
-bgfx::VertexLayout TextVertex::pcvLayout;
-TextVertex TextVertex::planeVerts[] = {
-	{-1.0f, -1.0f, 0.0f, 0xffffffff, 0, 0x7fff},
-	{1.0f, -1.0f, 0.0f, 0xffffffff, 0x7fff, 0x7fff},
-	{1.0f, 1.0f, 0.0f, 0xffffffff, 0x7fff, 0},
-	{-1.0f, 1.0f, 0.0f, 0xffffffff, 0, 0}
-};
-const uint16_t TextVertex::planeTriList[] = {
-	0,1,2,
-	0,2,3
-};
-
-void TextVertex::init() {
-	pcvLayout.begin()
-		.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-		.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-		.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
-		.end();
-}
-
 Shader* TextRenderer::_shader = nullptr;
 bool TextRenderer::init = false;
 
@@ -43,13 +23,13 @@ void TextRenderer::destroy()
 TextRenderer::TextRenderer()
 {
 	if (!init) {
-		TextVertex::init();
+		me::data::PositionColorUVVertex::init();
 		//Replace with text shader
 		_shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
 		init = true;
 	}
 
-	ibh = bgfx::createIndexBuffer(bgfx::makeRef(TextVertex::planeTriList, sizeof(TextVertex::planeTriList)));
+	ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::planeTriList, sizeof(me::data::PositionColorUVVertex::planeTriList)));
 	s_font = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
 	_font = nullptr;
 	_text = "";
@@ -137,18 +117,18 @@ void TextRenderer::buildVertexBuffers()
 			float w = ch.size.x;
 			float h = ch.size.y;
 
-			TextVertex lineData[4];
+			me::data::PositionColorUVVertex lineData[4];
 			//lineData[0] = TextVertex{ xpos, ypos, 0.0f, Utility::colorToHex(color), 0, 0x7fff };
 			//lineData[1] = TextVertex{ xpos + w, ypos, 0.0f, Utility::colorToHex(color), 0x7fff, 0x7fff };
 			//lineData[2] = TextVertex{ xpos + w, ypos + h, 0.0f, Utility::colorToHex(color),  0x7fff, 0 };
 			//lineData[3] = TextVertex{ xpos, ypos + h, 0.0f, Utility::colorToHex(color), 0, 0 };
-			memcpy(lineData, TextVertex::planeVerts, sizeof(TextVertex::planeVerts));
-			lineData[0].x = xpos; lineData[0].y = ypos;
-			lineData[1].x = xpos + w; lineData[1].y = ypos;
-			lineData[2].x = xpos + w; lineData[2].y = ypos + h;
-			lineData[3].x = xpos; lineData[3].y = ypos + h;
+			memcpy(lineData, me::data::PositionColorUVVertex::planeVerts, sizeof(me::data::PositionColorUVVertex::planeVerts));
+			lineData[0].xy({ xpos, ypos });
+			lineData[1].xy({ xpos + w, ypos });
+			lineData[2].xy({ xpos + w, ypos + h });
+			lineData[3].xy({ xpos, ypos + h });
 
-			bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::copy(lineData, sizeof(lineData)), TextVertex::pcvLayout);
+			bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::copy(lineData, sizeof(lineData)), me::data::PositionColorUVVertex::pcvLayout);
 
 			_vbs.push_back(vbh);
 			x += (ch.advance >> 6);

@@ -2,22 +2,11 @@
 #include <vector>
 #include "Engine/Nodes/Node2D.h"
 #include "bgfx/bgfx.h"
+
+#include "Engine/Data/VertexTypes.h"
+
 class Font;
 class Shader;
-
-struct TextVertex
-{
-	float x;
-	float y;
-	float z;
-	uint32_t abgr;
-	int16_t m_u;
-	int16_t m_v;
-	static bgfx::VertexLayout pcvLayout;
-	static TextVertex planeVerts[];
-	static const uint16_t planeTriList[];
-	static void init();
-};
 
 class TextRenderer : public Node2D
 {

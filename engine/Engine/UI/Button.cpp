@@ -11,26 +11,6 @@
 
 namespace me {
 	namespace ui {
-		//ButtonVertex
-		bgfx::VertexLayout ButtonVertex::pcvLayout;
-		ButtonVertex ButtonVertex::planeVerts[] = {
-			{0.0f, 0.0f, 0.0f, 0, 0x7fff},
-			{1.0f, 0.0f, 0.0f, 0x7fff, 0x7fff},
-			{1.0f, 1.0f, 0.0f, 0x7fff, 0},
-			{0.0f, 1.0f, 0.0f, 0, 0}
-		};
-		const uint16_t ButtonVertex::planeTriList[] = {
-			0,1,2,
-			0,2,3
-		};
-
-		void ButtonVertex::init() {
-			pcvLayout.begin()
-				.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-				.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
-				.end();
-		}
-		
 		//Button
 		bool Button::_isInit = false;
 		Shader* Button::_shader = nullptr;
@@ -38,12 +18,12 @@ namespace me {
 		Button::Button()
 		{
 			if (!_isInit) {
-				ButtonVertex::init();
+				me::data::PositionUVVertex::init();
 				_shader = AssetManager::get<Shader>("assets/shaders/vs_ui.bin");
 				_isInit = true;
 			}
 
-			_ibh = bgfx::createIndexBuffer(bgfx::makeRef(ButtonVertex::planeTriList, sizeof(ButtonVertex::planeTriList)));
+			_ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionUVVertex::planeTriList, sizeof(me::data::PositionUVVertex::planeVerts)));
 			_u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
 			_color = { 255,0,0,255 };
 
@@ -117,7 +97,7 @@ namespace me {
 
 			_size = size;
 			rectTransform.setSize(size);
-			memcpy(_verts, ButtonVertex::planeVerts, sizeof(ButtonVertex::planeVerts));
+			memcpy(_verts, me::data::PositionUVVertex::planeVerts, sizeof(me::data::PositionUVVertex::planeVerts));
 
 			glm::vec2* corners = rectTransform.getScreenCorners();
 			for (size_t i = 0; i < 4; i++)
@@ -126,7 +106,7 @@ namespace me {
 				Debug::Log("x: " + std::to_string(_verts[i].x) + " y: " + std::to_string(_verts[i].y));
 			}
 
-			_vbh = bgfx::createVertexBuffer(bgfx::makeRef(_verts, sizeof(_verts)), ButtonVertex::pcvLayout);
+			_vbh = bgfx::createVertexBuffer(bgfx::makeRef(_verts, sizeof(_verts)), me::data::PositionUVVertex::pcvLayout);
 		}
 
 		//Expects value 0-255

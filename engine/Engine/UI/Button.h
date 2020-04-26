@@ -8,31 +8,12 @@
 #include <glm/vec2.hpp>
 #include <glm/vec4.hpp>
 
+#include "Engine/Data/VertexTypes.h"
+
 class Shader;
 
 namespace me {
 	namespace ui {
-
-		//Should move these vertex data to diffrent files
-		struct ButtonVertex
-		{
-			float x;
-			float y;
-			float z;
-			int16_t m_u;
-			int16_t m_v;
-			
-			void xy(glm::vec2 value) {
-				x = value.x;
-				y = value.y;
-			}
-			static bgfx::VertexLayout pcvLayout;
-			static ButtonVertex planeVerts[];
-			static const uint16_t planeTriList[];
-			static void init();
-			
-		};
-
 
 		class Button : public NodeUI
 		{
@@ -69,7 +50,7 @@ namespace me {
 			glm::vec2 _size;
 			glm::vec4 _color;
 
-			ButtonVertex _verts[4];
+			me::data::PositionUVVertex _verts[4];
 
 			bgfx::UniformHandle _u_color;
 			bgfx::VertexBufferHandle _vbh;

@@ -75,6 +75,8 @@ int main(int argc, char** argv) {
 		buttonTest->onClick = ohno;
 		buttonTest->rectTransform.setPosition({ 100, 100 });
 		buttonTest->setSize({ 100, 100 });
+
+
 		
 		
 		//UI button - Sprites
