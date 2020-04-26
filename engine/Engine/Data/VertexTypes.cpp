@@ -4,7 +4,7 @@ namespace me {
 	namespace data {
 
 		//Position UV
-		bgfx::VertexLayout PositionUVVertex::pcvLayout;
+		bgfx::VertexLayout PositionUVVertex::layout;
 		bool PositionUVVertex::isInit = false;
 
 		PositionUVVertex PositionUVVertex::planeVerts[] = {
@@ -23,7 +23,7 @@ namespace me {
 		{
 			if (!isInit) {
 				isInit = true;
-				pcvLayout.begin()
+				layout.begin()
 					.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
 					.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
 					.end();
@@ -33,7 +33,7 @@ namespace me {
 
 		//Position Color UV
 		bool PositionColorUVVertex::isInit = false;
-		bgfx::VertexLayout PositionColorUVVertex::pcvLayout;
+		bgfx::VertexLayout PositionColorUVVertex::layout;
 		PositionColorUVVertex PositionColorUVVertex::planeVerts[] = {
 			{0.0f, 0.0f, 0.0f, 0xffffffff, 0, 0x7fff},
 			{1.0f, 0.0f, 0.0f, 0xffffffff, 0x7fff, 0x7fff},
@@ -48,7 +48,7 @@ namespace me {
 
 		void PositionColorUVVertex::init() {
 			if (!isInit) {
-				pcvLayout.begin()
+				layout.begin()
 					.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
 					.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
 					.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
@@ -60,7 +60,7 @@ namespace me {
 		bgfx::VertexLayout PositionColorVertex::layout;
 		bool PositionColorVertex::isInit = false;
 
-		const unsigned short PositionColorVertex::planeIndexList[] = {
+		const uint16_t PositionColorVertex::planeIndexList[] = {
 			0,1,2,
 			0,2,3
 		};

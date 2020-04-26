@@ -106,7 +106,7 @@ namespace me {
 				Debug::Log("x: " + std::to_string(_verts[i].x) + " y: " + std::to_string(_verts[i].y));
 			}
 
-			_vbh = bgfx::createVertexBuffer(bgfx::makeRef(_verts, sizeof(_verts)), me::data::PositionUVVertex::pcvLayout);
+			_vbh = bgfx::createVertexBuffer(bgfx::makeRef(_verts, sizeof(_verts)), me::data::PositionUVVertex::layout);
 		}
 
 		//Expects value 0-255

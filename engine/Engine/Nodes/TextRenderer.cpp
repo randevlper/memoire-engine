@@ -128,7 +128,7 @@ void TextRenderer::buildVertexBuffers()
 			lineData[2].xy({ xpos + w, ypos + h });
 			lineData[3].xy({ xpos, ypos + h });
 
-			bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::copy(lineData, sizeof(lineData)), me::data::PositionColorUVVertex::pcvLayout);
+			bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::copy(lineData, sizeof(lineData)), me::data::PositionColorUVVertex::layout);
 
 			_vbs.push_back(vbh);
 			x += (ch.advance >> 6);

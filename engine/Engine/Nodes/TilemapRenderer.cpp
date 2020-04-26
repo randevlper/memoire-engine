@@ -87,7 +87,7 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 			+ " Tileset Pixel: " + std::to_string(_tilesetInfo.z) 
 			+ " " +  std::to_string(_tilesetInfo.z / _tilesetInfo.x));
 
-	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(me::data::PositionColorUVVertex::planeVerts)), me::data::PositionColorUVVertex::pcvLayout);
+	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(me::data::PositionColorUVVertex::planeVerts)), me::data::PositionColorUVVertex::layout);
 }
 
 int TilemapRenderer::worldToTile(glm::vec2 pos, bool topLeft) {

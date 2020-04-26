@@ -18,7 +18,7 @@ namespace me {
 				y = value.y;
 			}
 
-			static bgfx::VertexLayout pcvLayout;
+			static bgfx::VertexLayout layout;
 			static PositionUVVertex planeVerts[4];
 			static const uint16_t planeTriList[6];
 			static void init();
@@ -39,7 +39,7 @@ namespace me {
 				y = value.y;
 			}
 
-			static bgfx::VertexLayout pcvLayout;
+			static bgfx::VertexLayout layout;
 			static PositionColorUVVertex planeVerts[4];
 			static const uint16_t planeTriList[6];
 			static void init();
@@ -51,9 +51,9 @@ namespace me {
 			float x;
 			float y;
 			float z;
-			unsigned int abgr;
+			uint32_t abgr;
 			static bgfx::VertexLayout layout;
-			static const unsigned short planeIndexList[6];
+			static const uint16_t planeIndexList[6];
 			static void init();
 			static bool isInit;
 		};
