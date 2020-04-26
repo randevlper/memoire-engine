@@ -6,3 +6,9 @@ namespace Utility {
 		return (int)color.a << 24 | (int)color.b << 16 | (int)color.g << 8 | (int)color.r << 0;
 	}
 }
+
+namespace me {
+	namespace util {
+		glm::vec2 convertPixelToScreen(glm::ivec2 value);
+	}
+}

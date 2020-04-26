@@ -7,6 +7,7 @@
 #include "Engine/AssetManagement/Shader.h"
 
 #include "Engine/Core/Context.h"
+#include "Engine/Utilities/TypeConversion.h"
 
 namespace me {
 	namespace ui {
@@ -65,17 +66,22 @@ namespace me {
 
 		//UI should not be changing size often
 		//This will need to be changed for UI animation
+
+		//Takes size in screen pixels
 		void Button::setSize(glm::vec2 size)
 		{
 			if (bgfx::isValid(_vbh)) {
 				bgfx::destroy(_vbh);
 			}
 
+			rectTransform.setSize(size);
 			memcpy(_verts, ButtonVertex::planeVerts, sizeof(ButtonVertex::planeVerts));
+
+			glm::vec2* corners = rectTransform.getScreenCorners();
 			for (size_t i = 0; i < 4; i++)
 			{
-				_verts[i].x *= size.x / Context::getWindowWidth() * 2;
-				_verts[i].y *= size.y / Context::getWindowHeight() * 2;
+				_verts[i].xy(corners[i]);
+				Debug::Log("x: " + std::to_string(_verts[i].x) + " y: " + std::to_string(_verts[i].y));
 			}
 
 			_vbh = bgfx::createVertexBuffer(bgfx::makeRef(_verts, sizeof(_verts)), ButtonVertex::pcvLayout);
@@ -84,6 +90,7 @@ namespace me {
 		void Button::setColor(glm::vec4 rgba)
 		{
 			_color = rgba;
+			_color /= 255;
 		}
 
 		void Button::render() {

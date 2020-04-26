@@ -1,10 +1,12 @@
 #include "RectTransform.h"
+#include "Engine/Utilities/TypeConversion.h"
 
 RectTransform::RectTransform()
 {
-	for (size_t i = 0; i < 4; i++)
+	for (size_t i = 0; i < RECT_TRANSFORM_SIZE; i++)
 	{
 		_transforms[i].setParent(&_root);
+		_corners[i] = {0,0};
 	}
 }
 
@@ -33,4 +35,17 @@ void RectTransform::setRotation(float value)
 void RectTransform::setScale(glm::vec2 value)
 {
 	_root.setLocalScale(value);
+}
+
+glm::vec2* RectTransform::getScreenCorners()
+{
+	glm::vec2 pos = { 0,0 };
+	for (size_t i = 0; i < RECT_TRANSFORM_SIZE; i++)
+	{
+		pos = me::util::convertPixelToScreen(_transforms[i].getPosition());
+		_corners[i].x = pos.x;
+		_corners[i].y = pos.y;
+	}
+
+	return _corners;
 }

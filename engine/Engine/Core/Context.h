@@ -51,6 +51,8 @@ private:
 
 	static SDL_SysWMinfo* _wmInfo;
 
+
+
 	Context();
 	~Context();
 };

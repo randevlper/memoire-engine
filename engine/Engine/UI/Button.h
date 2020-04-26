@@ -17,10 +17,16 @@ namespace me {
 			float z;
 			int16_t m_u;
 			int16_t m_v;
+			
+			void xy(glm::vec2 value) {
+				x = value.x;
+				y = value.y;
+			}
 			static bgfx::VertexLayout pcvLayout;
 			static ButtonVertex planeVerts[];
 			static const uint16_t planeTriList[];
 			static void init();
+			
 		};
 
 

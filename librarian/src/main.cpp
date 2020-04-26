@@ -69,26 +69,16 @@ int main(int argc, char** argv) {
 
 		//Make UI elements not a node
 		//Rect transform, use four transfoms rotate/scale the main one and get the points from all of them
-		int winW = Context::getWindowWidth();
-		int winH = Context::getWindowHeight();
-		buttonTest->setSize({
-			((float)(winW) / winW),
-			((float)(winH) / winH)
-			});
 
-		//Debug::Log(std::to_string(buttonTest->transform.getLocalPosition().x));
 		//buttonTest->transform.setLocalScale({ 1 / Context::getWindowWidth(), 1 / Context::getWindowHeight() });
-		buttonTest->setSize({ Context::getWindowWidth(), 200 });
+		buttonTest->rectTransform.setPosition({ 10, 10 });
+		buttonTest->setColor({ 255,50,0,120 });
+		buttonTest->setSize({ Context::getWindowWidth() - 20, Context::getWindowHeight() - 20});
 		//Scenes Title Screen/Game
 		//UI Buttons
 		//UI Panels
 		//UI Textbox
 		//Audio MiniAudio - https://github.com/dr-soft/miniaudio
-		
-		/*
-		Add maximize and minimize support
-
-		*/
 
 		/*
 		Title Screen
