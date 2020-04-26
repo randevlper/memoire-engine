@@ -71,9 +71,9 @@ int main(int argc, char** argv) {
 		//Rect transform, use four transfoms rotate/scale the main one and get the points from all of them
 
 		//buttonTest->transform.setLocalScale({ 1 / Context::getWindowWidth(), 1 / Context::getWindowHeight() });
-		buttonTest->rectTransform.setPosition({ 10, 10 });
+		buttonTest->rectTransform.setPosition({ 100, 100 });
 		buttonTest->setColor({ 255,50,0,120 });
-		buttonTest->setSize({ Context::getWindowWidth() - 20, Context::getWindowHeight() - 20});
+		buttonTest->setSize({ 100, 100 });
 		//Scenes Title Screen/Game
 		//UI Buttons
 		//UI Panels
@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 		{
 			Context::tick();
 			glm::vec2 mousePos = Input::getMousePos();
-			mousePos = cam->screenToWorld(mousePos);
+			glm::vec2 worldMousePos = cam->screenToWorld(mousePos);
 
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
 				audioSource->play();
@@ -100,10 +100,18 @@ int main(int argc, char** argv) {
 
 
 			textRenderer->render();
+
+			if (buttonTest->isMouseOver(mousePos)) {
+				buttonTest->setColor({ 255,0,0,255 });
+			}
+			else {
+				buttonTest->setColor({ 255,0,0,100 });
+			}
+
 			buttonTest->render();
 
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
-			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
+			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
 
 			Renderer::render();
 			

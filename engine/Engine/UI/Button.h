@@ -10,6 +10,8 @@ class Shader;
 
 namespace me {
 	namespace ui {
+
+		//Should move these vertex data to diffrent files
 		struct ButtonVertex
 		{
 			float x;
@@ -43,6 +45,11 @@ namespace me {
 			void render();
 
 			static void destroy();
+
+			//Normal Color
+			//Hover Color
+			//Click Color
+			//Disabled Color
 
 		private:
 

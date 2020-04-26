@@ -61,7 +61,17 @@ namespace me {
 
 		bool Button::isMouseOver(glm::vec2 mousePos)
 		{
-			return false;
+			//Bounded box for now, no rotation
+			glm::vec2* corners = rectTransform.getScreenCorners();
+			mousePos.y = abs(mousePos.y - Context::getWindowHeight());
+			glm::vec2 mouseScreen = me::util::convertPixelToScreen(mousePos);
+			if (mouseScreen.x < corners[0].x || mouseScreen.x > corners[1].x) {
+				return false;
+			} 
+			if (mouseScreen.y < corners[0].y || mouseScreen.y > corners[3].y) {
+				return false;
+			}
+			return true;
 		}
 
 		//UI should not be changing size often
@@ -74,6 +84,7 @@ namespace me {
 				bgfx::destroy(_vbh);
 			}
 
+			_size = size;
 			rectTransform.setSize(size);
 			memcpy(_verts, ButtonVertex::planeVerts, sizeof(ButtonVertex::planeVerts));
 
@@ -87,6 +98,7 @@ namespace me {
 			_vbh = bgfx::createVertexBuffer(bgfx::makeRef(_verts, sizeof(_verts)), ButtonVertex::pcvLayout);
 		}
 
+		//Expects value 0-255
 		void Button::setColor(glm::vec4 rgba)
 		{
 			_color = rgba;
