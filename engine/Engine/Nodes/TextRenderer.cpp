@@ -87,11 +87,12 @@ void TextRenderer::clearVertexBuffers()
 void TextRenderer::buildVertexBuffers()
 {
 	if (_font == nullptr) { return; }
-	//Clear out the old text
+	
 	float x = 0;
 	float y = 0;
 	glm::vec4 color = { 255,255,255, 255 };
 
+	//Clear out the old text
 	clearVertexBuffers();
 
 	for (size_t i = 0; i < strlen(_text); i++)
@@ -118,10 +119,6 @@ void TextRenderer::buildVertexBuffers()
 			float h = ch.size.y;
 
 			me::data::PositionColorUVVertex lineData[4];
-			//lineData[0] = TextVertex{ xpos, ypos, 0.0f, Utility::colorToHex(color), 0, 0x7fff };
-			//lineData[1] = TextVertex{ xpos + w, ypos, 0.0f, Utility::colorToHex(color), 0x7fff, 0x7fff };
-			//lineData[2] = TextVertex{ xpos + w, ypos + h, 0.0f, Utility::colorToHex(color),  0x7fff, 0 };
-			//lineData[3] = TextVertex{ xpos, ypos + h, 0.0f, Utility::colorToHex(color), 0, 0 };
 			memcpy(lineData, me::data::PositionColorUVVertex::verts, sizeof(me::data::PositionColorUVVertex::verts));
 			lineData[0].xy({ xpos, ypos });
 			lineData[1].xy({ xpos + w, ypos });

@@ -31,6 +31,7 @@
 #include "Engine/Nodes/AudioSource.h"
 
 #include "Engine/UI/Button.h"
+#include "Engine/UI/Text.h"
 
 AudioSource* audioSource;
 
@@ -76,6 +77,12 @@ int main(int argc, char** argv) {
 		buttonTest->rectTransform.setPosition({ 100, 100 });
 		buttonTest->setSize({ 100, 100 });
 
+		me::ui::Text* textTest = world->create<me::ui::Text>();
+		textTest->rectTransform.setSize({ 1000, 400 });
+		textTest->setFont(fontTest);
+		textTest->setText("Ayse i swear to god.");
+		//Callbacks for changing rect properties?
+		
 
 		
 		
@@ -103,11 +110,12 @@ int main(int argc, char** argv) {
 				
 			}
 
-
 			textRenderer->render();
+			
 
 			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
 			buttonTest->render();
+			textTest->render();
 
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
