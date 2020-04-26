@@ -87,7 +87,6 @@ namespace me {
 			else {
 				_currentIsMouseOver = true;
 			}
-
 			
 			//Button color
 			if (_currentIsMouseOver && !_currentMouseClicking) {
@@ -98,6 +97,11 @@ namespace me {
 			}
 			else {
 				setColor(colorNormal);
+			}
+
+			//Call event
+			if (!_lastMouseClicking && _currentMouseClicking) {
+				onClick();
 			}
 		}
 

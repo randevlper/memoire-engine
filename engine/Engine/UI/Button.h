@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/UI/NodeUI.h"
 
+#include <functional>
+
 #include <bgfx/bgfx.h>
 
 #include <glm/vec2.hpp>
@@ -52,6 +54,8 @@ namespace me {
 			//Disabled Color
 			glm::vec4 colorDisabled;
 
+			std::function<void()> onClick;
+				
 		private:
 
 			static bool _isInit;

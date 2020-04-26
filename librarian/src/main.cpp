@@ -1,5 +1,6 @@
 #include <iostream>
 #include <list>
+#include <functional>
 
 #include <bgfx/bgfx.h>
 #include <glm/vec2.hpp>
@@ -31,6 +32,12 @@
 
 #include "Engine/UI/Button.h"
 
+AudioSource* audioSource;
+
+void ohno() {
+	audioSource->play();
+}
+
 int main(int argc, char** argv) {
 	{
 		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 60 , argc, argv};
@@ -60,25 +67,23 @@ int main(int argc, char** argv) {
 		textRenderer->transform.setLocalPosition({ 0,0 });
 		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
-		AudioSource* audioSource = world->create<AudioSource>();
+		audioSource = world->create<AudioSource>();
 		audioSource->setAudioClip(audioTest);
 
 
 		me::ui::Button* buttonTest = world->create<me::ui::Button>();
-		
-
-		//Make UI elements not a node
-		//Rect transform, use four transfoms rotate/scale the main one and get the points from all of them
-
-		//buttonTest->transform.setLocalScale({ 1 / Context::getWindowWidth(), 1 / Context::getWindowHeight() });
+		buttonTest->onClick = ohno;
 		buttonTest->rectTransform.setPosition({ 100, 100 });
 		buttonTest->setSize({ 100, 100 });
-		//Scenes Title Screen/Game
-		//UI Buttons
-		//UI Panels
-		//UI Textbox
-		//Audio MiniAudio - https://github.com/dr-soft/miniaudio
+		
+		
+		//UI button - Sprites
+		//UI Panels - Take code from button and implemnt sprites
+		//UI Textbox - text hell
+		//Audio looping
 
+
+		//Scenes Title Screen/Game
 		/*
 		Title Screen
 
@@ -94,7 +99,7 @@ int main(int argc, char** argv) {
 			glm::vec2 worldMousePos = cam->screenToWorld(mousePos);
 
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
-				audioSource->play();
+				
 			}
 
 

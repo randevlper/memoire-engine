@@ -22,6 +22,7 @@ int Input::_numMouseKeys = 0;
 SDL_Event Input::_event = SDL_Event();
 Input* Input::_instance = nullptr;
 
+//Supports values 1-3
 bool Input::getKeyDown(int key)
 {
 	if (_lastPoll == nullptr || _currentPoll == nullptr) { return false; }
@@ -34,6 +35,7 @@ bool Input::getKeyDown(int key)
 	return false;
 }
 
+//Supports values 1-3
 bool Input::getKeyUp(int key)
 {
 	if (_lastPoll == nullptr || _currentPoll == nullptr) { return false; }
@@ -45,6 +47,7 @@ bool Input::getKeyUp(int key)
 	return false;
 }
 
+//Supports values 1-3
 bool Input::getKey(int key)
 {
 	if (_lastPoll == nullptr || _currentPoll == nullptr) { return false; }
@@ -56,6 +59,7 @@ bool Input::getKey(int key)
 	return false;
 }
 
+//Supports values 1-3
 bool Input::getMouseKeyDown(int key)
 {
 	if (_lastMousePoll == nullptr || _currentMousePoll == nullptr) { return false; }
@@ -68,6 +72,7 @@ bool Input::getMouseKeyDown(int key)
 	return false;
 }
 
+//Supports values 1-3
 bool Input::getMouseKeyUp(int key)
 {
 	if (_lastMousePoll == nullptr || _currentMousePoll == nullptr) { return false; }
@@ -79,6 +84,8 @@ bool Input::getMouseKeyUp(int key)
 	return false;
 }
 
+
+//Supports values 1-3
 bool Input::getMouseKey(int key)
 {
 	if (_lastMousePoll == nullptr || _currentMousePoll == nullptr) { return false; }
