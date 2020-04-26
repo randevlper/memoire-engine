@@ -21,17 +21,6 @@ namespace bgfx {
 	struct ProgramHandle;
 }
 
-struct LineVertex
-{
-	float x;
-	float y;
-	float z;
-	unsigned int abgr;
-	static bgfx::VertexLayout layout;
-	static bgfx::VertexLayoutHandle handle;
-	static void init();
-};
-
 class Renderer
 {
 public:
@@ -65,7 +54,6 @@ private:
 	static bgfx::DynamicVertexBufferHandle lineVerts;
 	static bgfx::IndexBufferHandle lineIndicies;
 	static bgfx::ProgramHandle lineProgram;
-	static const unsigned short planeIndexList[];
 	static std::vector<bgfx::TransientVertexBuffer> _tvbs;
 	//static LineVertex verts[];
 };

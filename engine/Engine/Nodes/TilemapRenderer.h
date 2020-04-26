@@ -12,21 +12,6 @@ class Tilemap;
 
 #define ME_TILE_INVALID -1
 
-struct TilemapVertex
-{
-	float x;
-	float y;
-	float z;
-	uint32_t abgr;
-	int16_t m_u;
-	int16_t m_v;
-	static bgfx::VertexLayout pcvLayout;
-	static TilemapVertex planeVerts[];
-	static const uint16_t planeTriList[];
-	static void init();
-};
-
-
 class TilemapRenderer : public Node2D
 {
 public:

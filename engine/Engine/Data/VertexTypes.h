@@ -45,5 +45,17 @@ namespace me {
 			static void init();
 			static bool isInit;
 		};
+
+		struct PositionColorVertex
+		{
+			float x;
+			float y;
+			float z;
+			unsigned int abgr;
+			static bgfx::VertexLayout layout;
+			static const unsigned short planeIndexList[6];
+			static void init();
+			static bool isInit;
+		};
 	}
 }

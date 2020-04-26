@@ -20,6 +20,8 @@
 
 #include "Engine/Utilities/DebugMemory.h"
 
+#include "Engine/Data/VertexTypes.h"
+
 Renderer* Renderer ::_instance = nullptr;
 Timer Renderer::_fpsTimer = Timer();
 Timer Renderer::_capTimer = Timer();
@@ -29,32 +31,16 @@ Camera* Renderer::_camera = nullptr;
 bgfx::DynamicVertexBufferHandle Renderer::lineVerts;
 bgfx::IndexBufferHandle Renderer::lineIndicies;
 bgfx::ProgramHandle Renderer::lineProgram;
-bgfx::VertexLayout LineVertex::layout;
-bgfx::VertexLayoutHandle LineVertex::handle;
 std::vector<bgfx::TransientVertexBuffer> Renderer::_tvbs;
-
-const unsigned short Renderer::planeIndexList[] = {
-	0,1,2,
-	0,2,3
-};
-
-void LineVertex::init()
-{
-	layout.begin()
-		.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-		.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-		.end();
-	handle = bgfx::createVertexLayout(layout);
-}
 
 void Renderer::init()
 {
 	if (_instance == nullptr) {
 		_instance = DBG_NEW Renderer();
 		_fpsTimer.start();
-		LineVertex::init();
-		lineVerts = bgfx::createDynamicVertexBuffer(4, LineVertex::layout, BGFX_BUFFER_ALLOW_RESIZE);
-		lineIndicies = bgfx::createIndexBuffer(bgfx::makeRef(&planeIndexList, sizeof(planeIndexList)));
+		me::data::PositionColorVertex::init();
+		lineVerts = bgfx::createDynamicVertexBuffer(4, me::data::PositionColorVertex::layout, BGFX_BUFFER_ALLOW_RESIZE);
+		lineIndicies = bgfx::createIndexBuffer(bgfx::makeRef(&me::data::PositionColorVertex::planeIndexList, sizeof(me::data::PositionColorVertex::planeIndexList)));
 		lineProgram = FileUtility::loadProgram("assets/shaders/vs_line.bin", "assets/shaders/fs_line.bin");
 	
 	}
@@ -99,12 +85,12 @@ void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float widt
 	//SDL_Log("Help, %f", verts[0].x);
 
 	bgfx::TransientVertexBuffer tvb;
-	bgfx::allocTransientVertexBuffer(&tvb, 4, LineVertex::layout);
-	LineVertex* lineData = (LineVertex*)tvb.data;
-	lineData[0] = LineVertex{ ar.x, ar.y, 0, Utility::colorToHex(color) };
-	lineData[1] = LineVertex{ br.x, br.y, 0, Utility::colorToHex(color) };
-	lineData[2] = LineVertex{ bl.x, bl.y, 0, Utility::colorToHex(color) };
-	lineData[3] = LineVertex{ al.x, al.y, 0, Utility::colorToHex(color) };
+	bgfx::allocTransientVertexBuffer(&tvb, 4, me::data::PositionColorVertex::layout);
+	me::data::PositionColorVertex* lineData = (me::data::PositionColorVertex*)tvb.data;
+	lineData[0] = me::data::PositionColorVertex{ ar.x, ar.y, 0, Utility::colorToHex(color) };
+	lineData[1] = me::data::PositionColorVertex{ br.x, br.y, 0, Utility::colorToHex(color) };
+	lineData[2] = me::data::PositionColorVertex{ bl.x, bl.y, 0, Utility::colorToHex(color) };
+	lineData[3] = me::data::PositionColorVertex{ al.x, al.y, 0, Utility::colorToHex(color) };
 	_tvbs.push_back(tvb);
 }
 

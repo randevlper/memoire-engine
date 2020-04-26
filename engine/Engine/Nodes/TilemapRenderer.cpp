@@ -9,27 +9,7 @@
 #include "Engine/AssetManagement/Sprite.h"
 #include "Engine/Utilities/Debug.h"
 
-bgfx::VertexLayout TilemapVertex::pcvLayout;
-
-TilemapVertex TilemapVertex::planeVerts[] = {
-	{0.0f, 0.0f, 0.0f, 0xffffffff, 0, 0x7fff},
-	{1.0f, 0.0f, 0.0f, 0xffffffff, 0x7fff, 0x7fff},
-	{1.0f, 1.0f, 0.0f, 0xffffffff, 0x7fff, 0},
-	{0.0f, 1.0f, 0.0f, 0xffffffff, 0, 0}
-};
-const uint16_t TilemapVertex::planeTriList[] = {
-	0,1,2,
-	0,2,3
-};
-
-void TilemapVertex::init()
-{
-	pcvLayout.begin()
-		.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-		.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-		.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
-		.end();	
-}
+#include "Engine/Data/VertexTypes.h"
 
 Shader* TilemapRenderer::_shader = nullptr;
 bool TilemapRenderer::init = false;
@@ -38,7 +18,7 @@ bool TilemapRenderer::init = false;
 TilemapRenderer::TilemapRenderer()
 {
 	if (!init) {
-		TilemapVertex::init();
+		me::data::PositionColorUVVertex::init();
 		_shader = AssetManager::get<Shader>("assets/shaders/vs_tile.bin");
 		init = true;
 	}
@@ -48,8 +28,8 @@ TilemapRenderer::TilemapRenderer()
 	u_tileset = bgfx::createUniform("u_tileset", bgfx::UniformType::Sampler);
 	u_tilesetInfo = bgfx::createUniform("u_tilesetInfo", bgfx::UniformType::Vec4);
 	u_tilemapInfo = bgfx::createUniform("u_tilemapInfo", bgfx::UniformType::Vec4);
-	_ibh = bgfx::createIndexBuffer(bgfx::makeRef(TilemapVertex::planeTriList, sizeof(TilemapVertex::planeTriList)));
-	_vbh.idx = -1;
+	_ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::planeTriList, sizeof(me::data::PositionColorUVVertex::planeTriList)));
+	_vbh.idx = BGFX_INVALID_HANDLE;
 }
 
 TilemapRenderer::~TilemapRenderer()
@@ -91,8 +71,8 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 	}
 
 	tilemap = tm;
-	TilemapVertex verts[4];
-	memcpy(verts, TilemapVertex::planeVerts, sizeof(TilemapVertex::planeVerts));
+	me::data::PositionColorUVVertex verts[4];
+	memcpy(verts, me::data::PositionColorUVVertex::planeVerts, sizeof(me::data::PositionColorUVVertex::planeVerts));
 	for (size_t i = 0; i < 4; i++)
 	{
 		verts[i].x *= tm->getPixelWidth();
@@ -107,7 +87,7 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 			+ " Tileset Pixel: " + std::to_string(_tilesetInfo.z) 
 			+ " " +  std::to_string(_tilesetInfo.z / _tilesetInfo.x));
 
-	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(TilemapVertex::planeVerts)), TilemapVertex::pcvLayout);
+	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(me::data::PositionColorUVVertex::planeVerts)), me::data::PositionColorUVVertex::pcvLayout);
 }
 
 int TilemapRenderer::worldToTile(glm::vec2 pos, bool topLeft) {

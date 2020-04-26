@@ -2,6 +2,8 @@
 
 namespace me {
 	namespace data {
+
+		//Position UV
 		bgfx::VertexLayout PositionUVVertex::pcvLayout;
 		bool PositionUVVertex::isInit = false;
 
@@ -29,6 +31,7 @@ namespace me {
 			
 		}
 
+		//Position Color UV
 		bool PositionColorUVVertex::isInit = false;
 		bgfx::VertexLayout PositionColorUVVertex::pcvLayout;
 		PositionColorUVVertex PositionColorUVVertex::planeVerts[] = {
@@ -49,6 +52,25 @@ namespace me {
 					.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
 					.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
 					.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
+					.end();
+			}
+		}
+
+		//Position Color
+		bgfx::VertexLayout PositionColorVertex::layout;
+		bool PositionColorVertex::isInit = false;
+
+		const unsigned short PositionColorVertex::planeIndexList[] = {
+			0,1,2,
+			0,2,3
+		};
+
+		void PositionColorVertex::init()
+		{
+			if (!isInit) {
+				layout.begin()
+					.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+					.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
 					.end();
 			}
 		}
