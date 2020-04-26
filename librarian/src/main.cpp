@@ -72,7 +72,6 @@ int main(int argc, char** argv) {
 
 		//buttonTest->transform.setLocalScale({ 1 / Context::getWindowWidth(), 1 / Context::getWindowHeight() });
 		buttonTest->rectTransform.setPosition({ 100, 100 });
-		buttonTest->setColor({ 255,50,0,120 });
 		buttonTest->setSize({ 100, 100 });
 		//Scenes Title Screen/Game
 		//UI Buttons
@@ -101,13 +100,7 @@ int main(int argc, char** argv) {
 
 			textRenderer->render();
 
-			if (buttonTest->isMouseOver(mousePos)) {
-				buttonTest->setColor({ 255,0,0,255 });
-			}
-			else {
-				buttonTest->setColor({ 255,0,0,100 });
-			}
-
+			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
 			buttonTest->render();
 
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);

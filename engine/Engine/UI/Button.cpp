@@ -50,6 +50,11 @@ namespace me {
 			_vbh.idx = bgfx::kInvalidHandle;
 			
 			setSize({ 10,10 });
+
+			colorNormal = { 255,0,0, 255 };
+			colorHightlight = { 0,255,0,255 };
+			colorClicked = { 0,0,255,255 };
+			colorDisabled = { 100,100,100,255 };
 		}
 
 		Button::~Button()
@@ -59,19 +64,41 @@ namespace me {
 			bgfx::destroy(_ibh);
 		}
 
-		bool Button::isMouseOver(glm::vec2 mousePos)
+		//Expects rawSDL window position
+		//Should change this to have the UI manager/canvas to send the converted mouse pos to multiple buttons
+		void Button::sendMouseInfo(glm::vec2 mousePos, bool isClicking)
 		{
+			_lastMouseClicking = _currentMouseClicking;
+			_lastIsMouseOver = _currentIsMouseOver;
+			_currentMouseClicking = isClicking;
+
 			//Bounded box for now, no rotation
 			glm::vec2* corners = rectTransform.getScreenCorners();
 			mousePos.y = abs(mousePos.y - Context::getWindowHeight());
 			glm::vec2 mouseScreen = me::util::convertPixelToScreen(mousePos);
+			
+			//Get Button state
 			if (mouseScreen.x < corners[0].x || mouseScreen.x > corners[1].x) {
-				return false;
-			} 
-			if (mouseScreen.y < corners[0].y || mouseScreen.y > corners[3].y) {
-				return false;
+				_currentIsMouseOver = false;
 			}
-			return true;
+			else if (mouseScreen.y < corners[0].y || mouseScreen.y > corners[3].y) {
+				_currentIsMouseOver = false;
+			}
+			else {
+				_currentIsMouseOver = true;
+			}
+
+			
+			//Button color
+			if (_currentIsMouseOver && !_currentMouseClicking) {
+				setColor(colorHightlight);
+			}
+			else if (_currentIsMouseOver && _currentMouseClicking) {
+				setColor(colorClicked);
+			}
+			else {
+				setColor(colorNormal);
+			}
 		}
 
 		//UI should not be changing size often
@@ -112,10 +139,6 @@ namespace me {
 			bgfx::setIndexBuffer(_ibh);
 			bgfx::setUniform(_u_color, glm::value_ptr(_color));
 			bgfx::submit(0, _shader->getHandle());
-		}
-
-		void Button::destroy()
-		{
 		}
 	}
 }

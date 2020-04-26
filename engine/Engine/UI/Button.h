@@ -38,23 +38,29 @@ namespace me {
 			Button();
 			~Button() override;
 
-			bool isMouseOver(glm::vec2 mousePos);
-
+			void sendMouseInfo(glm::vec2 mousePos, bool isClicking);
 			void setSize(glm::vec2 size);
-			void setColor(glm::vec4 rgba);
+			
 			void render();
 
-			static void destroy();
-
 			//Normal Color
+			glm::vec4 colorNormal;
 			//Hover Color
+			glm::vec4 colorHightlight;
 			//Click Color
+			glm::vec4 colorClicked;
 			//Disabled Color
+			glm::vec4 colorDisabled;
 
 		private:
 
 			static bool _isInit;
 			static Shader* _shader;
+
+			bool _lastIsMouseOver;
+			bool _currentIsMouseOver;
+			bool _lastMouseClicking;
+			bool _currentMouseClicking;
 
 			glm::vec2 _size;
 			glm::vec4 _color;
@@ -64,6 +70,9 @@ namespace me {
 			bgfx::UniformHandle _u_color;
 			bgfx::VertexBufferHandle _vbh;
 			bgfx::IndexBufferHandle _ibh;
+		
+			void setColor(glm::vec4 rgba);
+		
 		};
 	}
 }
