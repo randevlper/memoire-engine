@@ -11,39 +11,19 @@
 
 #include "Engine/Utilities/DebugMemory.h"
 
-bgfx::VertexLayout SpriteVertex::pcvLayout;
-SpriteVertex SpriteVertex::planeVerts[] = {
-	{-1.0f, -1.0f, 0.0f, 0xffffffff, 0, 0x7fff},
-	{1.0f, -1.0f, 0.0f, 0xffffffff, 0x7fff, 0x7fff},
-	{1.0f, 1.0f, 0.0f, 0xffffffff, 0x7fff, 0},
-	{-1.0f, 1.0f, 0.0f, 0xffffffff, 0, 0}
-};
-const uint16_t SpriteVertex::planeTriList[] = {
-	0,1,2,
-	0,2,3
-};
-
-void SpriteVertex::init() {
-	pcvLayout.begin()
-		.add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-		.add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-		.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Int16, true, true)
-		.end();
-}
-
 Shader* SpriteRenderer::shader = nullptr;
 bool SpriteRenderer::init = false;
 SpriteRenderer::SpriteRenderer()
 {
 	if (!init) {
-		SpriteVertex::init();
+		me::data::PositionColorUVVertex::init();
 		shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
 		//FileUtility::loadProgram("assets/shaders/vs_sprite.bin","assets/shaders/fs_sprite.bin");
 		init = true;
 	}
 
-	vbh = bgfx::createVertexBuffer(bgfx::makeRef(SpriteVertex::planeVerts, sizeof(SpriteVertex::planeVerts)), SpriteVertex::pcvLayout);
-	ibh = bgfx::createIndexBuffer(bgfx::makeRef(SpriteVertex::planeTriList, sizeof(SpriteVertex::planeTriList)));
+	vbh = bgfx::createVertexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::planeVerts, sizeof(me::data::PositionColorUVVertex::planeVerts)), me::data::PositionColorUVVertex::pcvLayout);
+	ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::planeTriList, sizeof(me::data::PositionColorUVVertex::planeTriList)));
 	s_sprite = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
 	_sprite = nullptr;
 }
@@ -63,16 +43,14 @@ void SpriteRenderer::setSprite(Sprite* sprite)
 	float w = (sprite->width)/2;
 	float h = (sprite->height)/2;
 
-	for (size_t i = 0; i < 4; i++)
-	{
-		newVerts[i] = SpriteVertex::planeVerts[i];
-	}
-	newVerts[0].x = -w; newVerts[0].y = -h;
-	newVerts[1].x = w; newVerts[1].y = -h;
-	newVerts[2].x = w; newVerts[2].y = h;
-	newVerts[3].x = -w; newVerts[3].y = h;
+	memcpy(newVerts, me::data::PositionColorUVVertex::planeVerts, 
+		sizeof(me::data::PositionColorUVVertex::planeVerts));
+	newVerts[0].xy({ -w,-h });
+	newVerts[1].xy({ w,-h });
+	newVerts[2].xy({ w,h });
+	newVerts[3].xy({-w, h});
 
-	vbh = bgfx::createVertexBuffer(bgfx::makeRef(newVerts, sizeof(newVerts)), SpriteVertex::pcvLayout);
+	vbh = bgfx::createVertexBuffer(bgfx::makeRef(newVerts, sizeof(newVerts)), me::data::PositionColorUVVertex::pcvLayout);
 
 	_sprite = sprite;
 }

@@ -1,22 +1,11 @@
 #pragma once
 #include "Engine/Nodes/Node2D.h"
 #include <bgfx/bgfx.h>
+
+#include "Engine/Data/VertexTypes.h"
+
 class Sprite;
 class Shader;
-
-struct SpriteVertex
-{
-	float x;
-	float y;
-	float z;
-	uint32_t abgr;
-	int16_t m_u;
-	int16_t m_v;
-	static bgfx::VertexLayout pcvLayout;
-	static SpriteVertex planeVerts[];
-	static const uint16_t planeTriList[];
-	static void init();
-};
 
 class SpriteRenderer : public Node2D
 {
@@ -31,7 +20,7 @@ public:
 
 private:
 	Sprite* _sprite;
-	SpriteVertex newVerts[4];
+	me::data::PositionColorUVVertex newVerts[4];
 	bgfx::VertexBufferHandle vbh;
 	bgfx::IndexBufferHandle ibh;
 	bgfx::UniformHandle s_sprite;
