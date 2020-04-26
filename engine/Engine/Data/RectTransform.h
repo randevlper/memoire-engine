@@ -18,13 +18,21 @@ public:
 	void setRotation(float value);
 	void setScale(glm::vec2 value);
 
+	glm::ivec2 getSize() {
+		return _size;
+	}
+
 	//Counter clockwise starting at bottom left
 	glm::vec2* getScreenCorners();
+	glm::vec2* getWindowCorners();
 
 private:
+
+	glm::ivec2 _size;
 
 	Transform _root;
 	Transform _transforms[4];
 
 	glm::vec2 _corners[4];
+	glm::vec2 _windowCorners[4];
 };

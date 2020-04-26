@@ -16,6 +16,7 @@ RectTransform::~RectTransform()
 
 void RectTransform::setSize(glm::ivec2 value)
 {
+	_size = value;
 	_transforms[0].setLocalPosition({ 0, 0 });
 	_transforms[1].setLocalPosition({ value.x, 0 });
 	_transforms[2].setLocalPosition({ value.x, value.y });
@@ -37,6 +38,7 @@ void RectTransform::setScale(glm::vec2 value)
 	_root.setLocalScale(value);
 }
 
+//Returns corners in screen space OGL -1 to 1
 glm::vec2* RectTransform::getScreenCorners()
 {
 	glm::vec2 pos = { 0,0 };
@@ -48,4 +50,15 @@ glm::vec2* RectTransform::getScreenCorners()
 	}
 
 	return _corners;
+}
+
+//Returns corners in window space
+glm::vec2* RectTransform::getWindowCorners()
+{
+	glm::vec2 pos = { 0,0 };
+	for (size_t i = 0; i < RECT_TRANSFORM_SIZE; i++)
+	{
+		_windowCorners[i] = _transforms[i].getPosition();
+	}
+	return _windowCorners;
 }

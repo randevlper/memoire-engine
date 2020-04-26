@@ -1,5 +1,5 @@
 @echo off
-set SHADERNAME=ui
+set SHADERNAME=uisprite
 set PROJECTNAME=librarian
 @echo on
 shaderc -f %SHADERNAME%/vs_%SHADERNAME%.sc --varyingdedf %SHADERNAME%/varying.def.sc --type v -platform windows -o ../%PROJECTNAME%/assets/shaders/vs_%SHADERNAME%.bin
