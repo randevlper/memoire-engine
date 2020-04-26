@@ -93,7 +93,7 @@ namespace me {
 			glm::vec2* corners = rectTransform.getWindowCorners();
 
 			float x = corners[3].x;
-			float y = corners[3].y;
+			float y = corners[3].y - _font->getCharacter('T').size.y;
 
 			for (size_t i = 0; i < _text.size(); i++)
 			{

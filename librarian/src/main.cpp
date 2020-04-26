@@ -34,9 +34,11 @@
 #include "Engine/UI/Text.h"
 
 AudioSource* audioSource;
+me::ui::Text* textTest;
 
 void ohno() {
 	audioSource->play();
+	textTest->setText("Ays: He was asking for it!\nAne: That was not helpful.\nHe wanted a good time!\nAne: Your idea of a good time is very diffrent from the norm.");
 }
 
 int main(int argc, char** argv) {
@@ -74,16 +76,24 @@ int main(int argc, char** argv) {
 
 		me::ui::Button* buttonTest = world->create<me::ui::Button>();
 		buttonTest->onClick = ohno;
-		buttonTest->rectTransform.setPosition({ 100, 100 });
-		buttonTest->setSize({ 100, 100 });
+		buttonTest->rectTransform.setPosition({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f - 50});
+		buttonTest->setSize({ Context::getWindowWidth() * 0.2f, 50});
 
-		me::ui::Text* textTest = world->create<me::ui::Text>();
-		textTest->rectTransform.setSize({ 1000, 400 });
+
+		textTest = world->create<me::ui::Text>();
+		textTest->rectTransform.setSize({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f });
 		textTest->setFont(fontTest);
-		textTest->setText("Ayse i swear to god.");
+		textTest->setText(
+			"Anemone: A fist through the chest does not help someone breathe.\nAys: If they have no lungs they dont need to.\nSte: I wish i was a cat");
 		//Callbacks for changing rect properties?
-		
 
+		glm::vec2* textBoxCorners = DBG_NEW glm::vec2[4];
+		memcpy(textBoxCorners, textTest->rectTransform.getWindowCorners(), sizeof(glm::vec2) * 4);
+		for (size_t i = 0; i < 4; i++)
+		{
+			textBoxCorners[i].x -= Context::getWindowWidth() / 2;
+			textBoxCorners[i].y -= Context::getWindowHeight() / 2;
+		}
 		
 		
 		//UI button - Sprites
@@ -116,6 +126,8 @@ int main(int argc, char** argv) {
 			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
 			buttonTest->render();
 			textTest->render();
+
+			Renderer::renderLines(textBoxCorners, 4, glm::vec4{ 255,0,0,255 });
 
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
