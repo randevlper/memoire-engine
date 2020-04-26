@@ -40,7 +40,7 @@ void Renderer::init()
 		_fpsTimer.start();
 		me::data::PositionColorVertex::init();
 		lineVerts = bgfx::createDynamicVertexBuffer(4, me::data::PositionColorVertex::layout, BGFX_BUFFER_ALLOW_RESIZE);
-		lineIndicies = bgfx::createIndexBuffer(bgfx::makeRef(&me::data::PositionColorVertex::planeIndexList, sizeof(me::data::PositionColorVertex::planeIndexList)));
+		lineIndicies = bgfx::createIndexBuffer(bgfx::makeRef(&me::data::PositionColorVertex::indices, sizeof(me::data::PositionColorVertex::indices)));
 		lineProgram = FileUtility::loadProgram("assets/shaders/vs_line.bin", "assets/shaders/fs_line.bin");
 	
 	}

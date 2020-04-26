@@ -19,8 +19,8 @@ namespace me {
 			}
 
 			static bgfx::VertexLayout layout;
-			static PositionUVVertex planeVerts[4];
-			static const uint16_t planeTriList[6];
+			static PositionUVVertex verts[4];
+			static const uint16_t indices[6];
 			static void init();
 			static bool isInit;
 		};
@@ -40,8 +40,8 @@ namespace me {
 			}
 
 			static bgfx::VertexLayout layout;
-			static PositionColorUVVertex planeVerts[4];
-			static const uint16_t planeTriList[6];
+			static PositionColorUVVertex verts[4];
+			static const uint16_t indices[6];
 			static void init();
 			static bool isInit;
 		};
@@ -52,8 +52,9 @@ namespace me {
 			float y;
 			float z;
 			uint32_t abgr;
+
 			static bgfx::VertexLayout layout;
-			static const uint16_t planeIndexList[6];
+			static const uint16_t indices[6];
 			static void init();
 			static bool isInit;
 		};

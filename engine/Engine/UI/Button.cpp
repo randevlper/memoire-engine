@@ -23,7 +23,7 @@ namespace me {
 				_isInit = true;
 			}
 
-			_ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionUVVertex::planeTriList, sizeof(me::data::PositionUVVertex::planeVerts)));
+			_ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionUVVertex::indices, sizeof(me::data::PositionUVVertex::verts)));
 			_u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
 			_color = { 255,0,0,255 };
 
@@ -97,7 +97,7 @@ namespace me {
 
 			_size = size;
 			rectTransform.setSize(size);
-			memcpy(_verts, me::data::PositionUVVertex::planeVerts, sizeof(me::data::PositionUVVertex::planeVerts));
+			memcpy(_verts, me::data::PositionUVVertex::verts, sizeof(me::data::PositionUVVertex::verts));
 
 			glm::vec2* corners = rectTransform.getScreenCorners();
 			for (size_t i = 0; i < 4; i++)

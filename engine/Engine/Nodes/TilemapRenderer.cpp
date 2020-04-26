@@ -28,7 +28,7 @@ TilemapRenderer::TilemapRenderer()
 	u_tileset = bgfx::createUniform("u_tileset", bgfx::UniformType::Sampler);
 	u_tilesetInfo = bgfx::createUniform("u_tilesetInfo", bgfx::UniformType::Vec4);
 	u_tilemapInfo = bgfx::createUniform("u_tilemapInfo", bgfx::UniformType::Vec4);
-	_ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::planeTriList, sizeof(me::data::PositionColorUVVertex::planeTriList)));
+	_ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::indices, sizeof(me::data::PositionColorUVVertex::indices)));
 	_vbh.idx = BGFX_INVALID_HANDLE;
 }
 
@@ -72,7 +72,7 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 
 	tilemap = tm;
 	me::data::PositionColorUVVertex verts[4];
-	memcpy(verts, me::data::PositionColorUVVertex::planeVerts, sizeof(me::data::PositionColorUVVertex::planeVerts));
+	memcpy(verts, me::data::PositionColorUVVertex::verts, sizeof(me::data::PositionColorUVVertex::verts));
 	for (size_t i = 0; i < 4; i++)
 	{
 		verts[i].x *= tm->getPixelWidth();
@@ -87,7 +87,7 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 			+ " Tileset Pixel: " + std::to_string(_tilesetInfo.z) 
 			+ " " +  std::to_string(_tilesetInfo.z / _tilesetInfo.x));
 
-	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(me::data::PositionColorUVVertex::planeVerts)), me::data::PositionColorUVVertex::layout);
+	_vbh = bgfx::createVertexBuffer(bgfx::copy(verts, sizeof(me::data::PositionColorUVVertex::verts)), me::data::PositionColorUVVertex::layout);
 }
 
 int TilemapRenderer::worldToTile(glm::vec2 pos, bool topLeft) {

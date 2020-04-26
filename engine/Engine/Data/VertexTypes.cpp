@@ -7,14 +7,14 @@ namespace me {
 		bgfx::VertexLayout PositionUVVertex::layout;
 		bool PositionUVVertex::isInit = false;
 
-		PositionUVVertex PositionUVVertex::planeVerts[] = {
+		PositionUVVertex PositionUVVertex::verts[] = {
 			{0.0f, 0.0f, 0.0f, 0, 0x7fff},
 			{1.0f, 0.0f, 0.0f, 0x7fff, 0x7fff},
 			{1.0f, 1.0f, 0.0f, 0x7fff, 0},
 			{0.0f, 1.0f, 0.0f, 0, 0}
 		};
 
-		const uint16_t PositionUVVertex::planeTriList[] = {
+		const uint16_t PositionUVVertex::indices[] = {
 			0,1,2,
 			0,2,3
 		};
@@ -34,14 +34,14 @@ namespace me {
 		//Position Color UV
 		bool PositionColorUVVertex::isInit = false;
 		bgfx::VertexLayout PositionColorUVVertex::layout;
-		PositionColorUVVertex PositionColorUVVertex::planeVerts[] = {
+		PositionColorUVVertex PositionColorUVVertex::verts[] = {
 			{0.0f, 0.0f, 0.0f, 0xffffffff, 0, 0x7fff},
 			{1.0f, 0.0f, 0.0f, 0xffffffff, 0x7fff, 0x7fff},
 			{1.0f, 1.0f, 0.0f, 0xffffffff, 0x7fff, 0},
 			{0.0f, 1.0f, 0.0f, 0xffffffff, 0, 0}
 		};
 
-		const uint16_t PositionColorUVVertex::planeTriList[] = {
+		const uint16_t PositionColorUVVertex::indices[] = {
 			0,1,2,
 			0,2,3
 		};
@@ -60,7 +60,7 @@ namespace me {
 		bgfx::VertexLayout PositionColorVertex::layout;
 		bool PositionColorVertex::isInit = false;
 
-		const uint16_t PositionColorVertex::planeIndexList[] = {
+		const uint16_t PositionColorVertex::indices[] = {
 			0,1,2,
 			0,2,3
 		};

@@ -29,7 +29,7 @@ TextRenderer::TextRenderer()
 		init = true;
 	}
 
-	ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::planeTriList, sizeof(me::data::PositionColorUVVertex::planeTriList)));
+	ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::indices, sizeof(me::data::PositionColorUVVertex::indices)));
 	s_font = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
 	_font = nullptr;
 	_text = "";
@@ -122,7 +122,7 @@ void TextRenderer::buildVertexBuffers()
 			//lineData[1] = TextVertex{ xpos + w, ypos, 0.0f, Utility::colorToHex(color), 0x7fff, 0x7fff };
 			//lineData[2] = TextVertex{ xpos + w, ypos + h, 0.0f, Utility::colorToHex(color),  0x7fff, 0 };
 			//lineData[3] = TextVertex{ xpos, ypos + h, 0.0f, Utility::colorToHex(color), 0, 0 };
-			memcpy(lineData, me::data::PositionColorUVVertex::planeVerts, sizeof(me::data::PositionColorUVVertex::planeVerts));
+			memcpy(lineData, me::data::PositionColorUVVertex::verts, sizeof(me::data::PositionColorUVVertex::verts));
 			lineData[0].xy({ xpos, ypos });
 			lineData[1].xy({ xpos + w, ypos });
 			lineData[2].xy({ xpos + w, ypos + h });

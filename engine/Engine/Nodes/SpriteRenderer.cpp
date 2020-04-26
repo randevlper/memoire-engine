@@ -22,8 +22,8 @@ SpriteRenderer::SpriteRenderer()
 		init = true;
 	}
 
-	vbh = bgfx::createVertexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::planeVerts, sizeof(me::data::PositionColorUVVertex::planeVerts)), me::data::PositionColorUVVertex::layout);
-	ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::planeTriList, sizeof(me::data::PositionColorUVVertex::planeTriList)));
+	vbh = bgfx::createVertexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::verts, sizeof(me::data::PositionColorUVVertex::verts)), me::data::PositionColorUVVertex::layout);
+	ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::indices, sizeof(me::data::PositionColorUVVertex::indices)));
 	s_sprite = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
 	_sprite = nullptr;
 }
@@ -43,8 +43,8 @@ void SpriteRenderer::setSprite(Sprite* sprite)
 	float w = (sprite->width)/2;
 	float h = (sprite->height)/2;
 
-	memcpy(newVerts, me::data::PositionColorUVVertex::planeVerts, 
-		sizeof(me::data::PositionColorUVVertex::planeVerts));
+	memcpy(newVerts, me::data::PositionColorUVVertex::verts, 
+		sizeof(me::data::PositionColorUVVertex::verts));
 	newVerts[0].xy({ -w,-h });
 	newVerts[1].xy({ w,-h });
 	newVerts[2].xy({ w,h });
