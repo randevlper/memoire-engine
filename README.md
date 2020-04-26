@@ -8,8 +8,9 @@ Memoire is a game engine framework built for 2D windows games.
 
 # Features
 - Transforms
+- AssetPipeline
 - Single Pass Tilemap
-- PNG Textures
+- PNG Sprites
 - MP3 Audio playback
 
 # In-Progress

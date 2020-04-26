@@ -82,6 +82,7 @@ void TextRenderer::render()
 
 		for (size_t i = 0; i < _vbs.size(); i++)
 		{
+			if (_text[i] == ' ') { continue; }
 			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 			bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 			bgfx::setVertexBuffer(0, _vbs[i]);
@@ -96,7 +97,9 @@ void TextRenderer::clearVertexBuffers()
 {
 	for (size_t i = 0; i < _vbs.size(); i++)
 	{
-		bgfx::destroy(_vbs[i]);
+		if (bgfx::isValid(_vbs[i])) {
+			bgfx::destroy(_vbs[i]);
+		}
 	}
 	_vbs.clear();
 }
@@ -113,28 +116,37 @@ void TextRenderer::buildVertexBuffers()
 
 	for (size_t i = 0; i < strlen(_text); i++)
 	{
-		Character ch = _font->getCharacter(_text[i]);
+		if (_text[i] == ' ') {
+			Character ch = _font->getCharacter('_');
+			bgfx::VertexBufferHandle invVbh;
+			invVbh.idx = BGFX_INVALID_HANDLE;
+			_vbs.push_back(invVbh);
+			x += ((ch.advance / 4) >> 6);
+		}
+		else {
+			Character ch = _font->getCharacter(_text[i]);
 
-		float xpos = x + ch.bearing.x;
-		float ypos = y - (ch.size.y - ch.bearing.y);
+			float xpos = x + ch.bearing.x;
+			float ypos = y - (ch.size.y - ch.bearing.y);
 
-		float w = ch.size.x;
-		float h = ch.size.y;
+			float w = ch.size.x;
+			float h = ch.size.y;
 
-		TextVertex lineData[4];
-		//lineData[0] = TextVertex{ xpos, ypos, 0.0f, Utility::colorToHex(color), 0, 0x7fff };
-		//lineData[1] = TextVertex{ xpos + w, ypos, 0.0f, Utility::colorToHex(color), 0x7fff, 0x7fff };
-		//lineData[2] = TextVertex{ xpos + w, ypos + h, 0.0f, Utility::colorToHex(color),  0x7fff, 0 };
-		//lineData[3] = TextVertex{ xpos, ypos + h, 0.0f, Utility::colorToHex(color), 0, 0 };
-		memcpy(lineData, TextVertex::planeVerts, sizeof(TextVertex::planeVerts));
-		lineData[0].x = xpos; lineData[0].y = ypos;
-		lineData[1].x = xpos + w; lineData[1].y = ypos;
-		lineData[2].x = xpos + w; lineData[2].y = ypos + h;
-		lineData[3].x = xpos; lineData[3].y = ypos + h;
+			TextVertex lineData[4];
+			//lineData[0] = TextVertex{ xpos, ypos, 0.0f, Utility::colorToHex(color), 0, 0x7fff };
+			//lineData[1] = TextVertex{ xpos + w, ypos, 0.0f, Utility::colorToHex(color), 0x7fff, 0x7fff };
+			//lineData[2] = TextVertex{ xpos + w, ypos + h, 0.0f, Utility::colorToHex(color),  0x7fff, 0 };
+			//lineData[3] = TextVertex{ xpos, ypos + h, 0.0f, Utility::colorToHex(color), 0, 0 };
+			memcpy(lineData, TextVertex::planeVerts, sizeof(TextVertex::planeVerts));
+			lineData[0].x = xpos; lineData[0].y = ypos;
+			lineData[1].x = xpos + w; lineData[1].y = ypos;
+			lineData[2].x = xpos + w; lineData[2].y = ypos + h;
+			lineData[3].x = xpos; lineData[3].y = ypos + h;
 
-		bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::copy(lineData, sizeof(lineData)), TextVertex::pcvLayout);
+			bgfx::VertexBufferHandle vbh = bgfx::createVertexBuffer(bgfx::copy(lineData, sizeof(lineData)), TextVertex::pcvLayout);
 
-		_vbs.push_back(vbh);
-		x += (ch.advance >> 6);
+			_vbs.push_back(vbh);
+			x += (ch.advance >> 6);
+		}
 	}
 }

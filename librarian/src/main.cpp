@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
 		textRenderer->setFont(fontTest);
 		textRenderer->transform.setLocalPosition({ 0,0 });
 		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
-		textRenderer->setText("OHAYOUUUUUU!!!!!");
+		textRenderer->setText("OHAYO U U U U UU!!!!! A");
 		audioSource = world->create<AudioSource>();
 		audioSource->setAudioClip(audioTest);
 
