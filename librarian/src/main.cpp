@@ -84,10 +84,10 @@ int main(int argc, char** argv) {
 		textTest->rectTransform.setSize({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f });
 		textTest->setFont(fontTest);
 		textTest->setText(
-			"Anemone: A fist through the chest does not help someone breathe.\nAys: If they have no lungs they dont need to.\nSte: I wish i was a cat");
+			"Anemone: A fist through the chest does not help someone breathe.\nAys: If they have no lungs they dont need to.\nSte: I wish i was a cat\n");
 		//Callbacks for changing rect properties?
 
-		glm::vec2* textBoxCorners = DBG_NEW glm::vec2[4];
+		glm::vec2 textBoxCorners[4];
 		memcpy(textBoxCorners, textTest->rectTransform.getWindowCorners(), sizeof(glm::vec2) * 4);
 		for (size_t i = 0; i < 4; i++)
 		{
