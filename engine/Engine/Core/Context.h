@@ -6,7 +6,7 @@
 
 struct ContextWindowParems
 {
-	char* windowName;
+	const char* windowName;
 	//Actual window size
 	unsigned int windowWidth, windowHeight;
 	//The internal render size
@@ -32,7 +32,7 @@ public:
 	static int getWindowWidth();
 	static unsigned int getMaxFps();
 	
-	static char* getWindowTitle();
+	static const char* getWindowTitle();
 	static void setWindowTitle(char* value);
 
 	static void tick();

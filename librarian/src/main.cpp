@@ -1,12 +1,17 @@
 #include <iostream>
 #include <list>
 #include <functional>
+#include <string>
+#include <fstream>
 
 #include <bgfx/bgfx.h>
 #include <glm/vec2.hpp>
 #include <SDL_pixels.h>
 #include <SDL_keycode.h>
 #include <SDL_mouse.h>
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 #include "Engine/Core/Context.h"
 #include "Engine/Core/FileUtility.h"
@@ -43,7 +48,34 @@ void ohno() {
 
 int main(int argc, char** argv) {
 	{
-		ContextWindowParems cWinParems = { "The Librarian", 1920, 1080, 60 , argc, argv};
+		json j;
+		std::ifstream cfgF("config.json");
+		cfgF >> j;
+
+
+		//j["resolution"] = { 1920, 1080 };
+		//config file load
+
+		//FileUtility::writeStringFile("config.json", j.dump());
+
+		unsigned int width = 1280;
+		unsigned int height = 720;
+
+		width = j["resolution"][0];
+		height = j["resolution"][1];
+		
+		//Should handle errors with some helper functions
+		//std::string err;
+		//err.append(j["resolution"][0].type_name());
+		//if (err == "number") {
+		//	width = j["resolution"][0];
+		//}
+		//else {
+		//	err.append(" is not right type!");
+		//	Debug::Log(err);
+		//}
+
+		ContextWindowParems cWinParems = { "Seaside", width, height, 60 , argc, argv};
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();

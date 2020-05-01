@@ -201,7 +201,7 @@ unsigned int Context::getMaxFps()
 	return _windowParems.fps;
 }
 
-char* Context::getWindowTitle()
+const char* Context::getWindowTitle()
 {
 	return _windowParems.windowName;
 }

@@ -1,26 +1,32 @@
 #include "Engine/Core/FileUtility.h"
+
+#include <vector>
+#include <iostream>
+#include <fstream>
+
+#include <stb_image.h>
+#include <SDL.h>
+
+#include <bgfx/bgfx.h>
+#include <bgfx/platform.h>
+
+//#include <bimg/bimg.h>
+#include <bimg/decode.h>
+
+#include <bx/bx.h>
+#include <bx/file.h>
+#include <bx/readerwriter.h>
+#include <bx/string.h>
+#include <bx/allocator.h>
+
 #include "Engine/Data/AseData.h"
 #include "Engine/Core/Context.h"
 #include "Engine/Tools/aseprite.h"
-#include "stb_image.h"
-#include "SDL.h"
-#include <vector>
-
-#include "bgfx/bgfx.h"
-#include "bgfx/platform.h"
-//#include "bimg/bimg.h"
-#include <bimg/decode.h>
-#include "bx/bx.h"
-#include <bx/file.h>
-#include "bx/readerwriter.h"
-#include "bx/string.h"
-#include "bx/allocator.h"
-#include <iostream>
-
 #include "Engine/Utilities/FileReader.h"
 #include "Engine/AssetManagement/Sprite.h"
 
 #include "Engine/Utilities/DebugMemory.h"
+#include "Engine/Utilities/Debug.h"
 
 bx::AllocatorI* FileUtility::g_allocator = getDefaultAllocator();
 bx::FileReaderI* FileUtility::s_fileReader = BX_NEW(g_allocator, FileReader);
@@ -263,6 +269,29 @@ bx::AllocatorI* FileUtility::getAllocator()
 bx::FileReaderI* FileUtility::getFileReader()
 {
 	return s_fileReader;
+}
+
+std::string FileUtility::loadTextFile(const char* filePath)
+{
+	std::ifstream input(filePath);
+	if (input.is_open()) {
+		std::string value;
+		value.assign((std::istreambuf_iterator<char>(input)),
+			(std::istreambuf_iterator<char>()));
+		input.close();
+		return value;
+	}
+
+	return std::string();
+}
+
+void FileUtility::writeStringFile(const char* filePath, std::string &value)
+{
+	std::ofstream output(filePath);
+	if (output.is_open()) {
+		output << value;
+		output.close();
+	}
 }
 
 void FileUtility::destroy()

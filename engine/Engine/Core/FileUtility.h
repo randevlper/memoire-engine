@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 struct AseData;
 
 #include "bimg/bimg.h"
@@ -36,6 +38,9 @@ public:
 	
 	static bx::AllocatorI* getAllocator();
 	static bx::FileReaderI* getFileReader();
+
+	static std::string loadTextFile(const char* filePath);
+	static void writeStringFile(const char* filePath, std::string &value);
 
 	static void destroy();
 private:

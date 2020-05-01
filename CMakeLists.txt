@@ -41,6 +41,12 @@ target_include_directories(stb INTERFACE thirdparty/stb)
 add_library(miniaudio INTERFACE)
 target_include_directories(miniaudio INTERFACE thirdparty/miniaudio)
 
+#JSON CPP
+# Typically you don't care so much for a third party library's tests to be
+# run from your own project's code.
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(thirdparty/json)
+
 add_subdirectory(engine)
 add_subdirectory(engine-tests)
 add_subdirectory(game)
