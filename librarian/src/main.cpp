@@ -43,7 +43,7 @@ void ohno() {
 
 int main(int argc, char** argv) {
 	{
-		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 60 , argc, argv};
+		ContextWindowParems cWinParems = { "The Librarian", 1920, 1080, 60 , argc, argv};
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
@@ -100,11 +100,21 @@ int main(int argc, char** argv) {
 		//UI Panels - Take code from button and implemnt sprites
 		//UI Textbox - text formatting hell
 		//Audio looping
+		
+
+		/*
+		Dialouge
+		cppJSON
+
+		IMGUI Dialouge Editor
+		
+		Want a UI editor but no need for the two scenes
+		*/
+
 
 		//Scenes Title Screen/Game
 		/*
 		Title Screen
-
 		Start
 		Continue - Store the current state of the game
 		Quit
