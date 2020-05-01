@@ -8,6 +8,7 @@
 #include "SpriteLoader.h"
 #include "ShaderLoader.h"
 #include "AudioClipLoader.h"
+#include "JSONLoader.h"
 
 #include "Engine/Utilities/DebugMemory.h"
 
@@ -64,6 +65,10 @@ void AssetManager::init() {
 	AudioClipLoader* _audioClipLoader = DBG_NEW AudioClipLoader();
 	_audioClipLoader->init();
 	_loaders.insert(std::pair<std::string, AssetLoader*>(_audioClipLoader->_fileExtension, _audioClipLoader));
+
+	JSONLoader* _jsonLoader = DBG_NEW JSONLoader();
+	_jsonLoader->init();
+	_loaders.insert(std::pair<std::string, AssetLoader*>(_jsonLoader->_fileExtension, _jsonLoader));
 
 	isInit = true;
 

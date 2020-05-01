@@ -35,6 +35,8 @@ using json = nlohmann::json;
 #include "Engine/Core/Audio.h"
 #include "Engine/Nodes/AudioSource.h"
 
+#include "Engine/AssetManagement/JSON.h"
+
 #include "Engine/UI/Button.h"
 #include "Engine/UI/Text.h"
 
@@ -48,11 +50,13 @@ void ohno() {
 
 int main(int argc, char** argv) {
 	{
-		json j;
-		std::ifstream cfgF("config.json");
-		cfgF >> j;
 
-
+		json config;
+		{
+			std::ifstream configFile("config.json");
+			configFile >> config;
+			configFile.close();
+		}
 		//j["resolution"] = { 1920, 1080 };
 		//config file load
 
@@ -61,8 +65,8 @@ int main(int argc, char** argv) {
 		unsigned int width = 1280;
 		unsigned int height = 720;
 
-		width = j["resolution"][0];
-		height = j["resolution"][1];
+		width = config["resolution"][0];
+		height = config["resolution"][1];
 		
 		//Should handle errors with some helper functions
 		//std::string err;
