@@ -26,6 +26,13 @@ public:
 	glm::vec2* getScreenCorners();
 	glm::vec2* getWindowCorners();
 
+	nlohmann::json get_json() {
+		nlohmann::json j;
+		j["size"] = { _size.x , _size.y };
+		j["root"] = _root.get_json();
+		return j;
+	}
+
 private:
 
 	glm::ivec2 _size;

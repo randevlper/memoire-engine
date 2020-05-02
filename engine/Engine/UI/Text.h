@@ -31,6 +31,14 @@ namespace me {
 			void setFont(Font* font);
 			void setText(std::string value);
 
+			nlohmann::json to_json() override {
+				nlohmann::json j = NodeUI::to_json();
+				j["type"] = "Text";
+				j["color"] = { _color.r,_color.g,_color.b,_color.a };
+				j["text"] = _text;
+				return j;
+			}
+
 		private:
 			std::vector<bgfx::VertexBufferHandle> _vbs;
 			bgfx::IndexBufferHandle _ibh;

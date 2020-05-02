@@ -9,6 +9,13 @@ public:
 	virtual ~NodeUI();
 	RectTransform rectTransform;
 
+	virtual nlohmann::json to_json() override{
+		nlohmann::json j = Node::to_json();
+		j["type"] = "NodeUI";
+		j["rectTransform"] = rectTransform.get_json();
+		return j;
+	}
+
 private:
 
 };

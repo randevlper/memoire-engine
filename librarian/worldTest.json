@@ -1,0 +1,44 @@
+{
+    "nodes": [
+        {
+            "name": "node_0",
+            "type": "Node"
+        },
+        {
+            "name": "node_1",
+            "type": "Node"
+        },
+        {
+            "name": "node_2",
+            "type": "Node"
+        },
+        {
+            "color": [
+                255.0,
+                255.0,
+                255.0,
+                255.0
+            ],
+            "name": "Text",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    1,
+                    1
+                ]
+            },
+            "text": "I am test text to take you out.",
+            "type": "Text"
+        }
+    ]
+}

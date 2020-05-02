@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include <glm/vec2.hpp>
 #include "Engine\Nodes\Node.h"
 #include "Engine\Nodes\Node2D.h"
@@ -21,6 +22,14 @@ public:
 	template<class nodeclass>
 	nodeclass* create();
 
+	nlohmann::json to_json() {
+		nlohmann::json retval;
+		for (size_t i = 0; i < _nodes.size(); i++)
+		{
+			retval["nodes"][i] = (_nodes[i]->to_json());
+		}
+		return retval;
+	}
 
 private:
 	//Contain Nodes
@@ -36,6 +45,7 @@ inline nodeclass* World::create()
 	static_assert(std::is_base_of<Node, nodeclass>::value, "Nodeclass not derived from Node");
 	//static_assert(std::is_base_of<NodeUI, nodeclass>::value, "Nodeclass not derived from NodeUI");
 	nodeclass* node = new nodeclass();
+	node->setName("node_" + std::to_string(_nodes.size()));
 	_nodes.push_back(node);
 	return node;
 }

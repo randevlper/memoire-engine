@@ -8,6 +8,7 @@ RectTransform::RectTransform()
 		_transforms[i].setParent(&_root);
 		_corners[i] = {0,0};
 	}
+	_size = { 1,1 };
 }
 
 RectTransform::~RectTransform()

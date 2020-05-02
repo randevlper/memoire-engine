@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 
 		width = config["resolution"][0];
 		height = config["resolution"][1];
-		
+
 		//Should handle errors with some helper functions
 		//std::string err;
 		//err.append(j["resolution"][0].type_name());
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
 		//	Debug::Log(err);
 		//}
 
-		ContextWindowParems cWinParems = { "Seaside", width, height, 60 , argc, argv};
+		ContextWindowParems cWinParems = { "Seaside", width, height, 60 , argc, argv };
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
 		cam->transform.setLocalPosition({ 0,0 });
 
 		Renderer::setCamera(cam);
-		
+
 		AssetManager::load("assets/fonts/cmunrm.ttf", "32");
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 		AssetManager::load("assets/audio/ohno.mp3", "");
@@ -112,8 +112,8 @@ int main(int argc, char** argv) {
 
 		me::ui::Button* buttonTest = world->create<me::ui::Button>();
 		buttonTest->onClick = ohno;
-		buttonTest->rectTransform.setPosition({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f - 50});
-		buttonTest->setSize({ Context::getWindowWidth() * 0.2f, 50});
+		buttonTest->rectTransform.setPosition({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f - 50 });
+		buttonTest->setSize({ Context::getWindowWidth() * 0.2f, 50 });
 
 
 		textTest = world->create<me::ui::Text>();
@@ -130,23 +130,33 @@ int main(int argc, char** argv) {
 			textBoxCorners[i].x -= Context::getWindowWidth() / 2;
 			textBoxCorners[i].y -= Context::getWindowHeight() / 2;
 		}
-		
-		
+
+
 		//UI button - Sprites
 		//UI Panels - Take code from button and implemnt sprites
 		//UI Textbox - text formatting hell
 		//Audio looping
-		
+
 
 		/*
 		Dialouge
 		cppJSON
 
 		IMGUI Dialouge Editor
-		
+
 		Want a UI editor but no need for the two scenes
 		*/
 
+		{
+			World* jTest = DBG_NEW World();
+			jTest->create<Node>();
+			jTest->create<Node>();
+			jTest->create<Node>();
+			me::ui::Text* tt = jTest->create<me::ui::Text>();
+			tt->setName("Text");
+			tt->setText("I am test text to take you out.");
+			FileUtility::writeStringFile("worldTest.json", jTest->to_json().dump(4));
+		}
 
 		//Scenes Title Screen/Game
 		/*
