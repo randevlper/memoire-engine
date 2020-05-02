@@ -27,5 +27,8 @@ void World::tick(float delta)
 
 void World::render()
 {
-
+	for (size_t i = 0; i < _nodes.size(); i++)
+	{
+		_nodes[i]->render();
+	}
 }

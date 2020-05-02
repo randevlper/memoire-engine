@@ -27,7 +27,7 @@ namespace me {
 			void setPercentRender(float value);
 
 			//Does not support rotation
-			void render();
+			void render() override;
 			void setFont(Font* font);
 			void setText(std::string value);
 

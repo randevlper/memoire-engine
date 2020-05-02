@@ -16,7 +16,7 @@ public:
 
 	void setFont(Font* font);
 	void setText(char* text);
-	void render();
+	void render() override;
 	static void destroy();
 
 private:

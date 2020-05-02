@@ -15,7 +15,7 @@ public:
 
 	void setSprite(Sprite* sprite);
 	Sprite* getSprite();
-	void render();
+	void render() override;
 	static void destroy();
 
 private:

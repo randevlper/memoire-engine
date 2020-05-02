@@ -24,7 +24,7 @@ namespace me {
 			void sendMouseInfo(glm::vec2 mousePos, bool isClicking);
 			void setSize(glm::vec2 size);
 			
-			void render();
+			void render() override;
 
 			//Normal Color
 			glm::vec4 colorNormal;

@@ -165,13 +165,10 @@ int main(int argc, char** argv) {
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
 				
 			}
-
-			textRenderer->render();
 			
 
 			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
-			buttonTest->render();
-			textTest->render();
+			world->render();
 
 			Renderer::renderLines(textBoxCorners, 4, glm::vec4{ 255,0,0,255 });
 

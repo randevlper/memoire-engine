@@ -19,7 +19,7 @@ public:
 	~TilemapRenderer() override;
 
 	//Rewrite shader to use a image for the tilemap and a tileset
-	void render();
+	void render() override;
 	void setTilemap(Tilemap* tm);
 	//Retuns the index of the tile, -1 if the position is not on the tilemap
 	int worldToTile(glm::vec2 pos, bool topLeft = false);
