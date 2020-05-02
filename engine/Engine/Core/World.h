@@ -4,11 +4,6 @@
 #include "Engine\Nodes\Node.h"
 #include "Engine\Nodes\Node2D.h"
 #include "Engine\UI\NodeUI.h"
-//#include "Box2D/Box2D.h"
-
-class b2World;
-class Body;
-struct BodyDef;
 
 class World
 {
@@ -20,11 +15,7 @@ public:
 	//AABB Query
 	//Node Creation
 	void tick(float delta);
-	Body* CreateBody(BodyDef& def);
-
-	void setGravity(glm::vec2& value);
-	glm::vec2 getGravity();
-
+	void render();
 
 	//Create node <Templated>
 	template<class nodeclass>
@@ -34,9 +25,6 @@ public:
 private:
 	//Contain Nodes
 	Node* _root;
-	b2World* _world;
-	glm::vec2 _gravity;
-
 	std::vector<Node*> _nodes;
 	//For now use a list of nodes
 	//Ideally better to use a hierarchy? A node knows its children.
