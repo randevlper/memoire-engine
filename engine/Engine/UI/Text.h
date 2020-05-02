@@ -49,5 +49,7 @@ namespace me {
 			void clearVertexBuffers();
 
 		};
+
+
 	}
 }
