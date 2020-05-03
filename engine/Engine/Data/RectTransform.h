@@ -28,14 +28,14 @@ public:
 
 	nlohmann::json get_json() {
 		nlohmann::json j;
-		j["size"] = { _size.x , _size.y };
+		j["size"] = _size;
 		j["root"] = _root.get_json();
 		return j;
 	}
 
 	void from_json(const nlohmann::json& j) {
 		_root.from_json(j["root"]);
-		setSize({ j.at("size")[0], j.at("size")[1] });
+		setSize(j.at("size"));
 	}
 
 private:

@@ -150,13 +150,16 @@ int main(int argc, char** argv) {
 		{
 			World* jTest = DBG_NEW World();
 			jTest->create<Node>();
-			jTest->create<Node>();
-			jTest->create<Node>();
+			jTest->create<Node2D>();
+			jTest->create<NodeUI>();
 			me::ui::Text* tt = jTest->create<me::ui::Text>();
 			tt->setFont(fontTest);
 			tt->rectTransform.setPosition({ 100,100 });
 			tt->setName("Text");
 			tt->setText("I am test text to take you out.");
+			me::ui::Button* tb = jTest->create<me::ui::Button>();
+			tb->rectTransform.setPosition({ 500,500 });
+			tb->setSize({ 30, 30 });
 			FileUtility::writeStringFile("worldTest.json", jTest->to_json().dump(4));
 			delete(jTest);
 		}

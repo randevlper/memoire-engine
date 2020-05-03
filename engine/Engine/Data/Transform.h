@@ -2,6 +2,7 @@
 #include "glm/vec2.hpp"
 #include "glm/mat3x3.hpp"
 #include <nlohmann/json.hpp>
+#include "Engine/Utilities/glmJson.h"
 
 struct Transform
 {
@@ -34,16 +35,16 @@ public:
 
 	nlohmann::json get_json() {
 		nlohmann::json j;
-		j["position"] = { _position.x, _position.y };
-		j["scale"] = { _scale.x, _scale.y };
+		j["position"] = _position;
+		j["scale"] = _scale;
 		j["angle"] = _angle;
 		//TODO Parent somehow
 		return j;
 	}
 
 	void from_json(const nlohmann::json& j) {
-		setLocalPosition({ j["position"][0], j["position"][1] });
-		setLocalScale({ j["scale"][0], j["scale"][1] });
+		setLocalPosition(j["position"]);
+		setLocalScale(j["scale"]);
 		setLocalAngle(j["angle"]);
 	}
 

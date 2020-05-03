@@ -9,6 +9,7 @@
 #include <glm/vec4.hpp>
 
 #include "Engine/Data/VertexTypes.h"
+#include "Engine/Utilities/glmJson.h"
 
 class Shader;
 
@@ -36,6 +37,27 @@ namespace me {
 			glm::vec4 colorDisabled;
 
 			std::function<void()> onClick;
+
+			nlohmann::json to_json () override
+			{
+				nlohmann::json j = NodeUI::to_json();
+				j["type"] = "Button";
+				j["colorNormal"] = colorNormal;
+				j["colorHightlight"] = colorHightlight;
+				j["colorClicked"] = colorClicked;
+				j["colorDisabled"] = colorDisabled;
+				return j;
+			}
+
+			void from_json(const nlohmann::json& j) override
+			{
+				NodeUI::from_json(j);
+				colorNormal = j.at("colorNormal");
+				colorHightlight = j.at("colorHightlight");
+				colorClicked = j.at("colorClicked");
+				colorDisabled = j.at("colorDisabled");
+				setSize(rectTransform.getSize());
+			}
 				
 		private:
 

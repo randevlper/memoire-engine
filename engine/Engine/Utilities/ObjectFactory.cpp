@@ -1,6 +1,11 @@
 #include "ObjectFactory.h"
 
+#include "Engine/UI/NodeUI.h"
+
 #include "Engine/UI/Text.h"
+#include "Engine/UI/Button.h"
+
+#include "Engine/Nodes/Node2D.h"
 
 namespace me {
 	namespace util {
@@ -9,9 +14,12 @@ namespace me {
 		void ObjectFactory::init()
 		{
 			nodeMap["Node"] = createInstance<Node>;
+			nodeMap["Node2D"] = createInstance<Node2D>;
+			nodeMap["NodeUI"] = createInstance<NodeUI>;
 
 			//UI
 			nodeMap["Text"] = createInstance<me::ui::Text>;
+			nodeMap["Button"] = createInstance<me::ui::Button>;
 		}
 
 		void ObjectFactory::destroy()
