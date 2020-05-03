@@ -1,14 +1,16 @@
 #include "Engine/Core/Context.h"
-#include "SDL.h"
-#include "SDL_syswm.h"
-#include "bgfx/bgfx.h"
+
 #include <iostream>
+
+#include <SDL.h>
+#include <SDL_syswm.h>
+#include <bgfx/bgfx.h>
+
 #include "Engine/Core/Physics.h"
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Renderer.h"
 #include "Engine/Core/Audio.h"
 #include "Engine/Utilities/DebugMemory.h"
-
 #include "Engine/Utilities/ObjectFactory.h"
 
 Context* Context::_instance = nullptr;
