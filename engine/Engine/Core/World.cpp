@@ -32,3 +32,22 @@ void World::render()
 		_nodes[i]->render();
 	}
 }
+
+nlohmann::json World::to_json()
+{
+	nlohmann::json retval;
+	for (size_t i = 0; i < _nodes.size(); i++)
+	{
+		retval["nodes"][i] = (_nodes[i]->to_json());
+	}
+	return retval;
+}
+
+void World::from_json(const nlohmann::json& j)
+{
+	Node* node;
+	for (auto& [key, value] : j["nodes"].items()) {
+		node = create<Node>();
+		node->from_json(value);
+	}
+}

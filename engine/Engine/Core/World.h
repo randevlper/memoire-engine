@@ -22,14 +22,8 @@ public:
 	template<class nodeclass>
 	nodeclass* create();
 
-	nlohmann::json to_json() {
-		nlohmann::json retval;
-		for (size_t i = 0; i < _nodes.size(); i++)
-		{
-			retval["nodes"][i] = (_nodes[i]->to_json());
-		}
-		return retval;
-	}
+	nlohmann::json to_json();
+	void from_json(const nlohmann::json& j);
 
 private:
 	//Contain Nodes

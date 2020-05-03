@@ -20,6 +20,10 @@ public:
 		return j;
 	}
 
+	virtual void from_json(const nlohmann::json& j) {
+		setName(j.at("name"));
+	}
+
 private:
 	std::string _name;
 };

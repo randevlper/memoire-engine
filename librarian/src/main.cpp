@@ -156,6 +156,18 @@ int main(int argc, char** argv) {
 			tt->setName("Text");
 			tt->setText("I am test text to take you out.");
 			FileUtility::writeStringFile("worldTest.json", jTest->to_json().dump(4));
+			delete(jTest);
+		}
+
+		
+		{
+			std::ifstream worldFile("worldTest.json");
+			json worldJson;
+			worldFile >> worldJson;
+			worldFile.close();
+			World* jTest = DBG_NEW World();
+			jTest->from_json(worldJson);
+			delete(jTest);
 		}
 
 		//Scenes Title Screen/Game
@@ -165,26 +177,6 @@ int main(int argc, char** argv) {
 		Continue - Store the current state of the game
 		Quit
 		*/
-		{
-			Node* testNode = DBG_NEW Node();
-			testNode->setName("Test_Node");
-			json jNTest = *testNode;
-			delete(testNode);
-			Debug::Log(jNTest["name"]);
-			FileUtility::writeStringFile("node.json", jNTest.dump());
-		}
-
-		{
-			std::ifstream nodeFile("node.json");
-			json jNode;
-			nodeFile >> jNode;
-			nodeFile.close();
-
-			Node testNode = jNode.get<Node>();
-			Debug::Log(testNode.getName());
-		
-			//Nice but not gonna work for what i want to do
-		}
 
 
 		while (!Context::getShouldClose())
