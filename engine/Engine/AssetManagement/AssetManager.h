@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include "Engine/Utilities/Debug.h"
+#include <nlohmann/json.hpp>
 
 class AssetLoader;
 #include "Asset.h"
@@ -16,6 +17,9 @@ public:
 
 	template <class T>
 	static T* get(std::string name);
+
+	template <class T>
+	static T* get_json(nlohmann::json j);
 
 private:
 	//Asset, Pointer
@@ -49,4 +53,15 @@ inline T* AssetManager::get(std::string name)
 	
 	Debug::Log("AssetManager: Cast failed!");
 	return nullptr;
+}
+
+template<class T>
+inline T* AssetManager::get_json(nlohmann::json j)
+{
+	T* retval = get<T>(j["name"]);
+	if (retval == nullptr) {
+		load(j["name"], j["parems"]);
+		retval = get<T>(j["name"]);
+	}
+	return retval;
 }

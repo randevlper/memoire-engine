@@ -41,6 +41,12 @@ public:
 		return j;
 	}
 
+	void from_json(const nlohmann::json& j) {
+		setLocalPosition({ j["position"][0], j["position"][1] });
+		setLocalScale({ j["scale"][0], j["scale"][1] });
+		setLocalAngle(j["angle"]);
+	}
+
 
 private:
 	glm::vec2 _position;

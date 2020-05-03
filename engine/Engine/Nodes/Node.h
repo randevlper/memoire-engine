@@ -27,11 +27,3 @@ public:
 private:
 	std::string _name;
 };
-
-inline void to_json(nlohmann::json& j, const Node& n) {
-	j["name"] = n.getName();
-}
-
-inline void from_json(const nlohmann::json& j, Node& n) {
-	n.setName(j.at("name"));
-}

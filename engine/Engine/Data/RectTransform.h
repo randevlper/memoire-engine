@@ -33,6 +33,11 @@ public:
 		return j;
 	}
 
+	void from_json(const nlohmann::json& j) {
+		_root.from_json(j["root"]);
+		setSize({ j.at("size")[0], j.at("size")[1] });
+	}
+
 private:
 
 	glm::ivec2 _size;

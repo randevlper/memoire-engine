@@ -34,7 +34,7 @@ namespace me {
 			_font = nullptr;
 			_text = "";
 
-			_color = { 255,255,255,255 };
+			setColor({ 255,255,255,255 });
 			_percentRender = 1.0f;
 		}
 
@@ -81,6 +81,26 @@ namespace me {
 		{
 			_text = value;
 			buildVertexBuffers();
+		}
+
+		nlohmann::json Text::to_json()
+		{
+			nlohmann::json j = NodeUI::to_json();
+			j["type"] = "Text";
+			j["color"] = { _color.r,_color.g,_color.b,_color.a };
+			j["text"] = _text;
+			j["font"] = _font->to_json();
+			return j;
+		}
+
+		void Text::from_json(const nlohmann::json& j)
+		{
+			NodeUI::from_json(j);
+
+			nlohmann::json::value_type color = j.at("color");
+			_color = { color[0], color[1], color[2], color[3] };
+			setText(j.at("text"));
+			setFont(AssetManager::get_json<Font>(j["font"]));
 		}
 
 		void Text::buildVertexBuffers()

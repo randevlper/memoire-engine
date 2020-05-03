@@ -153,6 +153,8 @@ int main(int argc, char** argv) {
 			jTest->create<Node>();
 			jTest->create<Node>();
 			me::ui::Text* tt = jTest->create<me::ui::Text>();
+			tt->setFont(fontTest);
+			tt->rectTransform.setPosition({ 100,100 });
 			tt->setName("Text");
 			tt->setText("I am test text to take you out.");
 			FileUtility::writeStringFile("worldTest.json", jTest->to_json().dump(4));
@@ -160,15 +162,13 @@ int main(int argc, char** argv) {
 		}
 
 		
-		{
-			std::ifstream worldFile("worldTest.json");
-			json worldJson;
-			worldFile >> worldJson;
-			worldFile.close();
-			World* jTest = DBG_NEW World();
-			jTest->from_json(worldJson);
-			delete(jTest);
-		}
+		std::ifstream worldFile("worldTest.json");
+		json worldJson;
+		worldFile >> worldJson;
+		worldFile.close();
+		World* jTest = DBG_NEW World();
+		jTest->from_json(worldJson);
+		
 
 		//Scenes Title Screen/Game
 		/*
@@ -192,6 +192,7 @@ int main(int argc, char** argv) {
 
 			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
 			world->render();
+			jTest->render();
 
 			Renderer::renderLines(textBoxCorners, 4, glm::vec4{ 255,0,0,255 });
 
@@ -201,6 +202,7 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
+		delete(jTest);
 		delete(world);
 		TextRenderer::destroy();
 		SpriteRenderer::destroy();

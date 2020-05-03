@@ -9,6 +9,8 @@
 #include "Engine/Core/Audio.h"
 #include "Engine/Utilities/DebugMemory.h"
 
+#include "Engine/Utilities/ObjectFactory.h"
+
 Context* Context::_instance = nullptr;
 bool Context::_shouldClose = nullptr;
 int Context::_errorCode = 404;
@@ -140,6 +142,8 @@ void Context::init(ContextWindowParems* parems)
 		Physics::init(parems->argc, parems->argv);
 		Input::init();
 		Renderer::init();
+
+		me::util::ObjectFactory::init();
 
 		_errorCode = Audio::init();
 		if (_errorCode != 0) {

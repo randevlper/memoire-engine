@@ -16,6 +16,11 @@ public:
 		return j;
 	}
 
+	virtual void from_json(const nlohmann::json& j)  override {
+		Node::from_json(j);
+		rectTransform.from_json(j["rectTransform"]);
+	}
+
 private:
 
 };

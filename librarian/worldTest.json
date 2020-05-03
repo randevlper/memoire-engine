@@ -14,18 +14,22 @@
         },
         {
             "color": [
-                255.0,
-                255.0,
-                255.0,
-                255.0
+                1.0,
+                1.0,
+                1.0,
+                1.0
             ],
+            "font": {
+                "name": "assets/fonts/cmunrm.ttf",
+                "parems": "32"
+            },
             "name": "Text",
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
                     "position": [
-                        0.0,
-                        0.0
+                        100.0,
+                        100.0
                     ],
                     "scale": [
                         1.0,

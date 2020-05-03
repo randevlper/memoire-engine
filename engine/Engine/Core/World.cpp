@@ -2,6 +2,8 @@
 
 #include "Engine/Nodes/Body.h"
 #include "Engine/Utilities/DebugMemory.h"
+#include "Engine/Utilities/ObjectFactory.h"
+#include "Engine/Utilities/Debug.h"
 
 World::World()
 {
@@ -47,7 +49,13 @@ void World::from_json(const nlohmann::json& j)
 {
 	Node* node;
 	for (auto& [key, value] : j["nodes"].items()) {
-		node = create<Node>();
-		node->from_json(value);
+		node = me::util::ObjectFactory::createObject(value["type"]);
+		if (node == nullptr) {
+			Debug::Log("Failed to create. Type not found! " + value["type"]);
+		}
+		else {
+			node->from_json(value);
+			_nodes.push_back(node);
+		}
 	}
 }

@@ -34,6 +34,8 @@ void AssetManager::load(std::string path, std::string vars)
 		else {
 			//TODO Add to assets
 			Asset* asset = it->second->load(path, vars);
+			asset->name = path;
+			asset->parems = vars;
 			if (asset != nullptr) {
 				_assets.insert(std::pair<std::string, Asset*>(path, asset));
 				Debug::Log("AssetManager: Loaded asset at " + path);
