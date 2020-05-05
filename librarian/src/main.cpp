@@ -13,6 +13,8 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+#include <common/imgui/imgui.h>
+
 #include "Engine/Core/Context.h"
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Core/Renderer.h"
@@ -84,8 +86,11 @@ int main(int argc, char** argv) {
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
+		imguiCreate();
 
 		AssetManager::init();
+
+		
 
 		World* world = DBG_NEW World();
 
@@ -191,7 +196,16 @@ int main(int argc, char** argv) {
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
 				
 			}
+			uint8_t imguiMouse = (Input::getMouseKey(SDL_BUTTON_LEFT) ? IMGUI_MBUT_LEFT : 0) |
+				(Input::getMouseKey(SDL_BUTTON_RIGHT) ? IMGUI_MBUT_RIGHT : 0) |
+				(Input::getMouseKey(SDL_BUTTON_MIDDLE) ? IMGUI_MBUT_MIDDLE : 0);
 			
+			imguiBeginFrame(mousePos.x, mousePos.y, imguiMouse,
+				0, Context::getWindowWidth(), Context::getWindowHeight());
+
+			ImGui::ShowDemoWindow();
+
+			imguiEndFrame();
 
 			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
 			world->render();
@@ -211,6 +225,7 @@ int main(int argc, char** argv) {
 		SpriteRenderer::destroy();
 		FileUtility::destroy();
 		AssetManager::destroy();
+		imguiDestroy();
 		Context::quit();
 	}
 	

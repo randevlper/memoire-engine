@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/AssetManagement/Asset.h"
 
-#include <bgfx/bgfx.h>;
+#include <bgfx/bgfx.h>
 #include <glm/glm.hpp>
 #include <map>
 

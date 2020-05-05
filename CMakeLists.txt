@@ -41,6 +41,16 @@ target_include_directories(stb INTERFACE thirdparty/stb)
 add_library(miniaudio INTERFACE)
 target_include_directories(miniaudio INTERFACE thirdparty/miniaudio)
 
+#\thirdparty\bgfx.cmake\bgfx\examples\common\imgui
+file(GLOB_RECURSE IMGUI_SOURCES
+    thirdparty/bgfx.cmake/bgfx/examples/common/imgui/*.h
+	thirdparty/bgfx.cmake/bgfx/examples/common/imgui/*.cpp
+)
+add_library(bgfx_imgui STATIC ${IMGUI_SOURCES})
+target_link_libraries(bgfx_imgui bgfx dear-imgui)
+target_include_directories(bgfx_imgui PUBLIC thirdparty/bgfx.cmake/bgfx/examples)
+
+
 #JSON CPP
 # Typically you don't care so much for a third party library's tests to be
 # run from your own project's code.
