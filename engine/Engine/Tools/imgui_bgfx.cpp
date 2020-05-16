@@ -6,6 +6,8 @@
 #include "Engine/Core/Context.h"
 #include "Engine/Core/Input.h"
 
+float me::imgui::data::scroll = 0;
+
 void me::imgui::create()
 {
 	imguiCreate();
@@ -18,8 +20,10 @@ void me::imgui::beginFrame()
 		(Input::getMouseKey(SDL_BUTTON_RIGHT) ? IMGUI_MBUT_RIGHT : 0) |
 		(Input::getMouseKey(SDL_BUTTON_MIDDLE) ? IMGUI_MBUT_MIDDLE : 0);
 
+	data::scroll += Input::getMouseWheel().y;
+
 	imguiBeginFrame(mousePos.x, mousePos.y, imguiMouse,
-		Input::getMouseWheel().y, Context::getWindowWidth(), Context::getWindowHeight());
+		data::scroll, Context::getWindowWidth(), Context::getWindowHeight());
 
 	ImGui::ShowDemoWindow();
 }

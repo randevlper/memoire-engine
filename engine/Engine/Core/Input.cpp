@@ -23,6 +23,7 @@ SDL_Event Input::_event = SDL_Event();
 Input* Input::_instance = nullptr;
 
 glm::vec2 Input::_mouseWheel = {0,0};
+glm::vec2 Input::_mouseWheelLast = { 0,0 };
 
 //Supports values 1-3
 bool Input::getKeyDown(int key)
@@ -104,6 +105,11 @@ glm::vec2 Input::getMouseWheel()
 	return _mouseWheel;
 }
 
+glm::vec2 Input::getMouseWheelLast()
+{
+	return _mouseWheelLast;
+}
+
 glm::ivec2 Input::getMousePos()
 {
 	glm::ivec2 retval;
@@ -148,6 +154,7 @@ void Input::poll()
 {
 	//Mouse setup
 	std::copy(_currentMousePoll, _currentMousePoll + _numMouseKeys, _lastMousePoll);
+	_mouseWheelLast = _mouseWheel;
 	_mouseWheel = { 0,0 };
 
 	while (SDL_PollEvent(&_event) != 0)
