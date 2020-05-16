@@ -14,6 +14,8 @@ public:
 	static bool getMouseKeyUp(int key);
 	static bool getMouseKey(int key);
 
+	static glm::vec2 getMouseWheel();
+
 	static glm::ivec2 getMousePos();
 
 	static void init();
@@ -32,6 +34,8 @@ private:
 	static int _numMouseKeys;
 	static unsigned char* _lastMousePoll;
 	static unsigned char* _currentMousePoll;
+
+	static glm::vec2 _mouseWheel;
 
 	static SDL_Event _event;
 	static Input* _instance;

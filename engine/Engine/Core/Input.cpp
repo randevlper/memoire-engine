@@ -22,6 +22,8 @@ int Input::_numMouseKeys = 0;
 SDL_Event Input::_event = SDL_Event();
 Input* Input::_instance = nullptr;
 
+glm::vec2 Input::_mouseWheel = {0,0};
+
 //Supports values 1-3
 bool Input::getKeyDown(int key)
 {
@@ -97,6 +99,11 @@ bool Input::getMouseKey(int key)
 	return false;
 }
 
+glm::vec2 Input::getMouseWheel()
+{
+	return _mouseWheel;
+}
+
 glm::ivec2 Input::getMousePos()
 {
 	glm::ivec2 retval;
@@ -141,21 +148,26 @@ void Input::poll()
 {
 	//Mouse setup
 	std::copy(_currentMousePoll, _currentMousePoll + _numMouseKeys, _lastMousePoll);
+	_mouseWheel = { 0,0 };
 
 	while (SDL_PollEvent(&_event) != 0)
 	{
-		if (_event.type == SDL_QUIT) {
+		switch (_event.type)
+		{
+		case SDL_QUIT:
 			Context::setShouldClose(true);
-		}
-
-		if (_event.type == SDL_MOUSEBUTTONDOWN) {
+			break;
+		case SDL_MOUSEBUTTONDOWN:
 			_currentMousePoll[_event.button.button] = 1;
-			//Debug::Log(" [INPUT] SDL_MOUSEBUTTONDOWN " + std::to_string(_event.button.button));
-		}
-
-		if (_event.type == SDL_MOUSEBUTTONUP) {
+			break;
+		case SDL_MOUSEBUTTONUP:
 			_currentMousePoll[_event.button.button] = 0;
-			//Debug::Log(" [INPUT] SDL_MOUSEBUTTONUP " + std::to_string(_event.button.button));
+			break;
+		case SDL_MOUSEWHEEL:
+			_mouseWheel = { _event.wheel.x, _event.wheel.y };
+			break;
+		default:
+			break;
 		}
 	}
 

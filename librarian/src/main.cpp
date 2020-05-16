@@ -13,8 +13,6 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-#include <common/imgui/imgui.h>
-
 #include "Engine/Core/Context.h"
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Core/Renderer.h"
@@ -41,6 +39,8 @@ using json = nlohmann::json;
 
 #include "Engine/UI/Button.h"
 #include "Engine/UI/Text.h"
+
+#include "Engine/Tools/imgui_bgfx.h"
 
 AudioSource* audioSource;
 me::ui::Text* textTest;
@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
-		imguiCreate();
+		me::imgui::create();
 
 		AssetManager::init();
 
@@ -127,15 +127,6 @@ int main(int argc, char** argv) {
 		textTest->setText(
 			"Anemone: A fist through the chest does not help someone breathe.\nAys: If they have no lungs they dont need to.\nSte: I wish i was a cat\n");
 		//Callbacks for changing rect properties?
-
-		glm::vec2 textBoxCorners[4];
-		memcpy(textBoxCorners, textTest->rectTransform.getWindowCorners(), sizeof(glm::vec2) * 4);
-		for (size_t i = 0; i < 4; i++)
-		{
-			textBoxCorners[i].x -= Context::getWindowWidth() / 2;
-			textBoxCorners[i].y -= Context::getWindowHeight() / 2;
-		}
-
 
 		//UI button - Sprites
 		//UI Panels - Take code from button and implemnt sprites
@@ -196,25 +187,16 @@ int main(int argc, char** argv) {
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
 				
 			}
-			uint8_t imguiMouse = (Input::getMouseKey(SDL_BUTTON_LEFT) ? IMGUI_MBUT_LEFT : 0) |
-				(Input::getMouseKey(SDL_BUTTON_RIGHT) ? IMGUI_MBUT_RIGHT : 0) |
-				(Input::getMouseKey(SDL_BUTTON_MIDDLE) ? IMGUI_MBUT_MIDDLE : 0);
-			
-			imguiBeginFrame(mousePos.x, mousePos.y, imguiMouse,
-				0, Context::getWindowWidth(), Context::getWindowHeight());
+			me::imgui::beginFrame();
 
-			ImGui::ShowDemoWindow();
-
-			imguiEndFrame();
+			me::imgui::endFrame();
 
 			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
 			world->render();
 			jTest->render();
 
-			Renderer::renderLines(textBoxCorners, 4, glm::vec4{ 255,0,0,255 });
-
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
-			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
+			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", Input::getMouseWheel().x, Input::getMouseWheel().y);
 
 			Renderer::render();
 			
@@ -225,7 +207,7 @@ int main(int argc, char** argv) {
 		SpriteRenderer::destroy();
 		FileUtility::destroy();
 		AssetManager::destroy();
-		imguiDestroy();
+		me::imgui::destroy();
 		Context::quit();
 	}
 	
