@@ -12,6 +12,7 @@
 #include "Engine/Utilities/glmJson.h"
 
 class Shader;
+class Sprite;
 
 namespace me {
 	namespace ui {
@@ -26,6 +27,8 @@ namespace me {
 			void setSize(glm::vec2 size);
 			
 			void render() override;
+
+			void setSprite(Sprite* value);
 
 			//Normal Color
 			glm::vec4 colorNormal;
@@ -72,9 +75,12 @@ namespace me {
 			glm::vec2 _size;
 			glm::vec4 _color;
 
+			Sprite* _sprite;
+
 			me::data::PositionUVVertex _verts[4];
 
 			bgfx::UniformHandle _u_color;
+			bgfx::UniformHandle _u_sprite;
 			bgfx::VertexBufferHandle _vbh;
 			bgfx::IndexBufferHandle _ibh;
 		

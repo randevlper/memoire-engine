@@ -105,6 +105,8 @@ int main(int argc, char** argv) {
 		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 		AssetManager::load("assets/audio/ohno.mp3", "");
 		AudioClip* audioTest = AssetManager::get<AudioClip>("assets/audio/ohno.mp3");
+		AssetManager::load("assets/ui/box.png", "");
+
 
 		TextRenderer* textRenderer = world->create <TextRenderer>();
 		textRenderer->setFont(fontTest);
@@ -119,6 +121,7 @@ int main(int argc, char** argv) {
 		buttonTest->onClick = ohno;
 		buttonTest->rectTransform.setPosition({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f - 50 });
 		buttonTest->setSize({ Context::getWindowWidth() * 0.2f, 50 });
+		buttonTest->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
 
 
 		textTest = world->create<me::ui::Text>();

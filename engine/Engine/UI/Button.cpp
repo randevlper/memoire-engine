@@ -5,6 +5,7 @@
 
 #include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/AssetManagement/Shader.h"
+#include "Engine/AssetManagement/Sprite.h"
 
 #include "Engine/Core/Context.h"
 #include "Engine/Utilities/TypeConversion.h"
@@ -25,10 +26,14 @@ namespace me {
 
 			_ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionUVVertex::indices, sizeof(me::data::PositionUVVertex::verts)));
 			_u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
+			_u_sprite = bgfx::createUniform("u_sprite", bgfx::UniformType::Sampler);
+
 			_color = { 255,0,0,255 };
 
 			_vbh.idx = bgfx::kInvalidHandle;
 			
+			_sprite = nullptr;
+
 			setSize({ 10,10 });
 
 			colorNormal = { 255,0,0, 255 };
@@ -116,9 +121,17 @@ namespace me {
 			_color /= 255;
 		}
 
+		void Button::setSprite(Sprite* value) {
+			_sprite = value;
+		}
+
+
 		void Button::render() {
 			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 			//bgfx::setTransform(glm::value_ptr(rectTransform.getGlobalMatrix()));
+			if (_sprite != nullptr) {
+				bgfx::setTexture(0, _u_sprite, _sprite->handle);
+			}
 			bgfx::setVertexBuffer(0, _vbh);
 			bgfx::setIndexBuffer(_ibh);
 			bgfx::setUniform(_u_color, glm::value_ptr(_color));
