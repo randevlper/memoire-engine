@@ -41,6 +41,7 @@ using json = nlohmann::json;
 #include "Engine/UI/Text.h"
 
 #include "Engine/Tools/imgui_bgfx.h"
+#include "dear-imgui/imgui.h"
 
 AudioSource* audioSource;
 me::ui::Text* textTest;
@@ -90,8 +91,6 @@ int main(int argc, char** argv) {
 
 		AssetManager::init();
 
-		
-
 		World* world = DBG_NEW World();
 
 
@@ -108,11 +107,11 @@ int main(int argc, char** argv) {
 		AssetManager::load("assets/ui/box.png", "");
 
 
-		TextRenderer* textRenderer = world->create <TextRenderer>();
-		textRenderer->setFont(fontTest);
-		textRenderer->transform.setLocalPosition({ -200,0 });
-		textRenderer->transform.setLocalScale({ 1,1 });
-		textRenderer->setText("OHAYO U U U \nUUU!!!!! A\nThis is a test of the texts\n lol	Test");
+		//TextRenderer* textRenderer = world->create <TextRenderer>();
+		//textRenderer->setFont(fontTest);
+		//textRenderer->transform.setLocalPosition({ -200,0 });
+		//textRenderer->transform.setLocalScale({ 1,1 });
+		//textRenderer->setText("OHAYO U U U \nUUU!!!!! A\nThis is a test of the texts\n lol	Test");
 		audioSource = world->create<AudioSource>();
 		audioSource->setAudioClip(audioTest);
 
@@ -180,6 +179,8 @@ int main(int argc, char** argv) {
 		Quit
 		*/
 
+		bool d_open = false;
+
 
 		while (!Context::getShouldClose())
 		{
@@ -187,19 +188,51 @@ int main(int argc, char** argv) {
 			glm::vec2 mousePos = Input::getMousePos();
 			glm::vec2 worldMousePos = cam->screenToWorld(mousePos);
 
-			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
-				
-			}
-			me::imgui::beginFrame();
+			//Text editor window
 
-			me::imgui::endFrame();
+
+
+			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
+				//Progress Text	
+			}
 
 			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
 			world->render();
 			jTest->render();
 
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
-			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", Input::getMouseWheel().x, Input::getMouseWheel().y);
+			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", Input::getMouseWheel().x, Input::getMouseWheel().y);
+
+			me::imgui::beginFrame();
+
+			if (ImGui::BeginMainMenuBar()) {
+				if (ImGui::BeginMenu("Tools"))
+				{
+					if (ImGui::MenuItem("Open Dialogue Editor")) { d_open = true; }
+					ImGui::EndMenu();
+				}
+
+				ImGui::EndMainMenuBar();
+			}
+
+			if (d_open) {
+				ImGui::Begin("Dialogue Editor", &d_open, ImGuiWindowFlags_MenuBar);
+				if (ImGui::BeginMenuBar()) {
+
+					if (ImGui::BeginMenu("File"))
+					{
+						if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
+						if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
+						if (ImGui::MenuItem("Close", "Ctrl+W")) { d_open = false; }
+						ImGui::EndMenu();
+					}
+					ImGui::EndMenuBar();
+				}
+				ImGui::Text("Lines");
+				ImGui::End();
+			}
+
+			me::imgui::endFrame();
 
 			Renderer::render();
 			

@@ -24,6 +24,8 @@ namespace me {
 		{
 			if (!_isInit) {
 				_shader = AssetManager::get<Shader>("assets/shaders/vs_uisprite.bin");
+				me::data::PositionColorUVVertex::init();
+				
 				_isInit = true;
 			}
 

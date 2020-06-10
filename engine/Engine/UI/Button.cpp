@@ -108,7 +108,7 @@ namespace me {
 			for (size_t i = 0; i < 4; i++)
 			{
 				_verts[i].xy(corners[i]);
-				Debug::Log("x: " + std::to_string(_verts[i].x) + " y: " + std::to_string(_verts[i].y));
+				//Debug::Log("x: " + std::to_string(_verts[i].x) + " y: " + std::to_string(_verts[i].y));
 			}
 
 			_vbh = bgfx::createVertexBuffer(bgfx::makeRef(_verts, sizeof(_verts)), me::data::PositionUVVertex::layout);

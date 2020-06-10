@@ -158,13 +158,13 @@ void Renderer::render()
 	title += std::to_string((int)(_frameCount / (_fpsTimer.getTicks() / 1000.f)));
 	Context::setWindowTitle(title.data());
 
-	const bgfx::Stats* stats = bgfx::getStats();
-	bgfx::dbgTextPrintf(0, 2, 0x0f, "Backbuffer %dW x %dH in pixels, debug text %dW x %dH in characters."
-		, stats->width
-		, stats->height
-		, stats->textWidth
-		, stats->textHeight
-	);
+	//const bgfx::Stats* stats = bgfx::getStats();
+	//bgfx::dbgTextPrintf(0, 2, 0x0f, "Backbuffer %dW x %dH in pixels, debug text %dW x %dH in characters."
+	//	, stats->width
+	//	, stats->height
+	//	, stats->textWidth
+	//	, stats->textHeight
+	//);
 
 	bgfx::frame();
 

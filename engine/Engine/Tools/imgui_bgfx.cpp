@@ -25,7 +25,7 @@ void me::imgui::beginFrame()
 	imguiBeginFrame(mousePos.x, mousePos.y, imguiMouse,
 		data::scroll, Context::getWindowWidth(), Context::getWindowHeight());
 
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 }
 
 void me::imgui::endFrame()
