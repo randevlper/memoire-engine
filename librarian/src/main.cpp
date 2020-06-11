@@ -180,7 +180,11 @@ int main(int argc, char** argv) {
 		*/
 
 		bool d_open = false;
-
+		char* lineTest = new char[64];
+		for (size_t i = 0; i < 64; i++)
+		{
+			lineTest[i] = 0;
+		}
 
 		while (!Context::getShouldClose())
 		{
@@ -190,7 +194,7 @@ int main(int argc, char** argv) {
 
 			//Text editor window
 
-
+			
 
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
 				//Progress Text	
@@ -229,6 +233,8 @@ int main(int argc, char** argv) {
 					ImGui::EndMenuBar();
 				}
 				ImGui::Text("Lines");
+				ImGui::Button("+");
+				ImGui::InputText("Line", lineTest, 64);
 				ImGui::End();
 			}
 

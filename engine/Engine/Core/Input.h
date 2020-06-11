@@ -1,5 +1,6 @@
 #pragma once
 union SDL_Event;
+#include <vector>
 #include  "glm/fwd.hpp"
 
 
@@ -23,6 +24,8 @@ public:
 	static void quit();
 	//Should only be called once per frame
 	static void poll();
+
+	static const std::vector<char>& getKeysPressed();
 private:
 	Input();
 	~Input();
@@ -41,6 +44,8 @@ private:
 
 	static SDL_Event _event;
 	static Input* _instance;
+
+	static std::vector<char> _keysPressed;
 
 	//lastPoll
 	//currentPoll
