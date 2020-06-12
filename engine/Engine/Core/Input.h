@@ -45,8 +45,6 @@ private:
 	static SDL_Event _event;
 	static Input* _instance;
 
-	static std::vector<char> _keysPressed;
-
 	//lastPoll
 	//currentPoll
 };

@@ -12,7 +12,7 @@
 #include "Engine/Nodes/Node.h"
 #include "Engine/Data/Transform.h"
 
-#include "dear-imgui/imgui.h"
+#include "Engine/thirdparty/imgui/imgui_impl_sdl.h"
 
 const unsigned char* Input::_source = nullptr;
 unsigned char* Input::_currentPoll = nullptr;
@@ -24,7 +24,6 @@ int Input::_numMouseKeys = 0;
 SDL_Event Input::_event = SDL_Event();
 Input* Input::_instance = nullptr;
 
-std::vector<char> Input::_keysPressed = std::vector<char>();
 
 glm::vec2 Input::_mouseWheel = {0,0};
 glm::vec2 Input::_mouseWheelLast = { 0,0 };
@@ -165,12 +164,6 @@ void Input::poll()
 	std::copy(_currentPoll, _currentPoll + _numKeys, _lastPoll);
 	std::copy(_source, _source + _numKeys, _currentPoll);
 
-	ImGuiIO& io = ImGui::GetIO();
-	for (size_t i = 0; i < 512; i++)
-	{
-		io.KeysDown[i] = false;
-	}
-
 	
 	SDL_Scancode key;
 	while (SDL_PollEvent(&_event) != 0)
@@ -189,29 +182,11 @@ void Input::poll()
 		case SDL_MOUSEWHEEL:
 			_mouseWheel = { _event.wheel.x, _event.wheel.y };
 			break;
-		case SDL_TEXTINPUT:
-			io.AddInputCharactersUTF8(_event.text.text);
-			//Debug::Log();
-			break;
-		case SDL_KEYDOWN:
-		case SDL_KEYUP:
-			key = _event.key.keysym.scancode;
-			if (key >= 0 && key < 512)
-			{
-				SDL_Keymod modstate = SDL_GetModState();
-				io.KeysDown[key] = getKey(key);
-				io.KeyCtrl = (modstate & KMOD_CTRL) != 0;
-				io.KeyShift = (modstate & KMOD_SHIFT) != 0;
-			}
-			break;
 		default:
 			break;
 		}
+
+		ImGui_ImplSDL2_ProcessEvent(&_event);
 	}
 
-}
-
-const std::vector<char>& Input::getKeysPressed()
-{
-	return _keysPressed;
 }

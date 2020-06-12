@@ -202,6 +202,11 @@ int Context::getWindowWidth()
 	return _windowParems.windowWidth;
 }
 
+SDL_Window* Context::getWindow()
+{
+	return _window;
+}
+
 unsigned int Context::getMaxFps()
 {
 	return _windowParems.fps;

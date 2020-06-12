@@ -30,6 +30,7 @@ public:
 	static int getErrorCode(); 
 	static int getWindowHeight();
 	static int getWindowWidth();
+	static SDL_Window* getWindow();
 	static unsigned int getMaxFps();
 	
 	static const char* getWindowTitle();
