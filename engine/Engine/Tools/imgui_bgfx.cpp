@@ -29,6 +29,7 @@ void me::imgui::beginFrame()
 
 	data::scroll += Input::getMouseWheel().y;
 
+	ImGui_ImplSDL2_NewFrame(Context::getWindow());
 	imguiBeginFrame(mousePos.x, mousePos.y, imguiMouse,
 		data::scroll, Context::getWindowWidth(), Context::getWindowHeight());
 	ImGui::ShowDemoWindow();
