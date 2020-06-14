@@ -6,9 +6,5 @@ namespace me {
 		void beginFrame();
 		void endFrame();
 		void destroy();
-
-		struct data {
-			static float scroll;
-		};
 	}
 }

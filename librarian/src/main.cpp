@@ -41,7 +41,7 @@ using json = nlohmann::json;
 #include "Engine/UI/Text.h"
 
 #include "Engine/Tools/imgui_bgfx.h"
-#include "dear-imgui/imgui.h"
+#include "imgui/DialogueEditor.h"
 
 AudioSource* audioSource;
 me::ui::Text* textTest;
@@ -208,36 +208,7 @@ int main(int argc, char** argv) {
 			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", Input::getMouseWheel().x, Input::getMouseWheel().y);
 
 			me::imgui::beginFrame();
-
-			if (ImGui::BeginMainMenuBar()) {
-				if (ImGui::BeginMenu("Tools"))
-				{
-					if (ImGui::MenuItem("Open Dialogue Editor")) { d_open = true; }
-					ImGui::EndMenu();
-				}
-
-				ImGui::EndMainMenuBar();
-			}
-
-			if (d_open) {
-				ImGui::Begin("Dialogue Editor", &d_open, ImGuiWindowFlags_MenuBar);
-				if (ImGui::BeginMenuBar()) {
-
-					if (ImGui::BeginMenu("File"))
-					{
-						if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
-						if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-						if (ImGui::MenuItem("Close", "Ctrl+W")) { d_open = false; }
-						ImGui::EndMenu();
-					}
-					ImGui::EndMenuBar();
-				}
-				ImGui::Text("Lines");
-				ImGui::Button("+");
-				ImGui::InputText("Line", lineTest, 64);
-				ImGui::End();
-			}
-
+			lb::imgui::showDialogueEditor();
 			me::imgui::endFrame();
 
 			Renderer::render();
