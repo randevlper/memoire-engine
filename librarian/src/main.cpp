@@ -158,7 +158,7 @@ int main(int argc, char** argv) {
 			me::ui::Button* tb = jTest->create<me::ui::Button>();
 			tb->rectTransform.setPosition({ 500,500 });
 			tb->setSize({ 30, 30 });
-			FileUtility::writeStringFile("worldTest.json", jTest->to_json().dump(4));
+			FileUtility::writeStringFile(nullptr, "worldTest.json", jTest->to_json().dump(4));
 			delete(jTest);
 		}
 

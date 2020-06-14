@@ -41,7 +41,9 @@ public:
 	static bx::FileReaderI* getFileReader();
 
 	static std::string loadTextFile(const char* filePath);
-	static void writeStringFile(const char* filePath, std::string &value);
+	static void writeStringFile(const char* path, const char* fileName, std::string& value);
+
+	static bool loadJson(const char* path, nlohmann::json& j);
 
 	static void destroy();
 private:

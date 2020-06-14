@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 
+#include <filesystem>
+
 #include <stb_image.h>
 #include <SDL.h>
 
@@ -285,15 +287,55 @@ std::string FileUtility::loadTextFile(const char* filePath)
 	return std::string();
 }
 
-void FileUtility::writeStringFile(const char* filePath, std::string &value)
+void FileUtility::writeStringFile(const char* path, const char* fileName, std::string &value)
 {
-	std::ofstream output(filePath);
+	std::string msg;
+
+	if (path != nullptr) {
+		if (!std::filesystem::exists(path)) {
+			//Create directory
+			msg = "[FileUtility] Creating: ";
+			msg += path;
+			Debug::Log(msg);
+			if (!std::filesystem::create_directory(path)) {
+				msg = "[FileUtility] Directory could not be created! |";
+				msg += path;
+				Debug::Log(msg);
+				return;
+			}
+		}
+	}
+
+	std::string fullPath;
+	if (path != nullptr) {
+		fullPath.append(path);
+	}
+	fullPath.append(fileName);
+
+	std::ofstream output(fullPath);
 	if (output.is_open()) {
 		output << value;
 		output.close();
 	}
+	else {
+		msg = "[FileUtility] File could not be written! ";
+		msg += fullPath;
+		Debug::Log(msg);
+	}
 }
 
+bool FileUtility::loadJson(const char* path, nlohmann::json& j)
+{
+	if (std::filesystem::exists(path)) {
+		std::ifstream fileStream(path);
+		fileStream >> j;
+		fileStream.close();
+	}
+	else {
+		return false;
+	}
+	return true;
+}
 void FileUtility::destroy()
 {
 	BX_DELETE(g_allocator, s_fileReader);
