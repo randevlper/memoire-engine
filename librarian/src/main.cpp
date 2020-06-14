@@ -208,7 +208,7 @@ int main(int argc, char** argv) {
 			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", Input::getMouseWheel().x, Input::getMouseWheel().y);
 
 			me::imgui::beginFrame();
-			lb::imgui::showDialogueEditor();
+			lb::imgui::showDialogueEditor(textTest);
 			me::imgui::endFrame();
 
 			Renderer::render();

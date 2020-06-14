@@ -9,6 +9,7 @@
 using json = nlohmann::json;
 
 #include "Engine/Core/FileUtility.h"
+#include "Engine/UI/Text.h"
 
 namespace lb {
 	namespace imgui {
@@ -41,6 +42,8 @@ namespace lb {
 		static bool d_open = false;
 		static std::vector < Item> lines;
 
+		static bool isPreview = false;
+
 		void save() {
 			json file;
 			for (size_t i = 0; i < lines.size(); i++)
@@ -62,7 +65,7 @@ namespace lb {
 			}
 		}
 
-		void showDialogueEditor()
+		void showDialogueEditor(me::ui::Text* text)
 		{
 			if (ImGui::BeginMainMenuBar()) {
 				if (ImGui::BeginMenu("Tools"))
@@ -89,16 +92,41 @@ namespace lb {
 					ImGui::EndMenuBar();
 				}
 
-				ImGui::Text("Lines");
-				if (ImGui::Button("+")) {
-					lines.push_back({ "Test_" + std::to_string(lines.size()) , "Test" });
-				}
 				static int selected = 0;
+				ImGui::Text("Lines");
+				ImGui::Checkbox("Preview", &isPreview);
+
+				if (ImGui::Button("+", ImVec2(25, 25))) {
+					std::string newText = "NewItem_" + std::to_string(lines.size());
+					for (size_t i = 0; i < lines.size(); i++)
+					{
+						if (lines[i].name == newText) {
+							newText += "0";
+						}
+					}
+
+					lines.push_back({newText, "New Text" });
+				}
+				ImGui::SameLine();
+				if (ImGui::Button("-", ImVec2(25,25))) {
+					if (selected < lines.size()) {
+						lines.erase(lines.begin() + selected);
+						selected--;
+						if (selected < 0) {
+							selected = 0;
+						}
+					}
+				}
+
+				
 				ImGui::BeginChild("line view", ImVec2(150, 0), true);
 				for (size_t i = 0; i < lines.size(); i++)
 				{
 					if (ImGui::Selectable(lines[i].name.c_str(), selected == i)) {
 						selected = i;
+						if (isPreview) {
+							text->setText(lines[i].text);
+						}
 					}
 				}
 				ImGui::EndChild();
