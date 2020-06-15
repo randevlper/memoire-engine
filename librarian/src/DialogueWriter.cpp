@@ -1,20 +1,27 @@
 #include "DialogueWriter.h"
 
-lb::DialogueWriter::DialogueWriter()
-{
-}
+namespace lb {
+	DialogueWriter::DialogueWriter()
+	{
+	}
 
-lb::DialogueWriter::~DialogueWriter()
-{
-}
+	DialogueWriter::~DialogueWriter()
+	{
+	}
 
-void lb::DialogueWriter::tick(float deltaTime)
-{
+	void DialogueWriter::tick(float deltaTime)
+	{
 
-}
+	}
 
-void lb::DialogueWriter::progress()
-{
-	//Bulk of the code
-	//Click, set the dialogue
+	void DialogueWriter::startDialouge(Dialogue dia)
+	{
+
+	}
+
+	void DialogueWriter::progress()
+	{
+		//Bulk of the code
+		//Click, set the dialogue
+	}
 }

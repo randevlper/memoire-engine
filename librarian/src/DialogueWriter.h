@@ -61,6 +61,7 @@ namespace lb {
 		~DialogueWriter();
 
 		void tick(float deltaTime);
+		void startDialouge(Dialogue dia);
 		void progress();
 
 	private:
