@@ -194,8 +194,6 @@ int main(int argc, char** argv) {
 
 			//Text editor window
 
-			
-
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
 				//Progress Text	
 			}
