@@ -41,6 +41,9 @@ using json = nlohmann::json;
 #include "Engine/UI/Text.h"
 
 #include "Engine/Tools/imgui_bgfx.h"
+
+
+#include "nodes/DialogueWriter.h"
 #include "imgui/DialogueEditor.h"
 
 AudioSource* audioSource;
@@ -178,13 +181,8 @@ int main(int argc, char** argv) {
 		Continue - Store the current state of the game
 		Quit
 		*/
-
-		bool d_open = false;
-		char* lineTest = new char[64];
-		for (size_t i = 0; i < 64; i++)
-		{
-			lineTest[i] = 0;
-		}
+		lb::DialogueWriter* dialogueWriter = DBG_NEW lb::DialogueWriter();
+		lb::imgui::init(dialogueWriter);
 
 		while (!Context::getShouldClose())
 		{

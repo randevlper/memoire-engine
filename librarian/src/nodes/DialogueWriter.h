@@ -4,6 +4,12 @@
 #include <nlohmann/json.hpp>
 
 
+namespace me {
+	namespace ui {
+		class Text;
+	}
+}
+
 namespace lb {
 
 	struct DialogueLine
@@ -31,6 +37,8 @@ namespace lb {
 		}
 	};
 
+
+	//This should become an Asset
 	struct Dialogue {
 		std::vector<DialogueLine> lines;
 
@@ -53,7 +61,7 @@ namespace lb {
 	};
 
 
-
+	//Become a Node so the World can load it in when it starts
 	class DialogueWriter
 	{
 	public:
@@ -66,5 +74,9 @@ namespace lb {
 
 	private:
 		unsigned int _currentNode;
+		Dialogue dialogue;
+
+		me::ui::Text* _text;
+
 	};
 }

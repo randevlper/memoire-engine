@@ -10,15 +10,15 @@ using json = nlohmann::json;
 
 #include "Engine/Core/FileUtility.h"
 #include "Engine/UI/Text.h"
-#include "../DialogueWriter.h"
+#include "nodes/DialogueWriter.h"
 
 namespace lb {
 	namespace imgui {
 
 		static bool d_open = false;
 		static Dialogue dialogue;
-
 		static bool isPreview = false;
+		static DialogueWriter* dialogueWriter = nullptr;
 
 		void save() {
 			FileUtility::writeStringFile("dialogue/", "test.json", dialogue.to_json().dump(4));
@@ -29,6 +29,17 @@ namespace lb {
 			if (FileUtility::loadJson("dialogue/test.json", file)) {
 				dialogue.from_json(file);
 			}
+		}
+
+		void preview() {
+			if (dialogueWriter != nullptr) {
+				dialogueWriter->startDialouge(dialogue);
+			}
+		}
+
+		void init(DialogueWriter* writer)
+		{
+			dialogueWriter = writer;
 		}
 
 		void showDialogueEditor(me::ui::Text* text)
@@ -110,5 +121,6 @@ namespace lb {
 				ImGui::End();
 			}
 		}
+
 	}
 }

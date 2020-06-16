@@ -1,4 +1,5 @@
 #include "DialogueWriter.h"
+#include "Engine/UI/Text.h"
 
 namespace lb {
 	DialogueWriter::DialogueWriter()

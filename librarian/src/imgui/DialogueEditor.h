@@ -7,7 +7,12 @@ namespace me {
 }
 
 namespace lb {
+	class DialogueWriter;
+}
+
+namespace lb {
 	namespace imgui {
 		void showDialogueEditor(me::ui::Text* text);
+		void init(DialogueWriter* writer);
 	}
 }
