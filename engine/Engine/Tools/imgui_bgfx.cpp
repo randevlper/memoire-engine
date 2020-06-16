@@ -47,5 +47,10 @@ namespace me {
 			ImGui_ImplSDL2_Shutdown();
 			imguiDestroy();
 		}
+
+		bool isAnyWindowFocused()
+		{
+			return ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow);
+		}
 	}
 }

@@ -45,6 +45,7 @@ using json = nlohmann::json;
 
 #include "nodes/DialogueWriter.h"
 #include "imgui/DialogueEditor.h"
+#include "assetmanagement/DialogueLoader.h"
 
 AudioSource* audioSource;
 me::ui::Text* textTest;
@@ -93,6 +94,8 @@ int main(int argc, char** argv) {
 		me::imgui::create();
 
 		AssetManager::init();
+		AssetManager::initLoader<lb::DialogueLoader>();
+
 
 		World* world = DBG_NEW World();
 
@@ -183,6 +186,7 @@ int main(int argc, char** argv) {
 		*/
 		lb::DialogueWriter* dialogueWriter = DBG_NEW lb::DialogueWriter();
 		lb::imgui::init(dialogueWriter);
+		dialogueWriter->setTextBox(textTest);
 
 		while (!Context::getShouldClose())
 		{
@@ -192,11 +196,13 @@ int main(int argc, char** argv) {
 
 			//Text editor window
 
-			if(Input::getKeyDown(SDL_SCANCODE_SPACE)) {
+			if(Input::getKeyDown(SDL_SCANCODE_SPACE) && !me::imgui::isAnyWindowFocused()) {
 				//Progress Text	
+				dialogueWriter->progress();
 			}
 
 			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
+
 			world->render();
 			jTest->render();
 
@@ -210,6 +216,7 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
+		delete(dialogueWriter);
 		delete(jTest);
 		delete(world);
 		TextRenderer::destroy();

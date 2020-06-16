@@ -6,5 +6,6 @@ namespace me {
 		void beginFrame();
 		void endFrame();
 		void destroy();
+		bool isAnyWindowFocused();
 	}
 }
