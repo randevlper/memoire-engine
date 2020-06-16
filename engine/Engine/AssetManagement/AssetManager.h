@@ -3,6 +3,7 @@
 #include <string>
 #include "Engine/Utilities/Debug.h"
 #include <nlohmann/json.hpp>
+#include "Engine/Utilities/DebugMemory.h"
 
 class AssetLoader;
 #include "Asset.h"
@@ -15,11 +16,14 @@ public:
 	static void init();
 	static void destroy();
 
+	template<class T>
+	static void initLoader();
+
 	template <class T>
 	static T* get(std::string name);
 
 	template <class T>
-	static T* get_json(nlohmann::json j);
+	static T* get_json(nlohmann::json j); 
 
 private:
 	//Asset, Pointer
@@ -29,6 +33,15 @@ private:
 
 	static bool isInit;
 };
+
+template<class T>
+inline void AssetManager::initLoader()
+{
+	static_assert(std::is_base_of<AssetLoader, T>::value, "T not derived from AssetLoader");
+	T* _loader = DBG_NEW T();
+	_loader->init();
+	_loaders.insert(std::pair<std::string, T*>(_loader->_fileExtension, _loader));
+}
 
 template<class T>
 inline T* AssetManager::get(std::string name)

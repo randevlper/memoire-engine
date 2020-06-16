@@ -10,7 +10,7 @@
 #include "AudioClipLoader.h"
 #include "JSONLoader.h"
 
-#include "Engine/Utilities/DebugMemory.h"
+
 
 
 std::map<std::string, AssetLoader*> AssetManager::_loaders = std::map<std::string, AssetLoader*>();
@@ -52,25 +52,12 @@ void AssetManager::load(std::string path, std::string vars)
 }
 
 void AssetManager::init() {
-	FontLoader* _fontLoader = DBG_NEW FontLoader();
-	_fontLoader->init();
-	_loaders.insert(std::pair<std::string, AssetLoader*>(_fontLoader->_fileExtension, _fontLoader));
 
-	SpriteLoader* _spriteLoader = DBG_NEW SpriteLoader();
-	_spriteLoader->init();
-	_loaders.insert(std::pair<std::string, AssetLoader*>(_spriteLoader->_fileExtension, _spriteLoader));
-	
-	ShaderLoader* _shaderLoader = DBG_NEW ShaderLoader();
-	_shaderLoader->init();
-	_loaders.insert(std::pair<std::string, AssetLoader*>(_shaderLoader->_fileExtension, _shaderLoader));
-
-	AudioClipLoader* _audioClipLoader = DBG_NEW AudioClipLoader();
-	_audioClipLoader->init();
-	_loaders.insert(std::pair<std::string, AssetLoader*>(_audioClipLoader->_fileExtension, _audioClipLoader));
-
-	JSONLoader* _jsonLoader = DBG_NEW JSONLoader();
-	_jsonLoader->init();
-	_loaders.insert(std::pair<std::string, AssetLoader*>(_jsonLoader->_fileExtension, _jsonLoader));
+	initLoader<FontLoader>();
+	initLoader<SpriteLoader>();
+	initLoader<ShaderLoader>();
+	initLoader<AudioClipLoader>();
+	initLoader<JSONLoader>();
 
 	isInit = true;
 
@@ -80,6 +67,7 @@ void AssetManager::init() {
 	AssetManager::load("assets/shaders/vs_ui.bin", "assets/shaders/fs_ui.bin");
 	AssetManager::load("assets/shaders/vs_uisprite.bin", "assets/shaders/fs_uisprite.bin");
 }
+
 
 void AssetManager::destroy() {
 	//for (std::pair<std::string, Asset*> element : _assets) {
