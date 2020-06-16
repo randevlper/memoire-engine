@@ -104,7 +104,7 @@ Font::~Font()
 
 Character Font::getCharacter(char c)
 {
-	std::map<char, Character>::iterator it = characters.find(c);
+	std::unordered_map<char, Character>::iterator it = characters.find(c);
 	if (it == characters.end())
 	{
 		std::cout << "Tim is not in the map!" << std::endl;

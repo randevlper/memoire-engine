@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include <string>
 #include "Engine/Utilities/Debug.h"
 #include <nlohmann/json.hpp>
@@ -27,9 +27,9 @@ public:
 
 private:
 	//Asset, Pointer
-	static std::map<std::string, Asset*> _assets;
+	static std::unordered_map<std::string, Asset*> _assets;
 	//Extension, Pointer
-	static std::map<std::string, AssetLoader*> _loaders;
+	static std::unordered_map<std::string, AssetLoader*> _loaders;
 
 	static bool isInit;
 };
@@ -52,7 +52,7 @@ inline T* AssetManager::get(std::string name)
 		return nullptr;
 	}
 
-	std::map<std::string, Asset*>::iterator it = _assets.find(name);
+	std::unordered_map<std::string, Asset*>::iterator it = _assets.find(name);
 	if (it == _assets.end())
 	{
 		Debug::Log(" AssetManager: " + name + " is not loaded!");

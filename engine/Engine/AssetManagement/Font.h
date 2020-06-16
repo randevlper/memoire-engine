@@ -3,7 +3,7 @@
 
 #include <bgfx/bgfx.h>
 #include <glm/glm.hpp>
-#include <map>
+#include <unordered_map>
 
 struct Character
 {
@@ -24,5 +24,5 @@ public:
 private:
 	void* _ft_face;
 	int _fontHeight;
-	std::map<char, Character> characters;
+	std::unordered_map<char, Character> characters;
 };

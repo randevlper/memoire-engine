@@ -13,8 +13,8 @@
 
 
 
-std::map<std::string, AssetLoader*> AssetManager::_loaders = std::map<std::string, AssetLoader*>();
-std::map<std::string, Asset*> AssetManager::_assets = std::map<std::string, Asset*>();
+std::unordered_map<std::string, AssetLoader*> AssetManager::_loaders = std::unordered_map<std::string, AssetLoader*>();
+std::unordered_map<std::string, Asset*> AssetManager::_assets = std::unordered_map<std::string, Asset*>();
 bool AssetManager::isInit = false;
 
 void AssetManager::load(std::string path, std::string vars)
@@ -27,7 +27,7 @@ void AssetManager::load(std::string path, std::string vars)
 	std::filesystem::path p = std::filesystem::path(path);
 	if (std::filesystem::exists(path)) {
 		Debug::Log("AssetManager: Exists: " + path);
-		std::map<std::string, AssetLoader*>::iterator it = _loaders.find(p.extension().string());
+		std::unordered_map<std::string, AssetLoader*>::iterator it = _loaders.find(p.extension().string());
 		if (it == _loaders.end()) {
 			Debug::Log("AssetManager: Loader not found for " + p.extension().string());
 		}
