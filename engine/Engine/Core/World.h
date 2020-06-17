@@ -18,7 +18,7 @@ public:
 	void tick(float delta);
 	void render();
 
-	std::vector<Node*> getNodes() {
+	const std::vector<Node*>& getNodes() {
 		return _nodes;
 	}
 

@@ -128,8 +128,8 @@ namespace lb {
 
 				ImGui::BeginGroup();
 				if (dialogue->lines.size() > 0) {
-					ImGui::InputText("name", &dialogue->lines[selected].name, ImGuiInputTextFlags_CharsNoBlank);
-					ImGui::InputTextMultiline("text", &dialogue->lines[selected].text);
+					ImGui::InputText("dialogue_name", &dialogue->lines[selected].name, ImGuiInputTextFlags_CharsNoBlank);
+					ImGui::InputTextMultiline("dialogue_text", &dialogue->lines[selected].text);
 				}
 				ImGui::EndGroup();
 
