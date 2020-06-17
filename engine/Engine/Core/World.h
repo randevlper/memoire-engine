@@ -18,9 +18,18 @@ public:
 	void tick(float delta);
 	void render();
 
+	std::vector<Node*> getNodes() {
+		return _nodes;
+	}
+
 	//Create node <Templated>
 	template<class nodeclass>
 	nodeclass* create();
+
+	//Delete a node by refrence
+	//bool destroy(Node* node);
+	//Delete a node by name
+	//bool destroy(std::string name);
 
 	nlohmann::json to_json();
 	void from_json(const nlohmann::json& j);

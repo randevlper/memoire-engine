@@ -203,6 +203,8 @@ int main(int argc, char** argv) {
 
 			me::WorldManager::tick();
 
+			me::WorldManager::render();
+
 			//buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
 
 			//world->render();

@@ -18,6 +18,7 @@ namespace me {
 		static void unLoadWorld();
 
 		static void tick();
+		static void render();
 
 		static World* getWorld();
 

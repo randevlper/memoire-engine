@@ -32,6 +32,13 @@ namespace me {
 		}
 	}
 
+	void WorldManager::render()
+	{
+		if (_currentWorld != nullptr) {
+			_currentWorld->render();
+		}
+	}
+
 	World* WorldManager::getWorld()
 	{
 		return _currentWorld;
