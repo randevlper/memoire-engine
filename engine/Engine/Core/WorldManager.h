@@ -1,14 +1,27 @@
 #pragma once
+#include <string>
+
 class World;
 
 
-class WorldManager
-{
-public:
+namespace me {
+	class WorldManager
+	{
+	public:
 
+		//Creates an empty world
+		static void loadWorld();
 
-private:
-	World* _world;
-	WorldManager();
-	~WorldManager();
-};
+		//Loads a world from a JSON world file
+		static void loadWorld(std::string path);
+
+		static void unLoadWorld();
+
+		static void tick();
+
+		static World* getWorld();
+
+	private:
+		static World* _currentWorld;
+	};
+}

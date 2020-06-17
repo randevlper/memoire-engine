@@ -42,18 +42,20 @@ using json = nlohmann::json;
 
 #include "Engine/Tools/imgui_bgfx.h"
 
+#include "Engine/Core/WorldManager.h"
+
 
 #include "nodes/DialogueWriter.h"
 #include "imgui/DialogueEditor.h"
 #include "assetmanagement/DialogueLoader.h"
 
-AudioSource* audioSource;
-me::ui::Text* textTest;
-
-void ohno() {
-	audioSource->play();
-	textTest->setText("Ays: He was asking for it!\nAne: That was not helpful.\nHe wanted a good time!\nAne: Your idea of a good time is very diffrent from the norm.");
-}
+//AudioSource* audioSource;
+//me::ui::Text* textTest;
+//
+//void ohno() {
+//	audioSource->play();
+//	textTest->setText("Ays: He was asking for it!\nAne: That was not helpful.\nHe wanted a good time!\nAne: Your idea of a good time is very diffrent from the norm.");
+//}
 
 int main(int argc, char** argv) {
 	{
@@ -97,13 +99,11 @@ int main(int argc, char** argv) {
 		AssetManager::initLoader<lb::DialogueLoader>();
 
 
-		World* world = DBG_NEW World();
+		//World* world = DBG_NEW World();
 
 
 		//Renderer should make a default camera?
-		Camera* cam = world->create <Camera>();
-		cam->transform.setLocalPosition({ 0,0 });
-
+		Camera* cam = DBG_NEW Camera();
 		Renderer::setCamera(cam);
 
 		AssetManager::load("assets/fonts/cmunrm.ttf", "32");
@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 		//textRenderer->transform.setLocalPosition({ -200,0 });
 		//textRenderer->transform.setLocalScale({ 1,1 });
 		//textRenderer->setText("OHAYO U U U \nUUU!!!!! A\nThis is a test of the texts\n lol	Test");
-		audioSource = world->create<AudioSource>();
+		/*audioSource = world->create<AudioSource>();
 		audioSource->setAudioClip(audioTest);
 
 
@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
 		textTest->rectTransform.setSize({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f });
 		textTest->setFont(fontTest);
 		textTest->setText(
-			"Anemone: A fist through the chest does not help someone breathe.\nAys: If they have no lungs they dont need to.\nSte: I wish i was a cat\n");
+			"Anemone: A fist through the chest does not help someone breathe.\nAys: If they have no lungs they dont need to.\nSte: I wish i was a cat\n");*/
 		//Callbacks for changing rect properties?
 
 		//UI button - Sprites
@@ -151,30 +151,28 @@ int main(int argc, char** argv) {
 		Want a UI editor but no need for the two scenes
 		*/
 
-		{
-			World* jTest = DBG_NEW World();
-			jTest->create<Node>();
-			jTest->create<Node2D>();
-			jTest->create<NodeUI>();
-			me::ui::Text* tt = jTest->create<me::ui::Text>();
-			tt->setFont(fontTest);
-			tt->rectTransform.setPosition({ 100,100 });
-			tt->setName("Text");
-			tt->setText("I am test text to take you out.");
-			me::ui::Button* tb = jTest->create<me::ui::Button>();
-			tb->rectTransform.setPosition({ 500,500 });
-			tb->setSize({ 30, 30 });
-			FileUtility::writeStringFile(nullptr, "worldTest.json", jTest->to_json().dump(4));
-			delete(jTest);
-		}
-
-		
-		std::ifstream worldFile("worldTest.json");
-		json worldJson;
-		worldFile >> worldJson;
-		worldFile.close();
-		World* jTest = DBG_NEW World();
-		jTest->from_json(worldJson);
+		//{
+		//	World* jTest = DBG_NEW World();
+		//	jTest->create<Node>();
+		//	jTest->create<Node2D>();
+		//	jTest->create<NodeUI>();
+		//	me::ui::Text* tt = jTest->create<me::ui::Text>();
+		//	tt->setFont(fontTest);
+		//	tt->rectTransform.setPosition({ 100,100 });
+		//	tt->setName("Text");
+		//	tt->setText("I am test text to take you out.");
+		//	me::ui::Button* tb = jTest->create<me::ui::Button>();
+		//	tb->rectTransform.setPosition({ 500,500 });
+		//	tb->setSize({ 30, 30 });
+		//	FileUtility::writeStringFile(nullptr, "worldTest.json", jTest->to_json().dump(4));
+		//	delete(jTest);
+		//}
+		//std::ifstream worldFile("worldTest.json");
+		//json worldJson;
+		//worldFile >> worldJson;
+		//worldFile.close();
+		//World* jTest = DBG_NEW World();
+		//jTest->from_json(worldJson);
 		
 
 		//Scenes Title Screen/Game
@@ -184,9 +182,11 @@ int main(int argc, char** argv) {
 		Continue - Store the current state of the game
 		Quit
 		*/
-		lb::DialogueWriter* dialogueWriter = DBG_NEW lb::DialogueWriter();
-		lb::imgui::init(dialogueWriter);
-		dialogueWriter->setTextBox(textTest);
+		//lb::DialogueWriter* dialogueWriter = DBG_NEW lb::DialogueWriter();
+		//lb::imgui::init(dialogueWriter);
+		//dialogueWriter->setTextBox(textTest);
+		me::WorldManager::loadWorld();
+
 
 		while (!Context::getShouldClose())
 		{
@@ -198,27 +198,26 @@ int main(int argc, char** argv) {
 
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE) && !me::imgui::isAnyWindowFocused()) {
 				//Progress Text	
-				dialogueWriter->progress();
+				//dialogueWriter->progress();
 			}
 
-			buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
+			me::WorldManager::tick();
 
-			world->render();
-			jTest->render();
+			//buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
+
+			//world->render();
+			//jTest->render();
 
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
 			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", Input::getMouseWheel().x, Input::getMouseWheel().y);
 
 			me::imgui::beginFrame();
-			lb::imgui::showDialogueEditor(textTest);
+			lb::imgui::showDialogueEditor(nullptr);
 			me::imgui::endFrame();
 
 			Renderer::render();
 			
 		}
-		delete(dialogueWriter);
-		delete(jTest);
-		delete(world);
 		TextRenderer::destroy();
 		SpriteRenderer::destroy();
 		FileUtility::destroy();

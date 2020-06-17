@@ -116,7 +116,9 @@ namespace lb {
 					if (ImGui::Selectable(dialogue->lines[i].name.c_str(), selected == i)) {
 						selected = i;
 						if (isPreview) {
-							text->setText(dialogue->lines[i].text);
+							if (text != nullptr) {
+								text->setText(dialogue->lines[i].text);
+							}
 						}
 					}
 				}
