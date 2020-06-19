@@ -24,7 +24,14 @@ public:
 	virtual void from_json(const nlohmann::json& j) {
 		setName(j.at("name"));
 	}
+	
+	std::string getType() {
+		return _type;
+	}
 
 private:
+
+protected:
 	std::string _name;
+	std::string _type;
 };

@@ -56,6 +56,29 @@ namespace lb {
 				ImGui::InputText("node_name", &nodeName, ImGuiInputTextFlags_CharsNoBlank);
 				//ImGui::InputInt("node_x",)
 
+				if (nodeSelected->getType() == "Node2D") {
+					Node2D* node2DSelected = dynamic_cast<Node2D*>(nodeSelected);
+					
+					//Would be more performant to have the editor access the memory directly but this way its using the same interface as the User
+					glm::vec2 pos = node2DSelected->transform.getLocalPosition();
+					glm::vec2 scale = node2DSelected->transform.getLocalScale();
+					float angle = node2DSelected->transform.getLocalAngle();
+
+					ImGui::PushItemWidth(150);
+					ImGui::InputFloat("Pos X", &pos.x);
+					ImGui::SameLine();
+					ImGui::InputFloat("Pos Y", &pos.y);
+					ImGui::InputFloat("Scale X", &scale.x);
+					ImGui::SameLine();
+					ImGui::InputFloat("Scale Y", &scale.y);
+					ImGui::InputFloat("Angle", &angle);
+
+					node2DSelected->transform.setLocalPosition(pos);
+					node2DSelected->transform.setLocalScale(scale);
+					node2DSelected->transform.setLocalAngle(angle);
+				}
+
+
 				nodeSelected->setName(nodeName);
 			}
 

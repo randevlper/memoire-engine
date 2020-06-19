@@ -6,7 +6,7 @@ class Node2D : public Node
 {
 public:
 	Node2D();
-	virtual ~Node2D();
+	~Node2D() override;
 	Transform transform;
 
 	virtual nlohmann::json to_json() override{
@@ -20,6 +20,6 @@ public:
 		Node::from_json(j);
 		transform.from_json(j["transform"]);
 	}
-private:
 
+private:
 };

@@ -214,6 +214,17 @@ int main(int argc, char** argv) {
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
 			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", Input::getMouseWheel().x, Input::getMouseWheel().y);
 
+
+			//Debug code to test world editor
+			World* world = me::WorldManager::getWorld();
+			const std::vector<Node*> nodes = world->getNodes();
+			for (size_t i = 0; i < nodes.size(); i++)
+			{
+				Node2D* node2DSelected = dynamic_cast<Node2D*>(nodes[i]);
+				Debug::DrawTransform(&node2DSelected->transform);
+			}
+
+
 			me::imgui::beginFrame();
 			lb::imgui::showDialogueEditor(nullptr);
 			lb::imgui::showWorldEditor();
