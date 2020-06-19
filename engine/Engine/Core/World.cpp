@@ -24,7 +24,9 @@ World::~World()
 
 void World::tick(float delta)
 {
+	//Input
 
+	//Logic
 }
 
 void World::render()

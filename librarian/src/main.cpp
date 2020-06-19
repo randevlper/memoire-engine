@@ -187,8 +187,6 @@ int main(int argc, char** argv) {
 		//lb::imgui::init(dialogueWriter);
 		//dialogueWriter->setTextBox(textTest);
 		me::WorldManager::loadWorld();
-		me::WorldManager::getWorld()->create<me::ui::Button>();
-		me::WorldManager::getWorld()->create<NodeUI>();
 
 
 		while (!Context::getShouldClose())
@@ -234,10 +232,9 @@ int main(int argc, char** argv) {
 
 			}
 
-
 			me::imgui::beginFrame();
-			lb::imgui::showDialogueEditor(nullptr);
-			lb::imgui::showWorldEditor();
+			lb::imgui::dialogueEditor::showEditor(nullptr);
+			lb::imgui::worldEditor::showEditor();
 			me::imgui::endFrame();
 
 			Renderer::render();

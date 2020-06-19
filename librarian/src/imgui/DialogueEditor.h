@@ -12,7 +12,9 @@ namespace lb {
 
 namespace lb {
 	namespace imgui {
-		void showDialogueEditor(me::ui::Text* text);
-		void init(DialogueWriter* writer);
+		namespace dialogueEditor {
+			void showEditor(me::ui::Text* text);
+			void init(DialogueWriter* writer);
+		}
 	}
 }

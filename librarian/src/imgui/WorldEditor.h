@@ -2,6 +2,8 @@
 
 namespace lb {
 	namespace imgui {
-		void showWorldEditor();
+		namespace worldEditor {
+			void showEditor();
+		}
 	}
 }
