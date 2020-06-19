@@ -18,6 +18,7 @@ namespace me {
 
 		Button::Button()
 		{
+			_type = "Button";
 			if (!_isInit) {
 				me::data::PositionUVVertex::init();
 				_shader = AssetManager::get<Shader>("assets/shaders/vs_ui.bin");
@@ -32,7 +33,7 @@ namespace me {
 
 			_vbh.idx = bgfx::kInvalidHandle;
 			
-			_sprite = nullptr;
+			_sprite = AssetManager::get<Sprite>("assets/ui/box.png");
 
 			setSize({ 10,10 });
 
@@ -86,7 +87,9 @@ namespace me {
 
 			//Call event
 			if (_currentIsMouseOver && !_lastMouseClicking && _currentMouseClicking) {
-				onClick();
+				if (onClick) {
+					onClick();
+				}
 			}
 		}
 
@@ -114,11 +117,11 @@ namespace me {
 			_vbh = bgfx::createVertexBuffer(bgfx::makeRef(_verts, sizeof(_verts)), me::data::PositionUVVertex::layout);
 		}
 
-		//Expects value 0-255
+		//Expects value 0-1
 		void Button::setColor(glm::vec4 rgba)
 		{
 			_color = rgba;
-			_color /= 255;
+			//_color /= 255;
 		}
 
 		void Button::setSprite(Sprite* value) {

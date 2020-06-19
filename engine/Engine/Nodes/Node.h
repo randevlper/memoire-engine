@@ -13,10 +13,10 @@ public:
 	void setName(std::string value);
 	std::string getName() const;
 
-	//Probably a lot better way of doing this
+	//Probably a lot better way of doing this so we dont have these functions in here
 	virtual nlohmann::json to_json() {
 		nlohmann::json j;
-		j["type"] = "Node";
+		j["type"] = _type;
 		j["name"] = getName();
 		return j;
 	}

@@ -29,6 +29,11 @@ void RectTransform::setPosition(glm::ivec2 value)
 	_root.setLocalPosition(value);
 }
 
+glm::vec2 RectTransform::getPosition()
+{
+	return _root.getLocalPosition();
+}
+
 void RectTransform::setRotation(float value)
 {
 	_root.setLocalAngle(value);

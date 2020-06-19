@@ -3,6 +3,7 @@
 Node::Node()
 {
 	_name = "Node";
+	_type = "Node";
 }
 
 Node::~Node()

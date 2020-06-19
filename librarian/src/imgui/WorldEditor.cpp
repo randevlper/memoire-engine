@@ -8,6 +8,15 @@
 #include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
 
+#include "Engine/UI/NodeUI.h"
+#include "Engine/UI/Button.h"
+#include "Engine/UI/Text.h"
+
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Engine/Utilities/Debug.h"
+
+
 namespace lb {
 	namespace imgui {
 		static bool windowOpen = false;
@@ -76,6 +85,40 @@ namespace lb {
 					node2DSelected->transform.setLocalPosition(pos);
 					node2DSelected->transform.setLocalScale(scale);
 					node2DSelected->transform.setLocalAngle(angle);
+				}
+
+				if (nodeSelected->getType() == "NodeUI" || 
+					nodeSelected->getType() == "Button") {
+					NodeUI* nodeUISelected = dynamic_cast<NodeUI*>(nodeSelected);
+
+					glm::vec2 pos = nodeUISelected->rectTransform.getPosition();
+					glm::vec2 size = nodeUISelected->rectTransform.getSize();
+
+					ImGui::PushItemWidth(150);
+					ImGui::InputFloat("Pos X", &pos.x);
+					ImGui::SameLine();
+					ImGui::InputFloat("Pos Y", &pos.y);
+					ImGui::InputFloat("Size X", &size.x);
+					ImGui::SameLine();
+					ImGui::InputFloat("Size Y", &size.y);
+
+					nodeUISelected->rectTransform.setPosition(pos);
+					nodeUISelected->rectTransform.setSize(size);
+
+					if (nodeSelected->getType() == "Button") {
+						me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodeSelected);
+
+						ImGui::ColorPicker4("ColorNormal", glm::value_ptr(buttonSelected->colorNormal));
+						ImGui::SameLine();
+						ImGui::ColorPicker4("ColorHighlight", glm::value_ptr(buttonSelected->colorClicked));
+						ImGui::SameLine();
+						ImGui::ColorPicker4("ColorClicked", glm::value_ptr(buttonSelected->colorHightlight));
+						ImGui::SameLine();
+						ImGui::ColorPicker4("ColorDisabled", glm::value_ptr(buttonSelected->colorDisabled));
+						buttonSelected->setSize(size);
+					}
+
+
 				}
 
 

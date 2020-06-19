@@ -22,6 +22,7 @@ namespace me {
 		
 		Text::Text()
 		{
+			_type = "Text";
 			if (!_isInit) {
 				_shader = AssetManager::get<Shader>("assets/shaders/vs_uisprite.bin");
 				me::data::PositionColorUVVertex::init();

@@ -187,6 +187,8 @@ int main(int argc, char** argv) {
 		//lb::imgui::init(dialogueWriter);
 		//dialogueWriter->setTextBox(textTest);
 		me::WorldManager::loadWorld();
+		me::WorldManager::getWorld()->create<me::ui::Button>();
+		me::WorldManager::getWorld()->create<NodeUI>();
 
 
 		while (!Context::getShouldClose())
@@ -220,8 +222,16 @@ int main(int argc, char** argv) {
 			const std::vector<Node*> nodes = world->getNodes();
 			for (size_t i = 0; i < nodes.size(); i++)
 			{
-				Node2D* node2DSelected = dynamic_cast<Node2D*>(nodes[i]);
-				Debug::DrawTransform(&node2DSelected->transform);
+				if (nodes[i]->getType() == "Node2D") {
+					Node2D* node2DSelected = dynamic_cast<Node2D*>(nodes[i]);
+					Debug::DrawTransform(&node2DSelected->transform);
+				}
+				if (nodes[i]->getType() == "Button") {
+					me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodes[i]);
+					buttonSelected->sendMouseInfo(Input::getMousePos(), Input::getMouseKeyUp(1));
+					
+				}
+
 			}
 
 
