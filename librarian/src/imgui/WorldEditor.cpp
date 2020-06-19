@@ -1,6 +1,7 @@
 #include "WorldEditor.h"
 
 #include <vector>
+#include <string>
 
 #include <dear-imgui/imgui.h>
 #include <Engine/thirdparty/imgui/imgui_stdlib.h>
@@ -15,12 +16,17 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Engine/Utilities/Debug.h"
+#include "Engine/Utilities/ObjectFactory.h"
 
 
 namespace lb {
 	namespace imgui {
 		static bool windowOpen = false;
 		static unsigned int selected = 0;
+
+		static const char* current_node_selected = "Node2D";
+		const char* nodeTypes[] = { "Node2D", "NodeUI", "Button" };
+		const size_t nodeTypesCount = 3;
 
 		void showWorldEditor()
 		{
@@ -40,9 +46,28 @@ namespace lb {
 			ImGui::Text("World");
 
 			World* world = me::WorldManager::getWorld();
+			
+			
+
+			if (ImGui::BeginCombo("###node_selection", current_node_selected)) {
+
+				for (size_t i = 0; i < nodeTypesCount; i++)
+				{
+					bool is_selected = (current_node_selected == nodeTypes[i]);
+					if (ImGui::Selectable(nodeTypes[i], is_selected)) {
+						current_node_selected = nodeTypes[i];
+					}
+					if (is_selected) {
+						ImGui::SetItemDefaultFocus();
+					}
+
+				}
+				ImGui::EndCombo();
+			}
+
 
 			if (ImGui::Button("+", { 25,25 })) {
-				world->create<Node2D>();
+				world->create(current_node_selected);
 			}
 			
 			const std::vector<Node*> nodes = world->getNodes();
@@ -89,6 +114,9 @@ namespace lb {
 
 				if (nodeSelected->getType() == "NodeUI" || 
 					nodeSelected->getType() == "Button") {
+
+					static glm::vec2 lastSize;
+					static glm::vec2 lastPos;
 					NodeUI* nodeUISelected = dynamic_cast<NodeUI*>(nodeSelected);
 
 					glm::vec2 pos = nodeUISelected->rectTransform.getPosition();
@@ -105,18 +133,26 @@ namespace lb {
 					nodeUISelected->rectTransform.setPosition(pos);
 					nodeUISelected->rectTransform.setSize(size);
 
+					
+
 					if (nodeSelected->getType() == "Button") {
 						me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodeSelected);
 
 						ImGui::ColorPicker4("ColorNormal", glm::value_ptr(buttonSelected->colorNormal));
 						ImGui::SameLine();
-						ImGui::ColorPicker4("ColorHighlight", glm::value_ptr(buttonSelected->colorClicked));
+						ImGui::ColorPicker4("ColorHighlight", glm::value_ptr(buttonSelected->colorHightlight));
 						ImGui::SameLine();
-						ImGui::ColorPicker4("ColorClicked", glm::value_ptr(buttonSelected->colorHightlight));
+						ImGui::ColorPicker4("ColorClicked", glm::value_ptr(buttonSelected->colorClicked));
 						ImGui::SameLine();
 						ImGui::ColorPicker4("ColorDisabled", glm::value_ptr(buttonSelected->colorDisabled));
-						buttonSelected->setSize(size);
+
+						if (lastSize != size || lastPos != pos) {
+							buttonSelected->setSize(size);
+						}
 					}
+
+					lastSize = size;
+					lastPos = pos;
 
 
 				}

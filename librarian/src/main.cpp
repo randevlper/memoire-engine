@@ -228,7 +228,7 @@ int main(int argc, char** argv) {
 				}
 				if (nodes[i]->getType() == "Button") {
 					me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodes[i]);
-					buttonSelected->sendMouseInfo(Input::getMousePos(), Input::getMouseKeyUp(1));
+					buttonSelected->sendMouseInfo(Input::getMousePos(), Input::getMouseKeyDown(1));
 					
 				}
 

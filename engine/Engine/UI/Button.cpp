@@ -37,10 +37,10 @@ namespace me {
 
 			setSize({ 10,10 });
 
-			colorNormal = { 255,0,0, 255 };
-			colorHightlight = { 0,255,0,255 };
-			colorClicked = { 0,0,255,255 };
-			colorDisabled = { 100,100,100,255 };
+			colorNormal = { 1,0,0, 1 };
+			colorHightlight = { 0,1,0,1 };
+			colorClicked = { 0,0,1,1 };
+			colorDisabled = { 1,1,1,1};
 		}
 
 		Button::~Button()
