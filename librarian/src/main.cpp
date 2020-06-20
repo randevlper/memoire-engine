@@ -99,21 +99,6 @@ int main(int argc, char** argv) {
 		AssetManager::init();
 		AssetManager::initLoader<lb::DialogueLoader>();
 
-
-		//World* world = DBG_NEW World();
-
-		//AssetManager::load("assets/fonts/cmunrm.ttf", "32");
-		//Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
-		//AssetManager::load("assets/audio/ohno.mp3", "");
-		//AudioClip* audioTest = AssetManager::get<AudioClip>("assets/audio/ohno.mp3");
-		//AssetManager::load("assets/ui/box.png", "");
-
-
-		//TextRenderer* textRenderer = world->create <TextRenderer>();
-		//textRenderer->setFont(fontTest);
-		//textRenderer->transform.setLocalPosition({ -200,0 });
-		//textRenderer->transform.setLocalScale({ 1,1 });
-		//textRenderer->setText("OHAYO U U U \nUUU!!!!! A\nThis is a test of the texts\n lol	Test");
 		/*audioSource = world->create<AudioSource>();
 		audioSource->setAudioClip(audioTest);
 
@@ -142,55 +127,11 @@ int main(int argc, char** argv) {
 		Want a UI editor but no need for the two scenes
 		*/
 
-		//{
-		//	World* jTest = DBG_NEW World();
-		//	jTest->create<Node>();
-		//	jTest->create<Node2D>();
-		//	jTest->create<NodeUI>();
-		//	me::ui::Text* tt = jTest->create<me::ui::Text>();
-		//	tt->setFont(fontTest);
-		//	tt->rectTransform.setPosition({ 100,100 });
-		//	tt->setName("Text");
-		//	tt->setText("I am test text to take you out.");
-		//	me::ui::Button* tb = jTest->create<me::ui::Button>();
-		//	tb->rectTransform.setPosition({ 500,500 });
-		//	tb->setSize({ 30, 30 });
-		//	FileUtility::writeStringFile(nullptr, "worldTest.json", jTest->to_json().dump(4));
-		//	delete(jTest);
-		//}
-		//std::ifstream worldFile("worldTest.json");
-		//json worldJson;
-		//worldFile >> worldJson;
-		//worldFile.close();
-		//World* jTest = DBG_NEW World();
-		//jTest->from_json(worldJson);
-		
-
-		//Scenes Title Screen/Game
-		/*
-		Title Screen
-		Start
-		Continue - Store the current state of the game
-		Quit
-		*/
-		//lb::DialogueWriter* dialogueWriter = DBG_NEW lb::DialogueWriter();
-		//lb::imgui::init(dialogueWriter);
-		//dialogueWriter->setTextBox(textTest);
 		me::WorldManager::loadWorld();
-
-		//World* world = me::WorldManager::getWorld();
-		//me::ui::Text* textTest = world->create<me::ui::Text>();
-		//textTest->rectTransform.setSize({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f });
-		//textTest->setText(
-		//	"Anemone: A fist through the chest does not help someone breathe.\nAys: If they have no lungs they dont need to.\nSte: I wish i was a cat\n");
 
 		while (!Context::getShouldClose())
 		{
 			Context::tick();
-			//glm::vec2 mousePos = Input::getMousePos();
-			//glm::vec2 worldMousePos = cam->screenToWorld(mousePos);
-
-			//Text editor window
 
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE) && !me::imgui::isAnyWindowFocused()) {
 				//Progress Text	
@@ -198,13 +139,6 @@ int main(int argc, char** argv) {
 			}
 
 			me::WorldManager::tick();
-
-			me::WorldManager::render();
-
-			//buttonTest->sendMouseInfo(mousePos, Input::getMouseKey(SDL_BUTTON_LEFT));
-
-			//world->render();
-			//jTest->render();
 
 			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
 			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", Input::getMouseWheel().x, Input::getMouseWheel().y);
@@ -226,6 +160,8 @@ int main(int argc, char** argv) {
 				}
 
 			}
+
+			me::WorldManager::render();
 
 			me::imgui::beginFrame();
 			lb::imgui::dialogueEditor::showEditor(nullptr);
