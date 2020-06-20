@@ -123,13 +123,8 @@ int main(int argc, char** argv) {
 		buttonTest->rectTransform.setPosition({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f - 50 });
 		buttonTest->setSize({ Context::getWindowWidth() * 0.2f, 50 });
 		buttonTest->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
+		*/
 
-
-		textTest = world->create<me::ui::Text>();
-		textTest->rectTransform.setSize({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f });
-		textTest->setFont(fontTest);
-		textTest->setText(
-			"Anemone: A fist through the chest does not help someone breathe.\nAys: If they have no lungs they dont need to.\nSte: I wish i was a cat\n");*/
 		//Callbacks for changing rect properties?
 
 		//UI button - Sprites
@@ -182,6 +177,12 @@ int main(int argc, char** argv) {
 		//lb::imgui::init(dialogueWriter);
 		//dialogueWriter->setTextBox(textTest);
 		me::WorldManager::loadWorld();
+
+		//World* world = me::WorldManager::getWorld();
+		//me::ui::Text* textTest = world->create<me::ui::Text>();
+		//textTest->rectTransform.setSize({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f });
+		//textTest->setText(
+		//	"Anemone: A fist through the chest does not help someone breathe.\nAys: If they have no lungs they dont need to.\nSte: I wish i was a cat\n");
 
 		while (!Context::getShouldClose())
 		{

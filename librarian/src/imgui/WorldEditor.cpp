@@ -36,8 +36,8 @@ namespace lb {
 			static int selected = 0;
 
 			static const char* current_node_selected = "Node2D";
-			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera" };
-			const size_t nodeTypesCount = 4;
+			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera", "Text" };
+			const size_t nodeTypesCount = 5;
 
 			void load() {
 				me::WorldManager::loadWorld("assets/worlds/test.world");
@@ -174,7 +174,8 @@ namespace lb {
 					}
 
 					if (nodeSelected->getType() == "NodeUI" ||
-						nodeSelected->getType() == "Button") {
+						nodeSelected->getType() == "Button" || 
+						nodeSelected->getType() == "Text") {
 
 						static glm::vec2 lastSize;
 						static glm::vec2 lastPos;
@@ -211,9 +212,32 @@ namespace lb {
 							ImGui::SameLine();
 							ImGui::ColorPicker4("ColorDisabled", glm::value_ptr(buttonSelected->colorDisabled));
 
+							//Sprite
+
 							if (lastSize != size || lastPos != pos) {
 								buttonSelected->setSize(size);
 							}
+						}
+
+						if (nodeSelected->getType() == "Text") {
+							me::ui::Text* textSelected = dynamic_cast<me::ui::Text*>(nodeSelected);
+							static std::string lastText;
+
+							std::string text = textSelected->getText();
+							glm::vec4 color = textSelected->getColor();
+
+							//Text
+							ImGui::InputTextMultiline("TextText", &text, { 300,200 });
+							//Font
+
+							//Color
+							ImGui::ColorPicker4("ColorNormal", glm::value_ptr(color));
+
+							if (lastText != text || lastSize != size) {
+								textSelected->setText(text);
+							}
+							textSelected->setColor(color);
+							lastText = text;
 						}
 
 						lastSize = size;

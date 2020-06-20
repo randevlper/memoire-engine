@@ -37,7 +37,7 @@ namespace me {
 					sizeof(me::data::PositionColorUVVertex::indices)));
 			_u_sprite = me::data::getSpriteUniform();
 			_u_color = me::data::getColorUniform();
-			_font = nullptr;
+			_font = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
 			_text = "";
 
 			setColor({ 255,255,255,255 });
@@ -52,7 +52,7 @@ namespace me {
 
 		void Text::setColor(glm::vec4 value)
 		{
-			_color = (value / 255.0f);
+			_color = value;
 		}
 
 		void Text::setPercentRender(float value)

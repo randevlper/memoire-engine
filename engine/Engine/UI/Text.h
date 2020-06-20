@@ -20,8 +20,11 @@ namespace me {
 			~Text() override;
 
 			
-			//Expected 0 - 255
+			//Expected 0 - 1
 			void setColor(glm::vec4 value);
+			glm::vec4 getColor() {
+				return _color;
+			}
 
 			//value from 0.0 - 1.0
 			void setPercentRender(float value);
@@ -29,7 +32,11 @@ namespace me {
 			//Does not support rotation
 			void render() override;
 			void setFont(Font* font);
+
 			void setText(std::string value);
+			std::string getText() {
+				return _text;
+			}
 
 			nlohmann::json to_json() override;
 			void from_json(const nlohmann::json& j) override;
