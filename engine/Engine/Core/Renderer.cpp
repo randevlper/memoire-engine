@@ -133,6 +133,11 @@ void Renderer::setCamera(Camera* cam)
 	_camera = cam;
 }
 
+Camera* Renderer::getCamera()
+{
+	return _camera;
+}
+
 void Renderer::render()
 {
 	//bgfx::update(lineVerts, 0, bgfx::makeRef( verts.data(), verts.size() * sizeof(LineVertex)));
@@ -148,7 +153,9 @@ void Renderer::render()
 	if (_camera == nullptr) {
 		Debug::Log("[Renderer] Camera has not been set!");
 	}
-	bgfx::setViewTransform(0, _camera->getViewMatrix(), _camera->getProjectionMatrix());
+	else {
+		bgfx::setViewTransform(0, _camera->getViewMatrix(), _camera->getProjectionMatrix());
+	}
 	//bx:mtxOrtho(proj, -size * aspectRatio, size * aspectRatio, -size, size)
 
 	//SDL_Log("FPS: %f", _frameCount / ( _fpsTimer.getTicks() / 1000.f));

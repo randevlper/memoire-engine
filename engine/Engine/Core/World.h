@@ -26,7 +26,7 @@ public:
 	template<class nodeclass>
 	nodeclass* create();
 
-	void create(std::string nodeType);
+	Node* create(std::string nodeType);
 
 	//Delete a node by refrence
 	//bool destroy(Node* node);

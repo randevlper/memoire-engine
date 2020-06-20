@@ -6,6 +6,7 @@
 #include "Engine/UI/Button.h"
 
 #include "Engine/Nodes/Node2D.h"
+#include "Engine/Nodes/Camera.h"
 
 namespace me {
 	namespace util {
@@ -16,6 +17,9 @@ namespace me {
 			nodeMap["Node"] = createInstance<Node>;
 			nodeMap["Node2D"] = createInstance<Node2D>;
 			nodeMap["NodeUI"] = createInstance<NodeUI>;
+
+			//Node2D
+			nodeMap["Camera"] = createInstance<Camera>;
 
 			//UI
 			nodeMap["Text"] = createInstance<me::ui::Text>;
@@ -30,6 +34,7 @@ namespace me {
 		{
 			nodeMapType::iterator it = nodeMap.find(s);
 			if (it == nodeMap.end()) {
+				throw s + "Does not exist in ObjectFactory nodeMap!";
 				return nullptr;
 			}
 			return it->second();

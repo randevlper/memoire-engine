@@ -24,6 +24,8 @@ using json = nlohmann::json;
 
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Utilities/ObjectFactory.h"
+#include "Engine/Core/Renderer.h"
+#include "Engine/Nodes/Camera.h"
 
 
 
@@ -34,8 +36,8 @@ namespace lb {
 			static unsigned int selected = 0;
 
 			static const char* current_node_selected = "Node2D";
-			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button" };
-			const size_t nodeTypesCount = 3;
+			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera" };
+			const size_t nodeTypesCount = 4;
 
 			void load() {
 				me::WorldManager::loadWorld("assets/worlds/test.world");
@@ -95,7 +97,14 @@ namespace lb {
 
 				ImGui::SameLine();
 				if (ImGui::Button("+", { 25,25 })) {
-					world->create(current_node_selected);
+					Node* newNode = world->create(current_node_selected);
+
+					if (strcmp("Camera", current_node_selected) == 0) {
+						Camera* camera = dynamic_cast<Camera*>(newNode);
+						if (Renderer::getCamera() == nullptr) {
+							Renderer::setCamera(camera);
+						}
+					}
 				}
 
 				const std::vector<Node*> nodes = world->getNodes();
@@ -126,7 +135,8 @@ namespace lb {
 					ImGui::Text(nodeSelected->getType().c_str());
 
 
-					if (nodeSelected->getType() == "Node2D") {
+					if (nodeSelected->getType() == "Node2D" || 
+						nodeSelected->getType() == "Camera") {
 						Node2D* node2DSelected = dynamic_cast<Node2D*>(nodeSelected);
 
 						//Would be more performant to have the editor access the memory directly but this way its using the same interface as the User

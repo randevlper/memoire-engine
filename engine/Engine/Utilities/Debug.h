@@ -6,6 +6,7 @@ class Debug
 {
 public:
 	static void Log(std::string value);
+	static void LogError(std::string value);
 	static void DrawTransform(Transform* t);
 private:
 

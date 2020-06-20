@@ -41,6 +41,7 @@ public:
 	static void renderAseSprite(int x, int y, AseSprite* ase);
 
 	static void setCamera(Camera* cam);
+	static Camera* getCamera();
 
 	static void render();
 

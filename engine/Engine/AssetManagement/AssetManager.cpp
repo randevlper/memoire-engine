@@ -11,25 +11,32 @@
 #include "JSONLoader.h"
 
 
-
-
 std::unordered_map<std::string, AssetLoader*> AssetManager::_loaders = std::unordered_map<std::string, AssetLoader*>();
 std::unordered_map<std::string, Asset*> AssetManager::_assets = std::unordered_map<std::string, Asset*>();
 bool AssetManager::isInit = false;
+bool AssetManager::supressNotLoadedWarning = false;
 
 void AssetManager::load(std::string path, std::string vars)
 {
 	if (!isInit) {
-		Debug::Log("AssetManager: Is not init!");
+		Debug::LogError("[AssetManager] Is not init!");
 		return;
 	}
 
+	supressNotLoadedWarning = true;
+	if (get<Asset>(path) != nullptr) {
+		Debug::Log("[AssetManager] " + path + " Is already loaded!");
+		supressNotLoadedWarning = false;
+		return;
+	}
+	supressNotLoadedWarning = false;
+
 	std::filesystem::path p = std::filesystem::path(path);
 	if (std::filesystem::exists(path)) {
-		Debug::Log("AssetManager: Exists: " + path);
+		//Debug::Log("[AssetManager] Exists: " + path);
 		std::unordered_map<std::string, AssetLoader*>::iterator it = _loaders.find(p.extension().string());
 		if (it == _loaders.end()) {
-			Debug::Log("AssetManager: Loader not found for " + p.extension().string());
+			Debug::LogError("[AssetManager] Loader not found for " + p.extension().string());
 		}
 		else {
 			//TODO Add to assets
@@ -38,15 +45,15 @@ void AssetManager::load(std::string path, std::string vars)
 			asset->parems = vars;
 			if (asset != nullptr) {
 				_assets.insert(std::pair<std::string, Asset*>(path, asset));
-				Debug::Log("AssetManager: Loaded asset at " + path);
+				Debug::Log("[AssetManager] Loaded asset at " + path);
 			}
 			else {
-				Debug::Log("AssetManager: Failed to load asset at " + path);
+				Debug::LogError("[AssetManager] FAILED to load asset at " + path);
 			}
 		}
 	}
 	else {
-		Debug::Log("AssetManager: Does Not Exist: " + path);
+		Debug::Log("[AssetManager] Does Not Exist: " + path);
 	}
 	
 }
@@ -79,12 +86,12 @@ void AssetManager::destroy() {
 	//	delete(element.second);
 	//}
 	if (!isInit) {
-		Debug::Log("AssetManager: Is not init!");
+		Debug::LogError("[AssetManager] Is not init!");
 	}
 
 	for (auto const& [key, val] : _assets)
 	{
-		Debug::Log("AssetManager: Destroying: " + key);
+		Debug::Log("[AssetManager] Destroying: " + key);
 		//val->destroy();
 		delete(val);
 	}

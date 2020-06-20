@@ -32,6 +32,7 @@ private:
 	static std::unordered_map<std::string, AssetLoader*> _loaders;
 
 	static bool isInit;
+	static bool supressNotLoadedWarning;
 };
 
 template<class T>
@@ -48,14 +49,16 @@ inline T* AssetManager::get(std::string name)
 {
 	static_assert(std::is_base_of<Asset, T>::value, "T not derived from Asset");
 	if (!isInit) {
-		Debug::Log("AssetManager: Is not init!");
+		Debug::LogError("[AssetManager] Is not init!");
 		return nullptr;
 	}
 
 	std::unordered_map<std::string, Asset*>::iterator it = _assets.find(name);
 	if (it == _assets.end())
 	{
-		Debug::Log(" AssetManager: " + name + " is not loaded!");
+		if(!supressNotLoadedWarning){
+			Debug::LogError(" AssetManager: " + name + " is not loaded!");
+		}
 		return nullptr;
 	}
 	
@@ -64,7 +67,7 @@ inline T* AssetManager::get(std::string name)
 		return retval;
 	}
 	
-	Debug::Log("AssetManager: Cast failed!");
+	Debug::LogError("AssetManager: Cast failed!");
 	return nullptr;
 }
 

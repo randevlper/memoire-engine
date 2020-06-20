@@ -102,16 +102,11 @@ int main(int argc, char** argv) {
 
 		//World* world = DBG_NEW World();
 
-
-		//Renderer should make a default camera?
-		Camera* cam = DBG_NEW Camera();
-		Renderer::setCamera(cam);
-
-		AssetManager::load("assets/fonts/cmunrm.ttf", "32");
-		Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
-		AssetManager::load("assets/audio/ohno.mp3", "");
-		AudioClip* audioTest = AssetManager::get<AudioClip>("assets/audio/ohno.mp3");
-		AssetManager::load("assets/ui/box.png", "");
+		//AssetManager::load("assets/fonts/cmunrm.ttf", "32");
+		//Font* fontTest = AssetManager::get<Font>("assets/fonts/cmunrm.ttf");
+		//AssetManager::load("assets/audio/ohno.mp3", "");
+		//AudioClip* audioTest = AssetManager::get<AudioClip>("assets/audio/ohno.mp3");
+		//AssetManager::load("assets/ui/box.png", "");
 
 
 		//TextRenderer* textRenderer = world->create <TextRenderer>();
@@ -191,8 +186,8 @@ int main(int argc, char** argv) {
 		while (!Context::getShouldClose())
 		{
 			Context::tick();
-			glm::vec2 mousePos = Input::getMousePos();
-			glm::vec2 worldMousePos = cam->screenToWorld(mousePos);
+			//glm::vec2 mousePos = Input::getMousePos();
+			//glm::vec2 worldMousePos = cam->screenToWorld(mousePos);
 
 			//Text editor window
 
@@ -239,7 +234,6 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
-		delete(cam);
 		me::WorldManager::unLoadWorld();
 		TextRenderer::destroy();
 		SpriteRenderer::destroy();

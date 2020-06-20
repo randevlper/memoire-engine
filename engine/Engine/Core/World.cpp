@@ -37,11 +37,18 @@ void World::render()
 	}
 }
 
-void World::create(std::string nodeType)
+Node* World::create(std::string nodeType)
 {
-	Node* node = me::util::ObjectFactory::createObject(nodeType);
-	node->setName(nodeType + std::to_string(_nodes.size()));
-	_nodes.push_back(node);
+	Node* node = nullptr;
+	node = me::util::ObjectFactory::createObject(nodeType);
+	if (node != nullptr) {
+		node->setName(nodeType + std::to_string(_nodes.size()));
+		_nodes.push_back(node);
+		return node;
+	}
+	else {
+		return nullptr;
+	}
 }
 
 nlohmann::json World::to_json()

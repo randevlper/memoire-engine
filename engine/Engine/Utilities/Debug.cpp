@@ -15,6 +15,13 @@ void Debug::Log(std::string value)
 	std::cout << "[" << SDL_GetTicks() << "] " << value << std::endl;
 }
 
+void Debug::LogError(std::string value)
+{
+	Log("[Error]" + value);
+}
+
+
+
 void Debug::DrawTransform(Transform* t)
 {
 	float length = 5;
