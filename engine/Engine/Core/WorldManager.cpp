@@ -30,6 +30,16 @@ namespace me {
 			unLoadWorld();
 			_currentWorld = DBG_NEW World();
 			_currentWorld->from_json(file);
+
+			for each (Node* node in _currentWorld->getNodes())
+			{
+				if (node->getType() == "Camera") {
+					Camera* cam = dynamic_cast<Camera*>(node);
+					Renderer::setCamera(cam);
+					break;
+				}
+			}
+
 		} else{
 			Debug::LogError("[World] World does not exist! " + path);
 		}

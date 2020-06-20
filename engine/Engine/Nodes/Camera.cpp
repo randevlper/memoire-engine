@@ -57,3 +57,10 @@ glm::vec2 Camera::screenToWorld(glm::vec2 pos)
 	glm::vec3 worldCord = glm::unProject(glm::vec3(x, y, 0), glm::mat4(1.0f), proj, viewport);
 	return { worldCord.x, worldCord.y};
 }
+
+nlohmann::json Camera::to_json()
+{
+	nlohmann::json retval = Node2D::to_json();
+	retval["type"] = _type;
+	return retval;
+}

@@ -4,6 +4,8 @@
 #include "Engine/Utilities/DebugMemory.h"
 #include "Engine/Utilities/ObjectFactory.h"
 #include "Engine/Utilities/Debug.h"
+#include "Engine/Core/Renderer.h"
+#include "Engine/Nodes/Camera.h"
 
 World::World()
 {
@@ -49,6 +51,42 @@ Node* World::create(std::string nodeType)
 	else {
 		return nullptr;
 	}
+}
+
+bool World::eraseNode(Node* node, int index)
+{
+	if (Renderer::getCamera() != nullptr) {
+		if (node->getName() == Renderer::getCamera()->getName()) {
+
+			Renderer::setCamera(nullptr);
+		}
+	}
+
+	delete(node);
+	_nodes.erase(_nodes.begin() + index);
+	return true;
+}
+
+bool World::destroy(std::string name)
+{
+	for (size_t i = 0; i < _nodes.size(); i++)
+	{
+		if (_nodes[i]->getName() == name) {
+			return eraseNode(_nodes[i], i);;
+		}
+	}
+	return false;
+}
+
+bool World::destroy(Node* node)
+{
+	for (size_t i = 0; i < _nodes.size(); i++)
+	{
+		if (node == _nodes[i]) {
+			return eraseNode(_nodes[i], i);
+		}
+	}
+	return false;
 }
 
 nlohmann::json World::to_json()

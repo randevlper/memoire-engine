@@ -13,6 +13,8 @@ public:
 	glm::mat4* getViewMatrix();
 	glm::vec2 screenToWorld(glm::vec2 pos);
 
+	nlohmann::json to_json() override;
+
 private:
 	glm::mat4 _proj;
 	glm::mat4 _view;

@@ -33,7 +33,7 @@ namespace lb {
 	namespace imgui {
 		namespace worldEditor {
 			static bool windowOpen = false;
-			static unsigned int selected = 0;
+			static int selected = 0;
 
 			static const char* current_node_selected = "Node2D";
 			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera" };
@@ -76,8 +76,8 @@ namespace lb {
 				
 
 				ImGui::Text("World");
-
 				World* world = me::WorldManager::getWorld();
+				ImGui::PushItemWidth(150);
 
 				if (ImGui::BeginCombo("###node_selection", current_node_selected)) {
 
@@ -107,7 +107,19 @@ namespace lb {
 					}
 				}
 
-				const std::vector<Node*> nodes = world->getNodes();
+				std::vector<Node*> nodes = world->getNodes();
+
+				if (ImGui::Button("-", { 25,25 })) {
+					if (nodes.size() > 0) {
+						world->destroy(nodes[selected]);
+						selected--;
+						if (selected < 0) {
+							selected = 0;
+						}
+						nodes = world->getNodes();
+					}
+				}
+
 
 				ImGui::BeginChild("Node View", { 200, 0 }, true);
 				for (size_t i = 0; i < nodes.size(); i++) {
@@ -129,7 +141,6 @@ namespace lb {
 				if (nodes.size() > 0) {
 					Node* nodeSelected = nodes[selected];
 					std::string nodeName = nodeSelected->getName();
-					ImGui::PushItemWidth(150);
 					ImGui::InputText("node_name", &nodeName, ImGuiInputTextFlags_CharsNoBlank);
 					//ImGui::InputInt("node_x",)
 					ImGui::Text(nodeSelected->getType().c_str());

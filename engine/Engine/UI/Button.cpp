@@ -45,7 +45,9 @@ namespace me {
 
 		Button::~Button()
 		{
+			Debug::Log("Goodbye button!");
 			bgfx::destroy(_u_color);
+			bgfx::destroy(_u_sprite);
 			bgfx::destroy(_vbh);
 			bgfx::destroy(_ibh);
 		}
