@@ -8,7 +8,7 @@
 
 Camera::Camera()
 {
-
+	_type = "Camera";
 }
 
 Camera::~Camera()

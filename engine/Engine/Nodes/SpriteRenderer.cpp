@@ -15,6 +15,7 @@ Shader* SpriteRenderer::shader = nullptr;
 bool SpriteRenderer::init = false;
 SpriteRenderer::SpriteRenderer()
 {
+	_type = "SpriteRenderer";
 	if (!init) {
 		me::data::PositionColorUVVertex::init();
 		shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");

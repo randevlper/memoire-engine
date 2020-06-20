@@ -93,8 +93,7 @@ namespace me {
 			}
 		}
 
-		//UI should not be changing size often
-		//This will need to be changed for UI animation
+		//This should just be a plane that gets modifyed by shader
 
 		//Takes size in screen pixels
 		void Button::setSize(glm::vec2 size)

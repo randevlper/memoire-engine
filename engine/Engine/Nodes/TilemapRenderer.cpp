@@ -17,6 +17,7 @@ bool TilemapRenderer::init = false;
 
 TilemapRenderer::TilemapRenderer()
 {
+	_type = "TilemapRenderer";
 	if (!init) {
 		me::data::PositionColorUVVertex::init();
 		_shader = AssetManager::get<Shader>("assets/shaders/vs_tile.bin");

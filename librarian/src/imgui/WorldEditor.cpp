@@ -9,6 +9,9 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+#include "SDL_keycode.h"
+#include "Engine/Core/Input.h"
+
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
@@ -108,6 +111,11 @@ namespace lb {
 				ImGui::SameLine();
 				ImGui::BeginGroup();
 
+				glm::vec2 mousePos = {0,0};
+				if (Input::getKey(SDL_SCANCODE_LCTRL)) {
+					mousePos = Input::getMousePos();
+				}
+
 
 				if (nodes.size() > 0) {
 					Node* nodeSelected = nodes[selected];
@@ -125,6 +133,10 @@ namespace lb {
 						glm::vec2 pos = node2DSelected->transform.getLocalPosition();
 						glm::vec2 scale = node2DSelected->transform.getLocalScale();
 						float angle = node2DSelected->transform.getLocalAngle();
+
+						if (mousePos != glm::vec2(0, 0)) {
+							pos = mousePos;
+						}
 
 						ImGui::PushItemWidth(150);
 						ImGui::InputFloat("Pos X", &pos.x);
@@ -149,6 +161,10 @@ namespace lb {
 
 						glm::vec2 pos = nodeUISelected->rectTransform.getPosition();
 						glm::vec2 size = nodeUISelected->rectTransform.getSize();
+
+						if (mousePos != glm::vec2(0,0)) {
+							pos = mousePos;
+						}
 
 						ImGui::PushItemWidth(150);
 						ImGui::InputFloat("Pos X", &pos.x);
@@ -184,7 +200,6 @@ namespace lb {
 
 
 					}
-
 
 					nodeSelected->setName(nodeName);
 				}

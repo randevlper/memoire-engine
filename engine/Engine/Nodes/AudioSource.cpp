@@ -34,6 +34,7 @@ void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uin
 
 AudioSource::AudioSource()
 {
+	_type = "AudioSource";
 	_frame = 0;
 	_clip = nullptr;
 	_decoder = DBG_NEW ma_decoder();

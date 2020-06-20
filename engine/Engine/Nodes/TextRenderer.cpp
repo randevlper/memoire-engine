@@ -22,6 +22,7 @@ void TextRenderer::destroy()
 
 TextRenderer::TextRenderer()
 {
+	_type = "TextRenderer";
 	if (!init) {
 		me::data::PositionColorUVVertex::init();
 		//Replace with text shader
