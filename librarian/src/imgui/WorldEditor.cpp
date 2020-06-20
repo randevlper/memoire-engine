@@ -57,7 +57,19 @@ namespace lb {
 
 				if (!windowOpen) { return; }
 
-				ImGui::Begin("World Editor", &windowOpen);
+				ImGui::Begin("World Editor", &windowOpen, ImGuiWindowFlags_MenuBar);
+				if (ImGui::BeginMenuBar()) {
+					if (ImGui::BeginMenu("File###worldEditorFileMenu"))
+					{
+						if (ImGui::MenuItem("Open..", "Ctrl+O")) { load(); }
+						if (ImGui::MenuItem("Save", "Ctrl+S")) { save(); }
+						if (ImGui::MenuItem("Close", "Ctrl+W")) { windowOpen = false; }
+						ImGui::EndMenu();
+					}
+					ImGui::EndMenuBar();
+				}
+				
+
 				ImGui::Text("World");
 
 				World* world = me::WorldManager::getWorld();

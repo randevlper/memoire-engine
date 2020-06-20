@@ -188,6 +188,8 @@ int main(int argc, char** argv) {
 		//dialogueWriter->setTextBox(textTest);
 		me::WorldManager::loadWorld();
 
+		AssetManager::load("assets/fonts/cmunrm.ttf", "32");
+		AssetManager::load("assets/ui/box.png", "");
 
 		while (!Context::getShouldClose())
 		{
@@ -240,6 +242,8 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
+		delete(cam);
+		me::WorldManager::unLoadWorld();
 		TextRenderer::destroy();
 		SpriteRenderer::destroy();
 		FileUtility::destroy();

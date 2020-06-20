@@ -20,16 +20,16 @@ AudioClipLoader::~AudioClipLoader() {
 
 void AudioClipLoader::init()
 {
-	Debug::Log("Unimplemented Loader Init");
+	//Debug::Log("Unimplemented Loader Init");
 }
 
 void AudioClipLoader::destroy()
 {
-	Debug::Log("Unimplemented Loader Destroy");
+	//Debug::Log("Unimplemented Loader Destroy");
 }
 
 Asset* AudioClipLoader::load(std::string path, std::string vars)
 {
-	Debug::Log("AudioClip Loader Load");
+	//Debug::Log("AudioClip Loader Load");
 	return DBG_NEW AudioClip(me::readBinaryFile(path.c_str()));
 }

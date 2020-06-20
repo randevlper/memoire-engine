@@ -3,6 +3,10 @@
 #include "Engine/Utilities/DebugMemory.h"
 #include "Engine/Core/Context.h"
 
+#include "Engine/Core/FileUtility.h"
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 namespace me {
 	World* WorldManager::_currentWorld = nullptr;
@@ -15,7 +19,13 @@ namespace me {
 
 	void WorldManager::loadWorld(std::string path)
 	{
-
+		json file;
+		if (FileUtility::loadJson(path.c_str(), file)) {
+			//Should use Assetmanager hot reload
+			unLoadWorld();
+			_currentWorld = DBG_NEW World();
+			_currentWorld->from_json(file);
+		}
 	}
 
 	void WorldManager::unLoadWorld()
