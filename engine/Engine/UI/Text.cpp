@@ -14,6 +14,8 @@
 #include "Engine/Utilities/TypeConversion.h"
 #include "Engine/Utilities/glmJson.h"
 
+#include "Engine/Data/UniformTypes.h"
+
 namespace me {
 	namespace ui {
 		
@@ -33,8 +35,8 @@ namespace me {
 			_ibh = bgfx::createIndexBuffer(
 				bgfx::makeRef(me::data::PositionColorUVVertex::indices, 
 					sizeof(me::data::PositionColorUVVertex::indices)));
-			_u_sprite = bgfx::createUniform("u_sprite", bgfx::UniformType::Sampler);
-			_u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
+			_u_sprite = me::data::getSpriteUniform();
+			_u_color = me::data::getColorUniform();
 			_font = nullptr;
 			_text = "";
 
@@ -46,8 +48,6 @@ namespace me {
 		{
 			clearVertexBuffers();
 			bgfx::destroy(_ibh);
-			bgfx::destroy(_u_sprite);
-			bgfx::destroy(_u_color);
 		}
 
 		void Text::setColor(glm::vec4 value)
