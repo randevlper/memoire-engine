@@ -10,6 +10,9 @@
 #include "Engine/Core/Context.h"
 #include "Engine/Utilities/TypeConversion.h"
 
+#include "Engine/Data/IndexTypes.h"
+#include "Engine/Data/UniformTypes.h"
+
 namespace me {
 	namespace ui {
 		//Button
@@ -25,9 +28,9 @@ namespace me {
 				_isInit = true;
 			}
 
-			_ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionUVVertex::indices, sizeof(me::data::PositionUVVertex::verts)));
-			_u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
-			_u_sprite = bgfx::createUniform("u_sprite", bgfx::UniformType::Sampler);
+			_ibh = me::data::getPosUVVertIndexBufferHandle();
+			_u_color = me::data::getColorUniform();
+			_u_sprite = me::data::getSpriteUniform();
 
 			_color = { 255,0,0,255 };
 
@@ -46,10 +49,7 @@ namespace me {
 		Button::~Button()
 		{
 			Debug::Log("Goodbye button!");
-			bgfx::destroy(_u_color);
-			bgfx::destroy(_u_sprite);
 			bgfx::destroy(_vbh);
-			bgfx::destroy(_ibh);
 		}
 
 		//Expects rawSDL window position
