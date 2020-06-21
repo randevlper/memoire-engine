@@ -129,7 +129,7 @@ namespace me {
 					//Take a look at this to fix spacing
 
 					Character ch = _font->getCharacter('T');
-					x = 0;
+					x = corners[3].x;
 					y -= (ch.size.y + 10);
 				}
 				else {
