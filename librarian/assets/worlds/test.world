@@ -78,6 +78,51 @@
             },
             "text": "Hello yes this is me what \\n can i do for you?\nTest this line as well",
             "type": "Text"
+        },
+        {
+            "colorClicked": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ],
+            "colorDisabled": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "colorHightlight": [
+                0.0,
+                1.0,
+                0.0,
+                1.0
+            ],
+            "colorNormal": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "name": "Button3",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    10,
+                    10
+                ]
+            },
+            "type": "Button"
         }
     ]
 }

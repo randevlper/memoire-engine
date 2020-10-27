@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <filesystem>
 
 #include <dear-imgui/imgui.h>
 #include <Engine/thirdparty/imgui/imgui_stdlib.h>
@@ -39,9 +40,9 @@ namespace lb {
 			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera", "Text" };
 			const size_t nodeTypesCount = 5;
 
-			void load() {
-				me::WorldManager::loadWorld("assets/worlds/test.world");
-			}
+			static bool isWorldLoadSelectOpen = false;
+
+			static std::string worldPath = "assets/worlds/";
 
 			void save() {
 				FileUtility::writeStringFile("assets/worlds/", "test.world",
@@ -62,11 +63,32 @@ namespace lb {
 
 				if (!windowOpen) { return; }
 
+				if (isWorldLoadSelectOpen) {
+					ImGui::Begin("Load World", &isWorldLoadSelectOpen);
+
+					////List of loadable worlds
+					if (ImGui::BeginChild("###LoadWorldWorlds", { 200, 250 }, true)) {
+						
+						//Should store the entries on opening the window
+						for (const auto& entry : std::filesystem::directory_iterator(worldPath)) {
+							ImGui::Selectable(entry.path().filename().string().c_str(), false);
+						}
+
+						ImGui::EndChild();
+					}
+					
+					//Load button
+					if(ImGui::Button("Load###LoadWorldLoad")){
+
+					}
+					ImGui::End();
+				}
+
 				ImGui::Begin("World Editor", &windowOpen, ImGuiWindowFlags_MenuBar);
 				if (ImGui::BeginMenuBar()) {
 					if (ImGui::BeginMenu("File###worldEditorFileMenu"))
 					{
-						if (ImGui::MenuItem("Open..", "Ctrl+O")) { load(); }
+						if (ImGui::MenuItem("Open..", "Ctrl+O")) { isWorldLoadSelectOpen = true; }
 						if (ImGui::MenuItem("Save", "Ctrl+S")) { save(); }
 						if (ImGui::MenuItem("Close", "Ctrl+W")) { windowOpen = false; }
 						ImGui::EndMenu();

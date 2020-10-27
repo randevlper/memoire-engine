@@ -55,6 +55,10 @@ namespace lb {
 				dialogueWriter = writer;
 			}
 
+			void destroy() {
+				delete(dialogue);
+			}
+
 			void showEditor(me::ui::Text* text)
 			{
 				if (ImGui::BeginMainMenuBar()) {

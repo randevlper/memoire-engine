@@ -171,6 +171,7 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
+		lb::imgui::dialogueEditor::destroy();
 		me::WorldManager::unLoadWorld();
 		TextRenderer::destroy();
 		SpriteRenderer::destroy();

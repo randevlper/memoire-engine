@@ -15,6 +15,7 @@ namespace lb {
 		namespace dialogueEditor {
 			void showEditor(me::ui::Text* text);
 			void init(DialogueWriter* writer);
+			void destroy();
 		}
 	}
 }
