@@ -1,0 +1,19 @@
+{
+    "nodes": [
+        {
+            "name": "node_0",
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "Camera"
+        }
+    ]
+}

@@ -22,7 +22,7 @@ namespace me {
 		Renderer::setCamera(_currentWorld->create<Camera>());
 	}
 
-	void WorldManager::loadWorld(std::string path)
+	bool WorldManager::loadWorld(std::string path)
 	{
 		json file;
 		if (FileUtility::loadJson(path.c_str(), file)) {
@@ -39,9 +39,10 @@ namespace me {
 					break;
 				}
 			}
-
+			return true;
 		} else{
 			Debug::LogError("[World] World does not exist! " + path);
+			return false;
 		}
 
 	}

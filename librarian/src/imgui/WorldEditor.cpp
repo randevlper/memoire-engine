@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <filesystem>
+#include <sstream>
 
 #include <dear-imgui/imgui.h>
 #include <Engine/thirdparty/imgui/imgui_stdlib.h>
@@ -41,13 +42,11 @@ namespace lb {
 			const size_t nodeTypesCount = 5;
 
 			static bool isWorldLoadSelectOpen = false;
+			static std::filesystem::directory_entry worldLoadSelection = std::filesystem::directory_entry();
+
+			static std::string worldName = "untitled";
 
 			static std::string worldPath = "assets/worlds/";
-
-			void save() {
-				FileUtility::writeStringFile("assets/worlds/", "test.world",
-					me::WorldManager::getWorld()->to_json().dump(4));
-			}
 
 			void showEditor()
 			{
@@ -68,18 +67,26 @@ namespace lb {
 
 					////List of loadable worlds
 					if (ImGui::BeginChild("###LoadWorldWorlds", { 200, 250 }, true)) {
-						
 						//Should store the entries on opening the window
 						for (const auto& entry : std::filesystem::directory_iterator(worldPath)) {
-							ImGui::Selectable(entry.path().filename().string().c_str(), false);
+							if (ImGui::Selectable(entry.path().filename().string().c_str(), 
+								worldLoadSelection.path().string().compare(entry.path().string()) == 0)){
+								worldLoadSelection = entry;
+							}
 						}
-
 						ImGui::EndChild();
 					}
 					
 					//Load button
 					if(ImGui::Button("Load###LoadWorldLoad")){
-
+						if (worldLoadSelection.exists()) {
+							//Should check if world has been saved and prompt with asking if it should be saved
+							//ImGui::BeginPopupModal()
+							
+							me::WorldManager::loadWorld(worldLoadSelection.path().string());
+							isWorldLoadSelectOpen = false;
+							worldName = worldLoadSelection.path().stem().string();
+						}
 					}
 					ImGui::End();
 				}
@@ -89,7 +96,13 @@ namespace lb {
 					if (ImGui::BeginMenu("File###worldEditorFileMenu"))
 					{
 						if (ImGui::MenuItem("Open..", "Ctrl+O")) { isWorldLoadSelectOpen = true; }
-						if (ImGui::MenuItem("Save", "Ctrl+S")) { save(); }
+						if (ImGui::MenuItem("Save", "Ctrl+S")) {
+							std::ostringstream fileStringName;
+							fileStringName << worldName;
+							fileStringName << ".world";
+							FileUtility::writeStringFile(worldPath.c_str(), fileStringName.str().c_str(),
+								me::WorldManager::getWorld()->to_json().dump(4));
+						}
 						if (ImGui::MenuItem("Close", "Ctrl+W")) { windowOpen = false; }
 						ImGui::EndMenu();
 					}
@@ -97,7 +110,7 @@ namespace lb {
 				}
 				
 
-				ImGui::Text("World");
+				ImGui::InputText("World Name###WorldName", &worldName);
 				World* world = me::WorldManager::getWorld();
 				ImGui::PushItemWidth(150);
 

@@ -13,7 +13,7 @@ namespace me {
 		static void loadWorld();
 
 		//Loads a world from a JSON world file
-		static void loadWorld(std::string path);
+		static bool loadWorld(std::string path);
 
 		static void unLoadWorld();
 
