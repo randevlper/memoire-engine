@@ -50,6 +50,10 @@ using json = nlohmann::json;
 #include "imgui/WorldEditor.h"
 #include "assetmanagement/DialogueLoader.h"
 
+#include "lua.h"
+//#include "lualib.h"
+#include "lauxlib.h"
+
 //AudioSource* audioSource;
 //me::ui::Text* textTest;
 //
@@ -60,6 +64,12 @@ using json = nlohmann::json;
 
 int main(int argc, char** argv) {
 	{
+		lua_State* L = luaL_newstate();
+		luaL_dostring(L, "x = 69");
+		lua_getglobal(L, "x");
+		lua_Number Lx = lua_tonumber(L, 1);
+		Debug::Log(std::to_string(Lx));
+		lua_close(L);
 
 		json config;
 		{

@@ -28,3 +28,6 @@
 [submodule "thirdparty/json"]
 	path = thirdparty/json
 	url = git@github.com:nlohmann/json.git
+[submodule "thirdparty/lua"]
+	path = thirdparty/lua
+	url = git@github.com:lua/lua.git
