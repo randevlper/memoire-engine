@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.7 FATAL_ERROR)
+include(ExternalProject)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 project(memoire-engine)
 
@@ -51,75 +52,14 @@ target_link_libraries(bgfx_imgui bgfx dear-imgui)
 target_include_directories(bgfx_imgui PUBLIC thirdparty/bgfx.cmake/bgfx/examples)
 
 #Add Lua
-set (LUA_RUNTIME_SOURCES
-"thirdparty/lua/lapi.c"
-"thirdparty/lua/lapi.h"
-"thirdparty/lua/lauxlib.c"
-"thirdparty/lua/lauxlib.h"
-"thirdparty/lua/lbaselib.c"
-#"thirdparty/lua/lbitlib.c"
-"thirdparty/lua/lcode.c"
-"thirdparty/lua/lcode.h"
-"thirdparty/lua/lcorolib.c"
-"thirdparty/lua/lctype.c"
-"thirdparty/lua/lctype.h"
-"thirdparty/lua/ldblib.c"
-"thirdparty/lua/ldebug.c"
-"thirdparty/lua/ldebug.h"
-"thirdparty/lua/ldo.c"
-"thirdparty/lua/ldo.h"
-"thirdparty/lua/ldump.c"
-"thirdparty/lua/lfunc.c"
-"thirdparty/lua/lfunc.h"
-"thirdparty/lua/lgc.c"
-"thirdparty/lua/lgc.h"
-"thirdparty/lua/linit.c"
-"thirdparty/lua/liolib.c"
-"thirdparty/lua/ljumptab.h"
-"thirdparty/lua/llex.c"
-"thirdparty/lua/llex.h"
-"thirdparty/lua/llimits.h"
-"thirdparty/lua/lmathlib.c"
-"thirdparty/lua/lmem.c"
-"thirdparty/lua/lmem.h"
-"thirdparty/lua/loadlib.c"
-"thirdparty/lua/lobject.c"
-"thirdparty/lua/lobject.h"
-"thirdparty/lua/lopcodes.c"
-"thirdparty/lua/lopcodes.h"
-"thirdparty/lua/lopnames.h"
-"thirdparty/lua/loslib.c"
-"thirdparty/lua/lparser.c"
-"thirdparty/lua/lparser.h"
-"thirdparty/lua/lprefix.h"
-"thirdparty/lua/lstate.c"
-"thirdparty/lua/lstate.h"
-"thirdparty/lua/lstring.c"
-"thirdparty/lua/lstring.h"
-"thirdparty/lua/lstrlib.c"
-"thirdparty/lua/ltable.c"
-"thirdparty/lua/ltable.h"
-"thirdparty/lua/ltablib.c"
-"thirdparty/lua/ltm.c"
-"thirdparty/lua/ltm.h"
-"thirdparty/lua/lua.c"
-"thirdparty/lua/lua.h"
-#"thirdparty/lua/lua.hpp"
-#"thirdparty/lua/luac.c"
-"thirdparty/lua/luaconf.h"
-"thirdparty/lua/lualib.h"
-"thirdparty/lua/lundump.c"
-"thirdparty/lua/lundump.h"
-"thirdparty/lua/lutf8lib.c"
-"thirdparty/lua/lvm.c"
-"thirdparty/lua/lvm.h"
-"thirdparty/lua/lzio.c"
-"thirdparty/lua/lzio.h"
-#"thirdparty/lua/onelua.c"
+include(FetchContent)
+FetchContent_Declare(
+  LuaLib
+  URL https://www.lua.org/ftp/lua-5.4.1.tar.gz
 )
-add_library(LuaLib ${LUA_RUNTIME_SOURCES})
-target_include_directories ( LuaLib PUBLIC "${PROJECT_SOURCE_DIR}/thirdparty/lua")
-
+file(COPY "${PROJECT_SOURCE_DIR}/thirdparty/lua/CMakeLists.txt" 
+     DESTINATION "${PROJECT_SOURCE_DIR}/build/_deps/lualib-src/")
+add_subdirectory("${PROJECT_SOURCE_DIR}/build/_deps/lualib-src/")
 
 #JSON CPP
 # Typically you don't care so much for a third party library's tests to be

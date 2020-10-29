@@ -50,9 +50,10 @@ using json = nlohmann::json;
 #include "imgui/WorldEditor.h"
 #include "assetmanagement/DialogueLoader.h"
 
-#include "lua.h"
+//#include "lua.h"
 //#include "lualib.h"
-#include "lauxlib.h"
+//#include "lauxlib.h"
+#include "lua.hpp"
 
 //AudioSource* audioSource;
 //me::ui::Text* textTest;
