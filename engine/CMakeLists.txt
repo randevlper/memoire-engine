@@ -57,6 +57,13 @@ source_group("Tools" FILES ${SOURCES_TOOLS})
 source_group("UI" FILES ${SOURCES_UI})
 source_group("Utilities" FILES ${SOURCES_UTILITIES})
 
+if(MSVC)
+	add_compile_options(/MP4)				#Use multiple processors when building
+	#add_compile_options(/W4 /wd4201 /WX)	#Warning level 4, all warnings are errors
+else()
+	#add_compile_options(-W -Wall -Werror) #All Warnings, all warnings are errors
+endif()
+
 
 target_include_directories(engine PUBLIC ${PROJECT_SOURCE_DIR})
 target_link_libraries(engine SDL2-static stb EnTT glm zlibstatic Box2D-cmake freetype miniaudio nlohmann_json::nlohmann_json)

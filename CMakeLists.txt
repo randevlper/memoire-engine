@@ -57,6 +57,7 @@ FetchContent_Declare(
   LuaLib
   URL https://www.lua.org/ftp/lua-5.4.1.tar.gz
 )
+FetchContent_Populate(LuaLib)
 file(COPY "${PROJECT_SOURCE_DIR}/thirdparty/lua/CMakeLists.txt" 
      DESTINATION "${PROJECT_SOURCE_DIR}/build/_deps/lualib-src/")
 add_subdirectory("${PROJECT_SOURCE_DIR}/build/_deps/lualib-src/")

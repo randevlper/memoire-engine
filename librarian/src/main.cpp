@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
 		luaL_dostring(L, "x = 69");
 		lua_getglobal(L, "x");
 		lua_Number Lx = lua_tonumber(L, 1);
-		Debug::Log(std::to_string(Lx));
+		Debug::Log("Lua says: " + std::to_string(Lx));
 		lua_close(L);
 
 		json config;
