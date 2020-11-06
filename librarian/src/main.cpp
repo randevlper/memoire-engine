@@ -33,6 +33,7 @@ using json = nlohmann::json;
 #include "Engine/Nodes/TextRenderer.h"
 #include "Engine/Nodes/Camera.h"
 #include "Engine/Core/Audio.h"
+#include "Engine/Core/LuaManager.h"
 #include "Engine/Nodes/AudioSource.h"
 
 #include "Engine/AssetManagement/JSON.h"
@@ -50,11 +51,6 @@ using json = nlohmann::json;
 #include "imgui/WorldEditor.h"
 #include "assetmanagement/DialogueLoader.h"
 
-//#include "lua.h"
-//#include "lualib.h"
-//#include "lauxlib.h"
-#include "lua.hpp"
-
 //AudioSource* audioSource;
 //me::ui::Text* textTest;
 //
@@ -65,13 +61,6 @@ using json = nlohmann::json;
 
 int main(int argc, char** argv) {
 	{
-		lua_State* L = luaL_newstate();
-		luaL_dostring(L, "x = 69");
-		lua_getglobal(L, "x");
-		lua_Number Lx = lua_tonumber(L, 1);
-		Debug::Log("Lua says: " + std::to_string(Lx));
-		lua_close(L);
-
 		json config;
 		{
 			std::ifstream configFile("config.json");
@@ -139,6 +128,9 @@ int main(int argc, char** argv) {
 		*/
 
 		me::WorldManager::loadWorld();
+
+		LuaManager* L = new LuaManager();
+		L->test();
 
 		while (!Context::getShouldClose())
 		{
