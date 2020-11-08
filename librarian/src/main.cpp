@@ -17,23 +17,23 @@ using json = nlohmann::json;
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Core/Renderer.h"
 #include "Engine/Core/World.h"
+
+#include "Engine/Core/WorldManager.h"
+#include "Engine/Core/Audio.h"
+#include "Engine/Core/LuaManager.h"
+#include "Engine/Core/Input.h"
+
+#include "Engine/Utilities/Debug.h"
 #include "Engine/Utilities/DebugMemory.h"
 
-//#include "Engine/Tools/aseprite.h"
-#include "Engine/Core/Input.h"
-#include "Engine/Data/Transform.h"
-#include "Engine/Utilities/Debug.h"
-
 #include "Engine/AssetManagement/AssetManager.h"
-//Assets should have their own Asset folder for organization
 #include "Engine/AssetManagement/Sprite.h"
 #include "Engine/AssetManagement/Font.h"
 #include "Engine/AssetManagement/AudioClip.h"
+
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "Engine/Nodes/TextRenderer.h"
 #include "Engine/Nodes/Camera.h"
-#include "Engine/Core/Audio.h"
-#include "Engine/Core/LuaManager.h"
 #include "Engine/Nodes/AudioSource.h"
 
 #include "Engine/AssetManagement/JSON.h"
@@ -43,13 +43,11 @@ using json = nlohmann::json;
 
 #include "Engine/Tools/imgui_bgfx.h"
 
-#include "Engine/Core/WorldManager.h"
-
-
+#include "assetmanagement/DialogueLoader.h"
 #include "nodes/DialogueWriter.h"
 #include "imgui/DialogueEditor.h"
 #include "imgui/WorldEditor.h"
-#include "assetmanagement/DialogueLoader.h"
+
 
 //AudioSource* audioSource;
 //me::ui::Text* textTest;
@@ -95,19 +93,10 @@ int main(int argc, char** argv) {
 			return Context::getErrorCode();
 		}
 		me::imgui::create();
-
-		AssetManager::init();
 		AssetManager::initLoader<lb::DialogueLoader>();
 
 		/*audioSource = world->create<AudioSource>();
 		audioSource->setAudioClip(audioTest);
-
-
-		me::ui::Button* buttonTest = world->create<me::ui::Button>();
-		buttonTest->onClick = ohno;
-		buttonTest->rectTransform.setPosition({ Context::getWindowWidth() * 0.8f, Context::getWindowHeight() * 0.25f - 50 });
-		buttonTest->setSize({ Context::getWindowWidth() * 0.2f, 50 });
-		buttonTest->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
 		*/
 
 		//Callbacks for changing rect properties?
@@ -117,19 +106,7 @@ int main(int argc, char** argv) {
 		//UI Textbox - text formatting hell
 		//Audio looping
 
-
-		/*
-		Dialouge
-		cppJSON
-
-		IMGUI Dialouge Editor
-
-		Want a UI editor but no need for the two scenes
-		*/
-		me::WorldManager::loadWorld();
-
-		LuaManager::init();
-		//LuaManager::test();
+		me::WorldManager::loadWorld("assets/worlds/mainmenu");
 
 		while (!Context::getShouldClose())
 		{
@@ -141,10 +118,6 @@ int main(int argc, char** argv) {
 			}
 
 			me::WorldManager::tick();
-
-			//bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
-			//bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", Input::getMouseWheel().x, Input::getMouseWheel().y);
-
 
 			//Debug code to test world editor
 			World* world = me::WorldManager::getWorld();
@@ -173,18 +146,11 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
-		LuaManager::destroy();
 
 		lb::imgui::dialogueEditor::destroy();
-		me::WorldManager::unLoadWorld();
-		TextRenderer::destroy();
-		SpriteRenderer::destroy();
-		FileUtility::destroy();
-		AssetManager::destroy();
 		me::imgui::destroy();
 		Context::quit();
 	}
-	
 
 	_CrtDumpMemoryLeaks();
 	return 0;

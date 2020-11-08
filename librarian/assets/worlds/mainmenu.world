@@ -1,0 +1,144 @@
+{
+    "name": "MainMenu",
+    "nodes": [
+        {
+            "name": "Cam",
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "Camera"
+        },
+        {
+            "color": [
+                255.0,
+                255.0,
+                255.0,
+                255.0
+            ],
+            "font": {
+                "name": "assets/fonts/cmunrm.ttf",
+                "parems": "32"
+            },
+            "name": "Text1",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        130.0,
+                        916.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    2,
+                    10
+                ]
+            },
+            "text": "FRAGMENTS",
+            "type": "Text"
+        },
+        {
+            "colorClicked": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ],
+            "colorDisabled": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "colorHightlight": [
+                0.0,
+                1.0,
+                0.0,
+                1.0
+            ],
+            "colorNormal": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "luaOnClick": "StartButton",
+            "name": "Start",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        188.0,
+                        838.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    100,
+                    20
+                ]
+            },
+            "type": "Button"
+        },
+        {
+            "colorClicked": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ],
+            "colorDisabled": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "colorHightlight": [
+                0.0,
+                1.0,
+                0.0,
+                1.0
+            ],
+            "colorNormal": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "luaOnClick": "QuitButton",
+            "name": "Quit",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        189.0,
+                        802.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    100,
+                    20
+                ]
+            },
+            "type": "Button"
+        }
+    ]
+}

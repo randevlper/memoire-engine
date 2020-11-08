@@ -30,7 +30,7 @@ int printC(lua_State* L) {
 }
 
 int quit(lua_State* L) {
-	Context::quit();
+	Context::setShouldClose(true);
 	return 0;
 }
 

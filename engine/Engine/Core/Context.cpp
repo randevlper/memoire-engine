@@ -10,8 +10,17 @@
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Renderer.h"
 #include "Engine/Core/Audio.h"
+#include "Engine/Core/LuaManager.h"
+#include "Engine/Core/WorldManager.h"
+#include "Engine/Core/FileUtility.h"
+
+#include "Engine/AssetManagement/AssetManager.h"
+
 #include "Engine/Utilities/DebugMemory.h"
 #include "Engine/Utilities/ObjectFactory.h"
+
+#include "Engine/Nodes/SpriteRenderer.h"
+#include "Engine/Nodes/TextRenderer.h"
 
 Context* Context::_instance = nullptr;
 bool Context::_shouldClose = nullptr;
@@ -152,6 +161,9 @@ void Context::init(ContextWindowParems* parems)
 			return;
 		}
 
+		LuaManager::init();
+		AssetManager::init();
+
 		//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 		_shouldClose = false;
 		_errorCode = 0;
@@ -160,6 +172,12 @@ void Context::init(ContextWindowParems* parems)
 
 void Context::quit()
 {
+	me::WorldManager::unLoadWorld();
+	LuaManager::destroy();
+	AssetManager::destroy();
+	TextRenderer::destroy();
+	SpriteRenderer::destroy();
+	FileUtility::destroy();
 	Physics::quit();
 	Input::quit();
 	Renderer::quit();
