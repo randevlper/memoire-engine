@@ -29,6 +29,7 @@ Data Oriented
 #include "Engine/Core/Physics.h"
 #include "Engine/Data/AseData.h"
 
+#include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
 
 //#include "Engine/Tools/aseprite.h"
@@ -78,7 +79,6 @@ int main(int argc, char** argv) {
 			return Context::getErrorCode();
 		}
 
-		AssetManager::init();
 		AssetManager::load("assets/ayse.png","");
 		AssetManager::load("assets/tilesets/default.png", "");
 		AssetManager::load("assets/tilemaps/test.png", "");
@@ -86,12 +86,10 @@ int main(int argc, char** argv) {
 
 		Sprite* ayse = AssetManager::get<Sprite>("assets/ayse.png");
 
-		World* world = DBG_NEW World();
+		me::WorldManager::loadWorld();
+		World* world = me::WorldManager::getWorld();
 
-		Camera* cam = world->create <Camera>();
-		cam->transform.setLocalPosition({ 0,0 });
-
-		Renderer::setCamera(cam);
+		Camera* cam = world->get<Camera>("Camera");
 
 		SpriteRenderer* spriteRenderer = world->create<SpriteRenderer>();
 		spriteRenderer->setSprite(ayse);
@@ -170,12 +168,6 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
-		delete(world);
-		delete(tilemap);
-		TextRenderer::destroy();
-		SpriteRenderer::destroy();
-		FileUtility::destroy();
-		AssetManager::destroy();
 		Context::quit();
 	}
 	
