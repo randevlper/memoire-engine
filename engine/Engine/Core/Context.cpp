@@ -22,6 +22,8 @@
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "Engine/Nodes/TextRenderer.h"
 
+#include "Engine/Tools/imgui_bgfx.h"
+
 Context* Context::_instance = nullptr;
 bool Context::_shouldClose = nullptr;
 int Context::_errorCode = 404;
@@ -163,6 +165,7 @@ void Context::init(ContextWindowParems* parems)
 
 		LuaManager::init();
 		AssetManager::init();
+		me::imgui::create();
 
 		//SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 		_shouldClose = false;
@@ -172,6 +175,7 @@ void Context::init(ContextWindowParems* parems)
 
 void Context::quit()
 {
+	me::imgui::destroy();
 	me::WorldManager::unLoadWorld();
 	LuaManager::destroy();
 	AssetManager::destroy();

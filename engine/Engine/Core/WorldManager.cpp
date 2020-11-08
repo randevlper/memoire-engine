@@ -24,7 +24,9 @@ namespace me {
 	{
 		unLoadWorld();
 		_currentWorld = DBG_NEW World();
-		Renderer::setCamera(_currentWorld->create<Camera>());
+		Camera* camera = _currentWorld->create<Camera>();
+		camera->setName("Camera");
+		Renderer::setCamera(camera);
 	}
 
 	//Expects no filetype

@@ -34,7 +34,7 @@ int quit(lua_State* L) {
 	return 0;
 }
 
-int LoadWorld(lua_State* L)
+int loadWorld(lua_State* L)
 {
 	
 	const char* path = lua_tostring(L, -1);
@@ -46,7 +46,7 @@ int LoadWorld(lua_State* L)
 void LuaManager::init()
 {
 	_L = luaL_newstate();
-	LUA_CFUNCTION(LoadWorld)
+	LUA_CFUNCTION(loadWorld)
 	LUA_CFUNCTION(printC)
 	LUA_CFUNCTION(quit)
 

@@ -95,6 +95,7 @@ namespace lb {
 				if (ImGui::BeginMenuBar()) {
 					if (ImGui::BeginMenu("File###worldEditorFileMenu"))
 					{
+						if (ImGui::MenuItem("New..", "Ctrl+N")) { me::WorldManager::loadWorld(); }
 						if (ImGui::MenuItem("Open..", "Ctrl+O")) { isWorldLoadSelectOpen = true; }
 						if (ImGui::MenuItem("Save", "Ctrl+S")) {
 							std::ostringstream fileStringName;

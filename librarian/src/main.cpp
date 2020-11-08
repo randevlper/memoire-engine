@@ -92,7 +92,6 @@ int main(int argc, char** argv) {
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
-		me::imgui::create();
 		AssetManager::initLoader<lb::DialogueLoader>();
 
 		/*audioSource = world->create<AudioSource>();
@@ -148,7 +147,6 @@ int main(int argc, char** argv) {
 		}
 
 		lb::imgui::dialogueEditor::destroy();
-		me::imgui::destroy();
 		Context::quit();
 	}
 
