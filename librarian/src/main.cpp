@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
 		me::WorldManager::loadWorld();
 
 		LuaManager::init();
-		LuaManager::test();
+		//LuaManager::test();
 
 		while (!Context::getShouldClose())
 		{

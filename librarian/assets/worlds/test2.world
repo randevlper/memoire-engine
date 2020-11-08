@@ -1,0 +1,66 @@
+{
+    "name": "test2",
+    "nodes": [
+        {
+            "colorClicked": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ],
+            "colorDisabled": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "colorHightlight": [
+                0.0,
+                1.0,
+                0.0,
+                1.0
+            ],
+            "colorNormal": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "luaOnClick": "HelloWorld",
+            "name": "Button0",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        30.0,
+                        30.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    20,
+                    20
+                ]
+            },
+            "type": "Button"
+        },
+        {
+            "name": "Camera1",
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "Camera"
+        }
+    ]
+}

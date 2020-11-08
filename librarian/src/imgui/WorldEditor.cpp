@@ -67,6 +67,7 @@ namespace lb {
 					if (ImGui::BeginChild("###LoadWorldWorlds", { 200, 250 }, true)) {
 						//Should store the entries on opening the window
 						for (const auto& entry : std::filesystem::directory_iterator(worldsPath)) {
+							if (entry.path().extension() != WORLD_FILE_TYPE) { continue; }
 							if (ImGui::Selectable(entry.path().filename().string().c_str(), 
 								worldLoadSelection.path().string().compare(entry.path().string()) == 0)){
 								worldLoadSelection = entry;
@@ -80,8 +81,10 @@ namespace lb {
 						if (worldLoadSelection.exists()) {
 							//Should check if world has been saved and prompt with asking if it should be saved
 							//ImGui::BeginPopupModal()
-							
-							me::WorldManager::loadWorld(worldLoadSelection.path().string());
+							std::ostringstream filestring;
+							filestring << worldsPath;
+							filestring << worldLoadSelection.path().stem().string();
+							me::WorldManager::loadWorld(filestring.str());
 							isWorldLoadSelectOpen = false;
 						}
 					}
