@@ -1,5 +1,10 @@
 #include "WorldManager.h"
+
+#include <sstream>
+
 #include "Engine/Core/World.h"
+#include "Engine/Core/LuaManager.h"
+
 #include "Engine/Utilities/DebugMemory.h"
 #include "Engine/Core/Context.h"
 
@@ -22,10 +27,14 @@ namespace me {
 		Renderer::setCamera(_currentWorld->create<Camera>());
 	}
 
+	//Expects no filetype
 	bool WorldManager::loadWorld(std::string path)
 	{
+		std::ostringstream worldPath;
+		worldPath << path;
+		worldPath << WORLD_FILE_TYPE;
 		json file;
-		if (FileUtility::loadJson(path.c_str(), file)) {
+		if (FileUtility::loadJson(worldPath.str().c_str(), file)) {
 			//Should use Assetmanager hot reload
 			unLoadWorld();
 			_currentWorld = DBG_NEW World();
@@ -39,6 +48,13 @@ namespace me {
 					break;
 				}
 			}
+			//Load lua
+			std::ostringstream luaPath;
+			luaPath << path;
+			luaPath << ".lua";
+			std::string lua = FileUtility::loadTextFile(luaPath.str().c_str());
+			LuaManager::loadLua(lua.c_str());
+
 			return true;
 		} else{
 			Debug::LogError("[World] World does not exist! " + path);

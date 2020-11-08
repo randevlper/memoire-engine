@@ -92,6 +92,7 @@ bool World::destroy(Node* node)
 nlohmann::json World::to_json()
 {
 	nlohmann::json retval;
+	retval["name"] = name;
 	for (size_t i = 0; i < _nodes.size(); i++)
 	{
 		retval["nodes"][i] = (_nodes[i]->to_json());
@@ -101,6 +102,7 @@ nlohmann::json World::to_json()
 
 void World::from_json(const nlohmann::json& j)
 {
+	name = j.at("name");
 	Node* node;
 	for (auto& [key, value] : j["nodes"].items()) {
 		node = me::util::ObjectFactory::createObject(value["type"]);

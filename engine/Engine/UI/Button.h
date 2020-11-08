@@ -40,6 +40,7 @@ namespace me {
 			glm::vec4 colorDisabled;
 
 			std::function<void()> onClick;
+			std::string luaOnClick;
 
 			nlohmann::json to_json () override
 			{
@@ -49,6 +50,7 @@ namespace me {
 				j["colorHightlight"] = colorHightlight;
 				j["colorClicked"] = colorClicked;
 				j["colorDisabled"] = colorDisabled;
+				j["luaOnClick"] = luaOnClick;
 				return j;
 			}
 
@@ -59,6 +61,7 @@ namespace me {
 				colorHightlight = j.at("colorHightlight");
 				colorClicked = j.at("colorClicked");
 				colorDisabled = j.at("colorDisabled");
+				luaOnClick = j.at("luaOnClick");
 				setSize(rectTransform.getSize());
 			}
 				

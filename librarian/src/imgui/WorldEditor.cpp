@@ -44,9 +44,7 @@ namespace lb {
 			static bool isWorldLoadSelectOpen = false;
 			static std::filesystem::directory_entry worldLoadSelection = std::filesystem::directory_entry();
 
-			static std::string worldName = "untitled";
-
-			static std::string worldPath = "assets/worlds/";
+			const std::string worldsPath = "assets/worlds/";
 
 			void showEditor()
 			{
@@ -68,7 +66,7 @@ namespace lb {
 					////List of loadable worlds
 					if (ImGui::BeginChild("###LoadWorldWorlds", { 200, 250 }, true)) {
 						//Should store the entries on opening the window
-						for (const auto& entry : std::filesystem::directory_iterator(worldPath)) {
+						for (const auto& entry : std::filesystem::directory_iterator(worldsPath)) {
 							if (ImGui::Selectable(entry.path().filename().string().c_str(), 
 								worldLoadSelection.path().string().compare(entry.path().string()) == 0)){
 								worldLoadSelection = entry;
@@ -85,7 +83,6 @@ namespace lb {
 							
 							me::WorldManager::loadWorld(worldLoadSelection.path().string());
 							isWorldLoadSelectOpen = false;
-							worldName = worldLoadSelection.path().stem().string();
 						}
 					}
 					ImGui::End();
@@ -98,9 +95,9 @@ namespace lb {
 						if (ImGui::MenuItem("Open..", "Ctrl+O")) { isWorldLoadSelectOpen = true; }
 						if (ImGui::MenuItem("Save", "Ctrl+S")) {
 							std::ostringstream fileStringName;
-							fileStringName << worldName;
+							fileStringName << me::WorldManager::getWorld()->name;
 							fileStringName << ".world";
-							FileUtility::writeStringFile(worldPath.c_str(), fileStringName.str().c_str(),
+							FileUtility::writeStringFile(worldsPath.c_str(), fileStringName.str().c_str(),
 								me::WorldManager::getWorld()->to_json().dump(4));
 						}
 						if (ImGui::MenuItem("Close", "Ctrl+W")) { windowOpen = false; }
@@ -110,8 +107,9 @@ namespace lb {
 				}
 				
 
-				ImGui::InputText("World Name###WorldName", &worldName);
+				
 				World* world = me::WorldManager::getWorld();
+				ImGui::InputText("World Name###WorldName", &world->name);
 				ImGui::PushItemWidth(150);
 
 				if (ImGui::BeginCombo("###node_selection", current_node_selected)) {
@@ -238,6 +236,8 @@ namespace lb {
 
 						if (nodeSelected->getType() == "Button") {
 							me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodeSelected);
+
+							ImGui::InputText("LuaOnClick", &buttonSelected->luaOnClick);
 
 							ImGui::ColorPicker4("ColorNormal", glm::value_ptr(buttonSelected->colorNormal));
 							ImGui::SameLine();

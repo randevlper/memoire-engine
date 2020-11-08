@@ -7,6 +7,8 @@
 #include "Engine/AssetManagement/Shader.h"
 #include "Engine/AssetManagement/Sprite.h"
 
+#include "Engine/Core/LuaManager.h"
+
 #include "Engine/Core/Context.h"
 #include "Engine/Utilities/TypeConversion.h"
 
@@ -37,6 +39,8 @@ namespace me {
 			_vbh.idx = bgfx::kInvalidHandle;
 			
 			_sprite = AssetManager::get<Sprite>("assets/ui/box.png");
+
+			luaOnClick = "";
 
 			setSize({ 10,10 });
 
@@ -92,6 +96,7 @@ namespace me {
 				if (onClick) {
 					onClick();
 				}
+				LuaManager::luaFunction(luaOnClick.c_str());
 			}
 		}
 

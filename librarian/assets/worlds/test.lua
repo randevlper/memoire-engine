@@ -1,8 +1,8 @@
-function HelloWorld
-	print("Hello World!")
+function HelloWorld ()
+	printC("Hello World!")
 end
 
-function Hell
-	print("Hell")
+function Hell ()
+	printC("Hell")
 	return 666
 end

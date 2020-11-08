@@ -4,11 +4,16 @@ typedef struct lua_State lua_State;
 class LuaManager
 {
 public:
-	LuaManager();
-	~LuaManager();
+	static void init();
+	static void destroy();
 
-	void test();
+	static void test();
+	static void loadLua(const char* lua);
+	static void luaFunction(const char* functionName);
 
 private:
-	lua_State* _L;
+	static lua_State* _L;
+
+	LuaManager(){}
+	~LuaManager(){}
 };

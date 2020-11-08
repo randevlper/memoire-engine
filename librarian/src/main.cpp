@@ -126,11 +126,10 @@ int main(int argc, char** argv) {
 
 		Want a UI editor but no need for the two scenes
 		*/
-
 		me::WorldManager::loadWorld();
 
-		LuaManager* L = new LuaManager();
-		L->test();
+		LuaManager::init();
+		LuaManager::test();
 
 		while (!Context::getShouldClose())
 		{
@@ -174,6 +173,8 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 		}
+		LuaManager::destroy();
+
 		lb::imgui::dialogueEditor::destroy();
 		me::WorldManager::unLoadWorld();
 		TextRenderer::destroy();

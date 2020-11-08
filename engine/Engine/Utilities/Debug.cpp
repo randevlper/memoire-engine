@@ -1,5 +1,7 @@
 #include "Debug.h"
 
+#include <sstream>
+
 #include "Engine/Core/Context.h"
 #include "Engine/Data/Transform.h"
 #include "Engine/Core/Renderer.h"
@@ -9,6 +11,16 @@
 
 #include "SDL.h"
 #include <iostream>
+
+void Debug::Log(std::string* values, size_t count)
+{
+	std::ostringstream log;
+	for (size_t i = 0; i < count; i++)
+	{
+		log << values[i];
+	}
+	Debug::Log(log.str());
+}
 
 void Debug::Log(std::string value)
 {
@@ -20,7 +32,15 @@ void Debug::LogError(std::string value)
 	Log("[Error]" + value);
 }
 
-
+void Debug::LogError(std::string* values, size_t count)
+{
+	std::ostringstream log;
+	for (size_t i = 0; i < count; i++)
+	{
+		log << values[i];
+	}
+	Debug::LogError(log.str());
+}
 
 void Debug::DrawTransform(Transform* t)
 {

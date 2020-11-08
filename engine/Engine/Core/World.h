@@ -6,6 +6,8 @@
 #include "Engine\Nodes\Node2D.h"
 #include "Engine\UI\NodeUI.h"
 
+#define WORLD_FILE_TYPE ".world"
+
 class World
 {
 public:
@@ -37,6 +39,8 @@ public:
 	//bool destroy(Node* node);
 	//Delete a node by name
 	//bool destroy(std::string name);
+
+	std::string name;
 
 	nlohmann::json to_json();
 	void from_json(const nlohmann::json& j);
