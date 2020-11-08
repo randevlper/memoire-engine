@@ -3,6 +3,7 @@
 #include <sstream>
 #include <lua.hpp>
 
+#include "Engine/Core/Context.h"
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Core/WorldManager.h"
 
@@ -28,6 +29,10 @@ int printC(lua_State* L) {
 	return 0;
 }
 
+int quit(lua_State* L) {
+	Context::quit();
+	return 0;
+}
 
 int LoadWorld(lua_State* L)
 {
@@ -37,11 +42,13 @@ int LoadWorld(lua_State* L)
 	me::WorldManager::loadWorld(path);
 	return 0;
 }
+
 void LuaManager::init()
 {
 	_L = luaL_newstate();
 	LUA_CFUNCTION(LoadWorld)
 	LUA_CFUNCTION(printC)
+	LUA_CFUNCTION(quit)
 
 	Debug::Log("[LUA] Lua State created.");
 }
@@ -49,15 +56,6 @@ void LuaManager::init()
 void LuaManager::destroy()
 {
 	lua_close(_L);
-}
-
-void LuaManager::test()
-{
-	luaL_dostring(_L, "x = 69");
-	lua_getglobal(_L, "x");
-	lua_Number Lx = lua_tonumber(_L, 1);
-	Debug::Log("[LUA] says: " + std::to_string(Lx));
-	luaL_dostring(_L, "LoadWorld(\"assets/worlds/test\")");
 }
 
 void LuaManager::loadLua(const char* lua)

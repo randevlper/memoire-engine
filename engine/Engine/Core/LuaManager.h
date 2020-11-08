@@ -7,7 +7,6 @@ public:
 	static void init();
 	static void destroy();
 
-	static void test();
 	static void loadLua(const char* lua);
 	static void luaFunction(const char* functionName);
 
