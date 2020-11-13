@@ -59,12 +59,12 @@ using json = nlohmann::json;
 
 int main(int argc, char** argv) {
 	{
-		json config;
-		{
-			std::ifstream configFile("config.json");
-			configFile >> config;
-			configFile.close();
-		}
+		//json config;
+		//{
+		//	std::ifstream configFile("config.json");
+		//	configFile >> config;
+		//	configFile.close();
+		//}
 		//j["resolution"] = { 1920, 1080 };
 		//config file load
 
@@ -73,8 +73,8 @@ int main(int argc, char** argv) {
 		unsigned int width = 1280;
 		unsigned int height = 720;
 
-		width = config["resolution"][0];
-		height = config["resolution"][1];
+		//width = config["resolution"][0];
+		//height = config["resolution"][1];
 
 		//Should handle errors with some helper functions
 		//std::string err;
@@ -87,13 +87,6 @@ int main(int argc, char** argv) {
 		//	Debug::Log(err);
 		//}
 
-		ContextWindowParems cWinParems = { "Seaside", width, height, 60 , argc, argv };
-		Context::init(&cWinParems);
-		if (Context::getErrorCode() != 0) {
-			return Context::getErrorCode();
-		}
-		AssetManager::initLoader<lb::DialogueLoader>();
-
 		/*audioSource = world->create<AudioSource>();
 		audioSource->setAudioClip(audioTest);
 		*/
@@ -105,6 +98,13 @@ int main(int argc, char** argv) {
 		//UI Textbox - text formatting hell
 		//Audio looping
 
+
+		ContextWindowParems cWinParems = { "Seaside", width, height, 60 , argc, argv };
+		Context::init(&cWinParems);
+		if (Context::getErrorCode() != 0) {
+			return Context::getErrorCode();
+		}
+		AssetManager::initLoader<lb::DialogueLoader>();
 		me::WorldManager::loadWorld("assets/worlds/mainmenu");
 
 		while (!Context::getShouldClose())
@@ -120,19 +120,20 @@ int main(int argc, char** argv) {
 
 			//Debug code to test world editor
 			World* world = me::WorldManager::getWorld();
-			const std::vector<Node*> nodes = world->getNodes();
-			for (size_t i = 0; i < nodes.size(); i++)
-			{
-				if (nodes[i]->getType() == "Node2D") {
-					Node2D* node2DSelected = dynamic_cast<Node2D*>(nodes[i]);
-					Debug::DrawTransform(&node2DSelected->transform);
-				}
-				if (nodes[i]->getType() == "Button") {
-					me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodes[i]);
-					buttonSelected->sendMouseInfo(Input::getMousePos(), Input::getMouseKeyDown(1));
-					
-				}
+			if (world != nullptr) {
+				const std::vector<Node*> nodes = world->getNodes();
+				for (size_t i = 0; i < nodes.size(); i++)
+				{
+					if (nodes[i]->getType() == "Node2D") {
+						Node2D* node2DSelected = dynamic_cast<Node2D*>(nodes[i]);
+						Debug::DrawTransform(&node2DSelected->transform);
+					}
+					if (nodes[i]->getType() == "Button") {
+						me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodes[i]);
+						buttonSelected->sendMouseInfo(Input::getMousePos(), Input::getMouseKeyDown(1));
 
+					}
+				}
 			}
 
 			me::WorldManager::render();
@@ -144,6 +145,8 @@ int main(int argc, char** argv) {
 
 			Renderer::render();
 			
+			//Load new World here.
+			me::WorldManager::postLogic();
 		}
 
 		lb::imgui::dialogueEditor::destroy();

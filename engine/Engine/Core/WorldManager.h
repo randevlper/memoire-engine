@@ -15,6 +15,8 @@ namespace me {
 		//Loads a world from a JSON world file
 		static bool loadWorld(std::string path);
 
+		static bool postLogic();
+
 		static void unLoadWorld();
 
 		static void tick();
@@ -24,5 +26,6 @@ namespace me {
 
 	private:
 		static World* _currentWorld;
+		static World* _toLoadWorld;
 	};
 }

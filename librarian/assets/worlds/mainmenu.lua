@@ -1,5 +1,5 @@
 function StartButton()
-	loadWorld("/assets/worlds/game")
+	loadWorld("assets/worlds/game")
 end
 
 function QuitButton ()

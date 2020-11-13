@@ -18,13 +18,13 @@ using json = nlohmann::json;
 
 namespace me {
 	World* WorldManager::_currentWorld = nullptr;
+	World* WorldManager::_toLoadWorld = nullptr;
 
 	//Empty world with only a camera
 	void WorldManager::loadWorld()
 	{
-		unLoadWorld();
-		_currentWorld = DBG_NEW World();
-		Camera* camera = _currentWorld->create<Camera>();
+		_toLoadWorld = DBG_NEW World();
+		Camera* camera = _toLoadWorld->create<Camera>();
 		camera->setName("Camera");
 		Renderer::setCamera(camera);
 	}
@@ -38,11 +38,10 @@ namespace me {
 		json file;
 		if (FileUtility::loadJson(worldPath.str().c_str(), file)) {
 			//Should use Assetmanager hot reload
-			unLoadWorld();
-			_currentWorld = DBG_NEW World();
-			_currentWorld->from_json(file);
+			_toLoadWorld = DBG_NEW World();
+			_toLoadWorld->from_json(file);
 
-			for each (Node* node in _currentWorld->getNodes())
+			for each (Node* node in _toLoadWorld->getNodes())
 			{
 				if (node->getType() == "Camera") {
 					Camera* cam = dynamic_cast<Camera*>(node);
@@ -63,6 +62,19 @@ namespace me {
 			return false;
 		}
 
+	}
+
+	bool WorldManager::postLogic()
+	{
+		if (_toLoadWorld != nullptr) {
+			if (_currentWorld != nullptr) {
+				unLoadWorld();
+			}
+			_currentWorld = _toLoadWorld;
+			_toLoadWorld = nullptr;
+			return true;
+		}
+		return false;
 	}
 
 	void WorldManager::unLoadWorld()

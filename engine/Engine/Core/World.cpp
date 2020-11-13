@@ -21,7 +21,9 @@ World::~World()
 			delete(_nodes[i]);
 		}
 	}
-	delete(_root);
+	if (_root != nullptr) {
+		delete(_root);
+	}
 }
 
 void World::tick(float delta)

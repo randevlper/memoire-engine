@@ -1,8 +1,8 @@
 {
-    "name": "MainMenu",
+    "name": "game",
     "nodes": [
         {
-            "name": "Cam",
+            "name": "Camera",
             "transform": {
                 "angle": 0.0,
                 "position": [
@@ -32,8 +32,8 @@
                 "root": {
                     "angle": 0.0,
                     "position": [
-                        218.0,
-                        592.0
+                        71.0,
+                        602.0
                     ],
                     "scale": [
                         1.0,
@@ -41,11 +41,11 @@
                     ]
                 },
                 "size": [
-                    2,
-                    10
+                    1,
+                    1
                 ]
             },
-            "text": "FRAGMENTS",
+            "text": "Hello World",
             "type": "Text"
         },
         {
@@ -73,14 +73,14 @@
                 0.0,
                 1.0
             ],
-            "luaOnClick": "StartButton",
-            "name": "Start",
+            "luaOnClick": "NextButton",
+            "name": "Button2",
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
                     "position": [
-                        268.0,
-                        436.0
+                        124.0,
+                        468.0
                     ],
                     "scale": [
                         1.0,
@@ -88,53 +88,7 @@
                     ]
                 },
                 "size": [
-                    100,
-                    20
-                ]
-            },
-            "type": "Button"
-        },
-        {
-            "colorClicked": [
-                0.0,
-                0.0,
-                1.0,
-                1.0
-            ],
-            "colorDisabled": [
-                1.0,
-                1.0,
-                1.0,
-                1.0
-            ],
-            "colorHightlight": [
-                0.0,
-                1.0,
-                0.0,
-                1.0
-            ],
-            "colorNormal": [
-                1.0,
-                0.0,
-                0.0,
-                1.0
-            ],
-            "luaOnClick": "QuitButton",
-            "name": "Quit",
-            "rectTransform": {
-                "root": {
-                    "angle": 0.0,
-                    "position": [
-                        266.0,
-                        398.0
-                    ],
-                    "scale": [
-                        1.0,
-                        1.0
-                    ]
-                },
-                "size": [
-                    100,
+                    50,
                     20
                 ]
             },

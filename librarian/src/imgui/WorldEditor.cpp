@@ -272,7 +272,7 @@ namespace lb {
 							//Color
 							ImGui::ColorPicker4("ColorNormal", glm::value_ptr(color));
 
-							if (lastText != text || lastSize != size) {
+							if (lastText != text || lastSize != size || lastPos != pos) {
 								textSelected->setText(text);
 							}
 							textSelected->setColor(color);
