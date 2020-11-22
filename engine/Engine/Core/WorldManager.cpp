@@ -19,6 +19,7 @@ using json = nlohmann::json;
 namespace me {
 	World* WorldManager::_currentWorld = nullptr;
 	World* WorldManager::_toLoadWorld = nullptr;
+	Camera* WorldManager::_toLoadCamera = nullptr;
 
 	//Empty world with only a camera
 	void WorldManager::loadWorld()
@@ -45,7 +46,7 @@ namespace me {
 			{
 				if (node->getType() == "Camera") {
 					Camera* cam = dynamic_cast<Camera*>(node);
-					Renderer::setCamera(cam);
+					_toLoadCamera = cam;
 					break;
 				}
 			}
@@ -71,6 +72,7 @@ namespace me {
 				unLoadWorld();
 			}
 			_currentWorld = _toLoadWorld;
+			Renderer::setCamera(_toLoadCamera);
 			_toLoadWorld = nullptr;
 			return true;
 		}

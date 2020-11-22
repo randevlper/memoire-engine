@@ -2,6 +2,7 @@
 #include <string>
 
 class World;
+class Camera;
 
 
 namespace me {
@@ -27,5 +28,6 @@ namespace me {
 	private:
 		static World* _currentWorld;
 		static World* _toLoadWorld;
+		static Camera* _toLoadCamera;
 	};
 }
