@@ -1,3 +1,7 @@
 function NextButton()
-	printC("Next!")
+	printC("Changed!")
+end
+
+function MainMenuButton()
+	loadWorld("assets/worlds/mainmenu")
 end

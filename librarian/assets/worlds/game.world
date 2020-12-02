@@ -27,13 +27,13 @@
                 "name": "assets/fonts/cmunrm.ttf",
                 "parems": "32"
             },
-            "name": "Text1",
+            "name": "Dialouge",
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
                     "position": [
-                        71.0,
-                        602.0
+                        15.0,
+                        151.0
                     ],
                     "scale": [
                         1.0,
@@ -74,13 +74,13 @@
                 1.0
             ],
             "luaOnClick": "NextButton",
-            "name": "Button2",
+            "name": "Next",
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
                     "position": [
-                        124.0,
-                        468.0
+                        1055.0,
+                        134.0
                     ],
                     "scale": [
                         1.0,
@@ -88,8 +88,54 @@
                     ]
                 },
                 "size": [
-                    50,
-                    20
+                    200,
+                    40
+                ]
+            },
+            "type": "Button"
+        },
+        {
+            "colorClicked": [
+                0.0,
+                0.0,
+                1.0,
+                1.0
+            ],
+            "colorDisabled": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "colorHightlight": [
+                0.0,
+                1.0,
+                0.0,
+                1.0
+            ],
+            "colorNormal": [
+                1.0,
+                0.0,
+                0.0,
+                1.0
+            ],
+            "luaOnClick": "MainMenuButton",
+            "name": "Exit",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        1058.0,
+                        34.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    200,
+                    40
                 ]
             },
             "type": "Button"

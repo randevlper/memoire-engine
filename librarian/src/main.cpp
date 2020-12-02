@@ -47,6 +47,7 @@ using json = nlohmann::json;
 #include "nodes/DialogueWriter.h"
 #include "imgui/DialogueEditor.h"
 #include "imgui/WorldEditor.h"
+#include "imgui/LuaEditor.h"
 
 
 //AudioSource* audioSource;
@@ -141,6 +142,7 @@ int main(int argc, char** argv) {
 			me::imgui::beginFrame();
 			lb::imgui::dialogueEditor::showEditor(nullptr);
 			lb::imgui::worldEditor::showEditor();
+			me::imgui::ShowLuaEditor();
 			me::imgui::endFrame();
 
 			Renderer::render();
