@@ -27,13 +27,13 @@
                 "name": "assets/fonts/cmunrm.ttf",
                 "parems": "32"
             },
-            "name": "Text1",
+            "name": "Title",
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
                     "position": [
-                        218.0,
-                        592.0
+                        538.0,
+                        586.0
                     ],
                     "scale": [
                         1.0,
@@ -41,11 +41,11 @@
                     ]
                 },
                 "size": [
-                    2,
-                    10
+                    1,
+                    1
                 ]
             },
-            "text": "FRAGMENTS",
+            "text": "FRAGMENTS\n",
             "type": "Text"
         },
         {
@@ -79,8 +79,8 @@
                 "root": {
                     "angle": 0.0,
                     "position": [
-                        268.0,
-                        436.0
+                        545.0,
+                        297.0
                     ],
                     "scale": [
                         1.0,
@@ -88,8 +88,8 @@
                     ]
                 },
                 "size": [
-                    100,
-                    20
+                    200,
+                    40
                 ]
             },
             "type": "Button"
@@ -125,8 +125,8 @@
                 "root": {
                     "angle": 0.0,
                     "position": [
-                        266.0,
-                        398.0
+                        546.0,
+                        203.0
                     ],
                     "scale": [
                         1.0,
@@ -134,11 +134,107 @@
                     ]
                 },
                 "size": [
-                    100,
-                    20
+                    200,
+                    40
                 ]
             },
             "type": "Button"
+        },
+        {
+            "color": [
+                255.0,
+                255.0,
+                255.0,
+                255.0
+            ],
+            "font": {
+                "name": "assets/fonts/cmunrm.ttf",
+                "parems": "32"
+            },
+            "name": "Title2",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        590.0,
+                        535.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    1,
+                    1
+                ]
+            },
+            "text": "Seaside",
+            "type": "Text"
+        },
+        {
+            "color": [
+                255.0,
+                255.0,
+                255.0,
+                255.0
+            ],
+            "font": {
+                "name": "assets/fonts/cmunrm.ttf",
+                "parems": "32"
+            },
+            "name": "StartText",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        609.0,
+                        329.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    1,
+                    1
+                ]
+            },
+            "text": "Start",
+            "type": "Text"
+        },
+        {
+            "color": [
+                255.0,
+                255.0,
+                255.0,
+                255.0
+            ],
+            "font": {
+                "name": "assets/fonts/cmunrm.ttf",
+                "parems": "32"
+            },
+            "name": "ExitText",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        615.0,
+                        233.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    1,
+                    1
+                ]
+            },
+            "text": "Exit",
+            "type": "Text"
         }
     ]
 }

@@ -146,6 +146,10 @@ namespace lb {
 
 				std::vector<Node*> nodes = world->getNodes();
 
+				if (selected > nodes.size()) {
+					selected = 0;
+				}
+
 				if (ImGui::Button("-", { 25,25 })) {
 					if (nodes.size() > 0) {
 						world->destroy(nodes[selected]);
