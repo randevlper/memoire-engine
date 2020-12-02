@@ -18,20 +18,20 @@ namespace lb {
 	class DialogueWriter
 	{
 	public:
-		DialogueWriter();
-		~DialogueWriter();
-
-		void tick(float deltaTime);
-		void startDialouge(Dialogue* dia);
-		void progress();
+		static void tick(float deltaTime);
+		static void startDialouge(Dialogue* dia);
+		static void progress();
 
 
-		void setTextBox(me::ui::Text* textBox);
+		static void setTextBox(me::ui::Text* textBox);
 	private:
-		unsigned int _currentLine;
-		Dialogue* _dialogue;
+		DialogueWriter() {};
+		~DialogueWriter() {};
 
-		me::ui::Text* _textBox;
+		static unsigned int _currentLine;
+		static Dialogue* _dialogue;
+
+		static me::ui::Text* _textBox;
 
 	};
 }

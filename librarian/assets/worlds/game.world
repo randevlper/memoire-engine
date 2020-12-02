@@ -171,6 +171,38 @@
             },
             "text": "Exit",
             "type": "Text"
+        },
+        {
+            "color": [
+                255.0,
+                255.0,
+                255.0,
+                255.0
+            ],
+            "font": {
+                "name": "assets/fonts/cmunrm.ttf",
+                "parems": "32"
+            },
+            "name": "TextNext",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        1122.0,
+                        165.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    1,
+                    1
+                ]
+            },
+            "text": "Next",
+            "type": "Text"
         }
     ]
 }

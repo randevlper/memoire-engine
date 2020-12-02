@@ -5,16 +5,9 @@
 #include "assetmanagement/Dialogue.h"
 
 namespace lb {
-	DialogueWriter::DialogueWriter()
-	{
-		_currentLine = 0;
-		_dialogue = nullptr;
-		_textBox = nullptr;
-	}
-
-	DialogueWriter::~DialogueWriter()
-	{
-	}
+	unsigned int DialogueWriter::_currentLine = 0;
+	Dialogue* DialogueWriter::_dialogue = nullptr;
+	me::ui::Text* DialogueWriter::_textBox = nullptr;
 
 	void DialogueWriter::tick(float deltaTime)
 	{

@@ -36,7 +36,6 @@ int quit(lua_State* L) {
 
 int loadWorld(lua_State* L)
 {
-	
 	const char* path = lua_tostring(L, -1);
 	Debug::Log(std::string("[LUA] Loading world: ") + path);
 	me::WorldManager::loadWorld(path);
