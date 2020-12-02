@@ -139,6 +139,38 @@
                 ]
             },
             "type": "Button"
+        },
+        {
+            "color": [
+                255.0,
+                255.0,
+                255.0,
+                255.0
+            ],
+            "font": {
+                "name": "assets/fonts/cmunrm.ttf",
+                "parems": "32"
+            },
+            "name": "TextExit",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        1129.0,
+                        65.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    1,
+                    1
+                ]
+            },
+            "text": "Exit",
+            "type": "Text"
         }
     ]
 }

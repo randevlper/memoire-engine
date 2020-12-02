@@ -174,7 +174,7 @@ namespace lb {
 				ImGui::BeginGroup();
 
 				glm::vec2 mousePos = {0,0};
-				if (Input::getKey(SDL_SCANCODE_LCTRL)) {
+				if (!ImGui::IsWindowFocused() && Input::getKey(SDL_SCANCODE_LCTRL)) {
 					mousePos = Input::getMousePos();
 				}
 
