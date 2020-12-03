@@ -21,6 +21,8 @@ namespace me {
 	World* WorldManager::_toLoadWorld = nullptr;
 	Camera* WorldManager::_toLoadCamera = nullptr;
 
+	std::string WorldManager::_toLoadWorldPath = "";
+
 	//Empty world with only a camera
 	void WorldManager::loadWorld()
 	{
@@ -50,12 +52,8 @@ namespace me {
 					break;
 				}
 			}
-			//Load lua
-			std::ostringstream luaPath;
-			luaPath << path;
-			luaPath << ".lua";
-			std::string lua = FileUtility::loadTextFile(luaPath.str().c_str());
-			LuaManager::loadLua(lua.c_str());
+
+			_toLoadWorldPath = path;
 
 			return true;
 		} else{
@@ -74,6 +72,20 @@ namespace me {
 			_currentWorld = _toLoadWorld;
 			Renderer::setCamera(_toLoadCamera);
 			_toLoadWorld = nullptr;
+			_toLoadCamera = nullptr;
+
+			LuaManager::destroy();
+			LuaManager::init();
+
+			//Load lua
+			std::ostringstream luaPath;
+			luaPath << _toLoadWorldPath;
+			luaPath << ".lua";
+			std::string lua = FileUtility::loadTextFile(luaPath.str().c_str());
+			LuaManager::loadLua(lua.c_str());
+			LuaManager::luaFunction("init");
+
+			_toLoadWorldPath = "";
 			return true;
 		}
 		return false;

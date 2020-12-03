@@ -29,5 +29,6 @@ namespace me {
 		static World* _currentWorld;
 		static World* _toLoadWorld;
 		static Camera* _toLoadCamera;
+		static std::string _toLoadWorldPath;
 	};
 }

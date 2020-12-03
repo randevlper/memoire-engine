@@ -49,6 +49,7 @@ using json = nlohmann::json;
 #include "imgui/WorldEditor.h"
 #include "imgui/LuaEditor.h"
 
+#include "core/luabindings.h"
 
 //AudioSource* audioSource;
 //me::ui::Text* textTest;
@@ -98,8 +99,7 @@ int main(int argc, char** argv) {
 		//UI Panels - Take code from button and implemnt sprites
 		//UI Textbox - text formatting hell
 		//Audio looping
-
-
+		lb::InitLuaBindings();
 		ContextWindowParems cWinParems = { "Seaside", width, height, 60 , argc, argv };
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {

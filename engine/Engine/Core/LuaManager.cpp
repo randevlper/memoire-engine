@@ -1,6 +1,7 @@
 #include "LuaManager.h"
 #include <string>
 #include <sstream>
+
 #include <lua.hpp>
 
 #include "Engine/Core/Context.h"
@@ -10,6 +11,7 @@
 #define LUA_CFUNCTION(name) lua_pushcfunction(_L, name); lua_setglobal(_L, #name);
 
 lua_State* LuaManager::_L = nullptr;
+std::vector<std::function<void(lua_State*)>> LuaManager::bindings = std::vector<std::function<void(lua_State*)>>();
 
 int printC(lua_State* L) {
 	int nargs = lua_gettop(L);
@@ -49,6 +51,11 @@ void LuaManager::init()
 	LUA_CFUNCTION(printC)
 	LUA_CFUNCTION(quit)
 
+	for (size_t i = 0; i < bindings.size(); i++)
+	{
+		bindings[i](_L);
+	}
+
 	Debug::Log("[LUA] Lua State created.");
 }
 
@@ -77,4 +84,9 @@ void LuaManager::luaFunction(const char* functionName)
 			Debug::LogError(err.str());
 		}
 	}
+}
+
+void LuaManager::addBindings(std::function<void(lua_State*)> func)
+{
+	bindings.push_back(func);
 }
