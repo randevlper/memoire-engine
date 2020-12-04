@@ -1,5 +1,5 @@
 function NextButton()
-	printC("Changed!")
+	progressDialogue()
 end
 
 function MainMenuButton()
@@ -9,4 +9,5 @@ end
 function init()
 -- Get text box and set that up for the dialogue writer
 	setupWriter("Dialouge")
+	startDialouge("assets/dialogue/test.dialogue")
 end
