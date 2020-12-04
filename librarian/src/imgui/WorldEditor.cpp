@@ -29,7 +29,7 @@ using json = nlohmann::json;
 #include "Engine/Core/Renderer.h"
 #include "Engine/Nodes/Camera.h"
 
-
+#include "imgui/ImguiUtilities.h"
 
 namespace lb {
 	namespace imgui {
@@ -60,35 +60,10 @@ namespace lb {
 
 				if (!windowOpen) { return; }
 
-				if (isWorldLoadSelectOpen) {
-					ImGui::Begin("Load World", &isWorldLoadSelectOpen);
-
-					////List of loadable worlds
-					if (ImGui::BeginChild("###LoadWorldWorlds", { 200, 250 }, true)) {
-						//Should store the entries on opening the window
-						for (const auto& entry : std::filesystem::directory_iterator(worldsPath)) {
-							if (entry.path().extension() != WORLD_FILE_TYPE) { continue; }
-							if (ImGui::Selectable(entry.path().filename().string().c_str(), 
-								worldLoadSelection.path().string().compare(entry.path().string()) == 0)){
-								worldLoadSelection = entry;
-							}
-						}
-						ImGui::EndChild();
-					}
-					
-					//Load button
-					if(ImGui::Button("Load###LoadWorldLoad")){
-						if (worldLoadSelection.exists()) {
-							//Should check if world has been saved and prompt with asking if it should be saved
-							//ImGui::BeginPopupModal()
-							std::ostringstream filestring;
-							filestring << worldsPath;
-							filestring << worldLoadSelection.path().stem().string();
-							me::WorldManager::loadWorld(filestring.str());
-							isWorldLoadSelectOpen = false;
-						}
-					}
-					ImGui::End();
+				std::string file = lb::imgui::utilities::selectFile(isWorldLoadSelectOpen, worldLoadSelection, worldsPath, WORLD_FILE_TYPE);
+				if (file != "null") {
+					me::WorldManager::loadWorld(file);
+					isWorldLoadSelectOpen = false;
 				}
 
 				ImGui::Begin("World Editor", &windowOpen, ImGuiWindowFlags_MenuBar);
