@@ -35,7 +35,8 @@ namespace lb {
 			static std::filesystem::directory_entry fileLoadSelectEntry = std::filesystem::directory_entry();
 
 			void save() {
-				FileUtility::writeStringFile("assets/dialogue/", "test.dialogue", dialogue->to_json().dump(4));
+				std::string filename = dialogue->name + DIALOGUE_FILE_TYPE;
+				FileUtility::writeStringFile(DIALOGUE_PATH, filename.c_str(), dialogue->to_json().dump(4));
 			}
 
 			void preview() {
@@ -90,6 +91,8 @@ namespace lb {
 					}
 
 					static int selected = 0;
+					ImGui::Text(dialogue->path.c_str());
+					ImGui::InputText("Name###DialogueName", &dialogue->name);
 					ImGui::Text("Lines");
 					ImGui::Checkbox("Preview", &isPreview);
 

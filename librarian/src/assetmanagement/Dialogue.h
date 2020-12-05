@@ -40,7 +40,7 @@ namespace lb {
 		std::vector<DialogueLine> lines;
 
 		nlohmann::json to_json() {
-			nlohmann::json retval;
+			nlohmann::json retval = Asset::to_json();
 			for (size_t i = 0; i < lines.size(); i++)
 			{
 				retval["lines"][i] = lines[i].to_json();
@@ -49,8 +49,9 @@ namespace lb {
 		}
 
 		//Need to implment hot reload to hide from_json
-		void from_json(nlohmann::json& j) {
+		void from_json(nlohmann::json& j) override {
 			lines.clear();
+			Asset::from_json(j);
 			for (auto& [key, value] : j["lines"].items()) {
 				DialogueLine newItem(value);
 				lines.push_back(value);

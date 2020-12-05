@@ -11,16 +11,23 @@ public:
 	virtual void load(){}
 	virtual void destroy(){}
 
-	//Dont modify
 	std::string name;
-	//Dont modify
-	std::string parems;
 
-	nlohmann::json to_json() {
+	//Dont modify
+	std::string path;
+	std::string parems;
+	//--
+
+	virtual nlohmann::json to_json() {
 		nlohmann::json j;
 		j["name"] = name;
 		j["parems"] = parems;
 		return j;
+	}
+
+	virtual void from_json(nlohmann::json& j) {
+		name = j["name"];
+		parems = j["parems"];
 	}
 private:
 
