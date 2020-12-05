@@ -2,20 +2,25 @@
 
 #include <vector>
 #include <string>
+#include <filesystem>
 
 #include <dear-imgui/imgui.h>
-#include <Engine/thirdparty/imgui/imgui_stdlib.h>
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+#include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/Core/FileUtility.h"
 #include "Engine/UI/Text.h"
 
 #include "Engine/Utilities/DebugMemory.h"
 
+#include "imgui/ImguiUtilities.h"
+#include "Engine/thirdparty/imgui/imgui_stdlib.h"
 
 #include "nodes/DialogueWriter.h"
 #include "assetmanagement/Dialogue.h"
+
+#define DIALOGUE_PATH "assets/dialogue/"
 
 namespace lb {
 	namespace imgui {
@@ -26,22 +31,11 @@ namespace lb {
 			static bool isPreview = false;
 			static DialogueWriter* dialogueWriter = nullptr;
 
+			static bool isFileLoadSelectOpen = false;
+			static std::filesystem::directory_entry fileLoadSelectEntry = std::filesystem::directory_entry();
+
 			void save() {
 				FileUtility::writeStringFile("assets/dialogue/", "test.dialogue", dialogue->to_json().dump(4));
-			}
-
-			void load() {
-				json file;
-
-				if (FileUtility::loadJson("assets/dialogue/test.dialogue", file)) {
-					//Should use Assetmanager hot reload
-					if (dialogue != nullptr) {
-						delete(dialogue);
-					}
-
-					dialogue = DBG_NEW Dialogue(file);
-				}
-
 			}
 
 			void preview() {
@@ -55,12 +49,20 @@ namespace lb {
 				dialogueWriter = writer;
 			}
 
-			void destroy() {
-				delete(dialogue);
-			}
-
-			void showEditor(me::ui::Text* text)
+			void showEditor()
 			{
+
+				std::string file = lb::imgui::utilities::selectFile(isFileLoadSelectOpen, fileLoadSelectEntry, DIALOGUE_PATH, DIALOGUE_FILE_TYPE);
+				if (file != "null") {
+					file += DIALOGUE_FILE_TYPE;
+					AssetManager::load(file, "");
+					Dialogue* d = AssetManager::get<Dialogue>(file);
+					if (d != nullptr) {
+						dialogue = d;
+					}
+					isFileLoadSelectOpen = false;
+				}
+
 				if (ImGui::BeginMainMenuBar()) {
 					if (ImGui::BeginMenu("Tools"))
 					{
@@ -78,7 +80,7 @@ namespace lb {
 
 						if (ImGui::BeginMenu("File"))
 						{
-							if (ImGui::MenuItem("Open..", "Ctrl+O")) { load(); }
+							if (ImGui::MenuItem("Open..", "Ctrl+O")) { isFileLoadSelectOpen = true; }
 							if (ImGui::MenuItem("Save", "Ctrl+S")) { save(); }
 							if (ImGui::MenuItem("Close", "Ctrl+W")) { d_open = false; }
 							if (ImGui::MenuItem("Start Preview")) { preview(); }
@@ -121,9 +123,9 @@ namespace lb {
 						if (ImGui::Selectable(dialogue->lines[i].name.c_str(), selected == i)) {
 							selected = i;
 							if (isPreview) {
-								if (text != nullptr) {
-									text->setText(dialogue->lines[i].text);
-								}
+								//if (text != nullptr) {
+								//	text->setText(dialogue->lines[i].text);
+								//}
 							}
 						}
 					}

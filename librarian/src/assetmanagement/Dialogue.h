@@ -2,6 +2,8 @@
 #include "Engine/AssetManagement/Asset.h"
 #include <nlohmann/json.hpp>
 
+#define DIALOGUE_FILE_TYPE ".dialogue"
+
 namespace lb {
 
 	struct DialogueLine

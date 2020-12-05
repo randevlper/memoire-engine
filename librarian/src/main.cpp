@@ -140,7 +140,7 @@ int main(int argc, char** argv) {
 			me::WorldManager::render();
 
 			me::imgui::beginFrame();
-			lb::imgui::dialogueEditor::showEditor(nullptr);
+			lb::imgui::dialogueEditor::showEditor();
 			lb::imgui::worldEditor::showEditor();
 			me::imgui::ShowLuaEditor();
 			me::imgui::endFrame();
@@ -151,7 +151,6 @@ int main(int argc, char** argv) {
 			me::WorldManager::postLogic();
 		}
 
-		lb::imgui::dialogueEditor::destroy();
 		Context::quit();
 	}
 
