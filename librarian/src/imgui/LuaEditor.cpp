@@ -13,12 +13,18 @@ void reload() {
 	me::WorldManager::loadWorld("assets/worlds/" + me::WorldManager::getWorld()->name);
 }
 
+void open() {
+	std::string text = "code assets\\worlds\\" + me::WorldManager::getWorld()->name + ".lua";
+	system(text.c_str());
+}
+
 void me::imgui::ShowLuaEditor()
 {
 	if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::BeginMenu("RELOAD"))
+		if (ImGui::BeginMenu("LUA"))
 		{
-			if (ImGui::MenuItem("World")) { reload(); }
+			if (ImGui::MenuItem("Reload Lua")) { reload(); }
+			if (ImGui::MenuItem("Open Lua")) { open(); }
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
