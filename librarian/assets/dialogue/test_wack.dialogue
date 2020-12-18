@@ -45,7 +45,7 @@
             "text": "New Text"
         }
     ],
-    "name": "test",
-    "path": "",
-	"parems": ""
+    "name": "test_wack",
+    "parems": "",
+    "path": "assets/dialogue/test.dialogue"
 }

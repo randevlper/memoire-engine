@@ -216,6 +216,7 @@ namespace lb {
 							if (newSprite != "null") {
 								newSprite += ".png";
 								if (newSprite != spritepath) {
+									//This should be turned into a function
 									Sprite* sprite = AssetManager::get<Sprite>(newSprite);
 									if (sprite == nullptr) {
 										AssetManager::load(newSprite, "");
@@ -223,6 +224,7 @@ namespace lb {
 										nodeSpriteRenderer->setSprite(sprite);
 										isSpriteLoadSelectOpen = false;
 									}
+									//-----
 								}
 							}
 							

@@ -24,7 +24,8 @@
                 255.0
             ],
             "font": {
-                "name": "assets/fonts/cmunrm.ttf",
+                "name": "",
+                "path": "assets/fonts/cmunrm.ttf",
                 "parems": "32"
             },
             "name": "Dialouge",
@@ -148,7 +149,8 @@
                 255.0
             ],
             "font": {
-                "name": "assets/fonts/cmunrm.ttf",
+                "name": "",
+                "path": "assets/fonts/cmunrm.ttf",
                 "parems": "32"
             },
             "name": "TextExit",
@@ -180,7 +182,8 @@
                 255.0
             ],
             "font": {
-                "name": "assets/fonts/cmunrm.ttf",
+                "name": "",
+                "path": "assets/fonts/cmunrm.ttf",
                 "parems": "32"
             },
             "name": "TextNext",

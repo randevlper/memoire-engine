@@ -24,6 +24,7 @@
                 255.0
             ],
             "font": {
+                "name": "",
                 "parems": "32",
                 "path": "assets/fonts/cmunrm.ttf"
             },
@@ -148,6 +149,7 @@
                 255.0
             ],
             "font": {
+                "name": "",
                 "parems": "32",
                 "path": "assets/fonts/cmunrm.ttf"
             },
@@ -180,6 +182,7 @@
                 255.0
             ],
             "font": {
+                "name": "",
                 "parems": "32",
                 "path": "assets/fonts/cmunrm.ttf"
             },
@@ -212,6 +215,7 @@
                 255.0
             ],
             "font": {
+                "name": "",
                 "parems": "32",
                 "path": "assets/fonts/cmunrm.ttf"
             },
@@ -239,8 +243,9 @@
         {
             "name": "node_7",
             "sprite": {
+                "name": "",
                 "parems": "",
-                "path": "assets/sprites/box_2.png"
+                "path": "assets/sprites/box_3.png"
             },
             "transform": {
                 "angle": 0.0,
