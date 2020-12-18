@@ -24,8 +24,8 @@
                 255.0
             ],
             "font": {
-                "name": "assets/fonts/cmunrm.ttf",
-                "parems": "32"
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
             },
             "name": "Title",
             "rectTransform": {
@@ -148,8 +148,8 @@
                 255.0
             ],
             "font": {
-                "name": "assets/fonts/cmunrm.ttf",
-                "parems": "32"
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
             },
             "name": "Title2",
             "rectTransform": {
@@ -180,8 +180,8 @@
                 255.0
             ],
             "font": {
-                "name": "assets/fonts/cmunrm.ttf",
-                "parems": "32"
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
             },
             "name": "StartText",
             "rectTransform": {
@@ -212,8 +212,8 @@
                 255.0
             ],
             "font": {
-                "name": "assets/fonts/cmunrm.ttf",
-                "parems": "32"
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
             },
             "name": "ExitText",
             "rectTransform": {
@@ -235,6 +235,25 @@
             },
             "text": "Exit",
             "type": "Text"
+        },
+        {
+            "name": "node_7",
+            "sprite": {
+                "parems": "",
+                "path": "assets/sprites/box_2.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
         }
     ]
 }

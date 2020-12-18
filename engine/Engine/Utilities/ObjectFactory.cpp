@@ -1,11 +1,11 @@
 #include "ObjectFactory.h"
 
 #include "Engine/UI/NodeUI.h"
-
 #include "Engine/UI/Text.h"
 #include "Engine/UI/Button.h"
 
 #include "Engine/Nodes/Node2D.h"
+#include "Engine/Nodes/SpriteRenderer.h"
 #include "Engine/Nodes/Camera.h"
 
 namespace me {
@@ -20,6 +20,8 @@ namespace me {
 
 			//Node2D
 			nodeMap["Camera"] = createInstance<Camera>;
+			nodeMap["SpriteRenderer"] = createInstance<SpriteRenderer>;
+
 
 			//UI
 			nodeMap["Text"] = createInstance<me::ui::Text>;

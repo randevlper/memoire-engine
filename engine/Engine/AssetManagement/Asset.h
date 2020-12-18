@@ -20,13 +20,13 @@ public:
 
 	virtual nlohmann::json to_json() {
 		nlohmann::json j;
-		j["name"] = name;
+		j["path"] = path;
 		j["parems"] = parems;
 		return j;
 	}
 
 	virtual void from_json(nlohmann::json& j) {
-		name = j["name"];
+		path = j["path"];
 		parems = j["parems"];
 	}
 private:

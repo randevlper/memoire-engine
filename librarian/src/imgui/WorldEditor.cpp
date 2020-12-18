@@ -27,7 +27,11 @@ using json = nlohmann::json;
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Utilities/ObjectFactory.h"
 #include "Engine/Core/Renderer.h"
+
 #include "Engine/Nodes/Camera.h"
+#include "Engine/Nodes/SpriteRenderer.h"
+#include "Engine/AssetManagement/AssetManager.h"
+#include "Engine/AssetManagement/Sprite.h"
 
 #include "imgui/ImguiUtilities.h"
 
@@ -38,11 +42,14 @@ namespace lb {
 			static int selected = 0;
 
 			static const char* current_node_selected = "Node2D";
-			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera", "Text" };
+			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera", "Text", "SpriteRenderer" };
 			const size_t nodeTypesCount = 5;
 
 			static bool isWorldLoadSelectOpen = false;
 			static std::filesystem::directory_entry worldLoadSelection = std::filesystem::directory_entry();
+
+			static bool isSpriteLoadSelectOpen = false;
+			static std::filesystem::directory_entry spriteLoadSelection = std::filesystem::directory_entry();
 
 			const std::string worldsPath = "assets/worlds/";
 
@@ -163,7 +170,8 @@ namespace lb {
 
 
 					if (nodeSelected->getType() == "Node2D" || 
-						nodeSelected->getType() == "Camera") {
+						nodeSelected->getType() == "Camera" ||
+						nodeSelected->getType() == "SpriteRenderer") {
 						Node2D* node2DSelected = dynamic_cast<Node2D*>(nodeSelected);
 
 						//Would be more performant to have the editor access the memory directly but this way its using the same interface as the User
@@ -187,6 +195,38 @@ namespace lb {
 						node2DSelected->transform.setLocalPosition(pos);
 						node2DSelected->transform.setLocalScale(scale);
 						node2DSelected->transform.setLocalAngle(angle);
+
+						if (nodeSelected->getType() == "SpriteRenderer") {
+							SpriteRenderer* nodeSpriteRenderer = dynamic_cast<SpriteRenderer*>(nodeSelected);
+
+							std::string spritepath = "";
+							//Need nullptr check
+							if (nodeSpriteRenderer->getSprite() == nullptr) {
+								nodeSpriteRenderer->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
+							}
+							spritepath = nodeSpriteRenderer->getSprite()->path;
+
+							ImGui::Text(spritepath.c_str());
+
+							if (ImGui::Button("Load###SpriteLoadButton")) {
+								isSpriteLoadSelectOpen = true;
+							}
+
+							std::string newSprite = lb::imgui::utilities::selectFile(isSpriteLoadSelectOpen, spriteLoadSelection, "assets/sprites/", ".png");
+							if (newSprite != "null") {
+								newSprite += ".png";
+								if (newSprite != spritepath) {
+									Sprite* sprite = AssetManager::get<Sprite>(newSprite);
+									if (sprite == nullptr) {
+										AssetManager::load(newSprite, "");
+										sprite = AssetManager::get<Sprite>(newSprite);
+										nodeSpriteRenderer->setSprite(sprite);
+										isSpriteLoadSelectOpen = false;
+									}
+								}
+							}
+							
+						}
 					}
 
 					if (nodeSelected->getType() == "NodeUI" ||

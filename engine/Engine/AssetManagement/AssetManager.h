@@ -74,10 +74,10 @@ inline T* AssetManager::get(std::string name)
 template<class T>
 inline T* AssetManager::get_json(nlohmann::json j)
 {
-	T* retval = get<T>(j["name"]);
+	T* retval = get<T>(j["path"]);
 	if (retval == nullptr) {
-		load(j["name"], j["parems"]);
-		retval = get<T>(j["name"]);
+		load(j["path"], j["parems"]);
+		retval = get<T>(j["path"]);
 	}
 	return retval;
 }

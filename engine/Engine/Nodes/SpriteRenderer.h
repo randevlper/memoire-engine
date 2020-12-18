@@ -18,6 +18,9 @@ public:
 	void render() override;
 	static void destroy();
 
+	nlohmann::json to_json() override;
+	void from_json(const nlohmann::json& j) override;
+
 private:
 	Sprite* _sprite;
 	me::data::PositionColorUVVertex newVerts[4];

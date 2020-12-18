@@ -108,6 +108,8 @@ int main(int argc, char** argv) {
 		AssetManager::initLoader<lb::DialogueLoader>();
 		me::WorldManager::loadWorld("assets/worlds/mainmenu");
 
+		
+
 		while (!Context::getShouldClose())
 		{
 			Context::tick();
@@ -115,6 +117,9 @@ int main(int argc, char** argv) {
 			if(Input::getKeyDown(SDL_SCANCODE_SPACE) && !me::imgui::isAnyWindowFocused()) {
 				//Progress Text	
 				//dialogueWriter->progress();
+				World* w = me::WorldManager::getWorld();
+				SpriteRenderer* sr = w->create<SpriteRenderer>();
+				sr->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
 			}
 
 			me::WorldManager::tick();

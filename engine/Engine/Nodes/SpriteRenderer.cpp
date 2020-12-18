@@ -81,3 +81,18 @@ void SpriteRenderer::render()
 void SpriteRenderer::destroy()
 {
 }
+
+nlohmann::json SpriteRenderer::to_json()
+{
+	nlohmann::json j = Node2D::to_json();
+	j["type"] = "SpriteRenderer";
+	j["sprite"] = _sprite->to_json();
+	//Sprite location
+	return j;
+}
+
+void SpriteRenderer::from_json(const nlohmann::json& j)
+{
+	Node2D::from_json(j);
+	setSprite(AssetManager::get_json<Sprite>(j["sprite"]));
+}
