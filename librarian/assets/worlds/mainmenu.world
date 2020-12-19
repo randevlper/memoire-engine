@@ -6,8 +6,8 @@
             "transform": {
                 "angle": 0.0,
                 "position": [
-                    0.0,
-                    0.0
+                    640.0,
+                    360.0
                 ],
                 "scale": [
                     1.0,
@@ -239,26 +239,6 @@
             },
             "text": "Exit",
             "type": "Text"
-        },
-        {
-            "name": "node_7",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/sprites/box_3.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "type": "SpriteRenderer"
         }
     ]
 }

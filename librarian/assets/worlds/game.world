@@ -6,8 +6,8 @@
             "transform": {
                 "angle": 0.0,
                 "position": [
-                    0.0,
-                    0.0
+                    640.0,
+                    360.0
                 ],
                 "scale": [
                     1.0,
@@ -25,8 +25,8 @@
             ],
             "font": {
                 "name": "",
-                "path": "assets/fonts/cmunrm.ttf",
-                "parems": "32"
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
             },
             "name": "Dialouge",
             "rectTransform": {
@@ -46,7 +46,7 @@
                     1
                 ]
             },
-            "text": "Hello World",
+            "text": "New Text",
             "type": "Text"
         },
         {
@@ -150,8 +150,8 @@
             ],
             "font": {
                 "name": "",
-                "path": "assets/fonts/cmunrm.ttf",
-                "parems": "32"
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
             },
             "name": "TextExit",
             "rectTransform": {
@@ -183,8 +183,8 @@
             ],
             "font": {
                 "name": "",
-                "path": "assets/fonts/cmunrm.ttf",
-                "parems": "32"
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
             },
             "name": "TextNext",
             "rectTransform": {
@@ -206,6 +206,26 @@
             },
             "text": "Next",
             "type": "Text"
+        },
+        {
+            "name": "CharacterLeft",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/box_3.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    83.0,
+                    526.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
         }
     ]
 }

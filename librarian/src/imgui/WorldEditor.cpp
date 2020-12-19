@@ -43,7 +43,7 @@ namespace lb {
 
 			static const char* current_node_selected = "Node2D";
 			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera", "Text", "SpriteRenderer" };
-			const size_t nodeTypesCount = 5;
+			const size_t nodeTypesCount = 6;
 
 			static bool isWorldLoadSelectOpen = false;
 			static std::filesystem::directory_entry worldLoadSelection = std::filesystem::directory_entry();
@@ -128,7 +128,7 @@ namespace lb {
 
 				std::vector<Node*> nodes = world->getNodes();
 
-				if (selected > nodes.size()) {
+				if (selected >= nodes.size()) {
 					selected = 0;
 				}
 
@@ -159,7 +159,6 @@ namespace lb {
 				if (!ImGui::IsWindowFocused() && Input::getKey(SDL_SCANCODE_LCTRL)) {
 					mousePos = Input::getMousePos();
 				}
-
 
 				if (nodes.size() > 0) {
 					Node* nodeSelected = nodes[selected];
