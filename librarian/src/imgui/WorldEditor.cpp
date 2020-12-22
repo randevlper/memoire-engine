@@ -223,6 +223,11 @@ namespace lb {
 										nodeSpriteRenderer->setSprite(sprite);
 										isSpriteLoadSelectOpen = false;
 									}
+									else {
+										sprite = AssetManager::get<Sprite>(newSprite);
+										nodeSpriteRenderer->setSprite(sprite);
+										isSpriteLoadSelectOpen = false;
+									}
 									//-----
 								}
 							}

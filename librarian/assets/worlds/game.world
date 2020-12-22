@@ -46,7 +46,7 @@
                     1
                 ]
             },
-            "text": "New Text",
+            "text": "Bananyan nyan nyan ",
             "type": "Text"
         },
         {
@@ -212,17 +212,37 @@
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/box_3.png"
+                "path": "assets/sprites/banana.png"
             },
             "transform": {
                 "angle": 0.0,
                 "position": [
-                    83.0,
-                    526.0
+                    250.0,
+                    467.0
                 ],
                 "scale": [
-                    1.0,
-                    1.0
+                    -2.0,
+                    2.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "name": "CharacterRight",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/banana.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    872.0,
+                    421.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0
                 ]
             },
             "type": "SpriteRenderer"
