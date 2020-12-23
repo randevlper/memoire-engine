@@ -31,6 +31,13 @@ namespace lb {
 		}
 	};
 
+	//Tell Dialouge writer CharacterLeft is usable
+	//Set CharacterLeft as [Character]
+
+	//[Character Name] [Text]
+	//[Character Name] [SpriteChange]
+
+
 	class Dialogue : public Asset
 	{
 	public:

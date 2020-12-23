@@ -2,12 +2,14 @@
 #include "Engine/UI/Text.h"
 #include "Engine/Utilities/Debug.h"
 
+#include "Engine/Nodes/SpriteRenderer.h"
 #include "assetmanagement/Dialogue.h"
 
 namespace lb {
 	unsigned int DialogueWriter::_currentLine = 0;
 	Dialogue* DialogueWriter::_dialogue = nullptr;
 	me::ui::Text* DialogueWriter::_textBox = nullptr;
+	std::vector<SpriteRenderer*> DialogueWriter::_sRenderers = std::vector<SpriteRenderer*>();
 
 	void DialogueWriter::tick(float deltaTime)
 	{
@@ -39,8 +41,20 @@ namespace lb {
 		_currentLine++;
 	}
 
+	void DialogueWriter::clear()
+	{
+		_sRenderers = std::vector<SpriteRenderer*>();
+		_textBox = nullptr;
+	}
+
 	void DialogueWriter::setTextBox(me::ui::Text* textBox)
 	{
 		_textBox = textBox;
+	}
+
+	void DialogueWriter::addSpriteRenderer(SpriteRenderer* render)
+	{
+		if (render == nullptr) { return; }
+		_sRenderers.push_back(render);
 	}
 }
