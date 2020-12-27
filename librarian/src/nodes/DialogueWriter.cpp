@@ -37,7 +37,7 @@ namespace lb {
 			return;
 		}
 
-		_textBox->setText(_dialogue->lines[_currentLine].text);
+		_textBox->setText(_dialogue->lines[_currentLine].value);
 		_currentLine++;
 	}
 

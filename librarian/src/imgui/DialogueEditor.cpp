@@ -34,8 +34,11 @@ namespace lb {
 			static bool isFileLoadSelectOpen = false;
 			static std::filesystem::directory_entry fileLoadSelectEntry = std::filesystem::directory_entry();
 
+			const char* characterCommands[2] = { "SAY", "SPRITE" };
+
 			void save() {
 				std::string filename = dialogue->name + DIALOGUE_FILE_TYPE;
+				dialogue->path = DIALOGUE_PATH + filename;
 				FileUtility::writeStringFile(DIALOGUE_PATH, filename.c_str(), dialogue->to_json().dump(4));
 			}
 
@@ -105,7 +108,7 @@ namespace lb {
 							}
 						}
 
-						DialogueLine newLine(newText, "New Text");
+						DialogueLine newLine(newText, "New");
 						dialogue->lines.push_back(newLine);
 					}
 					ImGui::SameLine();
@@ -138,8 +141,27 @@ namespace lb {
 
 					ImGui::BeginGroup();
 					if (dialogue->lines.size() > 0) {
+						
+
 						ImGui::InputText("dialogue_name", &dialogue->lines[selected].name, ImGuiInputTextFlags_CharsNoBlank);
-						ImGui::InputTextMultiline("dialogue_text", &dialogue->lines[selected].text);
+						
+						ImGui::InputText("dialogue_character", &dialogue->lines[selected].character, ImGuiInputTextFlags_CharsNoBlank);
+						
+						const char* selectedCharacterCommand = characterCommands[dialogue->lines[selected].characterCommand];
+						if (ImGui::BeginCombo("###dialogue_character_command", selectedCharacterCommand)) {
+							for (int i = 0; i < IM_ARRAYSIZE(characterCommands); i++) {
+								bool is_selected = (selectedCharacterCommand == characterCommands[i]);
+								if (ImGui::Selectable(characterCommands[i], is_selected)) {
+									dialogue->lines[selected].characterCommand = (DialogueLine::CharacterCommand)i;
+								}
+								if (is_selected) {
+									ImGui::SetItemDefaultFocus();
+								}
+							}
+							ImGui::EndCombo();
+						}
+
+						ImGui::InputTextMultiline("dialogue_value", &dialogue->lines[selected].value);
 					}
 					ImGui::EndGroup();
 

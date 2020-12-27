@@ -1,23 +1,31 @@
 {
     "lines": [
         {
+            "character": "",
+            "characterCommand": 0,
             "name": "NewItem_0",
-            "text": "New Text"
+            "value": "New"
         },
         {
+            "character": "",
+            "characterCommand": 0,
             "name": "NewItem_1",
-            "text": "New Text"
+            "value": "New"
         },
         {
+            "character": "",
+            "characterCommand": 0,
             "name": "NewItem_2",
-            "text": "New Text"
+            "value": "New"
         },
         {
+            "character": "",
+            "characterCommand": 0,
             "name": "NewItem_3",
-            "text": "New Text"
+            "value": "New"
         }
     ],
-	"name": "Test2",
+    "name": "test2",
     "parems": "",
-    "path": ""
+    "path": "assets/dialogue/test2.dialogue"
 }

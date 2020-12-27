@@ -1,15 +1,19 @@
 {
     "lines": [
         {
-            "name": "Banana",
-            "text": "Bananyan nyan nyan "
+            "character": "Banana1",
+            "characterCommand": 0,
+            "name": "NewItem_0",
+            "value": "New"
         },
         {
+            "character": "Banana2",
+            "characterCommand": 0,
             "name": "NewItem_1",
-            "text": "New Text"
+            "value": "New"
         }
     ],
     "name": "test",
     "parems": "",
-    "path": "assets/dialogue/test.dialogue"
+    "path": ""
 }

@@ -8,11 +8,20 @@ namespace lb {
 
 	struct DialogueLine
 	{
-		std::string name;
-		std::string text;
+		enum CharacterCommand
+		{
+			SAY,
+			SPRITE //For now only changing the sprite
+		};
 
-		DialogueLine(std::string n, std::string t) {
-			name = n; text = t;
+		std::string name = "";
+		std::string character = "";
+		CharacterCommand characterCommand = CharacterCommand::SAY;
+		std::string value = "";
+
+		DialogueLine(std::string const& n, std::string const& v) {
+			name = n;
+			value = v;
 		}
 
 		DialogueLine(nlohmann::json j) {
@@ -22,20 +31,25 @@ namespace lb {
 		nlohmann::json to_json() {
 			nlohmann::json retval;
 			retval["name"] = name;
-			retval["text"] = text;
+			retval["character"] = character;
+			retval["value"] = value;
+			retval["characterCommand"] = characterCommand;
 			return retval;
 		}
 		void from_json(nlohmann::json j) {
 			name = j["name"];
-			text = j["text"];
+			value = j["value"];
+			character = j["character"];
+			characterCommand = j["characterCommand"];
 		}
 	};
 
 	//Tell Dialouge writer CharacterLeft is usable
 	//Set CharacterLeft as [Character]
 
-	//[Character Name] [Text]
-	//[Character Name] [SpriteChange]
+	//[Character]      [Enum Commnad] [Value]
+	//[Character Name] [Command]      [Text]
+	//[Character Name] [Command]      [SpriteChange]
 
 
 	class Dialogue : public Asset
