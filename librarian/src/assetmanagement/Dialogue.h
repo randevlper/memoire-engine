@@ -6,6 +6,11 @@
 
 namespace lb {
 
+	struct Character {
+		std::string name;
+		std::string sprites; //Path to folder with sprites
+	};
+
 	struct DialogueLine
 	{
 		enum CharacterCommand

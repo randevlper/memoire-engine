@@ -10,6 +10,7 @@ namespace lb {
 	Dialogue* DialogueWriter::_dialogue = nullptr;
 	me::ui::Text* DialogueWriter::_textBox = nullptr;
 	std::vector<SpriteRenderer*> DialogueWriter::_sRenderers = std::vector<SpriteRenderer*>();
+	std::vector<Character> DialogueWriter::_characters = std::vector<Character>();
 
 	void DialogueWriter::tick(float deltaTime)
 	{
@@ -62,6 +63,7 @@ namespace lb {
 	void DialogueWriter::clear()
 	{
 		_sRenderers = std::vector<SpriteRenderer*>();
+		_characters = std::vector<Character>(); //TODO Unload character sprites here
 		_textBox = nullptr;
 	}
 

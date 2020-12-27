@@ -13,6 +13,7 @@ namespace me {
 namespace lb {
 
 	class Dialogue;
+	struct Character;
 
 	//Become a Node so the World can load it in when it starts
 	class DialogueWriter
@@ -33,6 +34,7 @@ namespace lb {
 		static unsigned int _currentLine;
 		static Dialogue* _dialogue;
 		static std::vector<SpriteRenderer*> _sRenderers;
+		static std::vector<Character> _characters;
 
 		static me::ui::Text* _textBox;
 

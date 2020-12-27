@@ -36,6 +36,8 @@ namespace lb {
 
 			const char* characterCommands[2] = { "SAY", "SPRITE" };
 
+			static bool c_open = false;
+
 			void save() {
 				std::string filename = dialogue->name + DIALOGUE_FILE_TYPE;
 				dialogue->path = DIALOGUE_PATH + filename;
@@ -51,6 +53,10 @@ namespace lb {
 			void init(DialogueWriter* writer)
 			{
 				dialogueWriter = writer;
+			}
+
+			void characterSave() {
+
 			}
 
 			void showEditor()
@@ -77,6 +83,21 @@ namespace lb {
 					ImGui::EndMainMenuBar();
 				}
 
+				if (c_open) {
+					ImGui::Begin("Characters###d_character_editor", &c_open, ImGuiWindowFlags_MenuBar);
+					if (ImGui::BeginMenuBar()) {
+						if (ImGui::BeginMenu("File###d_character_editor_menu"))
+						{
+							if (ImGui::MenuItem("Save###d_character_editor_save", "Ctrl+S")) { characterSave(); }
+							if (ImGui::MenuItem("Close###d_character_editor_close", "Ctrl+W")) { c_open = false; }
+							ImGui::EndMenu();
+						}
+						ImGui::EndMenuBar();
+					}
+					ImGui::End();
+				}
+
+
 				if (d_open) {
 					ImGui::SetNextWindowSize(ImVec2(500, 440), ImGuiCond_FirstUseEver);
 					ImGui::Begin("Dialogue Editor", &d_open, ImGuiWindowFlags_MenuBar);
@@ -90,6 +111,11 @@ namespace lb {
 							if (ImGui::MenuItem("Start Preview")) { preview(); }
 							ImGui::EndMenu();
 						}
+
+						if (ImGui::MenuItem("Characters###dialogue_editor_characters")) {
+							c_open = true;
+						}
+
 						ImGui::EndMenuBar();
 					}
 

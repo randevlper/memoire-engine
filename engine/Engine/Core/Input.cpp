@@ -28,10 +28,15 @@ Input* Input::_instance = nullptr;
 glm::vec2 Input::_mouseWheel = {0,0};
 glm::vec2 Input::_mouseWheelLast = { 0,0 };
 
+bool Input::keyCheck() {
+	if (_lastPoll == nullptr || _currentPoll == nullptr) { return true; }
+	return false;
+}
+
 //Supports values 1-3
 bool Input::getKeyDown(int key)
 {
-	if (_lastPoll == nullptr || _currentPoll == nullptr) { return false; }
+	if (keyCheck()) { return false; }
 	if (key < _numKeys) {
 		//SDL_Log("last %d , current %d", _lastPoll[key], _currentPoll[key]);
 		if (_lastPoll[key] == 0 && _currentPoll[key] == 1) {
@@ -44,7 +49,7 @@ bool Input::getKeyDown(int key)
 //Supports values 1-3
 bool Input::getKeyUp(int key)
 {
-	if (_lastPoll == nullptr || _currentPoll == nullptr) { return false; }
+	if (keyCheck()) { return false; }
 	if (key < _numKeys) {
 		if (_lastPoll[key] == 1 && _currentPoll[key] == 0) {
 			return true;
@@ -56,7 +61,7 @@ bool Input::getKeyUp(int key)
 //Supports values 1-3
 bool Input::getKey(int key)
 {
-	if (_lastPoll == nullptr || _currentPoll == nullptr) { return false; }
+	if (keyCheck()) { return false; }
 	if (key < _numKeys) {
 		if (_lastPoll[key] == 1 && _currentPoll[key] == 1) {
 			return true;
@@ -68,7 +73,7 @@ bool Input::getKey(int key)
 //Supports values 1-3
 bool Input::getMouseKeyDown(int key)
 {
-	if (_lastMousePoll == nullptr || _currentMousePoll == nullptr) { return false; }
+	if (keyCheck()) { return false; }
 	if (key < _numMouseKeys) {
 		//SDL_Log("last %d , current %d", _lastPoll[key], _currentPoll[key]);
 		if (_lastMousePoll[key] == 0 && _currentMousePoll[key] == 1) {
@@ -81,7 +86,7 @@ bool Input::getMouseKeyDown(int key)
 //Supports values 1-3
 bool Input::getMouseKeyUp(int key)
 {
-	if (_lastMousePoll == nullptr || _currentMousePoll == nullptr) { return false; }
+	if (keyCheck()) { return false; }
 	if (key < _numMouseKeys) {
 		if (_lastMousePoll[key] == 1 && _currentMousePoll[key] == 0) {
 			return true;
@@ -94,7 +99,7 @@ bool Input::getMouseKeyUp(int key)
 //Supports values 1-3
 bool Input::getMouseKey(int key)
 {
-	if (_lastMousePoll == nullptr || _currentMousePoll == nullptr) { return false; }
+	if (keyCheck()) { return false; }
 	if (key < _numMouseKeys) {
 		if (_lastMousePoll[key] == 1 && _currentMousePoll[key] == 1) {
 			return true;
@@ -163,7 +168,6 @@ void Input::poll()
 	//Poll Keyboard buttons
 	std::copy(_currentPoll, _currentPoll + _numKeys, _lastPoll);
 	std::copy(_source, _source + _numKeys, _currentPoll);
-
 	
 	SDL_Scancode key;
 	while (SDL_PollEvent(&_event) != 0)
@@ -188,5 +192,4 @@ void Input::poll()
 
 		ImGui_ImplSDL2_ProcessEvent(&_event);
 	}
-
 }

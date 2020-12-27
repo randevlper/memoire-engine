@@ -45,6 +45,8 @@ private:
 	static SDL_Event _event;
 	static Input* _instance;
 
+	static bool keyCheck();
+
 	//lastPoll
 	//currentPoll
 };
