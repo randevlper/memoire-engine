@@ -8,12 +8,12 @@
         },
         {
             "character": "Banana2",
-            "characterCommand": 0,
+            "characterCommand": 1,
             "name": "NewItem_1",
             "value": "New"
         }
     ],
     "name": "test",
     "parems": "",
-    "path": ""
+    "path": "assets/dialogue/test.dialogue"
 }

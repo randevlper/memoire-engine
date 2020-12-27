@@ -160,8 +160,18 @@ namespace lb {
 							}
 							ImGui::EndCombo();
 						}
-
-						ImGui::InputTextMultiline("dialogue_value", &dialogue->lines[selected].value);
+						
+						switch (dialogue->lines[selected].characterCommand)
+						{
+						case DialogueLine::CharacterCommand::SAY:
+							ImGui::InputTextMultiline("dialogue_value", &dialogue->lines[selected].value);
+							break;
+						case DialogueLine::CharacterCommand::SPRITE:
+							break;
+						default:
+							break;
+						}
+						
 					}
 					ImGui::EndGroup();
 

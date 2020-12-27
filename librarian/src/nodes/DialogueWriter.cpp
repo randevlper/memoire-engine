@@ -37,8 +37,26 @@ namespace lb {
 			return;
 		}
 
-		_textBox->setText(_dialogue->lines[_currentLine].value);
+		bool doProgress = false;
+
+		switch (_dialogue->lines[_currentLine].characterCommand)
+		{
+		case DialogueLine::CharacterCommand::SAY:
+			_textBox->setText(_dialogue->lines[_currentLine].value);
+			break;
+		case DialogueLine::CharacterCommand::SPRITE:
+			doProgress = true;
+			break;
+		default:
+			break;
+		}
+
+		
 		_currentLine++;
+
+		if (doProgress) {
+			progress();
+		}
 	}
 
 	void DialogueWriter::clear()
