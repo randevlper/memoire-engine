@@ -27,6 +27,10 @@ namespace lb {
 		static void clear();
 		static void setTextBox(me::ui::Text* textBox);
 		static void addSpriteRenderer(SpriteRenderer* render);
+
+		static std::vector<Character> getCharacters();
+		static void setCharacters(std::vector<Character> characters);
+
 	private:
 		DialogueWriter() {};
 		~DialogueWriter() {};

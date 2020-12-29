@@ -77,4 +77,12 @@ namespace lb {
 		if (render == nullptr) { return; }
 		_sRenderers.push_back(render);
 	}
+	std::vector<Character> DialogueWriter::getCharacters()
+	{
+		return _characters;
+	}
+	void DialogueWriter::setCharacters(std::vector<Character> characters)
+	{
+		_characters = characters;
+	}
 }

@@ -37,6 +37,7 @@ namespace lb {
 			const char* characterCommands[2] = { "SAY", "SPRITE" };
 
 			static bool c_open = false;
+			static int characterSelected = 0;
 
 			void save() {
 				std::string filename = dialogue->name + DIALOGUE_FILE_TYPE;
@@ -79,7 +80,6 @@ namespace lb {
 						if (ImGui::MenuItem("Open Dialogue Editor")) { d_open = true; }
 						ImGui::EndMenu();
 					}
-
 					ImGui::EndMainMenuBar();
 				}
 
@@ -94,6 +94,44 @@ namespace lb {
 						}
 						ImGui::EndMenuBar();
 					}
+
+					std::vector<Character> characters = DialogueWriter::getCharacters();
+					if (characterSelected >= characters.size()) {
+						characterSelected = 0;
+					}
+
+
+					if (ImGui::Button("+", ImVec2(25, 25))) {
+						std::string newText = "NewCharacter_" + std::to_string(characters.size());
+						for (size_t i = 0; i < characters.size(); i++)
+						{
+							if (characters[i].name == newText) {
+								newText += "0";
+							}
+						}
+
+						lb::Character charat;
+						charat.name = newText;
+						characters.push_back(charat);
+					}
+
+					ImGui::BeginChild("Characters List###c_characters", ImVec2(150, 0), true);
+					for (size_t i = 0; i < characters.size(); i++){
+						if (ImGui::Selectable(characters[i].name.c_str(), characterSelected == i)) {
+							characterSelected = i;
+						}
+					}
+					ImGui::EndChild();
+
+					if (characters.size() > 0) {
+						ImGui::SameLine();
+						ImGui::BeginGroup();
+						ImGui::InputText("Name###c_Character_Name", &characters[characterSelected].name);
+						ImGui::InputText("Sprites Path###c_Character_Path", &characters[characterSelected].sprites);
+						ImGui::EndGroup();
+					}
+					DialogueWriter::setCharacters(characters);
+
 					ImGui::End();
 				}
 
@@ -137,6 +175,7 @@ namespace lb {
 						DialogueLine newLine(newText, "New");
 						dialogue->lines.push_back(newLine);
 					}
+
 					ImGui::SameLine();
 					if (ImGui::Button("-", ImVec2(25, 25))) {
 						if (selected < dialogue->lines.size()) {
