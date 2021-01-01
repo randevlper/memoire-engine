@@ -19,6 +19,7 @@ namespace lb {
 	class DialogueWriter
 	{
 	public:
+		static void init();
 		static void tick(float deltaTime);
 		static void startDialouge(Dialogue* dia);
 		static void progress();

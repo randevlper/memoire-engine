@@ -56,8 +56,17 @@ namespace lb {
 				dialogueWriter = writer;
 			}
 
-			void characterSave() {
+			void characterLoad() {
+				DialogueWriter::init();
+			}
 
+			void characterSave() {
+				nlohmann::json j;
+				for each (Character character in DialogueWriter::getCharacters())
+				{
+					j.push_back(character.to_json());
+				}
+				FileUtility::writeStringFile(CHARACTER_PATH, CHARACTER_FILE, j.dump(4));
 			}
 
 			void showEditor()
@@ -89,6 +98,7 @@ namespace lb {
 						if (ImGui::BeginMenu("File###d_character_editor_menu"))
 						{
 							if (ImGui::MenuItem("Save###d_character_editor_save", "Ctrl+S")) { characterSave(); }
+							if (ImGui::MenuItem("Load###d_character_editor_load", "Ctrl+L")) { characterLoad(); }
 							if (ImGui::MenuItem("Close###d_character_editor_close", "Ctrl+W")) { c_open = false; }
 							ImGui::EndMenu();
 						}

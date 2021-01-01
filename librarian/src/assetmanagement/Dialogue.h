@@ -2,6 +2,10 @@
 #include "Engine/AssetManagement/Asset.h"
 #include <nlohmann/json.hpp>
 
+
+#define CHARACTER_PATH "assets/"
+#define CHARACTER_FILE "characters.json"
+
 #define DIALOGUE_FILE_TYPE ".dialogue"
 
 namespace lb {
@@ -9,6 +13,18 @@ namespace lb {
 	struct Character {
 		std::string name;
 		std::string sprites; //Path to folder with sprites
+
+		nlohmann::json to_json() {
+			nlohmann::json retval;
+			retval["name"] = name;
+			retval["sprites"] = sprites;
+			return retval;
+		}
+
+		void from_json(nlohmann::json j) {
+			name = j["name"];
+			sprites = j["sprites"];
+		}
 	};
 
 	struct DialogueLine

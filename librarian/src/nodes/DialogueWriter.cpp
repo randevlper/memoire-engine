@@ -5,12 +5,31 @@
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "assetmanagement/Dialogue.h"
 
+#include "Engine/Core/FileUtility.h"
+
 namespace lb {
 	unsigned int DialogueWriter::_currentLine = 0;
 	Dialogue* DialogueWriter::_dialogue = nullptr;
 	me::ui::Text* DialogueWriter::_textBox = nullptr;
 	std::vector<SpriteRenderer*> DialogueWriter::_sRenderers = std::vector<SpriteRenderer*>();
 	std::vector<Character> DialogueWriter::_characters = std::vector<Character>();
+
+	void DialogueWriter::init()
+	{
+		nlohmann::json j;
+		std::string filepath = CHARACTER_PATH;
+		filepath += CHARACTER_FILE;
+		FileUtility::loadJson(filepath.c_str(), j);
+
+		std::vector<Character> characters;
+		for each (nlohmann::json item in j)
+		{
+			Character c;
+			c.from_json(item);
+			characters.push_back(c);
+		}
+		DialogueWriter::setCharacters(characters);
+	}
 
 	void DialogueWriter::tick(float deltaTime)
 	{

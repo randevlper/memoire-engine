@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
 		AssetManager::initLoader<lb::DialogueLoader>();
 		me::WorldManager::loadWorld("assets/worlds/mainmenu");
 
-		
+		lb::DialogueWriter::init();
 
 		while (!Context::getShouldClose())
 		{
