@@ -55,9 +55,11 @@ int dialogueAddSpriteRenderer(lua_State* L) {
 int setupWriter(lua_State* L) {
 	World* world = me::WorldManager::getWorld();
 	if (world != nullptr) {
-		const char* name = lua_tostring(L, -1);
-		me::ui::Text* text = world->get<me::ui::Text>(name);
-		lb::DialogueWriter::setTextBox(text);
+		const char* d = lua_tostring(L, -2);
+		const char* p = lua_tostring(L, -1);
+		me::ui::Text* text = world->get<me::ui::Text>(d);
+		me::ui::Text* plate = world->get<me::ui::Text>(p);
+		lb::DialogueWriter::setTextBox(text, plate);
 		text->setText("Writer setup!");
 	}
 	return 0;

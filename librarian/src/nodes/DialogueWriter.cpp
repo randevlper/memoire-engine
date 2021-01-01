@@ -11,6 +11,7 @@ namespace lb {
 	unsigned int DialogueWriter::_currentLine = 0;
 	Dialogue* DialogueWriter::_dialogue = nullptr;
 	me::ui::Text* DialogueWriter::_textBox = nullptr;
+	me::ui::Text* DialogueWriter::_nameplate = nullptr;
 	std::vector<SpriteRenderer*> DialogueWriter::_sRenderers = std::vector<SpriteRenderer*>();
 	std::vector<Character> DialogueWriter::_characters = std::vector<Character>();
 
@@ -86,9 +87,10 @@ namespace lb {
 		_textBox = nullptr;
 	}
 
-	void DialogueWriter::setTextBox(me::ui::Text* textBox)
+	void DialogueWriter::setTextBox(me::ui::Text* textBox, me::ui::Text* nameplate)
 	{
 		_textBox = textBox;
+		_nameplate = nameplate;
 	}
 
 	void DialogueWriter::addSpriteRenderer(SpriteRenderer* render)

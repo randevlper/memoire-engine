@@ -26,7 +26,7 @@ namespace lb {
 
 
 		static void clear();
-		static void setTextBox(me::ui::Text* textBox);
+		static void setTextBox(me::ui::Text* textBox, me::ui::Text* nameplate);
 		static void addSpriteRenderer(SpriteRenderer* render);
 
 		static std::vector<Character> getCharacters();
@@ -42,6 +42,7 @@ namespace lb {
 		static std::vector<Character> _characters;
 
 		static me::ui::Text* _textBox;
+		static me::ui::Text* _nameplate;
 
 	};
 }

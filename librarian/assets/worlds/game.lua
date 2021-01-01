@@ -8,7 +8,7 @@ end
 
 function init()
 -- Get text box and set that up for the dialogue writer
-	setupWriter("Dialouge")
+	setupWriter("Dialouge", "Nameplate")
 	dialogueAddSpriteRenderer("CharacterLeft")
 	dialogueAddSpriteRenderer("CharacterRight")
 	startDialouge("assets/dialogue/test.dialogue")

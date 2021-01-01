@@ -46,7 +46,7 @@
                     1
                 ]
             },
-            "text": "Bananyan nyan nyan ",
+            "text": "Text",
             "type": "Text"
         },
         {
@@ -246,6 +246,39 @@
                 ]
             },
             "type": "SpriteRenderer"
+        },
+        {
+            "color": [
+                255.0,
+                255.0,
+                255.0,
+                255.0
+            ],
+            "font": {
+                "name": "",
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
+            },
+            "name": "Nameplate",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "position": [
+                        13.0,
+                        197.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    1,
+                    1
+                ]
+            },
+            "text": "Name",
+            "type": "Text"
         }
     ]
 }
