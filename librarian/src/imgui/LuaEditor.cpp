@@ -18,11 +18,17 @@ void open() {
 	system(text.c_str());
 }
 
+void openWindow() {
+	std::string text = "explorer assets\\";
+	system(text.c_str());
+}
+
 void me::imgui::ShowLuaEditor()
 {
 	if (ImGui::BeginMainMenuBar()) {
 		if (ImGui::BeginMenu("LUA"))
 		{
+			if (ImGui::MenuItem("Open in Windows")) { openWindow(); }
 			if (ImGui::MenuItem("Reload Lua")) { reload(); }
 			if (ImGui::MenuItem("Open Lua")) { open(); }
 			ImGui::EndMenu();

@@ -242,6 +242,7 @@ namespace lb {
 							ImGui::InputTextMultiline("dialogue_value", &dialogue->lines[selected].value);
 							break;
 						case DialogueLine::CharacterCommand::SPRITE:
+							ImGui::InputText("dialogue_value", &dialogue->lines[selected].value);
 							break;
 						default:
 							break;

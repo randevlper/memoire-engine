@@ -25,6 +25,9 @@ public:
 	template <class T>
 	static T* get_json(nlohmann::json j); 
 
+	template <class T>
+	static T* getLoad(std::string path, std::string vars);
+
 private:
 	//Asset, Pointer
 	static std::unordered_map<std::string, Asset*> _assets;
@@ -78,6 +81,16 @@ inline T* AssetManager::get_json(nlohmann::json j)
 	if (retval == nullptr) {
 		load(j["path"], j["parems"]);
 		retval = get<T>(j["path"]);
+	}
+	return retval;
+}
+
+template<class T>
+inline T* AssetManager::getLoad(std::string path, std::string vars) {
+	T* retval = get<T>(path);
+	if (retval == nullptr) {
+		load(path, vars);
+		retval = get<T>(path);
 	}
 	return retval;
 }

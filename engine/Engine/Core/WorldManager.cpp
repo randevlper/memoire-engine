@@ -67,6 +67,7 @@ namespace me {
 	{
 		if (_toLoadWorld != nullptr) {
 			if (_currentWorld != nullptr) {
+				LuaManager::luaFunction("destroy");
 				unLoadWorld();
 			}
 			_currentWorld = _toLoadWorld;

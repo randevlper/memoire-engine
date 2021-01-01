@@ -5,6 +5,9 @@
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "assetmanagement/Dialogue.h"
 
+#include "Engine/AssetManagement/AssetManager.h"
+#include "Engine/AssetManagement/Sprite.h"
+
 #include "Engine/Core/FileUtility.h"
 
 namespace lb {
@@ -59,13 +62,27 @@ namespace lb {
 		}
 
 		bool doProgress = false;
+		std::string path;
+		Character character;
+		Sprite* s = nullptr;
 
 		switch (_dialogue->lines[_currentLine].characterCommand)
 		{
 		case DialogueLine::CharacterCommand::SAY:
+			_nameplate->setText(_dialogue->lines[_currentLine].character);
 			_textBox->setText(_dialogue->lines[_currentLine].value);
 			break;
 		case DialogueLine::CharacterCommand::SPRITE:
+			for each (Character item in _characters)
+			{
+				if (item.name == _dialogue->lines[_currentLine].character) {
+					character = item;
+				}
+			}
+			path += character.sprites;
+			path += _dialogue->lines[_currentLine].value;
+			s = AssetManager::getLoad<Sprite>(path, "");
+			_sRenderers[0]->setSprite(s);
 			doProgress = true;
 			break;
 		default:
@@ -83,7 +100,7 @@ namespace lb {
 	void DialogueWriter::clear()
 	{
 		_sRenderers = std::vector<SpriteRenderer*>();
-		_characters = std::vector<Character>(); //TODO Unload character sprites here
+		//_characters = std::vector<Character>(); //TODO Unload character sprites here
 		_textBox = nullptr;
 	}
 

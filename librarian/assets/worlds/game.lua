@@ -13,3 +13,7 @@ function init()
 	dialogueAddSpriteRenderer("CharacterRight")
 	startDialouge("assets/dialogue/test.dialogue")
 end
+
+function destroy()
+	dialogueClear()
+end

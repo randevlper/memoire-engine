@@ -1,16 +1,28 @@
 {
     "lines": [
         {
-            "character": "Banana1",
+            "character": "Ayse",
             "characterCommand": 0,
             "name": "NewItem_0",
             "value": "New"
         },
         {
-            "character": "Banana2",
+            "character": "Ayse",
             "characterCommand": 1,
             "name": "NewItem_1",
-            "value": "New"
+            "value": "temp_base.png"
+        },
+        {
+            "character": "Ayse",
+            "characterCommand": 0,
+            "name": "NewItem_2",
+            "value": "Time to switch"
+        },
+        {
+            "character": "Ayse",
+            "characterCommand": 1,
+            "name": "NewItem_3",
+            "value": "temp_red.png"
         }
     ],
     "name": "test",
