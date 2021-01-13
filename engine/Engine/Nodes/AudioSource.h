@@ -14,6 +14,8 @@ public:
 	void play();
 	void stop();
 
+	bool isPlaying();
+
 	nlohmann::json to_json() override {
 		nlohmann::json j = Node2D::to_json();
 		j["type"] = "AudioSource";
@@ -24,8 +26,22 @@ public:
 
 	}
 
+	struct UserData
+	{
+		ma_decoder* decoder;
+		bool* isPlaying;
+		unsigned int frame;
+	};
+
 private:
-	unsigned int _frame;
+
+	//Used to hold onto the pointer for cleanup
+	//THIS DATA IS BEING MODIFIED BY ANOTHER THREAD - POssibly add some kind of safety to it
+	UserData* _userData;
+
+	//ONLY THE AUDIO THREAD SHOULD MODIFY THIS
+	bool* _isPlaying;
+	
 	ma_device* _device;
 	ma_decoder* _decoder;
 	AudioClip* _clip;

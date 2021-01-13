@@ -34,7 +34,7 @@ namespace lb {
 			static bool isFileLoadSelectOpen = false;
 			static std::filesystem::directory_entry fileLoadSelectEntry = std::filesystem::directory_entry();
 
-			const char* characterCommands[2] = { "SAY", "SPRITE" };
+			const char* characterCommands[3] = { "SAY", "SPRITE", "SOUND" };
 
 			
 
@@ -262,6 +262,9 @@ namespace lb {
 							ImGui::InputTextMultiline("dialogue_value", &dialogue->lines[selected].value);
 							break;
 						case DialogueLine::CharacterCommand::SPRITE:
+							ImGui::InputText("dialogue_value", &dialogue->lines[selected].value);
+							break;
+						case DialogueLine::CharacterCommand::SOUND:
 							ImGui::InputText("dialogue_value", &dialogue->lines[selected].value);
 							break;
 						default:

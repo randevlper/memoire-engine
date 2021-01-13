@@ -32,7 +32,8 @@ namespace lb {
 		enum CharacterCommand
 		{
 			SAY,
-			SPRITE //For now only changing the sprite
+			SPRITE, //For now only changing the sprite
+			SOUND //TODO seperate non specific commands
 		};
 
 		std::string name = "";

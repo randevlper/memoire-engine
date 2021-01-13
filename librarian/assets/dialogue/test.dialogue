@@ -3,26 +3,38 @@
         {
             "character": "Ayse",
             "characterCommand": 0,
-            "name": "NewItem_0",
+            "name": "SAY_NEW",
             "value": "New"
         },
         {
             "character": "Ayse",
             "characterCommand": 1,
-            "name": "NewItem_1",
+            "name": "SPRIT_BASE",
             "value": "temp_base.png"
         },
         {
             "character": "Ayse",
             "characterCommand": 0,
-            "name": "NewItem_2",
+            "name": "SAY_Switch",
             "value": "Time to switch"
         },
         {
             "character": "Ayse",
             "characterCommand": 1,
-            "name": "NewItem_3",
+            "name": "SPRITE_RED",
             "value": "temp_red.png"
+        },
+        {
+            "character": "Ayse",
+            "characterCommand": 0,
+            "name": "SAY",
+            "value": "Sound test"
+        },
+        {
+            "character": "Ayse",
+            "characterCommand": 2,
+            "name": "Sound",
+            "value": "assets/audio/ohno.mp3"
         }
     ],
     "name": "test",

@@ -48,4 +48,12 @@ void Audio::playBGM(AudioClip* clip)
 
 void Audio::playSound(AudioClip* sound)
 {
+	for (size_t i = 0; i < _sounds.size(); i++)
+	{
+		if (!_sounds[i]->isPlaying()) {
+			_sounds[i]->setAudioClip(sound);
+			_sounds[i]->play();
+			break;
+		}
+	}
 }

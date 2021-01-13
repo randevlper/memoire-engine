@@ -2,6 +2,9 @@
 #include "Engine/UI/Text.h"
 #include "Engine/Utilities/Debug.h"
 
+#include "Engine/Core/Audio.h"
+#include "Engine/AssetManagement/AudioClip.h"
+
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "assetmanagement/Dialogue.h"
 
@@ -84,6 +87,9 @@ namespace lb {
 			s = AssetManager::getLoad<Sprite>(path, "");
 			_sRenderers[0]->setSprite(s);
 			doProgress = true;
+			break;
+		case DialogueLine::CharacterCommand::SOUND:
+			Audio::playSound(AssetManager::getLoad<AudioClip>(_dialogue->lines[_currentLine].value, ""));
 			break;
 		default:
 			break;

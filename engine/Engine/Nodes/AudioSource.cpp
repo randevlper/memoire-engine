@@ -7,14 +7,18 @@
 #include "Engine/Utilities/DebugMemory.h"
 
 
+
+
 //This is called on its own thread?
 void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
 {
-	//Audio::_frame++;
-	ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
+	AudioSource::UserData* userData = (AudioSource::UserData*)pDevice->pUserData;
+	ma_decoder* pDecoder = (ma_decoder*)(userData->decoder);
 	if (pDecoder == NULL) {
 		return;
 	}
+
+	userData->frame++;
 
 	//Debug::Log("Data Callback");
 
@@ -22,24 +26,27 @@ void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uin
 
 	(void)pInput;
 
-	//if (Audio::_frame > frameCount) {
-	//	//Debug::Log("Stopping!");
-	//	//Cannot call stop from in here
-	//	//Need to use the events
-	//	//ma_device_stop(pDevice);
-	//	//ma_decoder_seek_to_pcm_frame(pDecoder, 0);
-	//	Audio::_frame = 0;
-	//}
+	//This is called every frame anyways
+	if (userData->frame >= frameCount) {
+		//Cannot call stop from in here
+		//Need to use the events
+		//ma_device_stop(pDevice);
+		//ma_decoder_seek_to_pcm_frame(pDecoder, 0);
+		//userData->frame= 0;
+		userData->isPlaying = false;
+		return;
+	}
+
 }
 
 AudioSource::AudioSource()
 {
 	_type = "AudioSource";
-	_frame = 0;
+	_isPlaying = DBG_NEW bool(false);
 	_clip = nullptr;
 	_decoder = DBG_NEW ma_decoder();
 	_device = DBG_NEW ma_device();
-
+	_userData = nullptr;
 }
 
 AudioSource::~AudioSource()
@@ -49,11 +56,14 @@ AudioSource::~AudioSource()
 	ma_decoder_uninit(_decoder);
 	delete(_device);
 	delete(_decoder);
+	delete(_isPlaying);
 }
 
 bool AudioSource::setAudioClip(AudioClip* clip)
 {
 	if (clip == nullptr) { return false; }
+	if(ma_device_is_started(_device)) { ma_device_stop(_device); }
+
 
 	_clip = clip;
 	ma_result result;
@@ -75,7 +85,11 @@ bool AudioSource::setAudioClip(AudioClip* clip)
 	deviceConfig.playback.channels = _decoder->outputChannels;
 	deviceConfig.sampleRate = _decoder->outputSampleRate;
 	deviceConfig.dataCallback = data_callback;
-	deviceConfig.pUserData = _decoder;
+
+	if(_userData != nullptr) { delete(_userData); }
+	_userData = DBG_NEW UserData{ _decoder, _isPlaying };
+
+	deviceConfig.pUserData = _userData;
 
 	if (ma_device_init(NULL, &deviceConfig, _device) != MA_SUCCESS) {
 		Debug::Log("Failed to open playback device.");
@@ -94,7 +108,6 @@ void AudioSource::play()
 		Debug::Log("Stopping!");
 		ma_device_stop(_device);
 		ma_decoder_seek_to_pcm_frame(_decoder, 0);
-
 	}
 	else {
 		Debug::Log("Tryplay");
@@ -105,4 +118,10 @@ void AudioSource::stop()
 {
 	if (_clip == nullptr) { return;  }
 	ma_device_stop(_device);
+}
+
+bool AudioSource::isPlaying()
+{
+	if (_userData == nullptr) { return false; }
+	return _userData->isPlaying;
 }
