@@ -176,6 +176,7 @@ void Context::init(ContextWindowParems* parems)
 void Context::quit()
 {
 	me::imgui::destroy();
+	Audio::destroy();
 	me::WorldManager::unLoadWorld();
 	LuaManager::destroy();
 	AssetManager::destroy();
@@ -185,7 +186,6 @@ void Context::quit()
 	Physics::quit();
 	Input::quit();
 	Renderer::quit();
-	Audio::destroy();
 	delete(_instance);
 	delete(_wmInfo);
 	SDL_DestroyWindow(_window);

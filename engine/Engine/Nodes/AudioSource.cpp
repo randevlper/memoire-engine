@@ -44,6 +44,7 @@ AudioSource::AudioSource()
 
 AudioSource::~AudioSource()
 {
+	stop();
 	ma_device_uninit(_device);
 	ma_decoder_uninit(_decoder);
 	delete(_device);
@@ -90,9 +91,6 @@ void AudioSource::play()
 	if (_clip == nullptr) { return; }
 	if (ma_device_start(_device) != MA_SUCCESS) {
 		Debug::Log("Failed to start playback device.");
-		//ma_device_uninit(_device);
-		//ma_decoder_uninit(_decoder);
-		//return -4;
 		Debug::Log("Stopping!");
 		ma_device_stop(_device);
 		ma_decoder_seek_to_pcm_frame(_decoder, 0);
@@ -105,4 +103,6 @@ void AudioSource::play()
 
 void AudioSource::stop()
 {
+	if (_clip == nullptr) { return;  }
+	ma_device_stop(_device);
 }

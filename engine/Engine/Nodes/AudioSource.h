@@ -14,6 +14,16 @@ public:
 	void play();
 	void stop();
 
+	nlohmann::json to_json() override {
+		nlohmann::json j = Node2D::to_json();
+		j["type"] = "AudioSource";
+		return j;
+	}
+
+	void from_json(const nlohmann::json& j) override {
+
+	}
+
 private:
 	unsigned int _frame;
 	ma_device* _device;
