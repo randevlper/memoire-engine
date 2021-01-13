@@ -36,6 +36,8 @@ namespace lb {
 
 			const char* characterCommands[2] = { "SAY", "SPRITE" };
 
+			
+
 			static bool c_open = false;
 			static int characterSelected = 0;
 
@@ -67,6 +69,7 @@ namespace lb {
 					j.push_back(character.to_json());
 				}
 				FileUtility::writeStringFile(CHARACTER_PATH, CHARACTER_FILE, j.dump(4));
+				DialogueWriter::init();
 			}
 
 			void showEditor()
@@ -217,10 +220,27 @@ namespace lb {
 					ImGui::BeginGroup();
 					if (dialogue->lines.size() > 0) {
 						
+						static std::vector<Character> characters = DialogueWriter::getCharacters();
 
 						ImGui::InputText("dialogue_name", &dialogue->lines[selected].name, ImGuiInputTextFlags_CharsNoBlank);
 						
-						ImGui::InputText("dialogue_character", &dialogue->lines[selected].character, ImGuiInputTextFlags_CharsNoBlank);
+						//ImGui::InputText("dialogue_character", &dialogue->lines[selected].character, ImGuiInputTextFlags_CharsNoBlank);
+
+						const char* selectedCharacter = dialogue->lines[selected].character.c_str();
+						if (ImGui::BeginCombo("###dialogue_character_name", selectedCharacter)) {
+							for (size_t i = 0; i < characters.size(); i++)
+							{
+								const char* character_cstring = characters[i].name.c_str();
+								bool is_selected = selectedCharacter == character_cstring;
+								if (ImGui::Selectable(character_cstring, is_selected)) {
+									dialogue->lines[selected].character = character_cstring;
+								}
+								if (is_selected) {
+									ImGui::SetItemDefaultFocus();
+								}
+							}
+							ImGui::EndCombo();
+						}
 						
 						const char* selectedCharacterCommand = characterCommands[dialogue->lines[selected].characterCommand];
 						if (ImGui::BeginCombo("###dialogue_character_command", selectedCharacterCommand)) {

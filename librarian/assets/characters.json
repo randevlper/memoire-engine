@@ -10,5 +10,9 @@
     {
         "name": "Stele",
         "sprites": ""
+    },
+    {
+        "name": "Demon",
+        "sprites": ""
     }
 ]
