@@ -75,7 +75,7 @@ bool AudioSource::setAudioClip(AudioClip* clip)
 		NULL, _decoder);
 
 	if (result != MA_SUCCESS) {
-		Debug::Log("Failed to create decoder.");
+		Debug::LogError("[AudioSource] Failed to create decoder.");
 		return false;
 	}
 
@@ -92,11 +92,10 @@ bool AudioSource::setAudioClip(AudioClip* clip)
 	deviceConfig.pUserData = _userData;
 
 	if (ma_device_init(NULL, &deviceConfig, _device) != MA_SUCCESS) {
-		Debug::Log("Failed to open playback device.");
+		Debug::LogError("[AudioSource] Failed to open playback device.");
 		ma_decoder_uninit(_decoder);
 		return false;
 	}
-	Debug::Log("Setup AudioSource");
 	return true;
 }
 
@@ -104,13 +103,9 @@ void AudioSource::play()
 {
 	if (_clip == nullptr) { return; }
 	if (ma_device_start(_device) != MA_SUCCESS) {
-		Debug::Log("Failed to start playback device.");
-		Debug::Log("Stopping!");
+		Debug::LogError("[AudioSource] Failed to start playback device! Stopping!");
 		ma_device_stop(_device);
-		ma_decoder_seek_to_pcm_frame(_decoder, 0);
-	}
-	else {
-		Debug::Log("Tryplay");
+		//ma_decoder_seek_to_pcm_frame(_decoder, 0);
 	}
 }
 

@@ -52,7 +52,6 @@ namespace me {
 
 		Button::~Button()
 		{
-			Debug::Log("Goodbye button!");
 			bgfx::destroy(_vbh);
 		}
 

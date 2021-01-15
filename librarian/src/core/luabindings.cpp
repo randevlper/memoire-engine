@@ -72,9 +72,6 @@ void luaBindings(lua_State* L)
 	LUA_CFUNCTION(setupWriter)
 	LUA_CFUNCTION(dialogueClear)
 	LUA_CFUNCTION(dialogueAddSpriteRenderer)
-
-
-	Debug::Log("Setup Librarian LUA!");
 }
 
 void lb::InitLuaBindings()
