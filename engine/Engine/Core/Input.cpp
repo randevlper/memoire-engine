@@ -12,6 +12,7 @@
 #include "Engine/Nodes/Node.h"
 #include "Engine/Data/Transform.h"
 
+#include "Engine/Tools/imgui_bgfx.h"
 #include "Engine/thirdparty/imgui/imgui_impl_sdl.h"
 
 const unsigned char* Input::_source = nullptr;
@@ -168,7 +169,7 @@ void Input::poll()
 	//Poll Keyboard buttons
 	std::copy(_currentPoll, _currentPoll + _numKeys, _lastPoll);
 	std::copy(_source, _source + _numKeys, _currentPoll);
-	
+
 	SDL_Scancode key;
 	while (SDL_PollEvent(&_event) != 0)
 	{
@@ -191,5 +192,10 @@ void Input::poll()
 		}
 
 		ImGui_ImplSDL2_ProcessEvent(&_event);
+	}
+
+	if (_lastPoll[SDL_SCANCODE_GRAVE] == 0 && _currentPoll[SDL_SCANCODE_GRAVE] == 1) {
+		Debug::Log("Setting IMGUI visibility");
+		me::imgui::setIMGUIVisibility(!me::imgui::isIMGUIOpen());
 	}
 }

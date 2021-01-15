@@ -7,5 +7,7 @@ namespace me {
 		void endFrame();
 		void destroy();
 		bool isAnyWindowFocused();
+		bool isIMGUIOpen();
+		void setIMGUIVisibility(bool isOpen);
 	}
 }

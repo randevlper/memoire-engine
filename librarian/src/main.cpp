@@ -132,19 +132,22 @@ int main(int argc, char** argv) {
 					}
 					if (nodes[i]->getType() == "Button") {
 						me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodes[i]);
-						buttonSelected->sendMouseInfo(Input::getMousePos(), Input::getMouseKeyDown(1));
-
+						if (!me::imgui::isIMGUIOpen()) {
+							buttonSelected->sendMouseInfo(Input::getMousePos(), Input::getMouseKeyDown(1));
+						}
 					}
 				}
 			}
 
 			me::WorldManager::render();
 
-			me::imgui::beginFrame();
-			lb::imgui::dialogueEditor::showEditor();
-			lb::imgui::worldEditor::showEditor();
-			me::imgui::ShowLuaEditor();
-			me::imgui::endFrame();
+			if (me::imgui::isIMGUIOpen()) {
+				me::imgui::beginFrame();
+				lb::imgui::dialogueEditor::showEditor();
+				lb::imgui::worldEditor::showEditor();
+				me::imgui::ShowLuaEditor();
+				me::imgui::endFrame();
+			}
 
 			Renderer::render();
 			

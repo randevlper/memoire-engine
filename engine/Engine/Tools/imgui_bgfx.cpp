@@ -14,6 +14,7 @@
 namespace me {
 	namespace imgui {
 		static float scroll = 0;
+		static bool _isOpen = true;
 
 		void create()
 		{
@@ -51,6 +52,14 @@ namespace me {
 		bool isAnyWindowFocused()
 		{
 			return ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow);
+		}
+		bool isIMGUIOpen()
+		{
+			return _isOpen;
+		}
+		void setIMGUIVisibility(bool isOpen)
+		{
+			_isOpen = isOpen;
 		}
 	}
 }
