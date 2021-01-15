@@ -108,11 +108,7 @@ int main(int argc, char** argv) {
 		AssetManager::initLoader<lb::DialogueLoader>();
 		me::WorldManager::loadWorld("assets/worlds/mainmenu");
 
-		AudioClip* bgmTest = AssetManager::getLoad<AudioClip>("assets/music/test.mp3", "");
-		Audio::playBGM(bgmTest);
-
 		lb::DialogueWriter::init();
-
 		while (!Context::getShouldClose())
 		{
 			Context::tick();

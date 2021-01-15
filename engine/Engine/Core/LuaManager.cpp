@@ -5,6 +5,11 @@
 #include <lua.hpp>
 
 #include "Engine/Core/Context.h"
+#include "Engine/Core/Audio.h"
+
+#include "Engine/AssetManagement/AssetManager.h"
+#include "Engine/AssetManagement/AudioClip.h"
+
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Core/WorldManager.h"
 
@@ -44,12 +49,21 @@ int loadWorld(lua_State* L)
 	return 0;
 }
 
+int playBGM(lua_State* L) {
+	const char* path = lua_tostring(L, -1);
+	Debug::Log(std::string("[LUA] Playing BGM: ") + path);
+	AudioClip* clip = AssetManager::getLoad<AudioClip>(path, ""); 
+	Audio::playBGM(clip);
+	return 0;
+}
+
 void LuaManager::init()
 {
 	_L = luaL_newstate();
 	LUA_CFUNCTION(loadWorld)
 	LUA_CFUNCTION(printC)
 	LUA_CFUNCTION(quit)
+	LUA_CFUNCTION(playBGM)
 
 	for (size_t i = 0; i < bindings.size(); i++)
 	{
