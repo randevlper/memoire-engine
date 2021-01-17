@@ -14,7 +14,7 @@
 namespace me {
 	namespace imgui {
 		static float scroll = 0;
-		static bool _isOpen = true;
+		static bool _isOpen = false;
 
 		void create()
 		{

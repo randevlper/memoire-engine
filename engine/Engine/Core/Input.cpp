@@ -195,7 +195,7 @@ void Input::poll()
 	}
 
 	if (_lastPoll[SDL_SCANCODE_GRAVE] == 0 && _currentPoll[SDL_SCANCODE_GRAVE] == 1) {
-		Debug::Log("Setting IMGUI visibility");
+		//Debug::Log("Setting IMGUI visibility");
 		me::imgui::setIMGUIVisibility(!me::imgui::isIMGUIOpen());
 	}
 }
