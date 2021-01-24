@@ -115,6 +115,12 @@ void AudioSource::stop()
 	ma_device_stop(_device);
 }
 
+void AudioSource::setVolume(float value)
+{
+	if (_clip == nullptr) { return; }
+	ma_device_set_master_volume(_device, std::clamp(value, 0.0f, 1.0f));
+}
+
 bool AudioSource::isPlaying()
 {
 	if (_userData == nullptr) { return false; }

@@ -13,6 +13,8 @@ public:
 	bool setAudioClip(AudioClip* clip);
 	void play();
 	void stop();
+	//0 - 1 value
+	void setVolume(float value);
 
 	bool isPlaying();
 

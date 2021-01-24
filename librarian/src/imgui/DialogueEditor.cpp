@@ -159,6 +159,9 @@ namespace lb {
 							if (ImGui::MenuItem("Open..", "Ctrl+O")) { isFileLoadSelectOpen = true; }
 							if (ImGui::MenuItem("Save", "Ctrl+S")) { save(); }
 							if (ImGui::MenuItem("Close", "Ctrl+W")) { d_open = false; }
+							if (ImGui::MenuItem("New", "Ctrl+N")) { 
+								//TODO This will create garbage - but right now i dont care
+								dialogue = DBG_NEW Dialogue(); }
 							if (ImGui::MenuItem("Start Preview")) { preview(); }
 							ImGui::EndMenu();
 						}

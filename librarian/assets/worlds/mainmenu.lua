@@ -9,3 +9,7 @@ end
 function init ()
 	playBGM("assets/music/test.mp3")
 end
+
+function MuteButton ()
+	muteBGM(not isBGMMuted())
+end

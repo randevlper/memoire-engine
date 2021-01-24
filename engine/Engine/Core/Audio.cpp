@@ -18,7 +18,9 @@ No 3D audio in a VN so its not an issue
 
 World* Audio::_audioWorld = nullptr;
 AudioSource* Audio::_bgm = nullptr;
+bool Audio::_bgmMuted = false;
 std::vector<AudioSource*> Audio::_sounds = std::vector<AudioSource*>();
+
 
 int Audio::init()
 {
@@ -43,7 +45,14 @@ void Audio::playBGM(AudioClip* clip)
 	//need to be able to stop the bgm first
 	_bgm->setAudioClip(clip);
 	_bgm->play();
+	_bgm->setVolume(_bgmMuted ? 0.0f : 1.0f);
 
+}
+
+void Audio::muteBGM(bool value)
+{
+	_bgmMuted = value;
+	_bgm->setVolume(_bgmMuted ? 0.0f : 1.0f);
 }
 
 void Audio::playSound(AudioClip* sound)

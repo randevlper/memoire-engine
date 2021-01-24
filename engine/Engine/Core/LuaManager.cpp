@@ -57,6 +57,17 @@ int playBGM(lua_State* L) {
 	return 0;
 }
 
+int muteBGM(lua_State* L) {
+	const bool value = lua_toboolean(L, -1);
+	Audio::muteBGM(value);
+	return 0;
+}
+
+int isBGMMuted(lua_State* L) {
+	lua_pushboolean(L, Audio::getIsBGMMuted());
+	return 1;
+}
+
 void LuaManager::init()
 {
 	_L = luaL_newstate();
@@ -64,6 +75,8 @@ void LuaManager::init()
 	LUA_CFUNCTION(printC)
 	LUA_CFUNCTION(quit)
 	LUA_CFUNCTION(playBGM)
+	LUA_CFUNCTION(muteBGM)
+	LUA_CFUNCTION(isBGMMuted)
 
 	for (size_t i = 0; i < bindings.size(); i++)
 	{
