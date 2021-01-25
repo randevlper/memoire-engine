@@ -2,12 +2,6 @@
     "lines": [
         {
             "character": "Ayse",
-            "characterCommand": 0,
-            "name": "SAY_NEW",
-            "value": "New"
-        },
-        {
-            "character": "Ayse",
             "characterCommand": 1,
             "name": "SPRIT_BASE",
             "value": "temp_base.png"
@@ -35,6 +29,12 @@
             "characterCommand": 2,
             "name": "Sound",
             "value": "assets/audio/ohno.mp3"
+        },
+        {
+            "character": "Anemone",
+            "characterCommand": 0,
+            "name": "SAY_NEW",
+            "value": "There was no need to be that brutal."
         }
     ],
     "name": "test",

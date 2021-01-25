@@ -5,11 +5,11 @@
     },
     {
         "name": "Anemone",
-        "sprites": ""
+        "sprites": "assets/sprites/anemone/"
     },
     {
         "name": "Stele",
-        "sprites": ""
+        "sprites": "assets/sprites/stele/"
     },
     {
         "name": "Demon",

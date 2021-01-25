@@ -203,6 +203,46 @@ namespace lb {
 						}
 					}
 
+					if (ImGui::Button("/\\", ImVec2(25, 25))) {
+						//Check where the element is at and attemt to move it above
+						int spot = selected - 1;
+						if (spot < 0) { spot = 0; };
+						std::vector<DialogueLine>::iterator it = dialogue->lines.begin() + spot;
+						dialogue->lines.insert(it, dialogue->lines[selected]);
+
+						it = dialogue->lines.begin() + selected + 1;
+						dialogue->lines.erase(it);
+
+						if (spot != 0) {
+							selected -= 1;
+						}
+						else {
+							selected = 0;
+						}
+					}
+
+					ImGui::SameLine();
+					if (ImGui::Button("\\/", ImVec2(25, 25))) {
+						//Check where the element is at and attemt to move it below
+						int spot = selected + 2;
+						if (spot >= dialogue->lines.size()) {
+							dialogue->lines.push_back(dialogue->lines[selected]);
+							std::vector<DialogueLine>::iterator it = dialogue->lines.begin() + selected;
+							dialogue->lines.erase(it);
+
+							selected = dialogue->lines.size() - 1;
+
+						}
+						else {
+							std::vector<DialogueLine>::iterator it = dialogue->lines.begin() + spot;
+							dialogue->lines.insert(it, dialogue->lines[selected]);
+
+							it = dialogue->lines.begin() + selected;
+							dialogue->lines.erase(it);
+
+							selected += 1;
+						}
+					}
 
 					ImGui::BeginChild("line view", ImVec2(150, 0), true);
 					for (size_t i = 0; i < dialogue->lines.size(); i++)
