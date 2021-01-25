@@ -190,17 +190,32 @@ namespace lb {
 
 						DialogueLine newLine(newText, "New");
 						dialogue->lines.push_back(newLine);
+						selected = dialogue->lines.size() - 1;
 					}
 
 					ImGui::SameLine();
 					if (ImGui::Button("-", ImVec2(25, 25))) {
 						if (selected < dialogue->lines.size()) {
 							dialogue->lines.erase(dialogue->lines.begin() + selected);
-							selected--;
-							if (selected < 0) {
-								selected = 0;
+							if (selected >= dialogue->lines.size()) {
+								selected--;
 							}
 						}
+					}
+
+					ImGui::SameLine();
+					if (ImGui::Button("Dupe", ImVec2(50, 25))) {
+						//Check where the element is at and attemt to move it below
+						int spot = selected + 1;
+						if (spot >= dialogue->lines.size()) {
+							dialogue->lines.push_back(dialogue->lines[selected]);
+							std::vector<DialogueLine>::iterator it = dialogue->lines.begin() + selected;
+						}
+						else {
+							std::vector<DialogueLine>::iterator it = dialogue->lines.begin() + spot;
+							dialogue->lines.insert(it, dialogue->lines[selected]);
+						}
+						dialogue->lines[spot].name += + "_copy";
 					}
 
 					if (ImGui::Button("/\\", ImVec2(25, 25))) {
