@@ -125,8 +125,20 @@ namespace lb {
 						}
 					}
 				}
-
+				
 				std::vector<Node*> nodes = world->getNodes();
+
+
+				if (ImGui::Button("/\\", ImVec2(25, 25))) {
+					lb::imgui::utilities::MoveItemUp<Node*>(nodes, selected);
+				}
+
+				ImGui::SameLine();
+				if (ImGui::Button("\\/", ImVec2(25, 25))) {
+					lb::imgui::utilities::MoveItemDown<Node*>(nodes, selected);
+				}
+
+
 
 				if (selected >= nodes.size()) {
 					selected = 0;
@@ -315,7 +327,7 @@ namespace lb {
 
 				ImGui::EndGroup();
 
-
+				world->setNodes(nodes);
 
 				ImGui::End();
 			}

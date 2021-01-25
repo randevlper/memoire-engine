@@ -51,18 +51,18 @@ namespace lb {
 			}
 			
 			template <class T>
-			void DupeItem(std::vector<T>& data, int& selection) {
+			int DupeItem(std::vector<T>& data, int& selection) {
 				//Check where the element is at and attemt to move it below
 				int spot = selection + 1;
 				if (spot >= data.size()) {
 					data.push_back(data[selection]);
-					std::vector<DialogueLine>::iterator it = data.begin() + selection;
+					std::vector<T>::iterator it = data.begin() + selection;
 				}
 				else {
-					std::vector<DialogueLine>::iterator it = data.begin() + spot;
+					std::vector<T>::iterator it = data.begin() + spot;
 					data.insert(it, data[selection]);
 				}
-				data[spot].name += +"_copy";
+				return spot;
 			}
 		}
 	}

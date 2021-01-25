@@ -24,6 +24,10 @@ public:
 		return _nodes;
 	}
 
+	void setNodes(std::vector<Node*> nodes) {
+		_nodes = nodes;
+	}
+
 	//Create node <Templated>
 	template<class nodeclass>
 	nodeclass* create();

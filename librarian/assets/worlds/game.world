@@ -2,6 +2,26 @@
     "name": "game",
     "nodes": [
         {
+            "name": "BG",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/bg/bgtest.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    640.0,
+                    360.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
             "name": "Camera",
             "transform": {
                 "angle": 0.0,
@@ -316,26 +336,6 @@
                 "scale": [
                     2.0,
                     2.0
-                ]
-            },
-            "type": "SpriteRenderer"
-        },
-        {
-            "name": "BG",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/bg/bgtest.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "position": [
-                    640.0,
-                    360.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0
                 ]
             },
             "type": "SpriteRenderer"
