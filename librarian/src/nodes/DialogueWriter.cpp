@@ -107,6 +107,8 @@ namespace lb {
 			break;
 		case DialogueLine::CharacterCommand::SOUND:
 			Audio::playSound(AssetManager::getLoad<AudioClip>(_dialogue->lines[_currentLine].value, ""));
+
+			doProgress = true;
 			break;
 		default:
 			break;

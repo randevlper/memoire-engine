@@ -24,29 +24,15 @@
         {
             "character": "Anemone",
             "characterCommand": 0,
-            "name": "SAY_NEW",
+            "name": "Anemone1",
             "value": "There was no need to be that brutal.",
             "value2": ""
         },
         {
             "character": "Ayse",
             "characterCommand": 0,
-            "name": "SAY_Switch",
-            "value": "Time to switch",
-            "value2": ""
-        },
-        {
-            "character": "Ayse",
-            "characterCommand": 1,
-            "name": "SPRITE_RED",
-            "value": "temp_red.png",
-            "value2": ""
-        },
-        {
-            "character": "Ayse",
-            "characterCommand": 0,
-            "name": "SAY",
-            "value": "Sound test",
+            "name": "Ayse1",
+            "value": "Was that too much for you?",
             "value2": ""
         },
         {
@@ -54,6 +40,20 @@
             "characterCommand": 2,
             "name": "Sound",
             "value": "assets/audio/ohno.mp3",
+            "value2": ""
+        },
+        {
+            "character": "Ayse",
+            "characterCommand": 0,
+            "name": "Anemone2",
+            "value": "Too much? You broke their arms AND legs?",
+            "value2": ""
+        },
+        {
+            "character": "Stele",
+            "characterCommand": 0,
+            "name": "Stele1",
+            "value": "Well, They won't be hurting anyone soon.",
             "value2": ""
         }
     ],
