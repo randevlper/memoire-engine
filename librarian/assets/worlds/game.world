@@ -46,7 +46,7 @@
                     1
                 ]
             },
-            "text": "lol",
+            "text": "There was no need to be that brutal.",
             "type": "Text"
         },
         {
@@ -212,7 +212,7 @@
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/anemone/temp_base.png"
+                "path": "assets/sprites/ayse/temp_base.png"
             },
             "transform": {
                 "angle": 0.0,
@@ -232,7 +232,7 @@
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/banana.png"
+                "path": "assets/sprites/anemone/temp_base.png"
             },
             "transform": {
                 "angle": 0.0,
@@ -277,7 +277,7 @@
                     1
                 ]
             },
-            "text": "Stele",
+            "text": "Anemone",
             "type": "Text"
         },
         {
@@ -285,7 +285,7 @@
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/banana.png"
+                "path": "assets/sprites/stele/temp_base.png"
             },
             "transform": {
                 "angle": 0.0,
@@ -316,6 +316,26 @@
                 "scale": [
                     2.0,
                     2.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "name": "BG",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/bg/bgtest.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    640.0,
+                    360.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
                 ]
             },
             "type": "SpriteRenderer"
