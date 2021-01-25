@@ -306,6 +306,7 @@ namespace lb {
 							break;
 						case DialogueLine::CharacterCommand::SPRITE:
 							ImGui::InputText("dialogue_value", &dialogue->lines[selected].value);
+							ImGui::InputText("dialogue_value_2", &dialogue->lines[selected].value2);
 							break;
 						case DialogueLine::CharacterCommand::SOUND:
 							ImGui::InputText("dialogue_value", &dialogue->lines[selected].value);

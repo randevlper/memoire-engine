@@ -28,7 +28,7 @@
                 "parems": "32",
                 "path": "assets/fonts/cmunrm.ttf"
             },
-            "name": "Dialouge",
+            "name": "Dialogue",
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
@@ -46,7 +46,7 @@
                     1
                 ]
             },
-            "text": "Text",
+            "text": "lol",
             "type": "Text"
         },
         {
@@ -212,13 +212,13 @@
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/banana.png"
+                "path": "assets/sprites/anemone/temp_base.png"
             },
             "transform": {
                 "angle": 0.0,
                 "position": [
-                    250.0,
-                    467.0
+                    110.0,
+                    391.0
                 ],
                 "scale": [
                     -2.0,
@@ -237,8 +237,8 @@
             "transform": {
                 "angle": 0.0,
                 "position": [
-                    872.0,
-                    421.0
+                    898.0,
+                    472.0
                 ],
                 "scale": [
                     2.0,
@@ -277,8 +277,48 @@
                     1
                 ]
             },
-            "text": "Name",
+            "text": "Stele",
             "type": "Text"
+        },
+        {
+            "name": "CharacterLeft2",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/banana.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    409.0,
+                    459.0
+                ],
+                "scale": [
+                    -2.0,
+                    2.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "name": "CharacterRight2",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/banana.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    1048.0,
+                    417.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0
+                ]
+            },
+            "type": "SpriteRenderer"
         }
     ]
 }

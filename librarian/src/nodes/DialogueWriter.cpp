@@ -68,6 +68,8 @@ namespace lb {
 		std::string path;
 		Character character;
 		Sprite* s = nullptr;
+		bool didSet = false;
+
 
 		switch (_dialogue->lines[_currentLine].characterCommand)
 		{
@@ -85,7 +87,22 @@ namespace lb {
 			path += character.sprites;
 			path += _dialogue->lines[_currentLine].value;
 			s = AssetManager::getLoad<Sprite>(path, "");
-			_sRenderers[0]->setSprite(s);
+
+			
+			for (size_t i = 0; i < _sRenderers.size(); i++)
+			{
+				if (_sRenderers[i]->getName() == _dialogue->lines[_currentLine].value2) {
+					_sRenderers[i]->setSprite(s);
+					didSet = true;
+					break;
+				}
+			}
+
+			if (!didSet) {
+				Debug::LogError("[DialogueWriter] Could not set sprite! " + _dialogue->lines[_currentLine].value2);
+				_sRenderers[0]->setSprite(s);
+			}
+
 			doProgress = true;
 			break;
 		case DialogueLine::CharacterCommand::SOUND:

@@ -3,38 +3,58 @@
         {
             "character": "Ayse",
             "characterCommand": 1,
-            "name": "SPRIT_BASE",
-            "value": "temp_base.png"
+            "name": "Sprite_Ayse",
+            "value": "temp_base.png",
+            "value2": "CharacterLeft"
         },
         {
-            "character": "Ayse",
-            "characterCommand": 0,
-            "name": "SAY_Switch",
-            "value": "Time to switch"
-        },
-        {
-            "character": "Ayse",
+            "character": "Anemone",
             "characterCommand": 1,
-            "name": "SPRITE_RED",
-            "value": "temp_red.png"
+            "name": "Sprite_Anemone",
+            "value": "temp_base.png",
+            "value2": "CharacterRight"
         },
         {
-            "character": "Ayse",
-            "characterCommand": 0,
-            "name": "SAY",
-            "value": "Sound test"
-        },
-        {
-            "character": "Ayse",
-            "characterCommand": 2,
-            "name": "Sound",
-            "value": "assets/audio/ohno.mp3"
+            "character": "Stele",
+            "characterCommand": 1,
+            "name": "Sprite_Stele",
+            "value": "temp_base.png",
+            "value2": "CharacterLeft2"
         },
         {
             "character": "Anemone",
             "characterCommand": 0,
             "name": "SAY_NEW",
-            "value": "There was no need to be that brutal."
+            "value": "There was no need to be that brutal.",
+            "value2": ""
+        },
+        {
+            "character": "Ayse",
+            "characterCommand": 0,
+            "name": "SAY_Switch",
+            "value": "Time to switch",
+            "value2": ""
+        },
+        {
+            "character": "Ayse",
+            "characterCommand": 1,
+            "name": "SPRITE_RED",
+            "value": "temp_red.png",
+            "value2": ""
+        },
+        {
+            "character": "Ayse",
+            "characterCommand": 0,
+            "name": "SAY",
+            "value": "Sound test",
+            "value2": ""
+        },
+        {
+            "character": "Ayse",
+            "characterCommand": 2,
+            "name": "Sound",
+            "value": "assets/audio/ohno.mp3",
+            "value2": ""
         }
     ],
     "name": "test",

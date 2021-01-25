@@ -40,6 +40,7 @@ namespace lb {
 		std::string character = "";
 		CharacterCommand characterCommand = CharacterCommand::SAY;
 		std::string value = "";
+		std::string value2 = "";
 
 		DialogueLine(std::string const& n, std::string const& v) {
 			name = n;
@@ -55,12 +56,14 @@ namespace lb {
 			retval["name"] = name;
 			retval["character"] = character;
 			retval["value"] = value;
+			retval["value2"] = value2;
 			retval["characterCommand"] = characterCommand;
 			return retval;
 		}
 		void from_json(nlohmann::json j) {
 			name = j["name"];
 			value = j["value"];
+			value2 = j["value2"];
 			character = j["character"];
 			characterCommand = j["characterCommand"];
 		}
