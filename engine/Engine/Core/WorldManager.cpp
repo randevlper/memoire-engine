@@ -29,7 +29,7 @@ namespace me {
 		_toLoadWorld = DBG_NEW World();
 		Camera* camera = _toLoadWorld->create<Camera>();
 		camera->setName("Camera");
-		Renderer::setCamera(camera);
+		_toLoadCamera = camera;
 	}
 
 	//Expects no filetype
