@@ -72,8 +72,10 @@ int main(int argc, char** argv) {
 
 		//FileUtility::writeStringFile("config.json", j.dump());
 
-		unsigned int width = 1280;
-		unsigned int height = 720;
+		unsigned int renderWidth = 1280;
+		unsigned int rednerHeight = 720;
+		unsigned int windowWidth = 1920;
+		unsigned int windowHeight = 1080;
 
 		//width = config["resolution"][0];
 		//height = config["resolution"][1];
@@ -100,7 +102,7 @@ int main(int argc, char** argv) {
 		//UI Textbox - text formatting hell
 		//Audio looping
 		lb::InitLuaBindings();
-		ContextWindowParems cWinParems = { "Seaside", width, height, 60 , argc, argv };
+		ContextWindowParems cWinParems = { "Seaside", renderWidth, rednerHeight, windowWidth, windowHeight, 60 , argc, argv };
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();

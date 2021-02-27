@@ -73,7 +73,7 @@ struct Grid
 
 int main(int argc, char** argv) {
 	{
-		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 60 , argc, argv};
+		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 1920, 1080, 60 , argc, argv};
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
 
 		TextRenderer* textRenderer = world->create <TextRenderer>();
 		textRenderer->setFont(fontTest);
-		textRenderer->transform.setLocalPosition({ -Context::getWindowWidth() / 2,0 });
+		textRenderer->transform.setLocalPosition({ -Context::getRenderWidth() / 2,0 });
 		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
 		textRenderer->setText("YEEEEEEEhAw");

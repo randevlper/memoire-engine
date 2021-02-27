@@ -12,8 +12,8 @@ namespace me {
 		glm::vec2 convertPixelToScreen(glm::ivec2 value) {
 			glm::vec2 retval;
 
-			retval.x = value.x / (float)Context::getWindowWidth();
-			retval.y = value.y / (float)Context::getWindowHeight();
+			retval.x = value.x / (float)Context::getRenderWidth();
+			retval.y = value.y / (float)Context::getRenderHeight();
 
 			//Should check here what the renderer is expecting in screen cords
 			//OpenGL uses -1 to 1

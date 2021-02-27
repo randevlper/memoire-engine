@@ -172,6 +172,10 @@ void Renderer::render()
 	//	, stats->textWidth
 	//	, stats->textHeight
 	//);
+	
+	//
+
+	//bgfx::touch(1);
 
 	bgfx::frame();
 
@@ -179,9 +183,9 @@ void Renderer::render()
 	_frameCount++;
 
 	//if frame finished early
-	Uint32 frameTicks = _capTimer.getTicks();
-	if (frameTicks < (1000 / Context::getMaxFps())) {
-		SDL_Delay((1000 / Context::getMaxFps()) - frameTicks);
-	}
+	//Uint32 frameTicks = _capTimer.getTicks();
+	//if (frameTicks < (1000 / Context::getMaxFps())) {
+	//	SDL_Delay((1000 / Context::getMaxFps()) - frameTicks);
+	//}
 	_tvbs.clear();
 }

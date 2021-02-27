@@ -129,28 +129,16 @@ void Context::init(ContextWindowParems* parems)
 			return;
 		}
 
-		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
+		
 
 		// Enable debug text.
 		bgfx::setDebug(BGFX_DEBUG_TEXT);
 
-		bgfx::setViewRect(0, 0, 0, _windowParems.windowWidth, _windowParems.windowHeight);
+		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
+		bgfx::setViewRect(0, 0, 0, _windowParems.renderWidth, _windowParems.renderHeight);
 
-		//_renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		//if (_renderer == nullptr) {
-		//	std::cout << "SDL_CreateRenderer Error" << SDL_GetError() << std::endl;
-		//	_errorCode = EXIT_FAILURE;
-		//	return;
-		//}
-
-		//SDL_RenderSetScale(_renderer, _windowParems.windowWidth / _windowParems.renderWidth, _windowParems.windowHeight / _windowParems.renderHeight);
-		//SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND);
-		
-		//Need OpenGL context to use
-		//SDL_Log("Vsync setting: %d", SDL_GL_GetSwapInterval());
-		//if (SDL_GL_SetSwapInterval(1) == -1) {
-		//	SDL_Log(SDL_GetError());
-		//}
+		bgfx::setViewClear(1, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
+		bgfx::setViewRect(1, 0, 0, _windowParems.windowWidth, _windowParems.windowHeight);
 
 		Physics::init(parems->argc, parems->argv);
 		Input::init();
@@ -214,14 +202,14 @@ int Context::getErrorCode()
 	return _errorCode;
 }
 
-int Context::getWindowHeight()
+int Context::getRenderHeight()
 {
-	return _windowParems.windowHeight;
+	return _windowParems.renderHeight;
 }
 
-int Context::getWindowWidth()
+int Context::getRenderWidth()
 {
-	return _windowParems.windowWidth;
+	return _windowParems.renderWidth;
 }
 
 SDL_Window* Context::getWindow()

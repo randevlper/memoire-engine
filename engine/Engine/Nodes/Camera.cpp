@@ -17,8 +17,8 @@ Camera::~Camera()
 
 glm::mat4* Camera::getProjectionMatrix()
 {
-	float width = Context::getWindowWidth();
-	float height = Context::getWindowHeight();
+	float width = Context::getRenderWidth();
+	float height = Context::getRenderHeight();
 
 	float proj[16];
 	float left = -(width) / 2;
@@ -45,8 +45,8 @@ glm::vec2 Camera::screenToWorld(glm::vec2 pos)
 {
 	glm::mat4 proj = *getProjectionMatrix() * *getViewMatrix();
 
-	float width = Context::getWindowWidth();
-	float height = Context::getWindowHeight();
+	float width = Context::getRenderWidth();
+	float height = Context::getRenderHeight();
 
 	glm::vec4 viewport = { 0, 0, width, height };
 

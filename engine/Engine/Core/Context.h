@@ -8,6 +8,7 @@ struct ContextWindowParems
 {
 	const char* windowName;
 	//Actual window size
+	unsigned int renderWidth, renderHeight;
 	unsigned int windowWidth, windowHeight;
 	//The internal render size
 	unsigned int fps;
@@ -28,8 +29,8 @@ public:
 	static void setShouldClose(bool value);
 	//static SDL_Renderer* getRenderer();
 	static int getErrorCode(); 
-	static int getWindowHeight();
-	static int getWindowWidth();
+	static int getRenderHeight();
+	static int getRenderWidth();
 	static SDL_Window* getWindow();
 	static unsigned int getMaxFps();
 	
