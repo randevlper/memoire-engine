@@ -1,6 +1,7 @@
 #include "Engine/Core/Context.h"
 
 #include <iostream>
+#include <vector>
 
 #include <SDL.h>
 #include <SDL_syswm.h>
@@ -23,6 +24,12 @@
 #include "Engine/Nodes/TextRenderer.h"
 
 #include "Engine/Tools/imgui_bgfx.h"
+
+#include "Engine/Core/World.h"
+#include "Engine/Nodes/Node.h"
+#include "Engine/UI/Button.h"
+#include "Engine/UI/Text.h"
+
 
 Context* Context::_instance = nullptr;
 bool Context::_shouldClose = nullptr;
@@ -65,7 +72,7 @@ void Context::init(ContextWindowParems* parems)
 		//}
 
 		_window = SDL_CreateWindow(_windowParems.windowName, 100, 100, 
-				_windowParems.windowWidth, _windowParems.windowHeight, SDL_WINDOW_SHOWN);
+				_windowParems.windowWidth, _windowParems.windowHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 		if (_window == nullptr) {
 			std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
 			_errorCode = EXIT_FAILURE;
@@ -210,6 +217,32 @@ int Context::getRenderHeight()
 int Context::getRenderWidth()
 {
 	return _windowParems.renderWidth;
+}
+
+void Context::windowResized(unsigned int windowWidth, unsigned int windowHeight)
+{
+	_windowParems.windowWidth = windowWidth;
+	_windowParems.windowHeight = windowHeight;
+	bgfx::setViewRect(1, 0, 0, _windowParems.windowWidth, _windowParems.windowHeight);
+
+	World* world = me::WorldManager::getWorld();
+
+	if (world != nullptr) {
+		const std::vector<Node*> nodes = world->getNodes();
+		for (size_t i = 0; i < nodes.size(); i++)
+		{
+			Debug::Log("Resize");
+			if (nodes[i]->getType() == "Button") {
+				me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodes[i]);
+				buttonSelected->setSize(buttonSelected->getSize());
+			}
+
+			if (nodes[i]->getType() == "Text") {
+				me::ui::Text* text = dynamic_cast<me::ui::Text*>(nodes[i]);
+				text->setText(text->getText());
+			}
+		}
+	}
 }
 
 SDL_Window* Context::getWindow()

@@ -32,6 +32,7 @@ public:
 	static int getRenderHeight();
 	static int getRenderWidth();
 
+	static void windowResized(unsigned int windowWidth, unsigned int windowHeight);
 	static int getWindowHeight() {
 		return _windowParems.windowHeight;
 	}

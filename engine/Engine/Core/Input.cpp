@@ -187,6 +187,12 @@ void Input::poll()
 		case SDL_MOUSEWHEEL:
 			_mouseWheel = { _event.wheel.x, _event.wheel.y };
 			break;
+		case SDL_WINDOWEVENT:
+			if (_event.window.event == SDL_WINDOWEVENT_RESIZED) {
+				Debug::Log("Resizing window..." + std::to_string(_event.window.data1) + " " + std::to_string(_event.window.data2));
+				Context::windowResized(_event.window.data1, _event.window.data2);
+			}
+			break;
 		default:
 			break;
 		}

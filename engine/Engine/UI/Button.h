@@ -25,6 +25,9 @@ namespace me {
 
 			void sendMouseInfo(glm::vec2 mousePos, bool isClicking);
 			void setSize(glm::vec2 size);
+			glm::vec2 getSize() {
+				return _size;
+			}
 			
 			void render() override;
 
