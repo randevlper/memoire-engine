@@ -57,8 +57,7 @@ void Renderer::init()
 		_scaleIndexBuffer = bgfx::createIndexBuffer(bgfx::makeRef(&me::data::PositionUVVertex::indices, sizeof(me::data::PositionUVVertex::indices)));
 
 		_renderFrameBuffer = bgfx::createFrameBuffer(Context::getRenderWidth(), Context::getRenderHeight(), bgfx::TextureFormat::BGRA8);
-		bgfx::setViewFrameBuffer(0, _renderFrameBuffer);
-		bgfx::setViewMode(0, bgfx::ViewMode::DepthAscending);
+		resize();
 	}
 }
 
@@ -78,6 +77,12 @@ void Renderer::quit()
 void Renderer::tick()
 {
 	_capTimer.start();
+}
+
+void Renderer::resize()
+{
+	bgfx::setViewFrameBuffer(0, _renderFrameBuffer);
+	bgfx::setViewMode(0, bgfx::ViewMode::DepthAscending);
 }
 
 void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float width)

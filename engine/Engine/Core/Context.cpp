@@ -223,26 +223,15 @@ void Context::windowResized(unsigned int windowWidth, unsigned int windowHeight)
 {
 	_windowParems.windowWidth = windowWidth;
 	_windowParems.windowHeight = windowHeight;
+	bgfx::reset(_windowParems.windowWidth, _windowParems.windowHeight, BGFX_RESET_VSYNC);
+	
+	bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
+	bgfx::setViewRect(0, 0, 0, _windowParems.renderWidth, _windowParems.renderHeight);
+
+	bgfx::setViewClear(1, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
 	bgfx::setViewRect(1, 0, 0, _windowParems.windowWidth, _windowParems.windowHeight);
 
-	World* world = me::WorldManager::getWorld();
-
-	if (world != nullptr) {
-		const std::vector<Node*> nodes = world->getNodes();
-		for (size_t i = 0; i < nodes.size(); i++)
-		{
-			Debug::Log("Resize");
-			if (nodes[i]->getType() == "Button") {
-				me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodes[i]);
-				buttonSelected->setSize(buttonSelected->getSize());
-			}
-
-			if (nodes[i]->getType() == "Text") {
-				me::ui::Text* text = dynamic_cast<me::ui::Text*>(nodes[i]);
-				text->setText(text->getText());
-			}
-		}
-	}
+	Renderer::resize();
 }
 
 SDL_Window* Context::getWindow()

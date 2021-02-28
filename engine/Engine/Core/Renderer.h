@@ -29,6 +29,7 @@ public:
 	static void init();
 	static void quit();
 	static void tick();
+	static void resize();
 	//Draw Line 
 	static void renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color = glm::vec4{255, 0, 0, 255}, float width = 1.0f);
 	static void renderLines(glm::vec2* points, int pointsCount, glm::vec4& color);
