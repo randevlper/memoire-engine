@@ -21,6 +21,7 @@
 #include "Engine/Utilities/DebugMemory.h"
 
 #include "Engine/Data/VertexTypes.h"
+#include "Engine/AssetManagement/AssetManager.h"
 
 Renderer* Renderer ::_instance = nullptr;
 Timer Renderer::_fpsTimer = Timer();
@@ -28,10 +29,17 @@ Timer Renderer::_capTimer = Timer();
 Uint64 Renderer::_frameCount = 0;
 Camera* Renderer::_camera = nullptr;
 
+bgfx::FrameBufferHandle Renderer::_renderFrameBuffer;
+bgfx::ProgramHandle Renderer::_scaleProgram;
+bgfx::UniformHandle Renderer::_scaleSpriteUniform;
+bgfx::IndexBufferHandle Renderer::_scaleIndexBuffer;
+
+
 bgfx::DynamicVertexBufferHandle Renderer::lineVerts;
 bgfx::IndexBufferHandle Renderer::lineIndicies;
 bgfx::ProgramHandle Renderer::lineProgram;
 std::vector<bgfx::TransientVertexBuffer> Renderer::_tvbs;
+
 
 void Renderer::init()
 {
@@ -42,7 +50,14 @@ void Renderer::init()
 		lineVerts = bgfx::createDynamicVertexBuffer(4, me::data::PositionColorVertex::layout, BGFX_BUFFER_ALLOW_RESIZE);
 		lineIndicies = bgfx::createIndexBuffer(bgfx::makeRef(&me::data::PositionColorVertex::indices, sizeof(me::data::PositionColorVertex::indices)));
 		lineProgram = FileUtility::loadProgram("assets/shaders/vs_line.bin", "assets/shaders/fs_line.bin");
-	
+		
+		me::data::PositionUVVertex::init();
+		_scaleProgram = FileUtility::loadProgram("assets/shaders/vs_scale.bin", "assets/shaders/fs_scale.bin");
+		_scaleSpriteUniform = bgfx::createUniform("u_sprite", bgfx::UniformType::Sampler);
+		_scaleIndexBuffer = bgfx::createIndexBuffer(bgfx::makeRef(&me::data::PositionUVVertex::indices, sizeof(me::data::PositionUVVertex::indices)));
+
+		_renderFrameBuffer = bgfx::createFrameBuffer(Context::getRenderWidth(), Context::getRenderHeight(), bgfx::TextureFormat::BGRA8);
+		bgfx::setViewFrameBuffer(0, _renderFrameBuffer);
 	}
 }
 
@@ -52,6 +67,7 @@ void Renderer::quit()
 		bgfx::destroy(lineVerts);
 		bgfx::destroy(lineIndicies);
 		bgfx::destroy(lineProgram);
+		bgfx::destroy(_renderFrameBuffer);
 		_fpsTimer.stop();
 		delete(_instance);
 		bgfx::shutdown();
@@ -138,6 +154,11 @@ Camera* Renderer::getCamera()
 	return _camera;
 }
 
+void Renderer::sumbitPrimitive(bgfx::ProgramHandle program, unsigned int depth, unsigned int flags)
+{
+	bgfx::submit(0, program, depth, flags);
+}
+
 void Renderer::render()
 {
 	//bgfx::update(lineVerts, 0, bgfx::makeRef( verts.data(), verts.size() * sizeof(LineVertex)));
@@ -164,18 +185,25 @@ void Renderer::render()
 	title += " FPS: ";
 	title += std::to_string((int)(_frameCount / (_fpsTimer.getTicks() / 1000.f)));
 	Context::setWindowTitle(title.data());
-
-	//const bgfx::Stats* stats = bgfx::getStats();
-	//bgfx::dbgTextPrintf(0, 2, 0x0f, "Backbuffer %dW x %dH in pixels, debug text %dW x %dH in characters."
-	//	, stats->width
-	//	, stats->height
-	//	, stats->textWidth
-	//	, stats->textHeight
-	//);
 	
-	//
+	//Create a plane to put the frame buffer on
+	bgfx::TransientVertexBuffer vb;
 
-	//bgfx::touch(1);
+	bgfx::allocTransientVertexBuffer(&vb, 4, me::data::PositionUVVertex::layout);
+	me::data::PositionUVVertex* vertex = (me::data::PositionUVVertex*)vb.data;
+	vertex[0] = { -1.0f, -1.0f, 0.0f, 0, 0 };
+	vertex[1] = { 1.0f, -1.0f, 0.0f, 0x7fff, 0 };
+	vertex[2] = { 1.0f, 1.0f, 0.0f, 0x7fff, 0x7fff };
+	vertex[3] = { -1.0f, 1.0f, 0.0f, 0, 0x7fff };
+
+
+	bgfx::setIndexBuffer(_scaleIndexBuffer);
+
+
+	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+	bgfx::setVertexBuffer(0, &vb);
+	bgfx::setTexture(0, _scaleSpriteUniform, bgfx::getTexture(_renderFrameBuffer));
+	bgfx::submit(1, _scaleProgram);
 
 	bgfx::frame();
 

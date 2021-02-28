@@ -72,6 +72,7 @@ void AssetManager::init() {
 	AssetManager::load("assets/shaders/vs_sprite.bin", "assets/shaders/fs_sprite.bin");
 	AssetManager::load("assets/shaders/vs_tile.bin", "assets/shaders/fs_tile.bin");
 	AssetManager::load("assets/shaders/vs_ui.bin", "assets/shaders/fs_ui.bin");
+	AssetManager::load("assets/shaders/vs_scale.bin", "assets/shaders/fs_scale.bin");
 	AssetManager::load("assets/shaders/vs_uisprite.bin", "assets/shaders/fs_uisprite.bin");
 
 	AssetManager::load("assets/fonts/cmunrm.ttf", "32");

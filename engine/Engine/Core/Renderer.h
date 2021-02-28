@@ -12,6 +12,7 @@ struct AseFrame;
 class Timer;
 class Camera;
 
+#include "bgfx/bgfx.h"
 namespace bgfx {
 	struct DynamicVertexBufferHandle;
 	struct TransientVertexBuffer;
@@ -19,6 +20,7 @@ namespace bgfx {
 	struct VertexLayout;
 	struct VertexLayoutHandle;
 	struct ProgramHandle;
+	struct FrameBufferHandle;
 }
 
 class Renderer
@@ -43,6 +45,7 @@ public:
 	static void setCamera(Camera* cam);
 	static Camera* getCamera();
 
+	static void sumbitPrimitive(bgfx::ProgramHandle program, unsigned int depth = 0U, unsigned int flags = BGFX_DISCARD_ALL);
 	static void render();
 
 	//Create Camera class to store projections and to transform mouse pos to world pos
@@ -57,4 +60,9 @@ private:
 	static bgfx::ProgramHandle lineProgram;
 	static std::vector<bgfx::TransientVertexBuffer> _tvbs;
 	//static LineVertex verts[];
+
+	static bgfx::FrameBufferHandle _renderFrameBuffer;
+	static bgfx::ProgramHandle _scaleProgram;
+	static bgfx::UniformHandle _scaleSpriteUniform;
+	static bgfx::IndexBufferHandle _scaleIndexBuffer;
 };

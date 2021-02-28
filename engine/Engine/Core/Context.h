@@ -31,6 +31,14 @@ public:
 	static int getErrorCode(); 
 	static int getRenderHeight();
 	static int getRenderWidth();
+
+	static int getWindowHeight() {
+		return _windowParems.windowHeight;
+	}
+	static int getWindowWidth() {
+		return _windowParems.windowWidth;
+	}
+
 	static SDL_Window* getWindow();
 	static unsigned int getMaxFps();
 	
