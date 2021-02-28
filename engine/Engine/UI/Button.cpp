@@ -65,8 +65,10 @@ namespace me {
 
 			//Bounded box for now, no rotation
 			glm::vec2* corners = rectTransform.getScreenCorners();
-			mousePos.y = abs(mousePos.y - Context::getRenderHeight());
-			glm::vec2 mouseScreen = me::util::convertPixelToScreen(mousePos);
+
+			//Mouse stuff
+			mousePos.y = abs(mousePos.y - Context::getWindowHeight());
+			glm::vec2 mouseScreen = me::util::convertInputToScreen(mousePos);
 			
 			//Get Button state
 			if (mouseScreen.x < corners[0].x || mouseScreen.x > corners[1].x) {

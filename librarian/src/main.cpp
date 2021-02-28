@@ -74,8 +74,8 @@ int main(int argc, char** argv) {
 
 		unsigned int renderWidth = 1280;
 		unsigned int rednerHeight = 720;
-		unsigned int windowWidth = 1280;
-		unsigned int windowHeight = 720;
+		unsigned int windowWidth = 1920;
+		unsigned int windowHeight = 1080;
 
 		//width = config["resolution"][0];
 		//height = config["resolution"][1];
