@@ -58,6 +58,7 @@ void Renderer::init()
 
 		_renderFrameBuffer = bgfx::createFrameBuffer(Context::getRenderWidth(), Context::getRenderHeight(), bgfx::TextureFormat::BGRA8);
 		bgfx::setViewFrameBuffer(0, _renderFrameBuffer);
+		bgfx::setViewMode(0, bgfx::ViewMode::DepthAscending);
 	}
 }
 

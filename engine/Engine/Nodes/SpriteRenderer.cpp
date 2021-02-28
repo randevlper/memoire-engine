@@ -75,7 +75,7 @@ void SpriteRenderer::render()
 	//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
 	
 
-	bgfx::submit(0, shader->getHandle());
+	bgfx::submit(0, shader->getHandle(), sort);
 }
 
 void SpriteRenderer::destroy()

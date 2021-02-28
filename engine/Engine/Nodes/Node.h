@@ -29,9 +29,18 @@ public:
 		return _type;
 	}
 
+	unsigned int getSort() {
+		return sort;
+	}
+
+	void setSort(unsigned int value) {
+		sort = value;
+	}
+
 private:
 
 protected:
 	std::string _name;
 	std::string _type;
+	unsigned int sort;
 };

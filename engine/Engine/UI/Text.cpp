@@ -65,13 +65,13 @@ namespace me {
 			for (size_t i = 0; i < _vbs.size() * _percentRender; i++)
 			{
 				if (!bgfx::isValid(_vbs[i])) { continue; }
-				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
+				bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 				//bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
 				bgfx::setVertexBuffer(0, _vbs[i]);
 				bgfx::setIndexBuffer(_ibh);
 				bgfx::setTexture(0, _u_sprite, _font->getCharacter(_text[i]).Handle);
 				//bgfx::setUniform(_u_color, glm::value_ptr(_color));
-				bgfx::submit(0, _shader->getHandle());
+				bgfx::submit(0, _shader->getHandle(), sort);
 			}
 		}
 
