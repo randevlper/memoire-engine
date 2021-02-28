@@ -40,5 +40,18 @@ namespace me {
 
 			return retval;
 		}
+
+		glm::vec2 convertScreenToWorld(glm::vec2 value)
+		{
+			glm::vec2 retval = value;
+			retval.y *= -1;
+			retval.x += 1;
+			retval.y += 1;
+			retval.x = retval.x * 0.5f * (float)Context::getRenderWidth();
+			retval.y = retval.y * 0.5f * (float)Context::getRenderHeight();
+			
+
+			return retval;
+		}
 	}
 }

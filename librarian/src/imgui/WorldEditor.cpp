@@ -34,6 +34,7 @@ using json = nlohmann::json;
 #include "Engine/AssetManagement/Sprite.h"
 
 #include "imgui/ImguiUtilities.h"
+#include "Engine/Utilities/TypeConversion.h"
 
 namespace lb {
 	namespace imgui {
@@ -170,6 +171,8 @@ namespace lb {
 				glm::vec2 mousePos = {0,0};
 				if (!ImGui::IsWindowFocused() && Input::getKey(SDL_SCANCODE_LCTRL)) {
 					mousePos = Input::getMousePos();
+					mousePos = me::util::convertInputToScreen(mousePos);
+					mousePos = me::util::convertScreenToWorld(mousePos);
 				}
 
 				if (nodes.size() > 0) {

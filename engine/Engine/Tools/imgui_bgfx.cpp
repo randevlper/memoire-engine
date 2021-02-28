@@ -34,7 +34,7 @@ namespace me {
 
 			ImGui_ImplSDL2_NewFrame(Context::getWindow());
 			imguiBeginFrame(mousePos.x, mousePos.y, imguiMouse,
-				scroll, Context::getRenderWidth(), Context::getRenderHeight());
+				scroll, Context::getWindowWidth(), Context::getWindowHeight());
 			//ImGui::ShowDemoWindow();
 		}
 

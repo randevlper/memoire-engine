@@ -11,5 +11,6 @@ namespace me {
 	namespace util {
 		glm::vec2 convertPixelToScreen(glm::ivec2 value);
 		glm::vec2 convertInputToScreen(glm::ivec2 value);
+		glm::vec2 convertScreenToWorld(glm::vec2 value);
 	}
 }
