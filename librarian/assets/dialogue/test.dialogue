@@ -4,7 +4,7 @@
             "character": "Ayse",
             "characterCommand": 1,
             "name": "Sprite_Ayse",
-            "value": "temp_base.png",
+            "value": "ayse_base.png",
             "value2": "CharacterLeft"
         },
         {

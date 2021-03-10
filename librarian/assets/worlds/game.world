@@ -2,6 +2,21 @@
     "name": "game",
     "nodes": [
         {
+            "name": "Camera",
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    640.0,
+                    360.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "Camera"
+        },
+        {
             "name": "BG",
             "sprite": {
                 "name": "",
@@ -22,19 +37,104 @@
             "type": "SpriteRenderer"
         },
         {
-            "name": "Camera",
+            "name": "CharacterLeft",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/ayse/ayse_base.png"
+            },
             "transform": {
                 "angle": 0.0,
                 "position": [
-                    640.0,
-                    360.0
+                    197.5,
+                    423.2604064941406
                 ],
                 "scale": [
                     1.0,
                     1.0
                 ]
             },
-            "type": "Camera"
+            "type": "SpriteRenderer"
+        },
+        {
+            "name": "CharacterRight",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/anemone/temp_base.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    898.0,
+                    472.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "name": "CharacterLeft2",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/stele/temp_base.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    409.0,
+                    459.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "name": "CharacterRight2",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/banana.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    1048.0,
+                    417.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "name": "Textbox",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/textbox.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    474.0,
+                    74.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
         },
         {
             "color": [
@@ -228,46 +328,6 @@
             "type": "Text"
         },
         {
-            "name": "CharacterLeft",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/sprites/ayse/temp_base.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "position": [
-                    110.0,
-                    391.0
-                ],
-                "scale": [
-                    -2.0,
-                    2.0
-                ]
-            },
-            "type": "SpriteRenderer"
-        },
-        {
-            "name": "CharacterRight",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/sprites/anemone/temp_base.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "position": [
-                    898.0,
-                    472.0
-                ],
-                "scale": [
-                    2.0,
-                    2.0
-                ]
-            },
-            "type": "SpriteRenderer"
-        },
-        {
             "color": [
                 255.0,
                 255.0,
@@ -299,46 +359,6 @@
             },
             "text": "Anemone",
             "type": "Text"
-        },
-        {
-            "name": "CharacterLeft2",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/sprites/stele/temp_base.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "position": [
-                    409.0,
-                    459.0
-                ],
-                "scale": [
-                    -2.0,
-                    2.0
-                ]
-            },
-            "type": "SpriteRenderer"
-        },
-        {
-            "name": "CharacterRight2",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/sprites/banana.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "position": [
-                    1048.0,
-                    417.0
-                ],
-                "scale": [
-                    2.0,
-                    2.0
-                ]
-            },
-            "type": "SpriteRenderer"
         }
     ]
 }
