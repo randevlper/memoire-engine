@@ -14,5 +14,9 @@
     {
         "name": "Demon",
         "sprites": ""
+    },
+    {
+        "name": "Cook",
+        "sprites": "assets/sprites/cook/"
     }
 ]

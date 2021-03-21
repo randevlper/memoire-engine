@@ -37,57 +37,17 @@
             "type": "SpriteRenderer"
         },
         {
-            "name": "CharacterLeft",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/sprites/ayse/ayse_base.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "position": [
-                    197.5,
-                    423.2604064941406
-                ],
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "type": "SpriteRenderer"
-        },
-        {
-            "name": "CharacterRight",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/sprites/anemone/temp_base.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "position": [
-                    898.0,
-                    472.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "type": "SpriteRenderer"
-        },
-        {
             "name": "CharacterLeft2",
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/stele/temp_base.png"
+                "path": "assets/sprites/stele/stele_base.png"
             },
             "transform": {
                 "angle": 0.0,
                 "position": [
                     409.0,
-                    459.0
+                    360.0
                 ],
                 "scale": [
                     1.0,
@@ -107,7 +67,47 @@
                 "angle": 0.0,
                 "position": [
                     1048.0,
-                    417.0
+                    360.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "name": "CharacterLeft",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/ayse/ayse_base.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    214.00001525878906,
+                    360.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "name": "CharacterRight",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/sprites/anemone/anemone_base.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    898.0,
+                    360.0
                 ],
                 "scale": [
                     1.0,

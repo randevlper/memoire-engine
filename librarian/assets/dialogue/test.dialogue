@@ -11,15 +11,22 @@
             "character": "Anemone",
             "characterCommand": 1,
             "name": "Sprite_Anemone",
-            "value": "temp_base.png",
+            "value": "anemone_base.png",
             "value2": "CharacterRight"
         },
         {
             "character": "Stele",
             "characterCommand": 1,
             "name": "Sprite_Stele",
-            "value": "temp_base.png",
+            "value": "stele_base.png",
             "value2": "CharacterLeft2"
+        },
+        {
+            "character": "Cook",
+            "characterCommand": 1,
+            "name": "Sprite_Cook",
+            "value": "cook_base.png",
+            "value2": "CharacterRight2"
         },
         {
             "character": "Anemone",
