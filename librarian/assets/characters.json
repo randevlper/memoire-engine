@@ -13,10 +13,18 @@
     },
     {
         "name": "Demon",
-        "sprites": ""
+        "sprites": "assets/sprites/demon/"
     },
     {
         "name": "Cook",
         "sprites": "assets/sprites/cook/"
+    },
+    {
+        "name": "Hella",
+        "sprites": "assets/sprites/pickpocket1/"
+    },
+    {
+        "name": "Captain",
+        "sprites": "assets/sprites/captain/"
     }
 ]

@@ -4,29 +4,50 @@
             "character": "Ayse",
             "characterCommand": 1,
             "name": "Sprite_Ayse",
-            "value": "ayse_base.png",
+            "value": "ayse_base_new.png",
             "value2": "CharacterLeft"
         },
         {
             "character": "Anemone",
             "characterCommand": 1,
             "name": "Sprite_Anemone",
-            "value": "anemone_base.png",
+            "value": "anemone_base_new.png",
             "value2": "CharacterRight"
         },
         {
             "character": "Stele",
             "characterCommand": 1,
             "name": "Sprite_Stele",
-            "value": "stele_base.png",
+            "value": "stele_base_new.png",
             "value2": "CharacterLeft2"
         },
         {
             "character": "Cook",
             "characterCommand": 1,
             "name": "Sprite_Cook",
-            "value": "cook_base.png",
+            "value": "cook_base_new.png",
             "value2": "CharacterRight2"
+        },
+        {
+            "character": "Demon",
+            "characterCommand": 1,
+            "name": "Sprite_Demon",
+            "value": "demon_base.png",
+            "value2": "CharacterRight"
+        },
+        {
+            "character": "Captain",
+            "characterCommand": 1,
+            "name": "Sprite_Captain",
+            "value": "captain_base.png",
+            "value2": "CharacterLeft2"
+        },
+        {
+            "character": "Hella",
+            "characterCommand": 1,
+            "name": "Sprite_Pickpocket",
+            "value": "pickpocket1_base.png",
+            "value2": "CharacterLeft"
         },
         {
             "character": "Anemone",

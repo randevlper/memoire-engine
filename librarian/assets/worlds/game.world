@@ -41,7 +41,7 @@
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/stele/stele_base.png"
+                "path": "assets/sprites/stele/stele_base_new.png"
             },
             "transform": {
                 "angle": 0.0,
@@ -50,7 +50,7 @@
                     360.0
                 ],
                 "scale": [
-                    1.0,
+                    -1.0,
                     1.0
                 ]
             },
@@ -61,7 +61,7 @@
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/banana.png"
+                "path": "assets/sprites/cook/cook_base.png"
             },
             "transform": {
                 "angle": 0.0,
@@ -81,7 +81,7 @@
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/ayse/ayse_base.png"
+                "path": "assets/sprites/ayse/ayse_base_new.png"
             },
             "transform": {
                 "angle": 0.0,
@@ -90,7 +90,7 @@
                     360.0
                 ],
                 "scale": [
-                    1.0,
+                    -1.0,
                     1.0
                 ]
             },
@@ -101,7 +101,7 @@
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/sprites/anemone/anemone_base.png"
+                "path": "assets/sprites/anemone/anemone_base_new.png"
             },
             "transform": {
                 "angle": 0.0,
