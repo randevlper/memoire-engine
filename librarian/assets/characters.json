@@ -26,5 +26,9 @@
     {
         "name": "Captain",
         "sprites": "assets/sprites/captain/"
+    },
+    {
+        "name": "Eye",
+        "sprites": "assets/sprites/eye/"
     }
 ]

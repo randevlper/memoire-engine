@@ -29,6 +29,13 @@
             "value2": "CharacterRight2"
         },
         {
+            "character": "Anemone",
+            "characterCommand": 0,
+            "name": "Anemone1",
+            "value": "There was no need to be that brutal.",
+            "value2": ""
+        },
+        {
             "character": "Demon",
             "characterCommand": 1,
             "name": "Sprite_Demon",
@@ -43,18 +50,18 @@
             "value2": "CharacterLeft2"
         },
         {
+            "character": "Eye",
+            "characterCommand": 1,
+            "name": "Sprite_Eye",
+            "value": "eye_base.png",
+            "value2": "CharacterRight2"
+        },
+        {
             "character": "Hella",
             "characterCommand": 1,
             "name": "Sprite_Pickpocket",
             "value": "pickpocket1_base.png",
             "value2": "CharacterLeft"
-        },
-        {
-            "character": "Anemone",
-            "characterCommand": 0,
-            "name": "Anemone1",
-            "value": "There was no need to be that brutal.",
-            "value2": ""
         },
         {
             "character": "Ayse",
