@@ -4,7 +4,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 project(memoire-engine)
 
 SET(SDL_SHARED OFF CACHE BOOL "Dont use SDL2 shared lib")
-add_subdirectory(thirdparty/SDL-mirror)
+add_subdirectory(thirdparty/SDL)
 set_target_properties(SDL2-static PROPERTIES FOLDER "Thirdparty")
 set_target_properties(SDL2main PROPERTIES FOLDER "Thirdparty")
 
