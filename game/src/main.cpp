@@ -73,7 +73,7 @@ struct Grid
 
 int main(int argc, char** argv) {
 	{
-		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 1920, 1080, 60 , argc, argv};
+		ContextWindowParems cWinParems = { "Project-Memoire", 1280, 720, 1280, 720, 60 , argc, argv};
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
