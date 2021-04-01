@@ -29,8 +29,8 @@ set_target_properties(zlibstatic PROPERTIES FOLDER "Thirdparty")
 set_target_properties(minigzip PROPERTIES FOLDER "Thirdparty/Tests")
 set_target_properties(example PROPERTIES FOLDER "Thirdparty/Tests")
 
-add_subdirectory(thirdparty/Box2D-cmake)
-set_target_properties(Box2D-cmake PROPERTIES FOLDER "Thirdparty")
+add_subdirectory(thirdparty/box2d)
+set_target_properties(box2d PROPERTIES FOLDER "Thirdparty")
 
 add_subdirectory(thirdparty/freetype2)
 set_target_properties(freetype PROPERTIES FOLDER "Thirdparty")

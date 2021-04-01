@@ -16,7 +16,7 @@
 //Severely out of date
 int main()
 	{
-		ContextWindowParems cWinParems = { "Ayse why.", 1280, 720, 640, 360, 60 };
+		ContextWindowParems cWinParems = { "Ayse why.", 1280, 720, 1280, 720, 60 };
 		Context::init(&cWinParems);
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();

@@ -66,5 +66,5 @@ endif()
 
 
 target_include_directories(engine PUBLIC ${PROJECT_SOURCE_DIR})
-target_link_libraries(engine SDL2-static stb EnTT glm zlibstatic Box2D-cmake freetype miniaudio nlohmann_json::nlohmann_json)
+target_link_libraries(engine SDL2-static stb EnTT glm zlibstatic box2d freetype miniaudio nlohmann_json::nlohmann_json)
 target_link_libraries(engine bgfx_imgui LuaLib)

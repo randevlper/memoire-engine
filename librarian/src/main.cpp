@@ -51,56 +51,13 @@ using json = nlohmann::json;
 
 #include "core/luabindings.h"
 
-//AudioSource* audioSource;
-//me::ui::Text* textTest;
-//
-//void ohno() {
-//	audioSource->play();
-//	textTest->setText("Ays: He was asking for it!\nAne: That was not helpful.\nHe wanted a good time!\nAne: Your idea of a good time is very diffrent from the norm.");
-//}
-
 int main(int argc, char** argv) {
 	{
-		//json config;
-		//{
-		//	std::ifstream configFile("config.json");
-		//	configFile >> config;
-		//	configFile.close();
-		//}
-		//j["resolution"] = { 1920, 1080 };
-		//config file load
-
-		//FileUtility::writeStringFile("config.json", j.dump());
-
 		unsigned int renderWidth = 1280;
 		unsigned int rednerHeight = 720;
 		unsigned int windowWidth = 1280;
 		unsigned int windowHeight = 720;
 
-		//width = config["resolution"][0];
-		//height = config["resolution"][1];
-
-		//Should handle errors with some helper functions
-		//std::string err;
-		//err.append(j["resolution"][0].type_name());
-		//if (err == "number") {
-		//	width = j["resolution"][0];
-		//}
-		//else {
-		//	err.append(" is not right type!");
-		//	Debug::Log(err);
-		//}
-
-		/*audioSource = world->create<AudioSource>();
-		audioSource->setAudioClip(audioTest);
-		*/
-
-		//Callbacks for changing rect properties?
-
-		//UI button - Sprites
-		//UI Panels - Take code from button and implemnt sprites
-		//UI Textbox - text formatting hell
-		//Audio looping
 		lb::InitLuaBindings();
 		ContextWindowParems cWinParems = { "Seaside", renderWidth, rednerHeight, windowWidth, windowHeight, 60 , argc, argv };
 		Context::init(&cWinParems);

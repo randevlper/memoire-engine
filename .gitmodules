@@ -25,3 +25,6 @@
 [submodule "thirdparty/SDL"]
 	path = thirdparty/SDL
 	url = https://github.com/libsdl-org/SDL
+[submodule "thirdparty/box2d"]
+	path = thirdparty/box2d
+	url = https://github.com/erincatto/box2d
