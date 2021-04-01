@@ -19,7 +19,7 @@ add_subdirectory(thirdparty/glm)
 
 SET(BUILD_TESTING OFF CACHE BOOL "Enable testing with ctest.")
 add_subdirectory(thirdparty/entt)
-#set_target_properties(EnTT PROPERTIES FOLDER "Thirdparty")
+set_target_properties(entt_aob PROPERTIES FOLDER "Thirdparty")
 #Interface
 
 SET(ZLIB_ENABLE_TESTS  OFF CACHE BOOL "Dont build Zlib tests")
@@ -29,6 +29,8 @@ set_target_properties(zlibstatic PROPERTIES FOLDER "Thirdparty")
 set_target_properties(minigzip PROPERTIES FOLDER "Thirdparty/Tests")
 set_target_properties(example PROPERTIES FOLDER "Thirdparty/Tests")
 
+SET(BOX2D_BUILD_UNIT_TESTS OFF CACHE BOOL "Dont build unit tests")
+SET(BOX2D_BUILD_TESTBED OFF CACHE BOOL "Dont build testbed")
 add_subdirectory(thirdparty/box2d)
 set_target_properties(box2d PROPERTIES FOLDER "Thirdparty")
 
@@ -50,6 +52,7 @@ file(GLOB_RECURSE IMGUI_SOURCES
 add_library(bgfx_imgui STATIC ${IMGUI_SOURCES})
 target_link_libraries(bgfx_imgui bgfx dear-imgui)
 target_include_directories(bgfx_imgui PUBLIC thirdparty/bgfx.cmake/bgfx/examples)
+set_target_properties(bgfx_imgui PROPERTIES FOLDER "Thirdparty")
 
 #Add Lua
 include(FetchContent)
@@ -61,6 +64,7 @@ FetchContent_Populate(LuaLib)
 file(COPY "${PROJECT_SOURCE_DIR}/thirdparty/lua/CMakeLists.txt" 
      DESTINATION "${PROJECT_SOURCE_DIR}/build/_deps/lualib-src/")
 add_subdirectory("${PROJECT_SOURCE_DIR}/build/_deps/lualib-src/")
+set_target_properties(LuaLib PROPERTIES FOLDER "Thirdparty")
 
 #JSON CPP
 # Typically you don't care so much for a third party library's tests to be
