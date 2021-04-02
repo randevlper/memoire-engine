@@ -11,10 +11,10 @@
 #include "assetmanagement/DialogueLoader.h"
 #include "nodes/DialogueWriter.h"
 
-#include "Engine/Tools/imgui_bgfx.h"
+#include "Engine/IMGUI/imgui_bgfx.h"
 #include "imgui/DialogueEditor.h"
-#include "imgui/WorldEditor.h"
-#include "imgui/LuaEditor.h"
+#include "Engine/IMGUI/WorldEditor.h"
+#include "Engine/IMGUI/LuaEditor.h"
 
 #include "core/luabindings.h"
 

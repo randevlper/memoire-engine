@@ -14,7 +14,7 @@ using json = nlohmann::json;
 
 #include "Engine/Utilities/DebugMemory.h"
 
-#include "imgui/ImguiUtilities.h"
+#include "Engine/IMGUI/ImguiUtilities.h"
 #include "Engine/thirdparty/imgui/imgui_stdlib.h"
 
 #include "nodes/DialogueWriter.h"

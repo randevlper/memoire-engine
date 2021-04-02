@@ -2,7 +2,7 @@
 #include "Engine/Core/Renderer.h"
 #include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
-#include "Engine/Tools/imgui_bgfx.h"
+#include "Engine/IMGUI/imgui_bgfx.h"
 
 #include "Engine/Utilities/Debug.h"
 

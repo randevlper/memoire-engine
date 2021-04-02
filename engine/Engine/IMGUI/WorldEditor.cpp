@@ -33,7 +33,7 @@ using json = nlohmann::json;
 #include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/AssetManagement/Sprite.h"
 
-#include "imgui/ImguiUtilities.h"
+#include "Engine/IMGUI/ImguiUtilities.h"
 #include "Engine/Utilities/TypeConversion.h"
 
 namespace lb {

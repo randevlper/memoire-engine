@@ -23,7 +23,7 @@
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "Engine/Nodes/TextRenderer.h"
 
-#include "Engine/Tools/imgui_bgfx.h"
+#include "Engine/IMGUI/imgui_bgfx.h"
 
 #include "Engine/Core/World.h"
 #include "Engine/Nodes/Node.h"

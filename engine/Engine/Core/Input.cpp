@@ -12,7 +12,7 @@
 #include "Engine/Nodes/Node.h"
 #include "Engine/Data/Transform.h"
 
-#include "Engine/Tools/imgui_bgfx.h"
+#include "Engine/IMGUI/imgui_bgfx.h"
 #include "Engine/thirdparty/imgui/imgui_impl_sdl.h"
 
 const unsigned char* Input::_source = nullptr;

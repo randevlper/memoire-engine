@@ -6,6 +6,7 @@ project(engine)
 # 	Engine/*.cpp
 # )
 
+#should be able to use some kind of loop
 file(GLOB_RECURSE SOURCES_CORE
  	Engine/Core/*.h
  	Engine/Core/*.cpp
@@ -46,7 +47,12 @@ file(GLOB_RECURSE SOURCES_UTILITIES
 	Engine/Utilities/*.cpp
 )
 
-add_library(engine STATIC ${SOURCES_CORE} ${SOURCES_ASSETMANAGEMENT} ${SOURCES_DATA} ${SOURCES_NODES} ${SOURCES_THIRDPARTY} ${SOURCES_TOOLS} ${SOURCES_UI} ${SOURCES_UTILITIES})
+file(GLOB_RECURSE SOURCES_IMGUI
+	Engine/IMGUI/*.h
+	Engine/IMGUI/*.cpp
+)
+
+add_library(engine STATIC ${SOURCES_CORE} ${SOURCES_ASSETMANAGEMENT} ${SOURCES_DATA} ${SOURCES_NODES} ${SOURCES_THIRDPARTY} ${SOURCES_TOOLS} ${SOURCES_UI} ${SOURCES_UTILITIES} ${SOURCES_IMGUI})
 
 source_group("AssetManagement" FILES ${SOURCES_ASSETMANAGEMENT})
 source_group("Core" FILES ${SOURCES_CORE})
@@ -56,6 +62,7 @@ source_group("Thirdparty" FILES ${SOURCES_THIRDPARTY})
 source_group("Tools" FILES ${SOURCES_TOOLS})
 source_group("UI" FILES ${SOURCES_UI})
 source_group("Utilities" FILES ${SOURCES_UTILITIES})
+source_group("IMGUI" FILES ${SOURCES_IMGUI})
 
 if(MSVC)
 	add_compile_options(/MP4)				#Use multiple processors when building
