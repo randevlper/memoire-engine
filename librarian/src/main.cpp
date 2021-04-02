@@ -1,50 +1,17 @@
-#include <iostream>
-#include <list>
-#include <functional>
-#include <string>
-#include <fstream>
-
-#include <bgfx/bgfx.h>
-#include <glm/vec2.hpp>
-#include <SDL_pixels.h>
-#include <SDL_keycode.h>
-#include <SDL_mouse.h>
-
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
-
 #include "Engine/Core/Context.h"
-#include "Engine/Core/FileUtility.h"
 #include "Engine/Core/Renderer.h"
-#include "Engine/Core/World.h"
-
-#include "Engine/Core/WorldManager.h"
-#include "Engine/Core/Audio.h"
-#include "Engine/Core/LuaManager.h"
-#include "Engine/Core/Input.h"
-
-#include "Engine/Utilities/Debug.h"
-#include "Engine/Utilities/DebugMemory.h"
 
 #include "Engine/AssetManagement/AssetManager.h"
-#include "Engine/AssetManagement/Sprite.h"
-#include "Engine/AssetManagement/Font.h"
-#include "Engine/AssetManagement/AudioClip.h"
-
-#include "Engine/Nodes/SpriteRenderer.h"
-#include "Engine/Nodes/TextRenderer.h"
-#include "Engine/Nodes/Camera.h"
-#include "Engine/Nodes/AudioSource.h"
-
-#include "Engine/AssetManagement/JSON.h"
+#include "Engine/Core/WorldManager.h"
+#include "Engine/Core/World.h"
+#include "Engine/Core/Input.h"
 
 #include "Engine/UI/Button.h"
-#include "Engine/UI/Text.h"
-
-#include "Engine/Tools/imgui_bgfx.h"
 
 #include "assetmanagement/DialogueLoader.h"
 #include "nodes/DialogueWriter.h"
+
+#include "Engine/Tools/imgui_bgfx.h"
 #include "imgui/DialogueEditor.h"
 #include "imgui/WorldEditor.h"
 #include "imgui/LuaEditor.h"
@@ -71,11 +38,6 @@ int main(int argc, char** argv) {
 		while (!Context::getShouldClose())
 		{
 			Context::tick();
-
-			if(Input::getKeyDown(SDL_SCANCODE_SPACE) && !me::imgui::isAnyWindowFocused()) {
-				//Progress Text	
-				//dialogueWriter->progress();
-			}
 
 			me::WorldManager::tick();
 

@@ -2,8 +2,6 @@
 #define SDL_MAIN_HANDLED
 #include <stdint.h>
 
-//Should contain anything releated to the engine context
-
 struct ContextWindowParems
 {
 	const char* windowName;
@@ -61,8 +59,6 @@ private:
 	//static SDL_Renderer* _renderer;
 
 	static SDL_SysWMinfo* _wmInfo;
-
-
 
 	Context();
 	~Context();

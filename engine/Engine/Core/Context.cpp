@@ -30,7 +30,6 @@
 #include "Engine/UI/Button.h"
 #include "Engine/UI/Text.h"
 
-
 Context* Context::_instance = nullptr;
 bool Context::_shouldClose = nullptr;
 int Context::_errorCode = 404;
