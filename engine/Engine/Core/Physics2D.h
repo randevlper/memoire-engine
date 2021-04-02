@@ -1,7 +1,6 @@
 #pragma once
-#include "glm/fwd.hpp"
-#include <vector>
-#include "Box2D/Box2D.h"
+#include <glm/fwd.hpp>
+class b2World;
 
 class Physics2D
 {
@@ -10,9 +9,14 @@ public:
 	static void quit();
 	static void tick();
 
-private:
-	static Physics2D* _instance;
+	static b2World* getWorld();
 
-	Physics2D();
-	~Physics2D();
+private:
+	//Only need one world for now
+	static b2World* _world;
+	
+	static glm::vec2 _gravity;
+	static signed int _velocityIterations;
+	static signed int _positionIterations;
+	static float _timeStep;
 };
