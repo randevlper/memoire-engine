@@ -1,6 +1,5 @@
 #include "World.h"
 
-#include "Engine/Nodes/Body.h"
 #include "Engine/Utilities/DebugMemory.h"
 #include "Engine/Utilities/ObjectFactory.h"
 #include "Engine/Utilities/Debug.h"

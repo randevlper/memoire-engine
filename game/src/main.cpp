@@ -26,7 +26,7 @@ Data Oriented
 #include "Engine/Core/Context.h"
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Core/Renderer.h"
-#include "Engine/Core/Physics.h"
+#include "Engine/Core/Physics2D.h"
 #include "Engine/Data/AseData.h"
 
 #include "Engine/Core/WorldManager.h"
@@ -37,8 +37,6 @@ Data Oriented
 #include "Engine/Data/Transform.h"
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Nodes/Node.h"
-//#include "Engine/Nodes/Collider.h"
-#include "Engine/Nodes/Body.h"
 #include "Engine/AssetManagement/Sprite.h"
 #include "Engine/Nodes/SpriteRenderer.h"
 

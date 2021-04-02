@@ -1,5 +1,4 @@
 #include "Engine/Core/Physics2D.h"
-#include "Engine/Nodes/Body.h"
 #include "Engine/Utilities/Debug.h"
 #include "glm/vec2.hpp"
 
