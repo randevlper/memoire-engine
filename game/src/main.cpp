@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
 
 			float speed = 250.0f;
 			cam->transform.translate((movement * speed));
-			Physics::tick();
+			Physics2D::tick();
 
 			spriteRenderer->render();
 			textRenderer->render();

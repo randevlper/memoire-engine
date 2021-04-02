@@ -7,7 +7,7 @@
 #include <SDL_syswm.h>
 #include <bgfx/bgfx.h>
 
-#include "Engine/Core/Physics.h"
+#include "Engine/Core/Physics2D.h"
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Renderer.h"
 #include "Engine/Core/Audio.h"
@@ -146,7 +146,7 @@ void Context::init(ContextWindowParems* parems)
 		bgfx::setViewClear(1, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
 		bgfx::setViewRect(1, 0, 0, _windowParems.windowWidth, _windowParems.windowHeight);
 
-		Physics::init(parems->argc, parems->argv);
+		Physics2D::init(parems->argc, parems->argv);
 		Input::init();
 		Renderer::init();
 
@@ -177,7 +177,7 @@ void Context::quit()
 	TextRenderer::destroy();
 	SpriteRenderer::destroy();
 	FileUtility::destroy();
-	Physics::quit();
+	Physics2D::quit();
 	Input::quit();
 	Renderer::quit();
 	delete(_instance);

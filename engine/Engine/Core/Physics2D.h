@@ -3,7 +3,7 @@
 #include <vector>
 #include "Box2D/Box2D.h"
 
-class Physics
+class Physics2D
 {
 public:
 	static void init(int argc, char** argv);
@@ -11,8 +11,8 @@ public:
 	static void tick();
 
 private:
-	static Physics* _instance;
+	static Physics2D* _instance;
 
-	Physics();
-	~Physics();
+	Physics2D();
+	~Physics2D();
 };
