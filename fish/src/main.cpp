@@ -13,6 +13,10 @@
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
 
+#include "Engine/Nodes/KinematicBody2D.h"
+#include "Engine/Nodes/DynamicBody2D.h"
+#include "Engine/Nodes/StaticBody2D.h"
+
 int main(int argc, char** argv) {
 	{
 		float iExistSoItCompiles = 0.0f; //http://forums.libsdl.org/viewtopic.php?p=47179
@@ -28,7 +32,8 @@ int main(int argc, char** argv) {
 			return Context::getErrorCode();
 		}
 		me::WorldManager::loadWorld();
-		
+		me::WorldManager::postLogic();
+
 		b2Vec2 gravity(0.0f, -10.0f);
 		b2World* world = DBG_NEW b2World(gravity);
 
@@ -39,11 +44,11 @@ int main(int argc, char** argv) {
 		b2PolygonShape groundBox;
 		groundBox.SetAsBox(50.0f, 10.0f);
 		groundBody->CreateFixture(&groundBox, 0.0f);
-		
+
 		b2BodyDef bodyDef;
 		bodyDef.type = b2_dynamicBody;
 		bodyDef.position.Set(0.0f, 4.0f);
-		
+
 		b2Body* body = world->CreateBody(&bodyDef);
 
 		b2PolygonShape dynamicBox;
@@ -59,6 +64,16 @@ int main(int argc, char** argv) {
 		float timeStep = 1.0f / 60.0f;
 		int32 velocityIterations = 6;
 		int32 positionIterations = 2;
+
+		{
+			World* gWorld = me::WorldManager::getWorld();
+			if (gWorld != nullptr) {
+				gWorld->create<KinematicBody2D>();
+				gWorld->create<DynamicBody2D>();
+				gWorld->create<StaticBody2D>();
+			}
+		}
+		
 		
 		while (!Context::getShouldClose())
 		{
