@@ -24,6 +24,7 @@ Body2D::~Body2D()
 
 void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType, bool isSensor)
 {
+	if (_body != nullptr) { Debug::Log("Body has already been setup!"); return; }
 	float PPU = Physics2D::getPixelsPerUnit();
 	b2BodyDef bodyDef;
 	bodyDef.position.Set(x / PPU, y / PPU);
@@ -62,11 +63,12 @@ void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType, 
 	b2Vec2 position = _body->GetPosition();
 	float angle = _body->GetAngle();
 	printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
+
+	
 }
 
 void Body2D::setPosition(glm::vec2 pos)
 {
-	if (_body == nullptr) { return; }
 	float PPU = Physics2D::getPixelsPerUnit();
 	_body->SetTransform({ pos.x /PPU,pos.y/PPU }, _body->GetAngle());
 }
@@ -74,5 +76,26 @@ void Body2D::setPosition(glm::vec2 pos)
 glm::vec2 Body2D::getPosition()
 {
 	b2Vec2 p = _body->GetPosition();
-	return {p.x, p.y};
+	float PPU = Physics2D::getPixelsPerUnit();
+	return {p.x * PPU, p.y * PPU};
+}
+
+void Body2D::setIsAwake(bool value)
+{
+	_body->SetAwake(value);
+}
+
+bool Body2D::isAwake()
+{
+	return _body->IsAwake();
+}
+
+void Body2D::setIsEnabled(bool value)
+{
+	_body->SetEnabled(value);
+}
+
+bool Body2D::isEnabled()
+{
+	return _body->IsEnabled();
 }

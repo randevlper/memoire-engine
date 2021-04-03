@@ -30,6 +30,8 @@ using json = nlohmann::json;
 
 #include "Engine/Nodes/Camera.h"
 #include "Engine/Nodes/SpriteRenderer.h"
+#include "Engine/Nodes/Body2D.h"
+
 #include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/AssetManagement/Sprite.h"
 
@@ -180,12 +182,13 @@ namespace me {
 					std::string nodeName = nodeSelected->getName();
 					ImGui::InputText("node_name", &nodeName, ImGuiInputTextFlags_CharsNoBlank);
 					//ImGui::InputInt("node_x",)
-					ImGui::Text(nodeSelected->getType().c_str());
+					std::string nodeType = nodeSelected->getType();
+					ImGui::Text(nodeType.c_str());
 
 
-					if (nodeSelected->getType() == "Node2D" || 
-						nodeSelected->getType() == "Camera" ||
-						nodeSelected->getType() == "SpriteRenderer") {
+					if (nodeType == "Node2D" ||
+						nodeType == "Camera" ||
+						nodeType == "SpriteRenderer") {
 						Node2D* node2DSelected = dynamic_cast<Node2D*>(nodeSelected);
 
 						//Would be more performant to have the editor access the memory directly but this way its using the same interface as the User
@@ -210,7 +213,7 @@ namespace me {
 						node2DSelected->transform.setLocalScale(scale);
 						node2DSelected->transform.setLocalAngle(angle);
 
-						if (nodeSelected->getType() == "SpriteRenderer") {
+						if (nodeType == "SpriteRenderer") {
 							SpriteRenderer* nodeSpriteRenderer = dynamic_cast<SpriteRenderer*>(nodeSelected);
 
 							std::string spritepath = "";
@@ -250,9 +253,35 @@ namespace me {
 						}
 					}
 
-					if (nodeSelected->getType() == "NodeUI" ||
-						nodeSelected->getType() == "Button" || 
-						nodeSelected->getType() == "Text") {
+					if (nodeType == "Body2D") {
+						Body2D* body2Dselected = dynamic_cast<Body2D*>(nodeSelected);
+						glm::vec2 pos = body2Dselected->getPosition();
+						bool isAwake = body2Dselected->isAwake();
+						bool isEnabled = body2Dselected->isEnabled();
+
+						static glm::vec2 bodyLastPos;
+
+						ImGui::PushItemWidth(150);
+						ImGui::InputFloat("Pos X", &pos.x);
+						ImGui::SameLine();
+						ImGui::InputFloat("Pos Y", &pos.y);
+						ImGui::Checkbox("IsAwake", &isAwake);
+						ImGui::Checkbox("IsEnabled", &isEnabled);
+
+
+
+
+						body2Dselected->setIsAwake(isAwake);
+						if (bodyLastPos != pos) {
+							bodyLastPos = pos;
+							body2Dselected->setPosition(bodyLastPos);
+						}
+					}
+
+
+					if (nodeType == "NodeUI" ||
+						nodeType == "Button" ||
+						nodeType == "Text") {
 
 						static glm::vec2 lastSize;
 						static glm::vec2 lastPos;
@@ -278,7 +307,7 @@ namespace me {
 
 
 
-						if (nodeSelected->getType() == "Button") {
+						if (nodeType == "Button") {
 							me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodeSelected);
 
 							ImGui::InputText("LuaOnClick", &buttonSelected->luaOnClick);
@@ -298,7 +327,7 @@ namespace me {
 							}
 						}
 
-						if (nodeSelected->getType() == "Text") {
+						if (nodeType == "Text") {
 							me::ui::Text* textSelected = dynamic_cast<me::ui::Text*>(nodeSelected);
 							static std::string lastText;
 

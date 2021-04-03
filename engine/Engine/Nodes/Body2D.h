@@ -19,6 +19,12 @@ public:
 	void setupBox(int x, int y, int width, int height, Body2DType type, bool isSensor = false);
 	void setPosition(glm::vec2 pos);
 	glm::vec2 getPosition();
+	
+	void setIsAwake(bool value);
+	bool isAwake();
+
+	void setIsEnabled(bool value);
+	bool isEnabled();
 
 private:
 	Transform transform;
