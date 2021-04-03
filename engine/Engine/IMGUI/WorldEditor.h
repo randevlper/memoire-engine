@@ -1,6 +1,6 @@
 #pragma once
 
-namespace lb {
+namespace me {
 	namespace imgui {
 		namespace worldEditor {
 			void showEditor();

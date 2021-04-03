@@ -14,8 +14,9 @@ signed int  Physics2D::_velocityIterations;
 signed int  Physics2D::_positionIterations;
 float Physics2D::_timeStep;
 
-signed int Physics2D::_pixelsPerUnit;
 
+signed int Physics2D::_pixelsPerUnit;
+b2ContactListenTest Physics2D::contactListenTest;
 
 void Physics2D::init(int argc, char** argv)
 {
@@ -31,6 +32,7 @@ void Physics2D::init(int argc, char** argv)
 	_pixelsPerUnit = 100;
 
 	_world = DBG_NEW b2World({ _gravity.x,_gravity.y });
+	_world->SetContactListener(&contactListenTest);
 }
 
 void Physics2D::quit()
@@ -76,4 +78,9 @@ void Physics2D::tick()
 b2World* Physics2D::getWorld()
 {
 	return _world;
+}
+
+signed int Physics2D::getPixelsPerUnit()
+{
+	return _pixelsPerUnit;
 }

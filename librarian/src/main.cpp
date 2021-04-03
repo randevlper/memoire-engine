@@ -15,8 +15,8 @@
 #include "imgui/DialogueEditor.h"
 #include "Engine/IMGUI/WorldEditor.h"
 #include "Engine/IMGUI/LuaEditor.h"
-
 #include "core/luabindings.h"
+
 
 int main(int argc, char** argv) {
 	{
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
 			if (me::imgui::isIMGUIOpen()) {
 				me::imgui::beginFrame();
 				lb::imgui::dialogueEditor::showEditor();
-				lb::imgui::worldEditor::showEditor();
+				me::imgui::worldEditor::showEditor();
 				me::imgui::ShowLuaEditor();
 				me::imgui::endFrame();
 			}

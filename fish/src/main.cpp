@@ -3,8 +3,10 @@
 #include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
 #include "Engine/Core/Input.h"
-#include "Engine/IMGUI/imgui_bgfx.h"
 #include "Engine/Core/Physics2D.h"
+
+#include "Engine/IMGUI/imgui_bgfx.h"
+#include "Engine/IMGUI/WorldEditor.h"
 
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Utilities/DebugMemory.h"
@@ -16,14 +18,15 @@
 
 #include "Engine/Nodes/Body2D.h"
 
+
 int main(int argc, char** argv) {
 	{
 		float iExistSoItCompiles = 0.0f; //http://forums.libsdl.org/viewtopic.php?p=47179
 
-		unsigned int renderWidth = 1280;
-		unsigned int rednerHeight = 720;
-		unsigned int windowWidth = 1280;
-		unsigned int windowHeight = 720;
+		unsigned int renderWidth = 1920;
+		unsigned int rednerHeight = 1080;
+		unsigned int windowWidth = 1920;
+		unsigned int windowHeight = 1080;
 
 		ContextWindowParems cWinParems = { "Fish", renderWidth, rednerHeight, windowWidth, windowHeight, 60 , argc, argv };
 		Context::init(&cWinParems);
@@ -37,10 +40,13 @@ int main(int argc, char** argv) {
 			World* gWorld = me::WorldManager::getWorld();
 			if (gWorld != nullptr) {
 				Body2D *floor = gWorld->create<Body2D>();
-				floor->setupBox(0.0f, -1.0f, 5.0f, 0.5f, Body2DType::Static);
+				floor->setupBox(0, -100, 500, 50, Body2DType::Static);
 
 				Body2D* block = gWorld->create<Body2D>();
-				block->setupBox(0.0f, 4.0f, 0.5f, 0.5f, Body2DType::Dynamic);
+				block->setupBox(0, 400, 10, 10, Body2DType::Dynamic);
+
+				Body2D* sensor = gWorld->create<Body2D>();
+				sensor->setupBox(0, 100, 100, 50, Body2DType::Static, true);
 			}
 		}
 		
@@ -59,6 +65,7 @@ int main(int argc, char** argv) {
 
 			if (me::imgui::isIMGUIOpen()) {
 				me::imgui::beginFrame();
+				me::imgui::worldEditor::showEditor();
 				me::imgui::endFrame();
 			}
 		}

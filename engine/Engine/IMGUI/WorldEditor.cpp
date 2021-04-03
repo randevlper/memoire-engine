@@ -36,7 +36,7 @@ using json = nlohmann::json;
 #include "Engine/IMGUI/ImguiUtilities.h"
 #include "Engine/Utilities/TypeConversion.h"
 
-namespace lb {
+namespace me {
 	namespace imgui {
 		namespace worldEditor {
 			static bool windowOpen = false;

@@ -2,6 +2,21 @@
 #include <glm/fwd.hpp>
 class b2World;
 
+//TESTING -----------
+#include "box2d/box2d.h"
+#include "Engine/Utilities/Debug.h"
+
+class b2ContactListenTest : public  b2ContactListener {
+	void BeginContact(b2Contact* contact) override {
+		Debug::Log("Contact!");
+	}
+
+	void EndContact(b2Contact* contact) override {
+		Debug::Log("EndContact!");
+	}
+};
+//TESTING -----------
+
 class Physics2D
 {
 public:
@@ -10,6 +25,8 @@ public:
 	static void tick();
 
 	static b2World* getWorld();
+
+	static signed int getPixelsPerUnit();
 
 private:
 	//Only need one world for now
@@ -21,4 +38,5 @@ private:
 	static signed int _velocityIterations;
 	static signed int _positionIterations;
 	static float _timeStep;
+	static b2ContactListenTest contactListenTest;
 };

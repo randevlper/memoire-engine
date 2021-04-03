@@ -1,6 +1,7 @@
 #include "Body2D.h"
 
 #include "Engine/Core/Physics2D.h"
+#include "Engine/Utilities/Debug.h"
 
 #include <glm/vec2.hpp>
 #include <box2d/b2_world.h>
@@ -17,13 +18,15 @@ Body2D::Body2D()
 Body2D::~Body2D()
 {
 	b2World* world = Physics2D::getWorld();
+	if (_body == nullptr) { Debug::LogError("Why are you being destroyed when nullptr?"); return; }
 	world->DestroyBody(_body);
 }
 
-void Body2D::setupBox(float x, float y, float width, float height, Body2DType bodyType, bool isSensor)
+void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType, bool isSensor)
 {
+	float PPU = Physics2D::getPixelsPerUnit();
 	b2BodyDef bodyDef;
-	bodyDef.position.Set(x, y);
+	bodyDef.position.Set(x / PPU, y / PPU);
 
 	switch (bodyType)
 	{
@@ -45,7 +48,8 @@ void Body2D::setupBox(float x, float y, float width, float height, Body2DType bo
 	_body = world->CreateBody(&bodyDef);
 
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(width, height);
+	//Should check here to make sure the Box created is not smaller then 0.1 Box2D units
+	polygonShape.SetAsBox((width / 2) / PPU, (height/2) / PPU);
 	
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &polygonShape;
@@ -63,7 +67,8 @@ void Body2D::setupBox(float x, float y, float width, float height, Body2DType bo
 void Body2D::setPosition(glm::vec2 pos)
 {
 	if (_body == nullptr) { return; }
-	_body->SetTransform({ pos.x,pos.y }, _body->GetAngle());
+	float PPU = Physics2D::getPixelsPerUnit();
+	_body->SetTransform({ pos.x /PPU,pos.y/PPU }, _body->GetAngle());
 }
 
 glm::vec2 Body2D::getPosition()

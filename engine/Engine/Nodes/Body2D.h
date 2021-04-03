@@ -16,7 +16,7 @@ public:
 	Body2D();
 	~Body2D() override;
 
-	void setupBox(float x, float y, float width, float height, Body2DType type, bool isSensor = false);
+	void setupBox(int x, int y, int width, int height, Body2DType type, bool isSensor = false);
 	void setPosition(glm::vec2 pos);
 	glm::vec2 getPosition();
 
