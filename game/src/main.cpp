@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
 		Sprite* ayse = AssetManager::get<Sprite>("assets/ayse.png");
 
 		me::WorldManager::loadWorld();
-		me::WorldManager::postLogic();
+		me::WorldManager::postRender();
 		World* world = me::WorldManager::getWorld();
 
 		Camera* cam = world->get<Camera>("Camera");

@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 			return Context::getErrorCode();
 		}
 		me::WorldManager::loadWorld();
-		me::WorldManager::postLogic();
+		me::WorldManager::postRender();
 
 		{
 			World* gWorld = me::WorldManager::getWorld();
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
 
 			
 			
-			me::WorldManager::postLogic();
+			me::WorldManager::postRender();
 
 			if (me::imgui::isIMGUIOpen()) {
 				me::imgui::beginFrame();

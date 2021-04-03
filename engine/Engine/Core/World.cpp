@@ -10,6 +10,7 @@ World::World()
 {
 	_root = DBG_NEW Node2D();
 	_nodes = std::vector<Node*>();
+	_nodesToDelete = std::vector<Node*>();
 }
 
 World::~World()
@@ -41,6 +42,17 @@ void World::render()
 	}
 }
 
+void World::postRender()
+{
+	if (_nodesToDelete.size() > 0) {
+		for (unsigned int i = 0; i < _nodesToDelete.size(); i++)
+		{
+			delete(_nodesToDelete[i]);
+		}
+		_nodesToDelete = std::vector<Node*>();
+	}
+}
+
 Node* World::create(std::string nodeType)
 {
 	Node* node = nullptr;
@@ -64,7 +76,7 @@ bool World::eraseNode(Node* node, int index)
 		}
 	}
 
-	delete(node);
+	_nodesToDelete.push_back(node);
 	_nodes.erase(_nodes.begin() + index);
 	return true;
 }

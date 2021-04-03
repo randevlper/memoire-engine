@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
 			Renderer::render();
 			
 			//Load new World here.
-			me::WorldManager::postLogic();
+			me::WorldManager::postRender();
 		}
 
 		Context::quit();

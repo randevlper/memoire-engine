@@ -63,8 +63,12 @@ namespace me {
 
 	}
 
-	bool WorldManager::postLogic()
+	bool WorldManager::postRender()
 	{
+		if (_currentWorld != nullptr) {
+			_currentWorld->postRender();
+		}
+
 		if (_toLoadWorld != nullptr) {
 			if (_currentWorld != nullptr) {
 				LuaManager::luaFunction("destroy");

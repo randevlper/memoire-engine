@@ -14,11 +14,9 @@ public:
 	World();
 	~World();
 
-	//Raycast
-	//AABB Query
-	//Node Creation
 	void tick(float delta);
 	void render();
+	void postRender();
 
 	const std::vector<Node*>& getNodes() {
 		return _nodes;
@@ -33,16 +31,13 @@ public:
 	nodeclass* create();
 	Node* create(std::string nodeType);
 
+	//destroys a node at the end of the next frame 
 	bool destroy(std::string name);
+	//destroys a node at the end of the next frame
 	bool destroy(Node* node);
 
 	template<class T>
 	T* get(std::string name);
-
-	//Delete a node by refrence
-	//bool destroy(Node* node);
-	//Delete a node by name
-	//bool destroy(std::string name);
 
 	std::string name;
 
@@ -53,6 +48,7 @@ private:
 	//Contain Nodes
 	Node* _root;
 	std::vector<Node*> _nodes;
+	std::vector<Node*> _nodesToDelete;
 	//For now use a list of nodes
 	//Ideally better to use a hierarchy? A node knows its children.
 	bool eraseNode(Node* node, int index);
