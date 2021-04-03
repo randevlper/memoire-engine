@@ -20,7 +20,7 @@
 #include "Engine/Nodes/Body2D.h"
 
 #include "fish.h"
-
+#include "hook.h"
 
 int main(int argc, char** argv) {
 	{
@@ -45,11 +45,17 @@ int main(int argc, char** argv) {
 				Body2D *floor = gWorld->create<Body2D>();
 				floor->setupBox(0, -100, 500, 50, Body2DType::Static);
 
+				Body2D* b1 = gWorld->create<Body2D>();
+				b1->setupBox(0, 300, 10, 10, Body2DType::Dynamic);
+
 				Fish* fish = gWorld->create<Fish>();
 				fish->setupBox(0, 400, 10, 10, Body2DType::Dynamic);
 
-				Body2D* sensor = gWorld->create<Body2D>();
-				sensor->setupBox(0, 100, 100, 50, Body2DType::Static, true);
+				Fish* fish2 = gWorld->create<Fish>();
+				fish2->setupBox(0, 450, 10, 10, Body2DType::Dynamic);
+
+				Hook* hook = gWorld->create<Hook>();
+				hook->setupBox(0, 100, 100, 50, Body2DType::Static, true);
 			}
 		}
 		

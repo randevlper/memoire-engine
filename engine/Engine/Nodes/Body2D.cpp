@@ -4,6 +4,8 @@
 #include "Engine/Utilities/Debug.h"
 
 #include <glm/vec2.hpp>
+
+#include <box2d/b2_contact.h>
 #include <box2d/b2_world.h>
 #include <box2d/b2_body.h>
 #include <box2d/b2_polygon_shape.h>
@@ -118,4 +120,14 @@ Body2DType Body2D::getBodyType()
 bool Body2D::isSensor()
 {
 	return _body->GetFixtureList()->IsSensor();
+}
+
+void Body2D::OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB)
+{
+
+}
+
+void Body2D::OnContactEnd(b2Contact* contact, Body2D* bodyA, Body2D* bodyB)
+{
+
 }

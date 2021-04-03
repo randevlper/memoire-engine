@@ -9,8 +9,3 @@ public:
 private:
 
 };
-
-Fish::Fish()
-{
-	_type = "Fish";
-}

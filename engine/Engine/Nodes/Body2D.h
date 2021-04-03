@@ -2,6 +2,7 @@
 #include "Node2D.h"
 
 class b2Body;
+class b2Contact;
 
 enum class Body2DType
 {
@@ -28,6 +29,9 @@ public:
 
 	Body2DType getBodyType();
 	bool isSensor();
+
+	virtual void OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB);
+	virtual void OnContactEnd(b2Contact* contact, Body2D* bodyA, Body2D* bodyB);
 
 private:
 	Transform transform;

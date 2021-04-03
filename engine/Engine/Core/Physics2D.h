@@ -9,12 +9,17 @@ class b2World;
 
 class b2ContactListenTest : public  b2ContactListener {
 	void BeginContact(b2Contact* contact) override {
-		Body2D* body = (Body2D*)contact->GetFixtureA()->GetUserData().pointer;
-		Debug::Log(body->getType() + " Contact!");
+		Body2D* bodyA = (Body2D*)contact->GetFixtureA()->GetUserData().pointer;
+		Body2D* bodyB = (Body2D*)contact->GetFixtureB()->GetUserData().pointer;
+		bodyA->OnContactStart(contact, bodyA, bodyB);
+		bodyB->OnContactStart(contact, bodyA, bodyB);
 	}
 
 	void EndContact(b2Contact* contact) override {
-		Debug::Log("EndContact!");
+		Body2D* bodyA = (Body2D*)contact->GetFixtureA()->GetUserData().pointer;
+		Body2D* bodyB = (Body2D*)contact->GetFixtureB()->GetUserData().pointer;
+		bodyA->OnContactEnd(contact, bodyA, bodyB);
+		bodyB->OnContactEnd(contact, bodyA, bodyB);
 	}
 };
 //TESTING -----------
