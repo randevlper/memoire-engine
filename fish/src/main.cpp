@@ -37,10 +37,10 @@ int main(int argc, char** argv) {
 			World* gWorld = me::WorldManager::getWorld();
 			if (gWorld != nullptr) {
 				Body2D *floor = gWorld->create<Body2D>();
-				floor->setupBox(0.0f, -10.0f, 50.0f, 10.0f, Body2DType::Static);
+				floor->setupBox(0.0f, -1.0f, 5.0f, 0.5f, Body2DType::Static);
 
 				Body2D* block = gWorld->create<Body2D>();
-				block->setupBox(0.0f, 4.0f, 1.0f, 1.0f, Body2DType::Dynamic);
+				block->setupBox(0.0f, 4.0f, 0.5f, 0.5f, Body2DType::Dynamic);
 			}
 		}
 		

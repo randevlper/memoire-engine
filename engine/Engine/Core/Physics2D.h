@@ -15,6 +15,8 @@ private:
 	//Only need one world for now
 	static b2World* _world;
 	
+	static signed int _pixelsPerUnit; 
+
 	static glm::vec2 _gravity;
 	static signed int _velocityIterations;
 	static signed int _positionIterations;

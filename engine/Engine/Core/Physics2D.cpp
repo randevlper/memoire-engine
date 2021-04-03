@@ -10,9 +10,11 @@
 
 b2World* Physics2D::_world = nullptr;
 glm::vec2 Physics2D::_gravity;
-int32 Physics2D::_velocityIterations;
-int32 Physics2D::_positionIterations;
+signed int  Physics2D::_velocityIterations;
+signed int  Physics2D::_positionIterations;
 float Physics2D::_timeStep;
+
+signed int Physics2D::_pixelsPerUnit;
 
 
 void Physics2D::init(int argc, char** argv)
@@ -26,6 +28,8 @@ void Physics2D::init(int argc, char** argv)
 	_velocityIterations = 6;
 	_positionIterations = 2;
 
+	_pixelsPerUnit = 100;
+
 	_world = DBG_NEW b2World({ _gravity.x,_gravity.y });
 }
 
@@ -38,13 +42,34 @@ void Physics2D::tick()
 {
 	_world->Step(_timeStep, _velocityIterations, _positionIterations);
 	
-	b2Body* bodyList =_world->GetBodyList();
+	b2Body* body =_world->GetBodyList();
+	b2Vec2 pos;
+	b2Vec2 vert;
 
-	while (bodyList != nullptr)
+	b2Fixture* fixtures;
+
+	b2PolygonShape* polygonShape;
+
+	while (body != nullptr)
 	{
-		b2Vec2 pos = bodyList->GetPosition();
-		 printf("%4.2f %4.2f\n", pos.x, pos.y);
-		 bodyList = bodyList->GetNext();
+		
+		fixtures = body->GetFixtureList();
+		if (fixtures->GetType() == b2Shape::Type::e_polygon) {
+			polygonShape = (b2PolygonShape*)fixtures->GetShape();
+			
+			std::vector<glm::vec2> points;
+			points.resize(polygonShape->m_count);
+			for (size_t i = 0; i < polygonShape->m_count; i++)
+			{
+				 vert = body->GetWorldPoint(polygonShape->m_vertices[i]);
+				 points[i] = { vert.x * _pixelsPerUnit, vert.y * _pixelsPerUnit };
+			}
+
+			Renderer::renderLines(points.data(), points.size(), glm::vec4(0, 255, 0, 255));
+		}
+
+
+		body = body->GetNext();
 	}
 }
 
