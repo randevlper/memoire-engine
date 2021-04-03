@@ -45,8 +45,8 @@ namespace me {
 			static int selected = 0;
 
 			static const char* current_node_selected = "Node2D";
-			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera", "Text", "SpriteRenderer" };
-			const size_t nodeTypesCount = 6;
+			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera", "Text", "SpriteRenderer", "Body2D" };
+			const size_t nodeTypesCount = 7;
 
 			static bool isWorldLoadSelectOpen = false;
 			static std::filesystem::directory_entry worldLoadSelection = std::filesystem::directory_entry();
@@ -261,6 +261,10 @@ namespace me {
 
 						static glm::vec2 bodyLastPos;
 
+						if (mousePos != glm::vec2(0, 0)) {
+							pos = mousePos ;
+						}
+
 						ImGui::PushItemWidth(150);
 						ImGui::InputFloat("Pos X", &pos.x);
 						ImGui::SameLine();
@@ -268,8 +272,17 @@ namespace me {
 						ImGui::Checkbox("IsAwake", &isAwake);
 						ImGui::Checkbox("IsEnabled", &isEnabled);
 
+						static int bodyWidth = 10;
+						static int bodyHeight = 10;
+						ImGui::InputInt("Width###Body2DWidth", &bodyWidth);
+						ImGui::InputInt("Height###Body2DHeight", &bodyHeight);
+						if (bodyWidth < 10) { bodyWidth = 10; }
+						if (bodyHeight < 10) { bodyHeight = 10; }
 
-
+						if (ImGui::Button("Build###bodyBuild")) {
+							body2Dselected->setupBox(pos.x, pos.y, bodyWidth, bodyHeight,
+								body2Dselected->getBodyType(), body2Dselected->isSensor());
+						}
 
 						body2Dselected->setIsAwake(isAwake);
 						if (bodyLastPos != pos) {

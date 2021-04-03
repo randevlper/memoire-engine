@@ -8,6 +8,8 @@
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "Engine/Nodes/Camera.h"
 
+#include "Engine/Nodes/Body2D.h"
+
 namespace me {
 	namespace util {
 		nodeMapType ObjectFactory::nodeMap = nodeMapType();
@@ -22,6 +24,7 @@ namespace me {
 			nodeMap["Camera"] = createInstance<Camera>;
 			nodeMap["SpriteRenderer"] = createInstance<SpriteRenderer>;
 
+			nodeMap["Body2D"] = createInstance<Body2D>;
 
 			//UI
 			nodeMap["Text"] = createInstance<me::ui::Text>;

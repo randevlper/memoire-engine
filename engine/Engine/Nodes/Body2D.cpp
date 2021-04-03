@@ -13,6 +13,7 @@ Body2D::Body2D()
 {
 	_type = "Body2D";
 	_body = nullptr;
+	setupBox(0, 0, 10, 10, Body2DType::Static);
 }
 
 Body2D::~Body2D()
@@ -24,7 +25,10 @@ Body2D::~Body2D()
 
 void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType, bool isSensor)
 {
-	if (_body != nullptr) { Debug::Log("Body has already been setup!"); return; }
+	//Create body here
+	b2World* world = Physics2D::getWorld();
+	
+	if (_body != nullptr) { Debug::Log("Body has already been setup! - Rebuilding!");  world->DestroyBody(_body); }
 	float PPU = Physics2D::getPixelsPerUnit();
 	b2BodyDef bodyDef;
 	bodyDef.position.Set(x / PPU, y / PPU);
@@ -44,8 +48,7 @@ void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType, 
 		break;
 	}
 
-	//Create body here
-	b2World* world = Physics2D::getWorld();
+	
 	_body = world->CreateBody(&bodyDef);
 
 	b2PolygonShape polygonShape;
@@ -62,9 +65,6 @@ void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType, 
 
 	b2Vec2 position = _body->GetPosition();
 	float angle = _body->GetAngle();
-	printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-
-	
 }
 
 void Body2D::setPosition(glm::vec2 pos)
@@ -98,4 +98,23 @@ void Body2D::setIsEnabled(bool value)
 bool Body2D::isEnabled()
 {
 	return _body->IsEnabled();
+}
+
+Body2DType Body2D::getBodyType()
+{
+	switch (_body->GetType())
+	{
+	case b2BodyType::b2_staticBody:
+		return Body2DType::Static;
+	case b2BodyType::b2_kinematicBody:
+		return Body2DType::Kinematic;
+	case b2BodyType::b2_dynamicBody:
+		return Body2DType::Dynamic;
+	}
+	return Body2DType::Static;
+}
+
+bool Body2D::isSensor()
+{
+	return _body->GetFixtureList()->IsSensor();
 }

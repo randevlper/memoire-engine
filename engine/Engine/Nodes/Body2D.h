@@ -26,6 +26,9 @@ public:
 	void setIsEnabled(bool value);
 	bool isEnabled();
 
+	Body2DType getBodyType();
+	bool isSensor();
+
 private:
 	Transform transform;
 	//getting transform stuff should be from this
