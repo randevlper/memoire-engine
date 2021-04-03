@@ -67,7 +67,13 @@ void Renderer::quit()
 		bgfx::destroy(lineVerts);
 		bgfx::destroy(lineIndicies);
 		bgfx::destroy(lineProgram);
+
+		bgfx::destroy(_scaleProgram);
+		bgfx::destroy(_scaleSpriteUniform);
+		bgfx::destroy(_scaleIndexBuffer);
+
 		bgfx::destroy(_renderFrameBuffer);
+
 		_fpsTimer.stop();
 		delete(_instance);
 		bgfx::shutdown();
@@ -167,9 +173,6 @@ void Renderer::sumbitPrimitive(bgfx::ProgramHandle program, unsigned int depth, 
 
 void Renderer::render()
 {
-	//bgfx::update(lineVerts, 0, bgfx::makeRef( verts.data(), verts.size() * sizeof(LineVertex)));
-	//bgfx::update(lineIndicies, 0, bgfx::makeRef(indexes.data(), indexes.size() * sizeof(int)));
-
 	for (size_t i = 0; i < _tvbs.size(); i++)
 	{
 		bgfx::setVertexBuffer(0, &_tvbs[i], 0, 4);
@@ -183,10 +186,8 @@ void Renderer::render()
 	else {
 		bgfx::setViewTransform(0, _camera->getViewMatrix(), _camera->getProjectionMatrix());
 	}
-	//bx:mtxOrtho(proj, -size * aspectRatio, size * aspectRatio, -size, size)
 
-	//SDL_Log("FPS: %f", _frameCount / ( _fpsTimer.getTicks() / 1000.f));
-
+	//Should replace this with a FPS counter in IMGUI
 	std::string title = Context::getWindowTitle();
 	title += " FPS: ";
 	title += std::to_string((int)(_frameCount / (_fpsTimer.getTicks() / 1000.f)));
@@ -216,10 +217,10 @@ void Renderer::render()
 	//SDL_RenderPresent(Context::getRenderer());
 	_frameCount++;
 
-	//if frame finished early
-	//Uint32 frameTicks = _capTimer.getTicks();
-	//if (frameTicks < (1000 / Context::getMaxFps())) {
-	//	SDL_Delay((1000 / Context::getMaxFps()) - frameTicks);
-	//}
+	//if frame finished early, when a windo is minimized, vsync no longer functions and this is used to prevent max CPU usage
+	Uint32 frameTicks = _capTimer.getTicks();
+	if (frameTicks < (1000 / Context::getMaxFps())) {
+		SDL_Delay((1000 / Context::getMaxFps()) - frameTicks);
+	}
 	_tvbs.clear();
 }

@@ -1,5 +1,7 @@
 #include "Engine/Core/Physics2D.h"
 
+#include "Engine/Core/Renderer.h"
+
 #include <string>
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>

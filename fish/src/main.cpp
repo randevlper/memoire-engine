@@ -49,10 +49,11 @@ int main(int argc, char** argv) {
 		{
 			Context::tick();
 			me::WorldManager::tick();
+			Physics2D::tick();
 			me::WorldManager::render();
 			Renderer::render();
 
-			Physics2D::tick();
+			
 			
 			me::WorldManager::postLogic();
 
