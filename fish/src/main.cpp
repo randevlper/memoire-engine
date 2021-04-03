@@ -7,6 +7,7 @@
 
 #include "Engine/IMGUI/imgui_bgfx.h"
 #include "Engine/IMGUI/WorldEditor.h"
+#include "Engine/IMGUI/LuaEditor.h"
 
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Utilities/DebugMemory.h"
@@ -17,6 +18,8 @@
 #include <box2d/b2_fixture.h>
 
 #include "Engine/Nodes/Body2D.h"
+
+#include "fish.h"
 
 
 int main(int argc, char** argv) {
@@ -42,8 +45,8 @@ int main(int argc, char** argv) {
 				Body2D *floor = gWorld->create<Body2D>();
 				floor->setupBox(0, -100, 500, 50, Body2DType::Static);
 
-				Body2D* block = gWorld->create<Body2D>();
-				block->setupBox(0, 400, 10, 10, Body2DType::Dynamic);
+				Fish* fish = gWorld->create<Fish>();
+				fish->setupBox(0, 400, 10, 10, Body2DType::Dynamic);
 
 				Body2D* sensor = gWorld->create<Body2D>();
 				sensor->setupBox(0, 100, 100, 50, Body2DType::Static, true);
@@ -66,6 +69,7 @@ int main(int argc, char** argv) {
 			if (me::imgui::isIMGUIOpen()) {
 				me::imgui::beginFrame();
 				me::imgui::worldEditor::showEditor();
+				me::imgui::ShowLuaEditor();
 				me::imgui::endFrame();
 			}
 		}

@@ -60,6 +60,7 @@ void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType, 
 	fixtureDef.density = 1.0f;
 	fixtureDef.friction = 0.3f;
 	fixtureDef.isSensor = isSensor;
+	fixtureDef.userData.pointer = (uintptr_t)this;
 
 	_body->CreateFixture(&fixtureDef);
 

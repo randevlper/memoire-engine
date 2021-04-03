@@ -5,10 +5,12 @@ class b2World;
 //TESTING -----------
 #include "box2d/box2d.h"
 #include "Engine/Utilities/Debug.h"
+#include "Engine/Nodes/Body2D.h"
 
 class b2ContactListenTest : public  b2ContactListener {
 	void BeginContact(b2Contact* contact) override {
-		Debug::Log("Contact!");
+		Body2D* body = (Body2D*)contact->GetFixtureA()->GetUserData().pointer;
+		Debug::Log(body->getType() + " Contact!");
 	}
 
 	void EndContact(b2Contact* contact) override {
