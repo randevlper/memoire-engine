@@ -1,5 +1,6 @@
 #pragma once
 #include "Node2D.h"
+#include "box2d/b2_types.h"
 
 class b2Body;
 class b2Contact;
@@ -17,7 +18,8 @@ public:
 	Body2D();
 	~Body2D() override;
 
-	void setupBox(int x, int y, int width, int height, Body2DType type, bool isSensor = false);
+	void setupBox(int x, int y, int width, int height, Body2DType bodyType,
+		uint16 category, uint16 mask, bool isSensor = false);
 	void setPosition(glm::vec2 pos);
 	glm::vec2 getPosition();
 	

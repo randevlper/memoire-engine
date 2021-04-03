@@ -2,10 +2,20 @@
 #include <glm/fwd.hpp>
 class b2World;
 
+
+
+
 //TESTING -----------
 #include "box2d/box2d.h"
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Nodes/Body2D.h"
+
+enum CollisionCatagories
+{
+	BOUNDARY =   0x0001,
+	FISH =   0x0002,
+	HOOK = 0x0004
+};
 
 class b2ContactListenTest : public  b2ContactListener {
 	void BeginContact(b2Contact* contact) override {

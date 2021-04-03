@@ -15,7 +15,7 @@ Body2D::Body2D()
 {
 	_type = "Body2D";
 	_body = nullptr;
-	setupBox(0, 0, 10, 10, Body2DType::Static);
+	setupBox(0, 0, 10, 10, Body2DType::Static, CollisionCatagories::BOUNDARY, CollisionCatagories::BOUNDARY);
 }
 
 Body2D::~Body2D()
@@ -25,7 +25,8 @@ Body2D::~Body2D()
 	world->DestroyBody(_body);
 }
 
-void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType, bool isSensor)
+void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType,
+	uint16 category, uint16 mask, bool isSensor)
 {
 	//Create body here
 	b2World* world = Physics2D::getWorld();
@@ -63,6 +64,10 @@ void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType, 
 	fixtureDef.friction = 0.3f;
 	fixtureDef.isSensor = isSensor;
 	fixtureDef.userData.pointer = (uintptr_t)this;
+
+	fixtureDef.filter.categoryBits = category;
+	fixtureDef.filter.maskBits = mask;
+	
 
 	_body->CreateFixture(&fixtureDef);
 

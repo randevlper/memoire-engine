@@ -43,19 +43,24 @@ int main(int argc, char** argv) {
 			World* gWorld = me::WorldManager::getWorld();
 			if (gWorld != nullptr) {
 				Body2D *floor = gWorld->create<Body2D>();
-				floor->setupBox(0, -100, 500, 50, Body2DType::Static);
+				floor->setupBox(0, -100, 500, 50, Body2DType::Static, CollisionCatagories::BOUNDARY,
+					CollisionCatagories::BOUNDARY | CollisionCatagories::FISH);
 
 				Body2D* b1 = gWorld->create<Body2D>();
-				b1->setupBox(0, 300, 10, 10, Body2DType::Dynamic);
+				b1->setupBox(0, 300, 10, 10, Body2DType::Dynamic, CollisionCatagories::BOUNDARY, 
+					CollisionCatagories::BOUNDARY | CollisionCatagories::FISH);
 
 				Fish* fish = gWorld->create<Fish>();
-				fish->setupBox(0, 400, 10, 10, Body2DType::Dynamic);
+				fish->setupBox(0, 400, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH, 
+					CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
 
 				Fish* fish2 = gWorld->create<Fish>();
-				fish2->setupBox(0, 450, 10, 10, Body2DType::Dynamic);
+				fish2->setupBox(0, 450, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH,
+					CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
 
 				Hook* hook = gWorld->create<Hook>();
-				hook->setupBox(0, 100, 100, 50, Body2DType::Static, true);
+				hook->setupBox(0, 100, 100, 50, Body2DType::Static, CollisionCatagories::HOOK, 
+					CollisionCatagories::BOUNDARY | CollisionCatagories::FISH, true);
 			}
 		}
 		

@@ -38,6 +38,8 @@ using json = nlohmann::json;
 #include "Engine/IMGUI/ImguiUtilities.h"
 #include "Engine/Utilities/TypeConversion.h"
 
+#include "Engine/Core/Physics2D.h"
+
 namespace me {
 	namespace imgui {
 		namespace worldEditor {
@@ -281,7 +283,8 @@ namespace me {
 
 						if (ImGui::Button("Build###bodyBuild")) {
 							body2Dselected->setupBox(pos.x, pos.y, bodyWidth, bodyHeight,
-								body2Dselected->getBodyType(), body2Dselected->isSensor());
+								body2Dselected->getBodyType(), CollisionCatagories::BOUNDARY, 
+								CollisionCatagories::BOUNDARY, body2Dselected->isSensor());
 						}
 
 						body2Dselected->setIsAwake(isAwake);
