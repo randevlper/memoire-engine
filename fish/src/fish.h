@@ -6,8 +6,6 @@ class Fish : public Body2D
 public:
 	Fish();
 
-	void setVelocity(glm::vec2 value);
-
 private:
 
 };

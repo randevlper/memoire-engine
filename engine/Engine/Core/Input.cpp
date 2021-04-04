@@ -34,7 +34,6 @@ bool Input::keyCheck() {
 	return false;
 }
 
-//Supports values 1-3
 bool Input::getKeyDown(int key)
 {
 	if (keyCheck()) { return false; }
@@ -47,7 +46,6 @@ bool Input::getKeyDown(int key)
 	return false;
 }
 
-//Supports values 1-3
 bool Input::getKeyUp(int key)
 {
 	if (keyCheck()) { return false; }
@@ -59,7 +57,6 @@ bool Input::getKeyUp(int key)
 	return false;
 }
 
-//Supports values 1-3
 bool Input::getKey(int key)
 {
 	if (keyCheck()) { return false; }

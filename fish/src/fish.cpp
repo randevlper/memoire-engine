@@ -6,8 +6,3 @@ Fish::Fish()
 {
 	_type = "Fish";
 }
-
-void Fish::setVelocity(glm::vec2 value)
-{
-	_body->SetLinearVelocity({ value.x, value.y });
-}

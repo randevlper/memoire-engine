@@ -20,6 +20,8 @@
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
 
+#include <SDL_keycode.h>
+
 #include "Engine/Nodes/Body2D.h"
 #include "Engine/Nodes/SpriteRenderer.h"
 
@@ -49,6 +51,11 @@ int main(int argc, char** argv) {
 		Physics2D::setGravity({ 0,0 });
 
 		World* gWorld = me::WorldManager::getWorld();
+		
+		Hook* hook = gWorld->create<Hook>();
+		hook->setupBox(0, 100, 100, 50, Body2DType::Dynamic, CollisionCatagories::HOOK,
+			CollisionCatagories::BOUNDARY | CollisionCatagories::FISH, true);
+		
 		{
 			
 			if (gWorld != nullptr) {
@@ -75,10 +82,6 @@ int main(int argc, char** argv) {
 				fish->setVelocity({ 5, 0 });
 				fish2->setVelocity({ -5, 0 });
 
-				Hook* hook = gWorld->create<Hook>();
-				hook->setupBox(0, 100, 100, 50, Body2DType::Static, CollisionCatagories::HOOK, 
-					CollisionCatagories::BOUNDARY | CollisionCatagories::FISH, true);
-
 				FishKiller* fishKillerLeft = gWorld->create<FishKiller>();
 				fishKillerLeft->setupBox(-960, 0, 30, 1080, Body2DType::Static, CollisionCatagories::BOUNDARY,
 					CollisionCatagories::FISH, true);
@@ -90,14 +93,30 @@ int main(int argc, char** argv) {
 		}
 		
 		FishSpawner* spawner = gWorld->create<FishSpawner>();
+		glm::vec2 dir = { 0,0 };
+		float speed = 10;
 		
 		while (!Context::getShouldClose())
 		{
 			Context::tick();
 			
 			me::WorldManager::tick();
-			spawner->tick(Context::getDeltaTime());
+			//spawner->tick(Context::getDeltaTime());
 
+			dir = { 0,0 };
+			if (Input::getKey(SDL_SCANCODE_LEFT)) {
+				dir.x += -1;
+			}
+			if (Input::getKey(SDL_SCANCODE_RIGHT)) {
+				dir.x += 1;
+			}
+			if (Input::getKey(SDL_SCANCODE_UP)) {
+				dir.y += 1;
+			}
+			if (Input::getKey(SDL_SCANCODE_DOWN)) {
+				dir.y += -1;
+			}
+			hook->setVelocity(dir * speed);
 			
 			Physics2D::tick();
 			

@@ -22,6 +22,8 @@ public:
 		uint16 category, uint16 mask, bool isSensor = false);
 	void setPosition(glm::vec2 pos);
 	glm::vec2 getPosition();
+
+	void setVelocity(glm::vec2 value);
 	
 	void setIsAwake(bool value);
 	bool isAwake();
