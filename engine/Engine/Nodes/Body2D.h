@@ -39,7 +39,6 @@ public:
 	virtual void OnContactEnd(b2Contact* contact, Body2D* bodyA, Body2D* bodyB);
 
 private:
-	Transform transform;
 	//getting transform stuff should be from this
 	//For now special functions?
 	b2Body* _body;

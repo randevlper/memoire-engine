@@ -5,6 +5,9 @@
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Physics2D.h"
 
+#include "Engine/AssetManagement/AssetManager.h"
+#include "Engine/AssetManagement/Sprite.h"
+
 #include "Engine/IMGUI/imgui_bgfx.h"
 #include "Engine/IMGUI/WorldEditor.h"
 #include "Engine/IMGUI/LuaEditor.h"
@@ -18,6 +21,7 @@
 #include <box2d/b2_fixture.h>
 
 #include "Engine/Nodes/Body2D.h"
+#include "Engine/Nodes/SpriteRenderer.h"
 
 #include "collision.h"
 #include "fish.h"
@@ -50,6 +54,10 @@ int main(int argc, char** argv) {
 				Body2D* b1 = gWorld->create<Body2D>();
 				b1->setupBox(0, 300, 10, 10, Body2DType::Dynamic, CollisionCatagories::BOUNDARY, 
 					CollisionCatagories::BOUNDARY | CollisionCatagories::FISH);
+
+				SpriteRenderer* sprite = gWorld->create<SpriteRenderer>();
+				sprite->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
+				sprite->transform.setParent(&b1->transform);
 
 				Fish* fish = gWorld->create<Fish>();
 				fish->setupBox(0, 400, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH, 
