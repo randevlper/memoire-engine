@@ -86,14 +86,6 @@ int main(int argc, char** argv) {
 				FishKiller* fishKillerRight = gWorld->create<FishKiller>();
 				fishKillerRight->setupBox(960, 0, 30, 1080, Body2DType::Static, CollisionCatagories::BOUNDARY,
 					CollisionCatagories::FISH, true);
-
-				FishKiller* fishKillerTop = gWorld->create<FishKiller>();
-				fishKillerTop->setupBox(0, 540, 1920, 30, Body2DType::Static, CollisionCatagories::BOUNDARY,
-					CollisionCatagories::FISH, true);
-
-				FishKiller* fishKillerBottom = gWorld->create<FishKiller>();
-				fishKillerBottom->setupBox(0, -540, 1920, 30, Body2DType::Static, CollisionCatagories::BOUNDARY,
-					CollisionCatagories::FISH, true);
 			}
 		}
 		
@@ -104,11 +96,6 @@ int main(int argc, char** argv) {
 			Context::tick();
 			
 			me::WorldManager::tick();
-			spawner->tick(Context::getDeltaTime());
-			spawner->tick(Context::getDeltaTime());
-			spawner->tick(Context::getDeltaTime());
-			spawner->tick(Context::getDeltaTime());
-			spawner->tick(Context::getDeltaTime());
 			spawner->tick(Context::getDeltaTime());
 
 			
