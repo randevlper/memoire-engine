@@ -24,6 +24,11 @@ void RectTransform::setSize(glm::ivec2 value)
 	_transforms[1].setLocalPosition({ value.x, 0 });
 	_transforms[2].setLocalPosition({ value.x, value.y });
 	_transforms[3].setLocalPosition({ 0, value.y });
+
+	for (unsigned int i = 0; i < RECT_TRANSFORM_SIZE; i++)
+	{
+		_transforms[i].setLocalPosition(_transforms[i].getLocalPosition() + _root.getLocalPosition());
+	}
 }
 
 void RectTransform::setPosition(glm::ivec2 value)
