@@ -25,6 +25,7 @@
 
 #include "collision.h"
 #include "fish.h"
+#include "fishKiller.h"
 #include "hook.h"
 
 int main(int argc, char** argv) {
@@ -44,6 +45,7 @@ int main(int argc, char** argv) {
 		me::WorldManager::loadWorld();
 		me::WorldManager::postRender();
 
+		Physics2D::setGravity({ 0,0 });
 		{
 			World* gWorld = me::WorldManager::getWorld();
 			if (gWorld != nullptr) {
@@ -52,7 +54,7 @@ int main(int argc, char** argv) {
 					CollisionCatagories::BOUNDARY | CollisionCatagories::FISH);
 
 				Body2D* b1 = gWorld->create<Body2D>();
-				b1->setupBox(0, 300, 10, 10, Body2DType::Dynamic, CollisionCatagories::BOUNDARY, 
+				b1->setupBox(0, 300, 30, 30, Body2DType::Dynamic, CollisionCatagories::BOUNDARY, 
 					CollisionCatagories::BOUNDARY | CollisionCatagories::FISH);
 
 				SpriteRenderer* sprite = gWorld->create<SpriteRenderer>();
@@ -67,9 +69,21 @@ int main(int argc, char** argv) {
 				fish2->setupBox(0, 450, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH,
 					CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
 
+				fish->setVelocity({ 5, 0 });
+				fish2->setVelocity({ -5, 0 });
+
 				Hook* hook = gWorld->create<Hook>();
 				hook->setupBox(0, 100, 100, 50, Body2DType::Static, CollisionCatagories::HOOK, 
 					CollisionCatagories::BOUNDARY | CollisionCatagories::FISH, true);
+
+				FishKiller* fishKillerLeft = gWorld->create<FishKiller>();
+				fishKillerLeft->setupBox(-960, 0, 30, 1080, Body2DType::Static, CollisionCatagories::BOUNDARY,
+					CollisionCatagories::FISH, true);
+
+				FishKiller* fishKillerRight = gWorld->create<FishKiller>();
+				fishKillerRight->setupBox(960, 0, 30, 1080, Body2DType::Static, CollisionCatagories::BOUNDARY,
+					CollisionCatagories::FISH, true);
+
 			}
 		}
 		

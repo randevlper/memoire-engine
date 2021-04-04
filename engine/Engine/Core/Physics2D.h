@@ -9,6 +9,9 @@ public:
 	static void quit();
 	static void tick();
 
+	static glm::vec2 getGravity();
+	static void setGravity(glm::vec2 value);
+
 	static b2World* getWorld();
 
 	static signed int getPixelsPerUnit();

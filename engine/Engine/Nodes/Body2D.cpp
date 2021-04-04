@@ -50,7 +50,6 @@ void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType,
 	default:
 		break;
 	}
-
 	
 	_body = world->CreateBody(&bodyDef);
 

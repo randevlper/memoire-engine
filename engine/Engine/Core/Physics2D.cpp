@@ -1,4 +1,4 @@
-#include "Engine/Core/Physics2D.h"
+#include "Physics2D.h"
 
 #include "Engine/Core/Renderer.h"
 
@@ -105,4 +105,14 @@ b2World* Physics2D::getWorld()
 signed int Physics2D::getPixelsPerUnit()
 {
 	return _pixelsPerUnit;
+}
+
+glm::vec2 Physics2D::getGravity()
+{
+	return { _world->GetGravity().x, _world->GetGravity().y };
+}
+
+void Physics2D::setGravity(glm::vec2 value)
+{
+	_world->SetGravity({ value.x, value.y });
 }
