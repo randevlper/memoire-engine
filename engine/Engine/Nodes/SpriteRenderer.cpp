@@ -65,7 +65,9 @@ void SpriteRenderer::render()
 {
 	if (_sprite == nullptr) { return; }
 	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
-	bgfx::setTransform(glm::value_ptr(getTransform().getGlobalMatrix()));
+	Transform t = _transform;
+	glm::mat4x4 m = t.getGlobalMatrix();
+	bgfx::setTransform(glm::value_ptr(m));
 	bgfx::setVertexBuffer(0, vbh);
 	bgfx::setIndexBuffer(ibh);
 

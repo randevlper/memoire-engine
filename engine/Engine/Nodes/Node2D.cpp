@@ -3,6 +3,7 @@
 Node2D::Node2D()
 {
 	_type = "Node2D";
+	_transform.setNode2D(this);
 }
 
 Node2D::~Node2D()

@@ -57,6 +57,7 @@ AudioSource::~AudioSource()
 	delete(_device);
 	delete(_decoder);
 	delete(_isPlaying);
+	delete(_userData);
 }
 
 bool AudioSource::setAudioClip(AudioClip* clip)

@@ -6,7 +6,8 @@ RectTransform::RectTransform()
 {
 	for (size_t i = 0; i < RECT_TRANSFORM_SIZE; i++)
 	{
-		_transforms[i].setParent(&_root);
+		//TODO redo rect transform
+		//_transforms[i].setParentTransform(&_root);
 		_corners[i] = {0,0};
 	}
 	_size = { 1,1 };

@@ -1,7 +1,7 @@
 #include "Transform.h"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "Engine/Nodes/Node.h"
+#include "Engine/Nodes/Node2D.h"
 #include "Engine/Utilities/glmJson.h"
 
 Transform::Transform()
@@ -10,7 +10,7 @@ Transform::Transform()
 	_scale = { 1,1 };
 	_angle = 0;
 	_parent = nullptr;
-	_parentNode = nullptr;
+	_node = nullptr;
 	depth = 0;
 }
 
@@ -56,14 +56,29 @@ void Transform::setLocalAngle(float value)
 	_angle = value;
 }
 
-Transform* Transform::getParent()
+Node2D* Transform::getParent()
 {
 	return _parent;
 }
 
-void Transform::setParent(Transform* value)
+void Transform::setParent(Node2D* value)
 {
-	_parent = value;
+	if (value != nullptr) {
+		_parent = value;
+	}
+	else {
+		_parent = nullptr;
+	}
+}
+
+void Transform::setNode2D(Node2D* value)
+{
+	_node = value;
+}
+
+Node2D* Transform::getNode2D()
+{
+	return _node;
 }
 
 void Transform::translate(glm::vec2 value)
@@ -83,7 +98,7 @@ glm::mat4x4 Transform::getLocalMatrix()
 glm::mat4x4 Transform::getGlobalMatrix()
 {
 	if (_parent != nullptr) {
-		return _parent->getGlobalMatrix() * getLocalMatrix();
+		return _parent->getTransform().getGlobalMatrix() * getLocalMatrix();
 	} else {
 		return getLocalMatrix();
 	}
@@ -98,7 +113,7 @@ nlohmann::json Transform::get_json()
 
 	//TODO
 	if (_parent != nullptr) {
-		//j["parent"] = _parent->_parentNode->getName();
+		j["parent"] = _parent->getName();
 	}
 	else {
 		j["parent"] = "null";

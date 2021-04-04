@@ -21,7 +21,7 @@ public:
 
 	Transform getTransform();
 	void setTransform(Transform transform);
-
-private:
+protected:
 	Transform _transform;
+private:
 };

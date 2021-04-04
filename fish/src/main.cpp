@@ -75,7 +75,9 @@ int main(int argc, char** argv) {
 
 				SpriteRenderer* sprite = gWorld->create<SpriteRenderer>();
 				sprite->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
-				sprite->getTransform().setParent(&b1->getTransform());
+				Transform t = sprite->getTransform();
+				t.setParent(b1);
+				sprite->setTransform(t);
 
 				Fish* fish = gWorld->create<Fish>();
 				fish->setupBox(0, 400, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH, 

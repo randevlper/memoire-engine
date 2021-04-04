@@ -4,7 +4,7 @@
 #include "glm/vec2.hpp"
 #include "glm/mat3x3.hpp"
 
-class Node;
+class Node2D;
 
 struct Transform
 {
@@ -23,8 +23,15 @@ public:
 	float getLocalAngle();
 	void setLocalAngle(float value);
 
-	Transform* getParent();
-	void setParent(Transform* value);
+
+	//Node transform and a normal transform for math?
+	Node2D* getParent();
+	//Use this
+	void setParent(Node2D* value);
+
+	void setNode2D(Node2D* value);
+	Node2D* getNode2D();
+
 
 	//void addChild(Transform* child);
 	//void removeChild(Transform* child);
@@ -44,6 +51,7 @@ private:
 	glm::vec2 _scale;
 	
 	float _angle;
-	Transform* _parent;
-	Node* _parentNode;
+
+	Node2D* _parent;
+	Node2D* _node;
 };
