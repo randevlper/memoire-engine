@@ -26,6 +26,7 @@
 #include "collision.h"
 #include "fish.h"
 #include "fishKiller.h"
+#include "fishSpawner.h"
 #include "hook.h"
 
 int main(int argc, char** argv) {
@@ -46,8 +47,10 @@ int main(int argc, char** argv) {
 		me::WorldManager::postRender();
 
 		Physics2D::setGravity({ 0,0 });
+
+		World* gWorld = me::WorldManager::getWorld();
 		{
-			World* gWorld = me::WorldManager::getWorld();
+			
 			if (gWorld != nullptr) {
 				Body2D *floor = gWorld->create<Body2D>();
 				floor->setupBox(0, -100, 500, 50, Body2DType::Static, CollisionCatagories::BOUNDARY,
@@ -84,16 +87,25 @@ int main(int argc, char** argv) {
 				fishKillerRight->setupBox(960, 0, 30, 1080, Body2DType::Static, CollisionCatagories::BOUNDARY,
 					CollisionCatagories::FISH, true);
 
+				
+
 			}
 		}
 		
+		FishSpawner* spawner = gWorld->create<FishSpawner>();
 		
 		while (!Context::getShouldClose())
 		{
 			Context::tick();
+			
 			me::WorldManager::tick();
+			spawner->tick(Context::getDeltaTime());
+
+			
 			Physics2D::tick();
+			
 			me::WorldManager::render();
+			
 			Renderer::render();
 
 			
