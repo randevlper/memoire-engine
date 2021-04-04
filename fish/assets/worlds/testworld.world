@@ -1,0 +1,147 @@
+{
+    "name": "testworld",
+    "nodes": [
+        {
+            "name": "Camera",
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "Camera"
+        },
+        {
+            "bodyType": 2,
+            "catagory": 4,
+            "isSensor": true,
+            "mask": 3,
+            "name": "node_1",
+            "size": [
+                100.0,
+                50.0
+            ],
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    0.0,
+                    100.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "Hook"
+        },
+        {
+            "bodyType": 2,
+            "catagory": 1,
+            "isSensor": false,
+            "mask": 3,
+            "name": "node_2",
+            "size": [
+                30.0,
+                30.0
+            ],
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    0.0,
+                    300.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "Body2D"
+        },
+        {
+            "name": "node_3",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/ui/box.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "bodyType": 0,
+            "catagory": 1,
+            "isSensor": true,
+            "mask": 2,
+            "name": "node_6",
+            "size": [
+                30.0,
+                1080.0
+            ],
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    -960.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "FishKiller"
+        },
+        {
+            "bodyType": 0,
+            "catagory": 1,
+            "isSensor": true,
+            "mask": 2,
+            "name": "node_7",
+            "size": [
+                30.0,
+                1080.0
+            ],
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    960.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "FishKiller"
+        },
+        {
+            "name": "node_8",
+            "transform": {
+                "angle": 0.0,
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "Node2D"
+        }
+    ]
+}

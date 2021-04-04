@@ -2,6 +2,7 @@
 #include "glm/vec2.hpp"
 #include "glm/mat3x3.hpp"
 #include <nlohmann/json.hpp>
+#include "Engine/Nodes/Node.h"
 #include "Engine/Utilities/glmJson.h"
 
 struct Transform
@@ -33,20 +34,8 @@ public:
 	glm::mat4x4 getGlobalMatrix();
 	float depth;
 
-	nlohmann::json get_json() {
-		nlohmann::json j;
-		j["position"] = _position;
-		j["scale"] = _scale;
-		j["angle"] = _angle;
-		//TODO Parent somehow
-		return j;
-	}
-
-	void from_json(const nlohmann::json& j) {
-		setLocalPosition(j["position"]);
-		setLocalScale(j["scale"]);
-		setLocalAngle(j["angle"]);
-	}
+	nlohmann::json get_json();
+	void from_json(const nlohmann::json& j);
 
 
 private:
@@ -55,4 +44,5 @@ private:
 	
 	float _angle;
 	Transform* _parent;
+	Node* _parentNode;
 };

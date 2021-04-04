@@ -4,6 +4,7 @@
 #include "Engine/Core/World.h"
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Physics2D.h"
+#include "Engine/Utilities/ObjectFactory.h"
 
 #include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/AssetManagement/Sprite.h"
@@ -45,6 +46,11 @@ int main(int argc, char** argv) {
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
+		me::util::ObjectFactory::addMap<Fish>("Fish");
+		me::util::ObjectFactory::addMap<FishKiller>("FishKiller");
+		me::util::ObjectFactory::addMap<Hook>("Hook");
+		me::util::ObjectFactory::addMap<FishSpawner>("FishSpawner");
+
 		me::WorldManager::loadWorld();
 		me::WorldManager::postRender();
 
@@ -116,7 +122,7 @@ int main(int argc, char** argv) {
 			if (Input::getKey(SDL_SCANCODE_DOWN)) {
 				dir.y += -1;
 			}
-			hook->setVelocity(dir * speed);
+			//hook->setVelocity(dir * speed);
 			
 			Physics2D::tick();
 			

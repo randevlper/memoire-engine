@@ -11,7 +11,6 @@ public:
 
 	virtual nlohmann::json to_json() override{
 		nlohmann::json j = Node::to_json();
-		j["type"] = "Node2D";
 		j["transform"] = transform.get_json();
 		return j;
 	}

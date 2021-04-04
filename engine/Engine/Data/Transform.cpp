@@ -7,6 +7,7 @@ Transform::Transform()
 	_scale = { 1,1 };
 	_angle = 0;
 	_parent = nullptr;
+	_parentNode = nullptr;
 	depth = 0;
 }
 
@@ -84,3 +85,30 @@ glm::mat4x4 Transform::getGlobalMatrix()
 		return getLocalMatrix();
 	}
 }
+
+nlohmann::json Transform::get_json()
+{
+	nlohmann::json j;
+	j["position"] = _position;
+	j["scale"] = _scale;
+	j["angle"] = _angle;
+
+	//TODO
+	if (_parent != nullptr) {
+		//j["parent"] = _parent->_parentNode->getName();
+	}
+	else {
+		j["parent"] = "null";
+	}
+	//TODO Parent somehow
+	return j;
+}
+
+void Transform::from_json(const nlohmann::json& j)
+{
+	setLocalPosition(j["position"]);
+	setLocalScale(j["scale"]);
+	setLocalAngle(j["angle"]);
+}
+
+

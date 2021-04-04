@@ -28,6 +28,13 @@ Body2D::~Body2D()
 void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType,
 	uint16 category, uint16 mask, bool isSensor)
 {
+	_startPos = { x,y };
+	_size = { width, height };
+	_bodyType = bodyType;
+	_catagory = category;
+	_mask = mask;
+	_isSensor = isSensor;
+
 	//Create body here
 	b2World* world = Physics2D::getWorld();
 	
@@ -150,4 +157,27 @@ void Body2D::OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB)
 void Body2D::OnContactEnd(b2Contact* contact, Body2D* bodyA, Body2D* bodyB)
 {
 
+}
+
+nlohmann::json Body2D::to_json()
+{
+	nlohmann::json j = Node2D::to_json();
+	j["transform"]["position"] = _startPos;
+	j["size"] = _size;
+	j["bodyType"] = (int)_bodyType;
+	j["catagory"] = _catagory;
+	j["mask"] = _mask;
+	j["isSensor"] = _isSensor;
+	return j;
+}
+
+void Body2D::from_json(const nlohmann::json& j)
+{
+	_startPos = j["transform"]["position"];
+	_size = j["size"];
+	_bodyType = j["bodyType"];
+	_catagory = j["catagory"];
+	_mask = j["mask"];
+	_isSensor = j["isSensor"];
+	setupBox(_startPos.x, _startPos.y, _size.x, _size.y, _bodyType, _catagory, _mask, _isSensor);
 }

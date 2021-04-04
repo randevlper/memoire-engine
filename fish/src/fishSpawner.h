@@ -6,7 +6,6 @@ class FishSpawner : public Node2D
 {
 public:
 	FishSpawner();
-	~FishSpawner();
 
 	void tick(float deltaTime);
 

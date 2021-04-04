@@ -40,6 +40,16 @@ public:
 	virtual void OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB);
 	virtual void OnContactEnd(b2Contact* contact, Body2D* bodyA, Body2D* bodyB);
 
+	virtual nlohmann::json to_json() override;
+	virtual void from_json(const nlohmann::json& j) override;
+
 protected:
 	b2Body* _body;
+
+	glm::vec2 _startPos;
+	glm::vec2 _size;
+	Body2DType _bodyType;
+	uint16 _catagory;
+	uint16 _mask;
+	bool _isSensor;
 };

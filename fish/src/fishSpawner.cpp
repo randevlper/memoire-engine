@@ -14,11 +14,8 @@
 
 FishSpawner::FishSpawner()
 {
+	_type = "FishSpawner";
 	_world = me::WorldManager::getWorld();
-}
-
-FishSpawner::~FishSpawner()
-{
 }
 
 void FishSpawner::tick(float deltaTime)
