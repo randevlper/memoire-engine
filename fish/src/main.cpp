@@ -52,9 +52,9 @@ int main(int argc, char** argv) {
 		{
 			
 			if (gWorld != nullptr) {
-				Body2D *floor = gWorld->create<Body2D>();
-				floor->setupBox(0, -100, 500, 50, Body2DType::Static, CollisionCatagories::BOUNDARY,
-					CollisionCatagories::BOUNDARY | CollisionCatagories::FISH);
+				//Body2D *floor = gWorld->create<Body2D>();
+				//floor->setupBox(0, -100, 500, 50, Body2DType::Static, CollisionCatagories::BOUNDARY,
+				//	CollisionCatagories::BOUNDARY | CollisionCatagories::FISH);
 
 				Body2D* b1 = gWorld->create<Body2D>();
 				b1->setupBox(0, 300, 30, 30, Body2DType::Dynamic, CollisionCatagories::BOUNDARY, 
@@ -87,8 +87,13 @@ int main(int argc, char** argv) {
 				fishKillerRight->setupBox(960, 0, 30, 1080, Body2DType::Static, CollisionCatagories::BOUNDARY,
 					CollisionCatagories::FISH, true);
 
-				
+				FishKiller* fishKillerTop = gWorld->create<FishKiller>();
+				fishKillerTop->setupBox(0, 540, 1920, 30, Body2DType::Static, CollisionCatagories::BOUNDARY,
+					CollisionCatagories::FISH, true);
 
+				FishKiller* fishKillerBottom = gWorld->create<FishKiller>();
+				fishKillerBottom->setupBox(0, -540, 1920, 30, Body2DType::Static, CollisionCatagories::BOUNDARY,
+					CollisionCatagories::FISH, true);
 			}
 		}
 		
@@ -99,6 +104,11 @@ int main(int argc, char** argv) {
 			Context::tick();
 			
 			me::WorldManager::tick();
+			spawner->tick(Context::getDeltaTime());
+			spawner->tick(Context::getDeltaTime());
+			spawner->tick(Context::getDeltaTime());
+			spawner->tick(Context::getDeltaTime());
+			spawner->tick(Context::getDeltaTime());
 			spawner->tick(Context::getDeltaTime());
 
 			

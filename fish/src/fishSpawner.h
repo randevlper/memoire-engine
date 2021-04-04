@@ -9,10 +9,8 @@ public:
 	~FishSpawner();
 
 	void tick(float deltaTime);
-	float spawnTime = 0;
 
 private:
-	float _timer;
 
 	World* _world;
 };
