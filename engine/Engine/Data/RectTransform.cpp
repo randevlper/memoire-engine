@@ -1,5 +1,6 @@
 #include "RectTransform.h"
 #include "Engine/Utilities/TypeConversion.h"
+#include "Engine/Utilities/glmJson.h"
 
 RectTransform::RectTransform()
 {
@@ -67,4 +68,18 @@ glm::vec2* RectTransform::getWindowCorners()
 		_windowCorners[i] = _transforms[i].getPosition();
 	}
 	return _windowCorners;
+}
+
+nlohmann::json RectTransform::get_json()
+{
+	nlohmann::json j;
+	j["size"] = _size;
+	j["root"] = _root.get_json();
+	return j;
+}
+
+void RectTransform::from_json(const nlohmann::json& j)
+{
+	_root.from_json(j["root"]);
+	setSize(j.at("size"));
 }

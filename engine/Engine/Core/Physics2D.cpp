@@ -68,13 +68,16 @@ void Physics2D::tick()
 	b2Vec2 vert;
 	b2Fixture* fixtures;
 	b2PolygonShape* polygonShape;
+	Transform bodyTransform;
 
 	while (body != nullptr)
 	{
 		Body2D* body2D = (Body2D*)body->GetFixtureList()->GetUserData().pointer;
 		if (body2D != nullptr) {
 			pos = body->GetPosition();
-			body2D->transform.setLocalPosition({ pos.x * _pixelsPerUnit, pos.y * _pixelsPerUnit });
+			bodyTransform = body2D->getTransform();
+			bodyTransform.setLocalPosition({ pos.x * _pixelsPerUnit, pos.y * _pixelsPerUnit });
+			body2D->setTransform(bodyTransform);
 		}
 
 		fixtures = body->GetFixtureList();

@@ -65,7 +65,7 @@ void TextRenderer::render()
 		{
 			if (!bgfx::isValid(_vbs[i])) { continue; }
 			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
-			bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
+			bgfx::setTransform(glm::value_ptr(getTransform().getGlobalMatrix()));
 			bgfx::setVertexBuffer(0, _vbs[i]);
 			bgfx::setIndexBuffer(ibh);
 			bgfx::setTexture(0, s_font, _font->getCharacter(_text[i]).Handle);

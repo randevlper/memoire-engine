@@ -21,7 +21,7 @@ FishSpawner::FishSpawner()
 void FishSpawner::tick(float deltaTime)
 {
 	Fish* fish = _world->create<Fish>();
-	glm::vec2 pos = transform.getPosition();
+	glm::vec2 pos = getTransform().getPosition();
 	fish->setupBox(pos.x, pos.y, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH,
 		CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
 	fish->setVelocity({ 10, 0});

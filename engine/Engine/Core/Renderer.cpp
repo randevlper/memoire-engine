@@ -135,8 +135,8 @@ void Renderer::renderLines(glm::vec2* points, int pointsCount, glm::vec4& color)
 
 void Renderer::renderSquare(SDL_Rect& rect, SDL_Color& color)
 {
-	rect.x -= _camera->transform.getPosition().x;
-	rect.y -= _camera->transform.getPosition().y;
+	rect.x -= _camera->getTransform().getPosition().x;
+	rect.y -= _camera->getTransform().getPosition().y;
 	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
 	//SDL_RenderFillRect(Context::getRenderer(), &rect);
 }
@@ -151,7 +151,7 @@ void Renderer::renderAseFrame(int x, int y, AseFrame* frame)
 
 void Renderer::renderAseSprite(int x, int y, AseSprite* ase)
 {
-	SDL_Rect renderQuad = {(x + ase->xPos)  - _camera->transform.getPosition().x, (y + ase->yPos) - _camera->transform.getPosition().y, ase->width, ase->height };
+	SDL_Rect renderQuad = {(x + ase->xPos)  - _camera->getTransform().getPosition().x, (y + ase->yPos) - _camera->getTransform().getPosition().y, ase->width, ase->height };
 	//SDL_SetRenderDrawColor(Context::getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 	//SDL_RenderCopy(Context::getRenderer(), ase->texture, nullptr, &renderQuad);
 }

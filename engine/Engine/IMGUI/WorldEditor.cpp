@@ -193,10 +193,11 @@ namespace me {
 						nodeType == "SpriteRenderer") {
 						Node2D* node2DSelected = dynamic_cast<Node2D*>(nodeSelected);
 
+						Transform transform = node2DSelected->getTransform();
 						//Would be more performant to have the editor access the memory directly but this way its using the same interface as the User
-						glm::vec2 pos = node2DSelected->transform.getLocalPosition();
-						glm::vec2 scale = node2DSelected->transform.getLocalScale();
-						float angle = node2DSelected->transform.getLocalAngle();
+						glm::vec2 pos = transform.getLocalPosition();
+						glm::vec2 scale = transform.getLocalScale();
+						float angle = transform.getLocalAngle();
 
 						if (mousePos != glm::vec2(0, 0)) {
 							pos = mousePos;
@@ -211,9 +212,12 @@ namespace me {
 						ImGui::InputFloat("Scale Y", &scale.y);
 						ImGui::InputFloat("Angle", &angle);
 
-						node2DSelected->transform.setLocalPosition(pos);
-						node2DSelected->transform.setLocalScale(scale);
-						node2DSelected->transform.setLocalAngle(angle);
+						
+						transform.setLocalPosition(pos);
+						transform.setLocalScale(scale);
+						transform.setLocalAngle(angle);
+
+						node2DSelected->setTransform(transform);
 
 						if (nodeType == "SpriteRenderer") {
 							SpriteRenderer* nodeSpriteRenderer = dynamic_cast<SpriteRenderer*>(nodeSelected);

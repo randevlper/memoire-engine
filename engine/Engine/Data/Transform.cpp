@@ -1,6 +1,9 @@
 #include "Transform.h"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Engine/Nodes/Node.h"
+#include "Engine/Utilities/glmJson.h"
+
 Transform::Transform()
 {
 	_position = { 0,0 };

@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
 				{
 					if (nodes[i]->getType() == "Node2D") {
 						Node2D* node2DSelected = dynamic_cast<Node2D*>(nodes[i]);
-						Debug::DrawTransform(&node2DSelected->transform);
+						Debug::DrawTransform(&node2DSelected->getTransform());
 					}
 					if (nodes[i]->getType() == "Button") {
 						me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodes[i]);

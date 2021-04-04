@@ -1,9 +1,10 @@
 #pragma once
+#include "glm/fwd.hpp"
+#include <nlohmann/json.hpp>
 #include "glm/vec2.hpp"
 #include "glm/mat3x3.hpp"
-#include <nlohmann/json.hpp>
-#include "Engine/Nodes/Node.h"
-#include "Engine/Utilities/glmJson.h"
+
+class Node;
 
 struct Transform
 {

@@ -33,7 +33,7 @@ glm::mat4* Camera::getProjectionMatrix()
 glm::mat4* Camera::getViewMatrix()
 {
 	float view[16];
-	glm::vec2 pos = transform.getPosition();
+	glm::vec2 pos = getTransform().getPosition();
 	bx::Vec3 at = { pos.x, pos.y,  0.0f };
 	bx::Vec3 eye = { pos.x, pos.y, -10.0f };
 	bx::mtxLookAt(view, eye, at);

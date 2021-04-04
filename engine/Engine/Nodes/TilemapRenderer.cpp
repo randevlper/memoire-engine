@@ -58,7 +58,7 @@ void TilemapRenderer::render()
 	bgfx::setTexture(1, u_tileset, tilemap->getTilesetSprite()->handle);
 	bgfx::setUniform(u_tilemapInfo, glm::value_ptr(_tilemapInfo));
 	bgfx::setUniform(u_tilesetInfo, glm::value_ptr(_tilesetInfo));
-	bgfx::setTransform(glm::value_ptr(transform.getGlobalMatrix()));
+	bgfx::setTransform(glm::value_ptr(getTransform().getGlobalMatrix()));
 	bgfx::submit(0, _shader->getHandle());
 }
 
@@ -93,7 +93,7 @@ void TilemapRenderer::setTilemap(Tilemap* tm)
 
 int TilemapRenderer::worldToTile(glm::vec2 pos, bool topLeft) {
 
-	glm::vec2 renPos = transform.getPosition();
+	glm::vec2 renPos = getTransform().getPosition();
 	unsigned int pixelWidth = tilemap->getPixelWidth();
 	unsigned int pixelHeiht = tilemap->getPixelHeight();
 	pixelWidth += renPos.x;
@@ -132,7 +132,7 @@ int TilemapRenderer::worldToTile(glm::vec2 pos, bool topLeft) {
 
 glm::vec2 TilemapRenderer::tileToPosition(int index)
 {
-	glm::vec2 retval = transform.getPosition();
+	glm::vec2 retval = getTransform().getPosition();
 	retval.x += (index % tilemap->getWidth()) * tilemap->getTileWidth();
 	retval.y += (index / tilemap->getWidth()) * tilemap->getTileHeight();
 	return retval;

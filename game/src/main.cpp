@@ -97,8 +97,10 @@ int main(int argc, char** argv) {
 
 		TextRenderer* textRenderer = world->create <TextRenderer>();
 		textRenderer->setFont(fontTest);
-		textRenderer->transform.setLocalPosition({ -Context::getRenderWidth() / 2,0 });
-		textRenderer->transform.setLocalScale({ 0.5f,0.5f });
+		Transform textTransform = textRenderer->getTransform();
+		textTransform.setLocalPosition({ -Context::getRenderWidth() / 2,0 });
+		textTransform.setLocalScale({ 0.5f,0.5f });
+		textRenderer->setTransform(textTransform);
 		textRenderer->setText("OHAYOUUUUUU!!!!!");
 		textRenderer->setText("YEEEEEEEhAw");
 
@@ -108,7 +110,9 @@ int main(int argc, char** argv) {
 		tilemap->setTilesetSprite(AssetManager::get<Sprite>("assets/tilesets/default.png"));
 
 		tilemapRen->setTilemap(tilemap);
-		tilemapRen->transform.setLocalPosition({ -50,-50 });
+		Transform tileTransform = tilemapRen->getTransform();
+		tileTransform.setLocalPosition({ -50,-50 });
+		tilemapRen->setTransform(tileTransform);
 		while (!Context::getShouldClose())
 		{
 			Context::tick();
@@ -149,7 +153,10 @@ int main(int argc, char** argv) {
 
 
 			float speed = 250.0f;
-			cam->transform.translate((movement * speed));
+			Transform camTransform = cam->getTransform();
+			camTransform.translate((movement * speed));
+			cam->setTransform(camTransform);
+
 			Physics2D::tick();
 
 			spriteRenderer->render();
@@ -159,7 +166,7 @@ int main(int argc, char** argv) {
 			
 			//Renderer::renderLine(mousePos, mousePos, glm::vec4(255,0,0,255), 10.0f);
 
-			bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->transform.getPosition().x, cam->transform.getPosition().y);
+			bgfx::dbgTextPrintf(0, 3, 0x0f, "Camera X: %f Camera Y: %f", cam->getTransform().getPosition().x, cam->getTransform().getPosition().y);
 			bgfx::dbgTextPrintf(0, 4, 0x0f, "Mouse X: %f Mouse Y: %f", mousePos.x, mousePos.y);
 			bgfx::dbgTextPrintf(0, 5, 0x0f, "Tilemap Tile: %i", tileIndex);
 			bgfx::dbgTextPrintf(0, 6, 0x0f, "Tilepos X: %f Tilepos Y: %f", tilePos.x, tilePos.y);
