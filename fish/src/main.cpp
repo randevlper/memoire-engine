@@ -19,6 +19,7 @@
 
 #include "Engine/Nodes/Body2D.h"
 
+#include "collision.h"
 #include "fish.h"
 #include "hook.h"
 

@@ -30,6 +30,9 @@ public:
 	bool isEnabled();
 
 	Body2DType getBodyType();
+	uint16 getCatagory();
+	uint16 getMask();
+
 	bool isSensor();
 
 	virtual void OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB);

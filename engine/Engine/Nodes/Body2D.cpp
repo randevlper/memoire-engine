@@ -15,7 +15,7 @@ Body2D::Body2D()
 {
 	_type = "Body2D";
 	_body = nullptr;
-	setupBox(0, 0, 10, 10, Body2DType::Static, CollisionCatagories::BOUNDARY, CollisionCatagories::BOUNDARY);
+	setupBox(0, 0, 10, 10, Body2DType::Static, 0x0001, 0x0001);
 }
 
 Body2D::~Body2D()
@@ -120,6 +120,16 @@ Body2DType Body2D::getBodyType()
 		return Body2DType::Dynamic;
 	}
 	return Body2DType::Static;
+}
+
+uint16 Body2D::getCatagory()
+{
+	return _body->GetFixtureList()->GetFilterData().categoryBits;
+}
+
+uint16 Body2D::getMask()
+{
+	return _body->GetFixtureList()->GetFilterData().maskBits;
 }
 
 bool Body2D::isSensor()

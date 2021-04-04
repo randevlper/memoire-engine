@@ -5,6 +5,9 @@
 #include <string>
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>
+
+#include "Engine/Nodes/Body2D.h"
+
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Utilities/DebugMemory.h"
 
@@ -14,9 +17,25 @@ signed int  Physics2D::_velocityIterations;
 signed int  Physics2D::_positionIterations;
 float Physics2D::_timeStep;
 
-
 signed int Physics2D::_pixelsPerUnit;
-b2ContactListenTest Physics2D::contactListenTest;
+
+class b2ContactListenTest : public  b2ContactListener {
+	void BeginContact(b2Contact* contact) override {
+		Body2D* bodyA = (Body2D*)contact->GetFixtureA()->GetUserData().pointer;
+		Body2D* bodyB = (Body2D*)contact->GetFixtureB()->GetUserData().pointer;
+		bodyA->OnContactStart(contact, bodyA, bodyB);
+		bodyB->OnContactStart(contact, bodyA, bodyB);
+	}
+
+	void EndContact(b2Contact* contact) override {
+		Body2D* bodyA = (Body2D*)contact->GetFixtureA()->GetUserData().pointer;
+		Body2D* bodyB = (Body2D*)contact->GetFixtureB()->GetUserData().pointer;
+		bodyA->OnContactEnd(contact, bodyA, bodyB);
+		bodyB->OnContactEnd(contact, bodyA, bodyB);
+	}
+};
+
+static b2ContactListenTest contactListenTest;
 
 void Physics2D::init(int argc, char** argv)
 {

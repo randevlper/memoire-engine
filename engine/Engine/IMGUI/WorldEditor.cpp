@@ -283,8 +283,8 @@ namespace me {
 
 						if (ImGui::Button("Build###bodyBuild")) {
 							body2Dselected->setupBox(pos.x, pos.y, bodyWidth, bodyHeight,
-								body2Dselected->getBodyType(), CollisionCatagories::BOUNDARY, 
-								CollisionCatagories::BOUNDARY, body2Dselected->isSensor());
+								body2Dselected->getBodyType(), body2Dselected->getCatagory(), 
+								body2Dselected->getMask(), body2Dselected->isSensor());
 						}
 
 						body2Dselected->setIsAwake(isAwake);
