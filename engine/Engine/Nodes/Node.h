@@ -17,7 +17,7 @@ public:
 	virtual nlohmann::json to_json() {
 		nlohmann::json j;
 		j["type"] = _type;
-		j["name"] = getName();
+		j["name"] = _name;
 		return j;
 	}
 

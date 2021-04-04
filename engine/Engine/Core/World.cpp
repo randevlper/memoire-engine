@@ -118,6 +118,8 @@ void World::from_json(const nlohmann::json& j)
 {
 	name = j.at("name");
 	Node* node;
+	std::vector<Node*> nodesMissingParents;
+	std::vector<std::string> nodesStrings;
 	for (auto& [key, value] : j["nodes"].items()) {
 		node = me::util::ObjectFactory::createObject(value["type"]);
 		if (node == nullptr) {
@@ -126,6 +128,24 @@ void World::from_json(const nlohmann::json& j)
 		else {
 			node->from_json(value);
 			_nodes.push_back(node);
+			
+			auto it = value.find("transform");
+			if (it != value.end()) {
+				std::string parent = value["transform"]["parent"];
+
+				if (parent != "null") {
+					nodesMissingParents.push_back(node);
+					nodesStrings.push_back(parent);
+				}
+			}
 		}
+	}
+
+	for (size_t i = 0; i < nodesMissingParents.size(); i++)
+	{
+		Node2D* node2D = dynamic_cast<Node2D*>(nodesMissingParents[i]);
+		Transform t = node2D->getTransform();
+		t.setParent(get<Node2D>(nodesStrings[i]));
+		node2D->setTransform(t);
 	}
 }

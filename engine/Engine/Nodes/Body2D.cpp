@@ -173,6 +173,7 @@ nlohmann::json Body2D::to_json()
 
 void Body2D::from_json(const nlohmann::json& j)
 {
+	Node2D::from_json(j);
 	_startPos = j["transform"]["position"];
 	_size = j["size"];
 	_bodyType = j["bodyType"];

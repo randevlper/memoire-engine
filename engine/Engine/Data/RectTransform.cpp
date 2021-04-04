@@ -6,9 +6,9 @@ RectTransform::RectTransform()
 {
 	for (size_t i = 0; i < RECT_TRANSFORM_SIZE; i++)
 	{
-		//TODO redo rect transform
 		//_transforms[i].setParentTransform(&_root);
 		_corners[i] = {0,0};
+		_windowCorners[i] = { 0,0 };
 	}
 	_size = { 1,1 };
 }
@@ -25,6 +25,7 @@ void RectTransform::setSize(glm::ivec2 value)
 	_transforms[2].setLocalPosition({ value.x, value.y });
 	_transforms[3].setLocalPosition({ 0, value.y });
 
+	//TODO fix rect transform this is a bandaid
 	for (unsigned int i = 0; i < RECT_TRANSFORM_SIZE; i++)
 	{
 		_transforms[i].setLocalPosition(_transforms[i].getLocalPosition() + _root.getLocalPosition());
