@@ -19,4 +19,5 @@ Transform Node2D::getTransform()
 void Node2D::setTransform(Transform transform)
 {
 	_transform = transform;
+	_transform.setNode2D(this);
 }
