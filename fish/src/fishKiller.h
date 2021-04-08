@@ -6,7 +6,7 @@ class FishKiller : public Body2D
 public:
 	FishKiller();
 
-	void OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB) override;
+	void OnContactStart(Collision2D collision) override;
 
 private:
 

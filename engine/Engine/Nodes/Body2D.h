@@ -1,9 +1,9 @@
 #pragma once
 #include "Node2D.h"
 #include "box2d/b2_types.h"
+#include  "Engine/Physics2D/Collision2D.h"
 
 class b2Body;
-class b2Contact;
 
 enum class Body2DType
 {
@@ -37,8 +37,8 @@ public:
 
 	bool isSensor();
 
-	virtual void OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB);
-	virtual void OnContactEnd(b2Contact* contact, Body2D* bodyA, Body2D* bodyB);
+	virtual void OnContactStart(Collision2D collision);
+	virtual void OnContactEnd(Collision2D collision);
 
 	virtual nlohmann::json to_json() override;
 	virtual void from_json(const nlohmann::json& j) override;

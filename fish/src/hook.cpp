@@ -4,27 +4,42 @@
 #include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
 
+#include "Engine/Core/Input.h"
+#include <SDL_keycode.h>
+
 Hook::Hook()
 {
 	_type = "Hook";
 }
 
-void Hook::OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB)
+void Hook::tick()
 {
-	Body2D* other = nullptr;
-	if (bodyA != this) {
-		other = bodyA;
+	glm::vec2 dir = { 0,0 };
+	if (Input::getKey(SDL_SCANCODE_LEFT)) {
+		dir.x += -1;
 	}
-	else if (bodyB != this) {
-		other = bodyB;
+	if (Input::getKey(SDL_SCANCODE_RIGHT)) {
+		dir.x += 1;
 	}
-	if (other != nullptr) {
-		if ("Fish" == other->getType()) {
+	if (Input::getKey(SDL_SCANCODE_UP)) {
+		dir.y += 1;
+	}
+	if (Input::getKey(SDL_SCANCODE_DOWN)) {
+		dir.y += -1;
+	}
+	dir *= 10;
+	setVelocity(dir);
+}
+
+void Hook::OnContactStart(Collision2D collision)
+{
+	if (collision.other != nullptr) {
+		if ("Fish" == collision.other->getType()) {
 			Debug::Log("Caught Fish!");
 			World* world = me::WorldManager::getWorld();
 
 			if (world != nullptr) {
-				world->destroy(other);
+				world->destroy(collision.other);
 			}
 		}
 	}

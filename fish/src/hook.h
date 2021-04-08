@@ -7,7 +7,9 @@ class Hook : public Body2D
 public:
 	Hook();
 
-	void OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB) override;
+	void tick() override;
+
+	void OnContactStart(Collision2D collision) override;
 
 private:
 

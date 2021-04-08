@@ -149,14 +149,12 @@ bool Body2D::isSensor()
 	return _body->GetFixtureList()->IsSensor();
 }
 
-void Body2D::OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB)
+void Body2D::OnContactStart(Collision2D collision)
 {
-
 }
 
-void Body2D::OnContactEnd(b2Contact* contact, Body2D* bodyA, Body2D* bodyB)
+void Body2D::OnContactEnd(Collision2D collision)
 {
-
 }
 
 nlohmann::json Body2D::to_json()

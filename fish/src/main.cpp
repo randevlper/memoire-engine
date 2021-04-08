@@ -2,7 +2,7 @@
 #include "Engine/Core/Renderer.h"
 #include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
-#include "Engine/Core/Input.h"
+
 #include "Engine/Core/Physics2D.h"
 #include "Engine/Utilities/ObjectFactory.h"
 
@@ -20,8 +20,6 @@
 #include <box2d/b2_body.h>
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
-
-#include <SDL_keycode.h>
 
 #include "Engine/Nodes/Body2D.h"
 #include "Engine/Nodes/SpriteRenderer.h"
@@ -56,31 +54,11 @@ int main(int argc, char** argv) {
 
 		Physics2D::setGravity({ 0,0 });
 
-		glm::vec2 dir = { 0,0 };
-		float speed = 10;
-		
 		while (!Context::getShouldClose())
 		{
 			Context::tick();
 			
 			me::WorldManager::tick();
-
-			//spawner->tick(Context::getDeltaTime());
-
-			dir = { 0,0 };
-			if (Input::getKey(SDL_SCANCODE_LEFT)) {
-				dir.x += -1;
-			}
-			if (Input::getKey(SDL_SCANCODE_RIGHT)) {
-				dir.x += 1;
-			}
-			if (Input::getKey(SDL_SCANCODE_UP)) {
-				dir.y += 1;
-			}
-			if (Input::getKey(SDL_SCANCODE_DOWN)) {
-				dir.y += -1;
-			}
-			//hook->setVelocity(dir * speed);
 			
 			Physics2D::tick();
 			

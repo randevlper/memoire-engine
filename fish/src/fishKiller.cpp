@@ -8,22 +8,15 @@ FishKiller::FishKiller()
 	_type = "FishKiller";
 }
 
-void FishKiller::OnContactStart(b2Contact* contact, Body2D* bodyA, Body2D* bodyB)
+void FishKiller::OnContactStart(Collision2D collision)
 {
-	Body2D* other = nullptr;
-	if (bodyA != this) {
-		other = bodyA;
-	}
-	else if (bodyB != this) {
-		other = bodyB;
-	}
-	if (other != nullptr) {
-		if ("Fish" == other->getType()) {
+	if (collision.other != nullptr) {
+		if ("Fish" == collision.other->getType()) {
 			Debug::Log("Caught Fish!");
 			World* world = me::WorldManager::getWorld();
 
 			if (world != nullptr) {
-				world->destroy(other);
+				world->destroy(collision.other);
 			}
 		}
 	}

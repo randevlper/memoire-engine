@@ -52,7 +52,12 @@ file(GLOB_RECURSE SOURCES_IMGUI
 	Engine/IMGUI/*.cpp
 )
 
-add_library(engine STATIC ${SOURCES_CORE} ${SOURCES_ASSETMANAGEMENT} ${SOURCES_DATA} ${SOURCES_NODES} ${SOURCES_THIRDPARTY} ${SOURCES_TOOLS} ${SOURCES_UI} ${SOURCES_UTILITIES} ${SOURCES_IMGUI})
+file(GLOB_RECURSE SOURCES_PHYSICS2D
+	Engine/Physics2D/*.h
+	Engine/Physics2D/*.cpp
+)
+
+add_library(engine STATIC ${SOURCES_CORE} ${SOURCES_ASSETMANAGEMENT} ${SOURCES_DATA} ${SOURCES_NODES} ${SOURCES_THIRDPARTY} ${SOURCES_TOOLS} ${SOURCES_UI} ${SOURCES_UTILITIES} ${SOURCES_IMGUI} ${SOURCES_PHYSICS2D})
 
 source_group("AssetManagement" FILES ${SOURCES_ASSETMANAGEMENT})
 source_group("Core" FILES ${SOURCES_CORE})
@@ -63,6 +68,7 @@ source_group("Tools" FILES ${SOURCES_TOOLS})
 source_group("UI" FILES ${SOURCES_UI})
 source_group("Utilities" FILES ${SOURCES_UTILITIES})
 source_group("IMGUI" FILES ${SOURCES_IMGUI})
+source_group("Physics2D" FILES ${SOURCES_PHYSICS2D})
 
 if(MSVC)
 	add_compile_options(/MP4)				#Use multiple processors when building

@@ -23,15 +23,15 @@ class b2ContactListenTest : public  b2ContactListener {
 	void BeginContact(b2Contact* contact) override {
 		Body2D* bodyA = (Body2D*)contact->GetFixtureA()->GetUserData().pointer;
 		Body2D* bodyB = (Body2D*)contact->GetFixtureB()->GetUserData().pointer;
-		bodyA->OnContactStart(contact, bodyA, bodyB);
-		bodyB->OnContactStart(contact, bodyA, bodyB);
+		bodyA->OnContactStart(Collision2D{ contact, bodyB });
+		bodyB->OnContactStart(Collision2D{ contact, bodyA });
 	}
 
 	void EndContact(b2Contact* contact) override {
 		Body2D* bodyA = (Body2D*)contact->GetFixtureA()->GetUserData().pointer;
 		Body2D* bodyB = (Body2D*)contact->GetFixtureB()->GetUserData().pointer;
-		bodyA->OnContactEnd(contact, bodyA, bodyB);
-		bodyB->OnContactEnd(contact, bodyA, bodyB);
+		bodyA->OnContactEnd(Collision2D{ contact, bodyB });
+		bodyB->OnContactEnd(Collision2D{ contact, bodyA });
 	}
 };
 
