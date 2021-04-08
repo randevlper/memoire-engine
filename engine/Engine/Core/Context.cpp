@@ -7,7 +7,7 @@
 #include <SDL_syswm.h>
 #include <bgfx/bgfx.h>
 
-#include "Engine/Core/Physics2D.h"
+#include "Engine/Physics2D/Physics2D.h"
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Renderer.h"
 #include "Engine/Core/Audio.h"

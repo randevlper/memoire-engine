@@ -1,7 +1,7 @@
 #pragma once
-#include "Node2D.h"
+#include "Engine/Nodes/Node2D.h"
 #include "box2d/b2_types.h"
-#include  "Engine/Physics2D/Collision2D.h"
+#include  "Collision2D.h"
 
 class b2Body;
 

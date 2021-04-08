@@ -8,7 +8,7 @@
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "Engine/Nodes/Camera.h"
 
-#include "Engine/Nodes/Body2D.h"
+#include "Engine/Physics2D/Body2D.h"
 
 namespace me {
 	namespace util {

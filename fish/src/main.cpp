@@ -3,7 +3,7 @@
 #include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
 
-#include "Engine/Core/Physics2D.h"
+#include "Engine/Physics2D/Physics2D.h"
 #include "Engine/Utilities/ObjectFactory.h"
 
 #include "Engine/AssetManagement/AssetManager.h"
@@ -21,7 +21,7 @@
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
 
-#include "Engine/Nodes/Body2D.h"
+#include "Engine/Physics2D/Body2D.h"
 #include "Engine/Nodes/SpriteRenderer.h"
 
 #include "collision.h"

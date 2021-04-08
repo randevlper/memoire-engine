@@ -8,7 +8,7 @@
 #include "collision.h"
 
 #include "Engine/Core/Context.h"
-#include "Engine/Nodes/Body2D.h"
+#include "Engine/Physics2D/Body2D.h"
 #include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
 

@@ -6,7 +6,7 @@
 #include <glm/vec2.hpp>
 #include <box2d/box2d.h>
 
-#include "Engine/Nodes/Body2D.h"
+#include "Engine/Physics2D/Body2D.h"
 
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Utilities/DebugMemory.h"

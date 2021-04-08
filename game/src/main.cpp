@@ -26,7 +26,7 @@ Data Oriented
 #include "Engine/Core/Context.h"
 #include "Engine/Core/FileUtility.h"
 #include "Engine/Core/Renderer.h"
-#include "Engine/Core/Physics2D.h"
+#include "Engine/Physics2D/Physics2D.h"
 #include "Engine/Data/AseData.h"
 
 #include "Engine/Core/WorldManager.h"

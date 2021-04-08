@@ -30,7 +30,7 @@ using json = nlohmann::json;
 
 #include "Engine/Nodes/Camera.h"
 #include "Engine/Nodes/SpriteRenderer.h"
-#include "Engine/Nodes/Body2D.h"
+#include "Engine/Physics2D/Body2D.h"
 
 #include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/AssetManagement/Sprite.h"
@@ -38,7 +38,7 @@ using json = nlohmann::json;
 #include "Engine/IMGUI/ImguiUtilities.h"
 #include "Engine/Utilities/TypeConversion.h"
 
-#include "Engine/Core/Physics2D.h"
+#include "Engine/Physics2D/Physics2D.h"
 
 namespace me {
 	namespace imgui {
