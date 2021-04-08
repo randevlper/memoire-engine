@@ -16,6 +16,14 @@ public:
 	void setName(std::string value);
 	std::string getName() const;
 
+	void setIsEnabled(bool value) {
+		_isEnabled = value;
+	}
+	bool getIsEnabled() {
+		return _isEnabled;
+	}
+
+
 	//Probably a better way of doing this so we dont have these functions in here
 	virtual nlohmann::json to_json() {
 		nlohmann::json j;
@@ -46,4 +54,5 @@ protected:
 	std::string _name;
 	std::string _type;
 	unsigned int sort;
+	bool _isEnabled;
 };

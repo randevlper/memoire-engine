@@ -30,6 +30,7 @@ void World::init()
 {
 	for (size_t i = 0; i < _nodes.size(); i++)
 	{
+		_nodes[i]->setIsEnabled(true);
 		_nodes[i]->init();
 	}
 }
@@ -41,7 +42,9 @@ void World::tick(float delta)
 	//Logic
 	for (size_t i = 0; i < _nodes.size(); i++)
 	{
-		_nodes[i]->tick();
+		if (_nodes[i]->getIsEnabled()) {
+			_nodes[i]->tick();
+		}
 	}
 }
 
@@ -49,8 +52,10 @@ void World::render()
 {
 	for (size_t i = 0; i < _nodes.size(); i++)
 	{
-		_nodes[i]->setSort(i);
-		_nodes[i]->render();
+		if (_nodes[i]->getIsEnabled()) {
+			_nodes[i]->setSort(i);
+			_nodes[i]->render();
+		}
 	}
 }
 

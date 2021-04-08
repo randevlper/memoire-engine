@@ -182,11 +182,14 @@ namespace me {
 				if (nodes.size() > 0) {
 					Node* nodeSelected = nodes[selected];
 					std::string nodeName = nodeSelected->getName();
+					bool nodeIsEnabled = nodeSelected->getIsEnabled();
 					ImGui::InputText("node_name", &nodeName, ImGuiInputTextFlags_CharsNoBlank);
-					//ImGui::InputInt("node_x",)
+					ImGui::Checkbox("node_is_enabled", &nodeIsEnabled);
 					std::string nodeType = nodeSelected->getType();
 					ImGui::Text(nodeType.c_str());
 
+					nodeSelected->setIsEnabled(nodeIsEnabled);
+					nodeSelected->setName(nodeName);
 
 					if (nodeType == "Node2D" ||
 						nodeType == "Camera" ||
@@ -374,7 +377,7 @@ namespace me {
 
 					}
 
-					nodeSelected->setName(nodeName);
+					
 				}
 
 				ImGui::EndGroup();
