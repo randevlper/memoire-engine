@@ -22,7 +22,7 @@
             "catagory": 4,
             "isSensor": true,
             "mask": 3,
-            "name": "node_1",
+            "name": "testHook",
             "size": [
                 100.0,
                 50.0
@@ -46,7 +46,7 @@
             "catagory": 1,
             "isSensor": false,
             "mask": 3,
-            "name": "node_2",
+            "name": "testBody2D",
             "size": [
                 30.0,
                 30.0
@@ -66,7 +66,7 @@
             "type": "Body2D"
         },
         {
-            "name": "node_3",
+            "name": "testSprite",
             "sprite": {
                 "name": "",
                 "parems": "",
@@ -74,7 +74,7 @@
             },
             "transform": {
                 "angle": 0.0,
-                "parent": "node_2",
+                "parent": "testBody2D",
                 "position": [
                     0.0,
                     0.0
@@ -91,7 +91,7 @@
             "catagory": 1,
             "isSensor": true,
             "mask": 2,
-            "name": "node_6",
+            "name": "Fishkiller00",
             "size": [
                 30.0,
                 1080.0
@@ -115,7 +115,7 @@
             "catagory": 1,
             "isSensor": true,
             "mask": 2,
-            "name": "node_7",
+            "name": "FishKiller01",
             "size": [
                 30.0,
                 1080.0
@@ -135,7 +135,7 @@
             "type": "FishKiller"
         },
         {
-            "name": "node_8",
+            "name": "testFishSpawner",
             "transform": {
                 "angle": 0.0,
                 "parent": "null",

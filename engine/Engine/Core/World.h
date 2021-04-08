@@ -14,6 +14,7 @@ public:
 	World();
 	~World();
 
+	void init();
 	void tick(float delta);
 	void render();
 	void postRender();

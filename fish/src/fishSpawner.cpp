@@ -15,10 +15,13 @@
 FishSpawner::FishSpawner()
 {
 	_type = "FishSpawner";
+}
+
+void FishSpawner::init() {
 	_world = me::WorldManager::getWorld();
 }
 
-void FishSpawner::tick(float deltaTime)
+void FishSpawner::tick()
 {
 	Fish* fish = _world->create<Fish>();
 	glm::vec2 pos = getTransform().getPosition();

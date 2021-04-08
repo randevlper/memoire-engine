@@ -26,11 +26,23 @@ World::~World()
 	}
 }
 
+void World::init()
+{
+	for (size_t i = 0; i < _nodes.size(); i++)
+	{
+		_nodes[i]->init();
+	}
+}
+
 void World::tick(float delta)
 {
 	//Input
 
 	//Logic
+	for (size_t i = 0; i < _nodes.size(); i++)
+	{
+		_nodes[i]->tick();
+	}
 }
 
 void World::render()
@@ -59,6 +71,7 @@ Node* World::create(std::string nodeType)
 	node = me::util::ObjectFactory::createObject(nodeType);
 	if (node != nullptr) {
 		node->setName(nodeType + std::to_string(_nodes.size()));
+		node->init();
 		_nodes.push_back(node);
 		return node;
 	}
@@ -76,6 +89,7 @@ bool World::eraseNode(Node* node, int index)
 		}
 	}
 
+	node->destroy();
 	_nodesToDelete.push_back(node);
 	_nodes.erase(_nodes.begin() + index);
 	return true;

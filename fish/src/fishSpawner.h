@@ -7,7 +7,8 @@ class FishSpawner : public Node2D
 public:
 	FishSpawner();
 
-	void tick(float deltaTime);
+	void init() override;
+	void tick() override;
 
 private:
 

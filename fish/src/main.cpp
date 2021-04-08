@@ -46,61 +46,16 @@ int main(int argc, char** argv) {
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
-		me::util::ObjectFactory::addMap<Fish>("Fish");
-		me::util::ObjectFactory::addMap<FishKiller>("FishKiller");
-		me::util::ObjectFactory::addMap<Hook>("Hook");
-		me::util::ObjectFactory::addMap<FishSpawner>("FishSpawner");
+		ADD_OBJECT_MAP(Fish);
+		ADD_OBJECT_MAP(FishKiller);
+		ADD_OBJECT_MAP(Hook);
+		ADD_OBJECT_MAP(FishSpawner)
 
 		me::WorldManager::loadWorld("assets/worlds/testworld");
 		me::WorldManager::postRender();
 
 		Physics2D::setGravity({ 0,0 });
 
-		//World* gWorld = me::WorldManager::getWorld();
-		//
-		//Hook* hook = gWorld->create<Hook>();
-		//hook->setupBox(0, 100, 100, 50, Body2DType::Dynamic, CollisionCatagories::HOOK,
-		//	CollisionCatagories::BOUNDARY | CollisionCatagories::FISH, true);
-		//
-		//{
-		//	
-		//	if (gWorld != nullptr) {
-		//		//Body2D *floor = gWorld->create<Body2D>();
-		//		//floor->setupBox(0, -100, 500, 50, Body2DType::Static, CollisionCatagories::BOUNDARY,
-		//		//	CollisionCatagories::BOUNDARY | CollisionCatagories::FISH);
-
-		//		Body2D* b1 = gWorld->create<Body2D>();
-		//		b1->setupBox(0, 300, 30, 30, Body2DType::Dynamic, CollisionCatagories::BOUNDARY, 
-		//			CollisionCatagories::BOUNDARY | CollisionCatagories::FISH);
-
-		//		SpriteRenderer* sprite = gWorld->create<SpriteRenderer>();
-		//		sprite->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
-		//		Transform t = sprite->getTransform();
-		//		t.setParent(b1);
-		//		sprite->setTransform(t);
-
-		//		Fish* fish = gWorld->create<Fish>();
-		//		fish->setupBox(0, 400, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH, 
-		//			CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
-
-		//		Fish* fish2 = gWorld->create<Fish>();
-		//		fish2->setupBox(0, 450, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH,
-		//			CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
-
-		//		fish->setVelocity({ 5, 0 });
-		//		fish2->setVelocity({ -5, 0 });
-
-		//		FishKiller* fishKillerLeft = gWorld->create<FishKiller>();
-		//		fishKillerLeft->setupBox(-960, 0, 30, 1080, Body2DType::Static, CollisionCatagories::BOUNDARY,
-		//			CollisionCatagories::FISH, true);
-
-		//		FishKiller* fishKillerRight = gWorld->create<FishKiller>();
-		//		fishKillerRight->setupBox(960, 0, 30, 1080, Body2DType::Static, CollisionCatagories::BOUNDARY,
-		//			CollisionCatagories::FISH, true);
-		//	}
-		//}
-		//
-		//FishSpawner* spawner = gWorld->create<FishSpawner>();
 		glm::vec2 dir = { 0,0 };
 		float speed = 10;
 		
@@ -109,6 +64,7 @@ int main(int argc, char** argv) {
 			Context::tick();
 			
 			me::WorldManager::tick();
+
 			//spawner->tick(Context::getDeltaTime());
 
 			dir = { 0,0 };

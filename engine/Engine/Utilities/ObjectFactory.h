@@ -5,6 +5,8 @@
 #include "Engine/Nodes/Node.h"
 #include "DebugMemory.h"
 
+#define ADD_OBJECT_MAP(name) me::util::ObjectFactory::addMap<name>(#name);
+
 namespace me {
 	namespace util {
 		template<typename T>

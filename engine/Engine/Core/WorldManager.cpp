@@ -91,6 +91,8 @@ namespace me {
 			LuaManager::luaFunction("init");
 
 			_toLoadWorldPath = "";
+
+			_currentWorld->init();
 			return true;
 		}
 		return false;

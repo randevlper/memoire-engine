@@ -14,6 +14,18 @@ void Node::render()
 {
 }
 
+void Node::init()
+{
+}
+
+void Node::tick()
+{
+}
+
+void Node::destroy()
+{
+}
+
 void Node::setName(std::string value) {
 	_name = value;
 }

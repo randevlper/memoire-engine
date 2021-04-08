@@ -8,12 +8,15 @@ class Node
 public:
 	Node();
 	virtual ~Node();
+	virtual void init();
+	virtual void tick();
 	virtual void render();
+	virtual void destroy();
 
 	void setName(std::string value);
 	std::string getName() const;
 
-	//Probably a lot better way of doing this so we dont have these functions in here
+	//Probably a better way of doing this so we dont have these functions in here
 	virtual nlohmann::json to_json() {
 		nlohmann::json j;
 		j["type"] = _type;
