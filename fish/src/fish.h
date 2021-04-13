@@ -6,6 +6,13 @@ class Fish : public Body2D
 public:
 	Fish();
 
-private:
+	int getScore() {
+		return _score;
+	}
+	void setScore(int value) {
+		_score = value;
+	}
 
+private:
+	int _score;
 };

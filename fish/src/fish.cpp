@@ -8,4 +8,5 @@
 Fish::Fish()
 {
 	_type = "Fish";
+	_score = 10;
 }
