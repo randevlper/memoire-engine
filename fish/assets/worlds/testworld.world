@@ -135,12 +135,34 @@
             "type": "FishKiller"
         },
         {
-            "name": "testFishSpawner",
+            "name": "fishSpawner01",
+            "spawnDir": 1,
+            "speed": 10.0,
+            "time": 1.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
                 "position": [
-                    0.0,
+                    -900.0,
+                    200.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "FishSpawner"
+        },
+        {
+            "name": "fishSpawner02",
+            "spawnDir": 1,
+            "speed": 10.0,
+            "time": 1.0,
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    -900.0,
                     0.0
                 ],
                 "scale": [
@@ -149,6 +171,154 @@
                 ]
             },
             "type": "FishSpawner"
+        },
+        {
+            "name": "FishSpawner03",
+            "spawnDir": 1,
+            "speed": 10.0,
+            "time": 1.0,
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    -900.0,
+                    -200.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "FishSpawner"
+        },
+        {
+            "name": "FishSpawner04",
+            "spawnDir": 1,
+            "speed": 10.0,
+            "time": 1.0,
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    -900.0,
+                    -400.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "FishSpawner"
+        },
+        {
+            "name": "FishSpawner05",
+            "spawnDir": -1,
+            "speed": 10.0,
+            "time": 1.0,
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    900.0,
+                    200.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "FishSpawner"
+        },
+        {
+            "name": "FishSpawner06",
+            "spawnDir": -1,
+            "speed": 10.0,
+            "time": 1.0,
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    900.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "FishSpawner"
+        },
+        {
+            "name": "FishSpawner07",
+            "spawnDir": -1,
+            "speed": 10.0,
+            "time": 1.0,
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    900.0,
+                    -200.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "FishSpawner"
+        },
+        {
+            "name": "FishSpawner15",
+            "spawnDir": -1,
+            "speed": 10.0,
+            "time": 1.0,
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    900.0,
+                    -400.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "FishSpawner"
+        },
+        {
+            "color": [
+                1.0,
+                0.9999899864196777,
+                0.9999899864196777,
+                255.0
+            ],
+            "font": {
+                "name": "",
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
+            },
+            "name": "ScoreText",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "parent": "null",
+                    "position": [
+                        38.0,
+                        1037.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    1,
+                    1
+                ]
+            },
+            "text": "Score: 1000",
+            "type": "Text"
         }
     ]
 }

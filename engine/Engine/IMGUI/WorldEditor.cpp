@@ -47,8 +47,7 @@ namespace me {
 			static int selected = 0;
 
 			static const char* current_node_selected = "Node2D";
-			const char* nodeTypes[] = { "Node2D", "NodeUI", "Button", "Camera", "Text", "SpriteRenderer", "Body2D" };
-			const size_t nodeTypesCount = 7;
+			std::vector<std::string> nodeTypes = { "Node2D", "NodeUI", "Button", "Camera", "Text", "SpriteRenderer", "Body2D" };
 
 			static bool isWorldLoadSelectOpen = false;
 			static std::filesystem::directory_entry worldLoadSelection = std::filesystem::directory_entry();
@@ -57,6 +56,9 @@ namespace me {
 			static std::filesystem::directory_entry spriteLoadSelection = std::filesystem::directory_entry();
 
 			const std::string worldsPath = "assets/worlds/";
+
+			//Map?
+			static std::unordered_map<std::string, std::function<void(Node*)>> _nodeEditors = std::unordered_map<std::string, std::function<void(Node*)>>();
 
 			void showEditor()
 			{
@@ -105,11 +107,11 @@ namespace me {
 
 				if (ImGui::BeginCombo("###node_selection", current_node_selected)) {
 
-					for (size_t i = 0; i < nodeTypesCount; i++)
+					for (size_t i = 0; i < nodeTypes.size(); i++)
 					{
 						bool is_selected = (current_node_selected == nodeTypes[i]);
-						if (ImGui::Selectable(nodeTypes[i], is_selected)) {
-							current_node_selected = nodeTypes[i];
+						if (ImGui::Selectable(nodeTypes[i].c_str(), is_selected)) {
+							current_node_selected = nodeTypes[i].c_str();
 						}
 						if (is_selected) {
 							ImGui::SetItemDefaultFocus();
@@ -377,7 +379,12 @@ namespace me {
 
 					}
 
-					
+					std::unordered_map<std::string, std::function<void(Node*)>>::iterator it = _nodeEditors.find(nodeType);
+					if (it != _nodeEditors.end())
+					{
+						it->second(nodeSelected);
+					}
+
 				}
 
 				ImGui::EndGroup();
@@ -386,6 +393,21 @@ namespace me {
 
 				ImGui::End();
 			}
+
+			void addNodeEditor(std::string nodeName, std::function<void(Node*)> node)
+			{
+				for (size_t i = 0; i < nodeTypes.size(); i++)
+				{
+					if (nodeTypes[i] == nodeName) {
+						Debug::LogError("[Worldeditor] " + nodeName + " already is added to the editor.");
+						return;
+					}
+				}
+
+				nodeTypes.push_back(nodeName);
+				_nodeEditors.insert(std::pair<std::string, std::function<void(Node*)>>(nodeName, node));
+			}
+
 		}
 	}
 }

@@ -30,6 +30,8 @@
 #include "fishSpawner.h"
 #include "hook.h"
 
+#include "worldEditor.h"
+
 int main(int argc, char** argv) {
 	{
 		float iExistSoItCompiles = 0.0f; //http://forums.libsdl.org/viewtopic.php?p=47179
@@ -44,10 +46,12 @@ int main(int argc, char** argv) {
 		if (Context::getErrorCode() != 0) {
 			return Context::getErrorCode();
 		}
-		ADD_OBJECT_MAP(Fish);
-		ADD_OBJECT_MAP(FishKiller);
-		ADD_OBJECT_MAP(Hook);
+		ADD_OBJECT_MAP(Fish)
+		ADD_OBJECT_MAP(FishKiller)
+		ADD_OBJECT_MAP(Hook)
 		ADD_OBJECT_MAP(FishSpawner)
+
+		me::imgui::worldEditor::addNodeEditor("FishSpawner", fish::editorFishSpawner);
 
 		me::WorldManager::loadWorld("assets/worlds/testworld");
 		me::WorldManager::postRender();
@@ -64,9 +68,17 @@ int main(int argc, char** argv) {
 			
 			me::WorldManager::render();
 			
-			Renderer::render();
+			World* world = me::WorldManager::getWorld();
+			std::vector<Node*> nodes = world->getNodes();
+			for (size_t i = 0; i < nodes.size(); i++)
+			{
+				if (nodes[i]->getType() == "FishSpawner") {
+					Node2D* node2DSelected = dynamic_cast<Node2D*>(nodes[i]);
+					Debug::DrawTransform(&node2DSelected->getTransform());
+				}
+			}
 
-			
+			Renderer::render();
 			
 			me::WorldManager::postRender();
 

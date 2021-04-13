@@ -77,6 +77,7 @@ void Physics2D::tick()
 			pos = body->GetPosition();
 			bodyTransform = body2D->getTransform();
 			bodyTransform.setLocalPosition({ pos.x * _pixelsPerUnit, pos.y * _pixelsPerUnit });
+			bodyTransform.setLocalAngle(body->GetAngle());
 			body2D->setTransform(bodyTransform);
 		}
 
