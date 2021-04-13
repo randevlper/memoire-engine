@@ -38,7 +38,7 @@ void Body2D::setupBox(int x, int y, int width, int height, Body2DType bodyType,
 	//Create body here
 	b2World* world = Physics2D::getWorld();
 	
-	if (_body != nullptr) { Debug::Log("Body has already been setup! - Rebuilding!");  world->DestroyBody(_body); }
+	if (_body != nullptr) { /*Debug::Log("Body has already been setup! - Rebuilding!"); */ world->DestroyBody(_body); }
 	float PPU = Physics2D::getPixelsPerUnit();
 	b2BodyDef bodyDef;
 	bodyDef.position.Set(x / PPU, y / PPU);

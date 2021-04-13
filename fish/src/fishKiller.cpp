@@ -12,7 +12,7 @@ void FishKiller::OnContactStart(Collision2D collision)
 {
 	if (collision.other != nullptr) {
 		if ("Fish" == collision.other->getType()) {
-			Debug::Log("Caught Fish!");
+			//Debug::Log("Caught Fish!");
 			World* world = me::WorldManager::getWorld();
 
 			if (world != nullptr) {

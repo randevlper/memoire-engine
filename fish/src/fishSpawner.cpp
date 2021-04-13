@@ -15,6 +15,8 @@
 FishSpawner::FishSpawner()
 {
 	_type = "FishSpawner";
+	_timer = 0;
+	_time = 1.0f;
 }
 
 void FishSpawner::init() {
@@ -23,9 +25,15 @@ void FishSpawner::init() {
 
 void FishSpawner::tick()
 {
-	Fish* fish = _world->create<Fish>();
-	glm::vec2 pos = getTransform().getPosition();
-	fish->setupBox(pos.x, pos.y, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH,
-		CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
-	fish->setVelocity({ 10, 0});
+	_timer += Context::getDeltaTime();
+
+	if (_timer >= _time) {
+		Fish* fish = _world->create<Fish>();
+		glm::vec2 pos = getTransform().getPosition();
+		fish->setupBox(pos.x, pos.y, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH,
+			CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
+		fish->setVelocity({ 10, 0 });
+		_timer = 0;
+	}
+
 }

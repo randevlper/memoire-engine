@@ -13,4 +13,7 @@ public:
 private:
 
 	World* _world;
+
+	float _timer;
+	float _time;
 };
