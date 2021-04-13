@@ -137,8 +137,8 @@
         {
             "name": "fishSpawner01",
             "spawnDir": 1,
-            "speed": 10.0,
-            "time": 1.0,
+            "speed": 2.0,
+            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -156,8 +156,8 @@
         {
             "name": "fishSpawner02",
             "spawnDir": 1,
-            "speed": 10.0,
-            "time": 1.0,
+            "speed": 2.0,
+            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -175,8 +175,8 @@
         {
             "name": "FishSpawner03",
             "spawnDir": 1,
-            "speed": 10.0,
-            "time": 1.0,
+            "speed": 2.0,
+            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -194,8 +194,8 @@
         {
             "name": "FishSpawner04",
             "spawnDir": 1,
-            "speed": 10.0,
-            "time": 1.0,
+            "speed": 2.0,
+            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -213,8 +213,8 @@
         {
             "name": "FishSpawner05",
             "spawnDir": -1,
-            "speed": 10.0,
-            "time": 1.0,
+            "speed": 2.0,
+            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -232,8 +232,8 @@
         {
             "name": "FishSpawner06",
             "spawnDir": -1,
-            "speed": 10.0,
-            "time": 1.0,
+            "speed": 2.0,
+            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -251,8 +251,8 @@
         {
             "name": "FishSpawner07",
             "spawnDir": -1,
-            "speed": 10.0,
-            "time": 1.0,
+            "speed": 2.0,
+            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -270,8 +270,8 @@
         {
             "name": "FishSpawner15",
             "spawnDir": -1,
-            "speed": 10.0,
-            "time": 1.0,
+            "speed": 2.0,
+            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",

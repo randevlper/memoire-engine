@@ -40,7 +40,7 @@ void Hook::tick()
 	if (Input::getKey(SDL_SCANCODE_DOWN)) {
 		dir.y += -1;
 	}
-	dir *= Context::getDeltaTime() * 100;
+	dir *= Context::getDeltaTime() * 500;
 	setVelocity(dir);
 }
 
