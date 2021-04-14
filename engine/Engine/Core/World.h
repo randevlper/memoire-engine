@@ -62,6 +62,7 @@ inline nodeclass* World::create()
 	//static_assert(std::is_base_of<NodeUI, nodeclass>::value, "Nodeclass not derived from NodeUI");
 	nodeclass* node = new nodeclass();
 	node->setName("node_" + std::to_string(_nodes.size()));
+	node->init();
 	_nodes.push_back(node);
 	return node;
 }

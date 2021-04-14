@@ -8,7 +8,6 @@ Node2D::Node2D()
 
 Node2D::~Node2D()
 {
-
 }
 
 Transform Node2D::getTransform()

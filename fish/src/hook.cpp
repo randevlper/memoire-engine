@@ -48,14 +48,14 @@ void Hook::OnContactStart(Collision2D collision)
 {
 	if (collision.other != nullptr) {
 		if ("Fish" == collision.other->getType()) {
+			Fish* fish = dynamic_cast<Fish*>(collision.other);
+			_score += fish->getScore();
+			_scoreText->setText("Score: " + std::to_string(_score));
+			
 			World* world = me::WorldManager::getWorld();
 			if (world != nullptr) {
 				world->destroy(collision.other);
 			}
-
-			Fish* fish = dynamic_cast<Fish*>(collision.other);
-			_score += fish->getScore();
-			_scoreText->setText("Score: " + std::to_string(_score));
 		}
 	}
 }

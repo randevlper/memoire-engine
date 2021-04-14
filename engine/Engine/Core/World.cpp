@@ -94,9 +94,9 @@ bool World::eraseNode(Node* node, int index)
 		}
 	}
 
-	node->destroy();
 	_nodesToDelete.push_back(node);
 	_nodes.erase(_nodes.begin() + index);
+	node->destroy();
 	return true;
 }
 

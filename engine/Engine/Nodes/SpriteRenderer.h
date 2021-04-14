@@ -29,5 +29,5 @@ private:
 	bgfx::UniformHandle s_sprite;
 
 	static Shader* shader;
-	static bool init;
+	static bool isInit;
 };

@@ -12,15 +12,15 @@
 #include "Engine/Utilities/DebugMemory.h"
 
 Shader* SpriteRenderer::shader = nullptr;
-bool SpriteRenderer::init = false;
+bool SpriteRenderer::isInit = false;
 SpriteRenderer::SpriteRenderer()
 {
 	_type = "SpriteRenderer";
-	if (!init) {
+	if (!isInit) {
 		me::data::PositionColorUVVertex::init();
 		shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
 		//FileUtility::loadProgram("assets/shaders/vs_sprite.bin","assets/shaders/fs_sprite.bin");
-		init = true;
+		isInit = true;
 	}
 
 	vbh = bgfx::createVertexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::verts, sizeof(me::data::PositionColorUVVertex::verts)), me::data::PositionColorUVVertex::layout);

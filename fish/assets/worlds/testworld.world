@@ -42,51 +42,6 @@
             "type": "Hook"
         },
         {
-            "bodyType": 2,
-            "catagory": 1,
-            "isSensor": false,
-            "mask": 3,
-            "name": "testBody2D",
-            "size": [
-                30.0,
-                30.0
-            ],
-            "transform": {
-                "angle": 0.0,
-                "parent": "null",
-                "position": [
-                    0.0,
-                    300.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "type": "Body2D"
-        },
-        {
-            "name": "testSprite",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/ui/box.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "parent": "testBody2D",
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "type": "SpriteRenderer"
-        },
-        {
             "bodyType": 0,
             "catagory": 1,
             "isSensor": true,
