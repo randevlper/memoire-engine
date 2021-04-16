@@ -11,6 +11,9 @@ public:
 	void init() override;
 	void destroy() override;
 
+	void from_json(const nlohmann::json& j) override;
+	nlohmann::json to_json() override;
+
 	int getScore() {
 		return _score;
 	}
@@ -27,7 +30,6 @@ public:
 	}
 
 	SpriteRenderer* getSpriteRenderer();
-
 private:
 	int _score;
 	float _speed;

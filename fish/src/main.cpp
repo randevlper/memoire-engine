@@ -53,12 +53,15 @@ int main(int argc, char** argv) {
 		ADD_OBJECT_MAP(FishSpawner)
 		ADD_OBJECT_MAP(FishSpawnerManager)
 
+		me::imgui::worldEditor::addNodeEditor("Fish", fish::editorFish);
 		me::imgui::worldEditor::addNodeEditor("FishSpawner", fish::editorFishSpawner);
 		me::imgui::worldEditor::addNodeEditor("FishSpawnerManager", fish::editorFishSpawnerManager);
 
 		AssetManager::load("assets/sprites/fishtest.png", "");
 		AssetManager::load("assets/sprites/fishtestb.png", "");
 		AssetManager::load("assets/sprites/fishtestwhale.png", "");
+		//Diffrent types of fish
+		// Points, Speed, layers 0 - 4, 
 
 		me::WorldManager::loadWorld("assets/worlds/testworld");
 		me::WorldManager::postRender();

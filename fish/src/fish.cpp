@@ -30,6 +30,21 @@ void Fish::destroy()
 	world->destroy(_spriteRenderer);
 }
 
+void Fish::from_json(const nlohmann::json& j)
+{
+	Body2D::from_json(j);
+	_speed = j["speed"];
+	_score = j["score"];
+}
+
+nlohmann::json Fish::to_json()
+{
+	nlohmann::json j = Body2D::to_json();
+	j["speed"] = _speed;
+	j["score"] = _score;
+	return j;
+}
+
 SpriteRenderer* Fish::getSpriteRenderer()
 {
 	return _spriteRenderer;
