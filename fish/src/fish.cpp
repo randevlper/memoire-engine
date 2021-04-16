@@ -16,7 +16,6 @@ Fish::Fish()
 
 void Fish::init()
 {
-	Debug::Log("Spawned Fish");
 	World* world = me::WorldManager::getWorld();
 	_spriteRenderer = world->create<SpriteRenderer>();
 	_spriteRenderer->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
@@ -29,4 +28,9 @@ void Fish::destroy()
 {
 	World* world = me::WorldManager::getWorld();
 	world->destroy(_spriteRenderer);
+}
+
+SpriteRenderer* Fish::getSpriteRenderer()
+{
+	return _spriteRenderer;
 }

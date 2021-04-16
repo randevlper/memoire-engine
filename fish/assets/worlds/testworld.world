@@ -18,6 +18,10 @@
             "type": "Camera"
         },
         {
+            "name": "FishSpawnManager",
+            "type": "FishSpawnerManager"
+        },
+        {
             "bodyType": 2,
             "catagory": 4,
             "isSensor": true,

@@ -30,15 +30,13 @@ void fish::editorFishSpawner(Node* node)
 	fishSpawner->setTransform(transform);
 
 	int spawnDir = fishSpawner->getSpawnDir();
-	float speed = fishSpawner->getSpeed();
-	float time = fishSpawner->getTime();
-
 
 	ImGui::InputInt("fishDir", &spawnDir);
-	ImGui::InputFloat("fishSpeed", &speed);
-	ImGui::InputFloat("fishTime", &time);
 
 	fishSpawner->setSpawnDir(spawnDir);
-	fishSpawner->setSpeed(speed);
-	fishSpawner->setTime(time);
+}
+
+void fish::editorFishSpawnerManager(Node* node)
+{
+	ImGui::Text("FISH SPAWNER MANAGER EDITOR");
 }

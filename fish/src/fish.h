@@ -18,6 +18,16 @@ public:
 		_score = value;
 	}
 
+	float getSpeed() {
+		return _speed;
+	}
+
+	void setSpeed(float value) {
+		_speed = value;
+	}
+
+	SpriteRenderer* getSpriteRenderer();
+
 private:
 	int _score;
 	float _speed;

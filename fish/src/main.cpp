@@ -28,6 +28,7 @@
 #include "fish.h"
 #include "fishKiller.h"
 #include "fishSpawner.h"
+#include "fishSpawnerManager.h"
 #include "hook.h"
 
 #include "worldEditor.h"
@@ -50,8 +51,14 @@ int main(int argc, char** argv) {
 		ADD_OBJECT_MAP(FishKiller)
 		ADD_OBJECT_MAP(Hook)
 		ADD_OBJECT_MAP(FishSpawner)
+		ADD_OBJECT_MAP(FishSpawnerManager)
 
 		me::imgui::worldEditor::addNodeEditor("FishSpawner", fish::editorFishSpawner);
+		me::imgui::worldEditor::addNodeEditor("FishSpawnerManager", fish::editorFishSpawnerManager);
+
+		AssetManager::load("assets/sprites/fishtest.png", "");
+		AssetManager::load("assets/sprites/fishtestb.png", "");
+		AssetManager::load("assets/sprites/fishtestwhale.png", "");
 
 		me::WorldManager::loadWorld("assets/worlds/testworld");
 		me::WorldManager::postRender();
