@@ -29,6 +29,9 @@ public:
 	//Use this
 	void setParent(Node2D* value);
 
+	//Multiple childs eventually
+	Node2D* getChild();
+
 	void setNode2D(Node2D* value);
 	Node2D* getNode2D();
 
@@ -53,5 +56,7 @@ private:
 	float _angle;
 
 	Node2D* _parent;
+	Node2D* _child;
+
 	Node2D* _node;
 };

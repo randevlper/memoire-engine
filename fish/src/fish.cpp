@@ -16,12 +16,14 @@ Fish::Fish()
 
 void Fish::init()
 {
-	World* world = me::WorldManager::getWorld();
-	_spriteRenderer = world->create<SpriteRenderer>();
-	_spriteRenderer->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
-	Transform t = _spriteRenderer->getTransform();
-	t.setParent(this);
-	_spriteRenderer->setTransform(t);
+	if (getTransform().getChild() == nullptr) {
+		World* world = me::WorldManager::getWorld();
+		_spriteRenderer = world->create<SpriteRenderer>();
+		_spriteRenderer->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
+		Transform t = _spriteRenderer->getTransform();
+		t.setParent(this);
+		_spriteRenderer->setTransform(t);
+	}
 }
 
 void Fish::destroy()
