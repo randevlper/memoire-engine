@@ -43,11 +43,12 @@ using json = nlohmann::json;
 namespace me {
 	namespace imgui {
 		namespace worldEditor {
+			static bool isInit = false;
 			static bool windowOpen = false;
 			static int selected = 0;
 
 			static const char* current_node_selected = "Node2D";
-			std::vector<std::string> nodeTypes = { "Node2D", "NodeUI", "Button", "Camera", "Text", "SpriteRenderer", "Body2D" };
+			std::vector<std::string> nodeTypes = { "NodeUI", "Button", "Text"};
 
 			static bool isWorldLoadSelectOpen = false;
 			static std::filesystem::directory_entry worldLoadSelection = std::filesystem::directory_entry();
@@ -62,6 +63,14 @@ namespace me {
 
 			void showEditor()
 			{
+				if (!isInit) {
+					addNodeEditor("Node2D", editorNode2D);
+					addNodeEditor("SpriteRenderer", editorSpriteRenderer);
+					addNodeEditor("Camera", editorCamera);
+					addNodeEditor("Body2D", editorBody2D);
+					isInit = true;
+				}
+
 				if (ImGui::BeginMainMenuBar()) {
 					if (ImGui::BeginMenu("Tools"))
 					{
@@ -165,7 +174,8 @@ namespace me {
 
 				ImGui::BeginChild("Node View", { 200, 0 }, true);
 				for (size_t i = 0; i < nodes.size(); i++) {
-					if (ImGui::Selectable(nodes[i]->getName().c_str(), selected == i)) {
+					std::string nodeName = nodes[i]->getName() + "###nodev" + std::to_string(i);
+					if (ImGui::Selectable(nodeName.c_str(), selected == i)) {
 						selected = i;
 					}
 				}
@@ -192,117 +202,6 @@ namespace me {
 
 					nodeSelected->setIsEnabled(nodeIsEnabled);
 					nodeSelected->setName(nodeName);
-
-					if (nodeType == "Node2D" ||
-						nodeType == "Camera" ||
-						nodeType == "SpriteRenderer") {
-						Node2D* node2DSelected = dynamic_cast<Node2D*>(nodeSelected);
-
-						Transform transform = node2DSelected->getTransform();
-						//Would be more performant to have the editor access the memory directly but this way its using the same interface as the User
-						glm::vec2 pos = transform.getLocalPosition();
-						glm::vec2 scale = transform.getLocalScale();
-						float angle = transform.getLocalAngle();
-
-						if (mousePos != glm::vec2(0, 0)) {
-							pos = mousePos;
-						}
-
-						ImGui::PushItemWidth(150);
-						ImGui::InputFloat("Pos X", &pos.x);
-						ImGui::SameLine();
-						ImGui::InputFloat("Pos Y", &pos.y);
-						ImGui::InputFloat("Scale X", &scale.x);
-						ImGui::SameLine();
-						ImGui::InputFloat("Scale Y", &scale.y);
-						ImGui::InputFloat("Angle", &angle);
-
-						
-						transform.setLocalPosition(pos);
-						transform.setLocalScale(scale);
-						transform.setLocalAngle(angle);
-
-						node2DSelected->setTransform(transform);
-
-						if (nodeType == "SpriteRenderer") {
-							SpriteRenderer* nodeSpriteRenderer = dynamic_cast<SpriteRenderer*>(nodeSelected);
-
-							std::string spritepath = "";
-							//Need nullptr check
-							if (nodeSpriteRenderer->getSprite() == nullptr) {
-								nodeSpriteRenderer->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
-							}
-							spritepath = nodeSpriteRenderer->getSprite()->path;
-
-							ImGui::Text(spritepath.c_str());
-
-							if (ImGui::Button("Load###SpriteLoadButton")) {
-								isSpriteLoadSelectOpen = true;
-							}
-
-							std::string newSprite = lb::imgui::utilities::selectFile(isSpriteLoadSelectOpen, spriteLoadSelection, "assets/sprites/", ".png");
-							if (newSprite != "null") {
-								newSprite += ".png";
-								if (newSprite != spritepath) {
-									//This should be turned into a function
-									Sprite* sprite = AssetManager::get<Sprite>(newSprite);
-									if (sprite == nullptr) {
-										AssetManager::load(newSprite, "");
-										sprite = AssetManager::get<Sprite>(newSprite);
-										nodeSpriteRenderer->setSprite(sprite);
-										isSpriteLoadSelectOpen = false;
-									}
-									else {
-										sprite = AssetManager::get<Sprite>(newSprite);
-										nodeSpriteRenderer->setSprite(sprite);
-										isSpriteLoadSelectOpen = false;
-									}
-									//-----
-								}
-							}
-							
-						}
-					}
-
-					if (nodeType == "Body2D") {
-						Body2D* body2Dselected = dynamic_cast<Body2D*>(nodeSelected);
-						glm::vec2 pos = body2Dselected->getPosition();
-						bool isAwake = body2Dselected->isAwake();
-						bool isEnabled = body2Dselected->isEnabled();
-
-						static glm::vec2 bodyLastPos;
-
-						if (mousePos != glm::vec2(0, 0)) {
-							pos = mousePos ;
-						}
-
-						ImGui::PushItemWidth(150);
-						ImGui::InputFloat("Pos X", &pos.x);
-						ImGui::SameLine();
-						ImGui::InputFloat("Pos Y", &pos.y);
-						ImGui::Checkbox("IsAwake", &isAwake);
-						ImGui::Checkbox("IsEnabled", &isEnabled);
-
-						static int bodyWidth = 10;
-						static int bodyHeight = 10;
-						ImGui::InputInt("Width###Body2DWidth", &bodyWidth);
-						ImGui::InputInt("Height###Body2DHeight", &bodyHeight);
-						if (bodyWidth < 10) { bodyWidth = 10; }
-						if (bodyHeight < 10) { bodyHeight = 10; }
-
-						if (ImGui::Button("Build###bodyBuild")) {
-							body2Dselected->setupBox(pos.x, pos.y, bodyWidth, bodyHeight,
-								body2Dselected->getBodyType(), body2Dselected->getCatagory(), 
-								body2Dselected->getMask(), body2Dselected->isSensor());
-						}
-
-						body2Dselected->setIsAwake(isAwake);
-						if (bodyLastPos != pos) {
-							bodyLastPos = pos;
-							body2Dselected->setPosition(bodyLastPos);
-						}
-					}
-
 
 					if (nodeType == "NodeUI" ||
 						nodeType == "Button" ||
@@ -406,6 +305,135 @@ namespace me {
 
 				nodeTypes.push_back(nodeName);
 				_nodeEditors.insert(std::pair<std::string, std::function<void(Node*)>>(nodeName, node));
+			}
+
+			void editorNode2D(Node* node)
+			{
+				Node2D* node2DSelected = dynamic_cast<Node2D*>(node);
+
+				Transform transform = node2DSelected->getTransform();
+				
+				std::string parent = "Parent: ";
+				if (transform.getParent() != nullptr) {
+					parent +=  transform.getParent()->getName();
+				}
+				else {
+					parent += "null";
+				}
+				ImGui::Text(parent.c_str());
+
+				std::string child = "Child: ";
+				if (transform.getChild() != nullptr) {
+					child += transform.getChild()->getName();
+				}
+				else {
+					child += "null";
+				}
+				ImGui::Text(child.c_str());
+
+
+				//Would be more performant to have the editor access the memory directly but this way its using the same interface as the User
+				glm::vec2 pos = transform.getLocalPosition();
+				glm::vec2 scale = transform.getLocalScale();
+				float angle = transform.getLocalAngle();
+
+				ImGui::PushItemWidth(150);
+				ImGui::InputFloat("Pos X", &pos.x);
+				ImGui::SameLine();
+				ImGui::InputFloat("Pos Y", &pos.y);
+				ImGui::InputFloat("Scale X", &scale.x);
+				ImGui::SameLine();
+				ImGui::InputFloat("Scale Y", &scale.y);
+				ImGui::InputFloat("Angle", &angle);
+
+
+				transform.setLocalPosition(pos);
+				transform.setLocalScale(scale);
+				transform.setLocalAngle(angle);
+
+				node2DSelected->setTransform(transform);
+			}
+
+			void editorSpriteRenderer(Node* node)
+			{
+				editorNode2D(node);
+
+				SpriteRenderer* nodeSpriteRenderer = dynamic_cast<SpriteRenderer*>(node);
+
+				std::string spritepath = "";
+				//Need nullptr check
+				if (nodeSpriteRenderer->getSprite() == nullptr) {
+					nodeSpriteRenderer->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
+				}
+				spritepath = nodeSpriteRenderer->getSprite()->path;
+
+				ImGui::Text(spritepath.c_str());
+
+				if (ImGui::Button("Load###SpriteLoadButton")) {
+					isSpriteLoadSelectOpen = true;
+				}
+
+				std::string newSprite = lb::imgui::utilities::selectFile(isSpriteLoadSelectOpen, spriteLoadSelection, "assets/sprites/", ".png");
+				if (newSprite != "null") {
+					newSprite += ".png";
+					if (newSprite != spritepath) {
+						//This should be turned into a function
+						Sprite* sprite = AssetManager::get<Sprite>(newSprite);
+						if (sprite == nullptr) {
+							AssetManager::load(newSprite, "");
+							sprite = AssetManager::get<Sprite>(newSprite);
+							nodeSpriteRenderer->setSprite(sprite);
+							isSpriteLoadSelectOpen = false;
+						}
+						else {
+							sprite = AssetManager::get<Sprite>(newSprite);
+							nodeSpriteRenderer->setSprite(sprite);
+							isSpriteLoadSelectOpen = false;
+						}
+						//-----
+					}
+				}
+			}
+
+			void editorCamera(Node* node)
+			{
+				editorNode2D(node);
+			}
+
+			void editorBody2D(Node* node)
+			{
+				Body2D* body2Dselected = dynamic_cast<Body2D*>(node);
+				glm::vec2 pos = body2Dselected->getPosition();
+				bool isAwake = body2Dselected->isAwake();
+				bool isEnabled = body2Dselected->isEnabled();
+
+				static glm::vec2 bodyLastPos;
+
+				ImGui::PushItemWidth(150);
+				ImGui::InputFloat("Pos X", &pos.x);
+				ImGui::SameLine();
+				ImGui::InputFloat("Pos Y", &pos.y);
+				ImGui::Checkbox("IsAwake", &isAwake);
+				ImGui::Checkbox("IsEnabled", &isEnabled);
+
+				static int bodyWidth = 10;
+				static int bodyHeight = 10;
+				ImGui::InputInt("Width###Body2DWidth", &bodyWidth);
+				ImGui::InputInt("Height###Body2DHeight", &bodyHeight);
+				if (bodyWidth < 10) { bodyWidth = 10; }
+				if (bodyHeight < 10) { bodyHeight = 10; }
+
+				if (ImGui::Button("Build###bodyBuild")) {
+					body2Dselected->setupBox(pos.x, pos.y, bodyWidth, bodyHeight,
+						body2Dselected->getBodyType(), body2Dselected->getCatagory(),
+						body2Dselected->getMask(), body2Dselected->isSensor());
+				}
+
+				body2Dselected->setIsAwake(isAwake);
+				if (bodyLastPos != pos) {
+					bodyLastPos = pos;
+					body2Dselected->setPosition(bodyLastPos);
+				}
 			}
 
 		}

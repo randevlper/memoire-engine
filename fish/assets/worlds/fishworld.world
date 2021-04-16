@@ -18,15 +18,15 @@
             "type": "Camera"
         },
         {
-            "name": "node_1",
+            "name": "FishtestSprite",
             "sprite": {
                 "name": "",
                 "parems": "",
-                "path": "assets/ui/box.png"
+                "path": "assets/sprites/fishtest.png"
             },
             "transform": {
                 "angle": 0.0,
-                "parent": "Fish1",
+                "parent": "Fishtest",
                 "position": [
                     0.0,
                     0.0
@@ -43,13 +43,13 @@
             "catagory": 1,
             "isSensor": false,
             "mask": 1,
-            "name": "Fish1",
-            "score": 20,
+            "name": "Fishtest",
+            "score": 10,
             "size": [
                 10.0,
                 10.0
             ],
-            "speed": 66.0,
+            "speed": 2.5,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -63,27 +63,6 @@
                 ]
             },
             "type": "Fish"
-        },
-        {
-            "name": "node_3",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/ui/box.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "parent": "Fish1",
-                "position": [
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0
-                ]
-            },
-            "type": "SpriteRenderer"
         }
     ]
 }
