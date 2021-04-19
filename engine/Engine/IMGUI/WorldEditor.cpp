@@ -338,18 +338,25 @@ namespace me {
 				float angle = transform.getLocalAngle();
 
 				ImGui::PushItemWidth(150);
-				ImGui::InputFloat("Pos X", &pos.x);
+				ImGui::InputFloat("Local X", &pos.x);
 				ImGui::SameLine();
-				ImGui::InputFloat("Pos Y", &pos.y);
+				ImGui::InputFloat("Local Y", &pos.y);
 				ImGui::InputFloat("Scale X", &scale.x);
 				ImGui::SameLine();
 				ImGui::InputFloat("Scale Y", &scale.y);
 				ImGui::InputFloat("Angle", &angle);
-
-
 				transform.setLocalPosition(pos);
 				transform.setLocalScale(scale);
 				transform.setLocalAngle(angle);
+
+				glm::vec2 gpos = transform.getPosition();
+				ImGui::InputFloat("Global X", &gpos.x);
+				ImGui::SameLine();
+				ImGui::InputFloat("Global Y", &gpos.y);
+				if (gpos != transform.getPosition()) {
+					transform.setPosition(gpos);
+				}
+
 
 				node2DSelected->setTransform(transform);
 			}

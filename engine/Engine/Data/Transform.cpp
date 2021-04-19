@@ -4,6 +4,8 @@
 #include "Engine/Nodes/Node2D.h"
 #include "Engine/Utilities/glmJson.h"
 
+#include "Engine/Utilities/Debug.h"
+
 Transform::Transform()
 {
 	_position = { 0,0 };
@@ -35,6 +37,25 @@ glm::vec2 Transform::getPosition()
 	glm::mat4x4 m = getGlobalMatrix();
 	glm::vec2 pos = { m[3].x,m[3].y };
 	return pos;
+}
+
+void Transform::setPosition(glm::vec2 value)
+{
+	//Get global transform then do the reverse to get the new local
+	glm::vec2 pos = value;
+
+	std::vector<Node2D*> nodes;
+	Node2D* node = _parent;
+	while (node != nullptr) {
+		nodes.push_back(node);
+		node = node->getTransform().getParent();
+	}
+
+	for (size_t i = 0; i < nodes.size(); i++)
+	{
+		pos -= nodes[i]->getTransform().getPosition();
+	}
+	setLocalPosition(pos);
 }
 
 glm::vec2 Transform::getLocalScale()
