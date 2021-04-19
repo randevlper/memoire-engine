@@ -13,8 +13,8 @@ Transform::Transform()
 	_angle = 0;
 	_parent = nullptr;
 	_node = nullptr;
-	_child = nullptr;
 	depth = 0;
+	_children = std::vector<Node2D*>();
 }
 
 Transform::~Transform()
@@ -90,33 +90,39 @@ void Transform::setParent(Node2D* value)
 		setParent(nullptr);
 		
 		Transform t = value ->getTransform();
-
-		//If the value has a child remove the child
-		if (t._child != nullptr) {
-			Transform ct = t._child->getTransform();
-			ct.setParent(nullptr);
-			t._child->setTransform(ct);
-		}
 		
 		//Set the parent and assign this as its child
 		_parent = value;
-		t._child = _node;
+		t._children.push_back(_node);
 		_parent->setTransform(t);
 	}
 	else {
 		if (_parent != nullptr) {
 			Transform t = _parent->getTransform();
-			t._child = nullptr;
+			t.removeChild(_node);
 			_parent->setTransform(t);
 		}
 		_parent = nullptr;
 	}
 }
 
-Node2D* Transform::getChild()
+std::vector<Node2D*> Transform::getChildren()
 {
-	return _child;
+	return _children;
 }
+
+
+void Transform::removeChild(Node2D* value)
+{
+	for (int i = 0; i < _children.size(); i++)
+	{
+		if (_children[i] == value) {
+			_children.erase(_children.begin() + i);
+			break;
+		}
+	}
+}
+
 
 void Transform::setNode2D(Node2D* value)
 {
@@ -176,5 +182,4 @@ void Transform::from_json(const nlohmann::json& j)
 	setLocalScale(j["scale"]);
 	setLocalAngle(j["angle"]);
 }
-
 

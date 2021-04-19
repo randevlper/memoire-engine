@@ -12,11 +12,21 @@ Fish::Fish()
 	_type = "Fish";
 	_score = 10;
 	_speed = 5;
+	_spriteRenderer = nullptr;
 }
 
 void Fish::init()
 {
-	if (getTransform().getChild() == nullptr) {
+	std::vector<Node2D*> children = getTransform().getChildren();
+	for (size_t i = 0; i < children.size(); i++)
+	{
+		if (children[i]->getType() == "SpriteRenderer") {
+			_spriteRenderer = dynamic_cast<SpriteRenderer*>(children[i]);
+			break;
+		}
+	}
+
+	if (_spriteRenderer == nullptr) {
 		World* world = me::WorldManager::getWorld();
 		_spriteRenderer = world->create<SpriteRenderer>();
 		_spriteRenderer->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
@@ -28,6 +38,7 @@ void Fish::init()
 
 void Fish::destroy()
 {
+	Body2D::destroy();
 	World* world = me::WorldManager::getWorld();
 	world->destroy(_spriteRenderer);
 }

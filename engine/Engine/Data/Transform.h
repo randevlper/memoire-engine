@@ -1,4 +1,7 @@
 #pragma once
+
+#include <vector>
+
 #include "glm/fwd.hpp"
 #include <nlohmann/json.hpp>
 #include "glm/vec2.hpp"
@@ -31,7 +34,7 @@ public:
 	void setParent(Node2D* value);
 
 	//Multiple childs eventually
-	Node2D* getChild();
+	std::vector<Node2D*> getChildren();
 
 	void setNode2D(Node2D* value);
 	Node2D* getNode2D();
@@ -56,8 +59,10 @@ private:
 	
 	float _angle;
 
-	Node2D* _parent;
-	Node2D* _child;
+	Node2D* _parent;;
+	std::vector<Node2D*> _children;
+
+	void removeChild(Node2D* value);
 
 	Node2D* _node;
 };

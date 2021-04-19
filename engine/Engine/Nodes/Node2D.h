@@ -8,6 +8,8 @@ public:
 	Node2D();
 	~Node2D() override;
 
+	virtual void destroy() override;
+
 	virtual nlohmann::json to_json() override{
 		nlohmann::json j = Node::to_json();
 		j["transform"] = getTransform().get_json();

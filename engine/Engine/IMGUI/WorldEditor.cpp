@@ -322,14 +322,13 @@ namespace me {
 				}
 				ImGui::Text(parent.c_str());
 
-				std::string child = "Child: ";
-				if (transform.getChild() != nullptr) {
-					child += transform.getChild()->getName();
+				std::string child = "";
+				std::vector<Node2D*> children = transform.getChildren();
+				for (size_t i = 0; i < children.size(); i++)
+				{
+					child = "Child " + children[i]->getName();
+					ImGui::Text(child.c_str());
 				}
-				else {
-					child += "null";
-				}
-				ImGui::Text(child.c_str());
 
 
 				//Would be more performant to have the editor access the memory directly but this way its using the same interface as the User
@@ -409,6 +408,7 @@ namespace me {
 
 			void editorBody2D(Node* node)
 			{
+				editorNode2D(node);
 				Body2D* body2Dselected = dynamic_cast<Body2D*>(node);
 				glm::vec2 pos = body2Dselected->getPosition();
 				bool isAwake = body2Dselected->isAwake();
