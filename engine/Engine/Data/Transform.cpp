@@ -87,6 +87,7 @@ void Transform::setParent(Node2D* value)
 {
 	if (value != nullptr) {
 		//If THIS node has a parent remove THIS node
+		//glm::vec2 pos = getPosition();
 		setParent(nullptr);
 		
 		Transform t = value ->getTransform();
@@ -95,12 +96,15 @@ void Transform::setParent(Node2D* value)
 		_parent = value;
 		t._children.push_back(_node);
 		_parent->setTransform(t);
+		//setPosition(pos);
 	}
 	else {
 		if (_parent != nullptr) {
+			//glm::vec2 pos = getPosition();
 			Transform t = _parent->getTransform();
 			t.removeChild(_node);
 			_parent->setTransform(t);
+			//setPosition(pos);
 		}
 		_parent = nullptr;
 	}

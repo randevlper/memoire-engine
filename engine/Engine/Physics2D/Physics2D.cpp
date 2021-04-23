@@ -74,11 +74,18 @@ void Physics2D::tick()
 	{
 		Body2D* body2D = (Body2D*)body->GetFixtureList()->GetUserData().pointer;
 		if (body2D != nullptr) {
-			pos = body->GetPosition();
-			bodyTransform = body2D->getTransform();
-			bodyTransform.setLocalPosition({ pos.x * _pixelsPerUnit, pos.y * _pixelsPerUnit });
-			bodyTransform.setLocalAngle(body->GetAngle());
-			body2D->setTransform(bodyTransform);
+			//Body controls position
+			if (body2D->isAwake()) {
+				pos = body->GetPosition();
+				bodyTransform = body2D->getTransform();
+				bodyTransform.setLocalPosition({ pos.x * _pixelsPerUnit, pos.y * _pixelsPerUnit });
+				bodyTransform.setLocalAngle(body->GetAngle());
+				body2D->setTransform(bodyTransform);
+			}
+			else { //Transform controls body
+				glm::vec2 pos = body2D->getTransform().getPosition();
+				body2D->setPosition({ pos.x, pos.y });
+			}
 		}
 
 		fixtures = body->GetFixtureList();

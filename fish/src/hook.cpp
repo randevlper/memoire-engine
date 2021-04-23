@@ -23,6 +23,7 @@ void Hook::init()
 {
 	World* world = me::WorldManager::getWorld();
 	_scoreText = world->get<me::ui::Text>("ScoreText");
+	_scoreText->setText("Score: 0");
 }
 
 void Hook::tick()
@@ -49,13 +50,18 @@ void Hook::OnContactStart(Collision2D collision)
 	if (collision.other != nullptr) {
 		if ("Fish" == collision.other->getType()) {
 			Fish* fish = dynamic_cast<Fish*>(collision.other);
+			
+			if (!fish->isAwake()) { return; }
+
 			_score += fish->getScore();
 			_scoreText->setText("Score: " + std::to_string(_score));
-			
-			World* world = me::WorldManager::getWorld();
-			if (world != nullptr) {
-				world->destroy(collision.other);
-			}
+
+			glm::vec2 pos = fish->getPosition();
+			Transform t = fish->getTransform();
+			t.setParent(this);
+			t.setPosition(pos);
+			fish->setTransform(t);
+			fish->setIsAwake(false);
 		}
 	}
 }
