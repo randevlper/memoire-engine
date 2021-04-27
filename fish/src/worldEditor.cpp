@@ -33,3 +33,13 @@ void fish::editorFish(Node* node) {
 	fish->setScore(score);
 	fish->setSpeed(speed);
 }
+
+void fish::editorNet(Node* node)
+{
+	me::imgui::worldEditor::editorBody2D(node);
+}
+
+void fish::editorPlayerController(Node* node)
+{
+	me::imgui::worldEditor::editorNode2D(node);
+}

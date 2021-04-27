@@ -183,7 +183,6 @@ Sprite* FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath
 				, imageReleaseCb
 				, imageContainer
 			);
-			unload(data);
 
 			if (imageContainer->m_cubeMap)
 			{
@@ -250,6 +249,7 @@ Sprite* FileUtility::loadTexture(bx::FileReaderI* _reader, const char* _filePath
 				);
 			}
 		}
+		unload(data);
 	}
 
 	return sprite;

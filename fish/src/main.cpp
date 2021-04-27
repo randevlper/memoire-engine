@@ -30,6 +30,8 @@
 #include "fishSpawner.h"
 #include "fishSpawnerManager.h"
 #include "hook.h"
+#include "net.h"
+#include "playerController.h"
 
 #include "worldEditor.h"
 
@@ -50,12 +52,17 @@ int main(int argc, char** argv) {
 		ADD_OBJECT_MAP(Fish)
 		ADD_OBJECT_MAP(FishKiller)
 		ADD_OBJECT_MAP(Hook)
+		ADD_OBJECT_MAP(Net)
 		ADD_OBJECT_MAP(FishSpawner)
 		ADD_OBJECT_MAP(FishSpawnerManager)
+		ADD_OBJECT_MAP(PlayerController)
 
+		
 		me::imgui::worldEditor::addNodeEditor("Fish", fish::editorFish);
 		me::imgui::worldEditor::addNodeEditor("FishSpawner", fish::editorFishSpawner);
 		me::imgui::worldEditor::addNodeEditor("FishSpawnerManager", fish::editorFishSpawnerManager);
+		me::imgui::worldEditor::addNodeEditor("Net", fish::editorNet);
+		me::imgui::worldEditor::addNodeEditor("PlayerController", fish::editorPlayerController);
 
 		AssetManager::load("assets/sprites/fishtest.png", "");
 		AssetManager::load("assets/sprites/fishtestb.png", "");

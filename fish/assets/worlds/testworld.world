@@ -23,12 +23,12 @@
         },
         {
             "bodyType": 2,
-            "catagory": 4,
+            "catagory": 8,
             "isSensor": true,
-            "mask": 3,
-            "name": "testHook",
+            "mask": 4,
+            "name": "PlayerNet",
             "size": [
-                100.0,
+                200.0,
                 50.0
             ],
             "transform": {
@@ -36,7 +36,31 @@
                 "parent": "null",
                 "position": [
                     0.0,
-                    100.0
+                    400.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "Net"
+        },
+        {
+            "bodyType": 1,
+            "catagory": 4,
+            "isSensor": true,
+            "mask": 10,
+            "name": "PlayerHook",
+            "size": [
+                50.0,
+                50.0
+            ],
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    0.0,
+                    0.0
                 ],
                 "scale": [
                     1.0,
@@ -44,6 +68,22 @@
                 ]
             },
             "type": "Hook"
+        },
+        {
+            "name": "PlayerController0",
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "PlayerController"
         },
         {
             "bodyType": 0,
@@ -96,8 +136,6 @@
         {
             "name": "fishSpawner01",
             "spawnDir": 1,
-            "speed": 2.0,
-            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -115,8 +153,6 @@
         {
             "name": "fishSpawner02",
             "spawnDir": 1,
-            "speed": 2.0,
-            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -134,8 +170,6 @@
         {
             "name": "FishSpawner03",
             "spawnDir": 1,
-            "speed": 2.0,
-            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -153,8 +187,6 @@
         {
             "name": "FishSpawner04",
             "spawnDir": 1,
-            "speed": 2.0,
-            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -172,8 +204,6 @@
         {
             "name": "FishSpawner05",
             "spawnDir": -1,
-            "speed": 2.0,
-            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -191,8 +221,6 @@
         {
             "name": "FishSpawner06",
             "spawnDir": -1,
-            "speed": 2.0,
-            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -210,8 +238,6 @@
         {
             "name": "FishSpawner07",
             "spawnDir": -1,
-            "speed": 2.0,
-            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -229,8 +255,6 @@
         {
             "name": "FishSpawner15",
             "spawnDir": -1,
-            "speed": 2.0,
-            "time": 5.0,
             "transform": {
                 "angle": 0.0,
                 "parent": "null",
@@ -276,7 +300,7 @@
                     1
                 ]
             },
-            "text": "Score: 1000",
+            "text": "Score: 0",
             "type": "Text"
         }
     ]

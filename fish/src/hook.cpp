@@ -8,6 +8,7 @@
 #include "Engine/UI/Text.h"
 
 #include "fish.h"
+#include "collision.h"
 
 #include "Engine/Core/Input.h"
 #include <SDL_keycode.h>
@@ -24,6 +25,9 @@ void Hook::init()
 	World* world = me::WorldManager::getWorld();
 	_scoreText = world->get<me::ui::Text>("ScoreText");
 	_scoreText->setText("Score: 0");
+
+	setupBox(0, 0, 50, 50, Body2DType::Kinematic, CollisionCatagories::HOOK,
+		CollisionCatagories::FISH | CollisionCatagories::NET, true);
 }
 
 void Hook::tick()
