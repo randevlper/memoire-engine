@@ -26,6 +26,9 @@ PlayerController::PlayerController()
 	_hookVerticalSpeed = 500;
 	_hookAutoReal = 100;
 
+	_minXPos = -940;
+	_maxXPos = 940;
+
 	_hookMaxHeight = 400;
 	_hookMaxDepth = -400;
 
@@ -64,10 +67,18 @@ void PlayerController::tick()
 		dir.y += -1;
 	}
 
-	_transform.translate({ dir.x * delta * _horizontalSpeed,0 });
-	
+	float horizontalMovement = dir.x * _horizontalSpeed;
+
+	if (_transform.getLocalPosition().x > _maxXPos && horizontalMovement > 0) {
+		horizontalMovement = 0;
+	}
+	if (_transform.getLocalPosition().x < _minXPos && horizontalMovement < 0) {
+		horizontalMovement = 0;
+	}
+
+	_transform.translate({ horizontalMovement * delta,0 });
 	//TODO Properly implement syncronization of Transform2D and Body2D
-	_net->setVelocity({ dir.x * _horizontalSpeed, 0 });
+	_net->setVelocity({ horizontalMovement, 0 });
 
 	float hookMovement = (_hookAutoReal + _hookVerticalSpeed) * dir.y;
 	//Out of bounds and trying to go up
@@ -84,6 +95,8 @@ void PlayerController::tick()
 	//setVelocity(dir);
 }
 
+
+//If catch any fish, stop movement and pop up the input promts
 void PlayerController::OnNetCatch(std::vector<Fish*> fishes)
 {
 	World* world = me::WorldManager::getWorld();
