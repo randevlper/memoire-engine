@@ -34,6 +34,9 @@ PlayerController::PlayerController()
 
 	_score = 0;
 	_scoreText = nullptr;
+
+	_state = PlayerState::FISHING;
+	_fishCatching = 0;
 }
 
 void PlayerController::init() {
@@ -44,12 +47,47 @@ void PlayerController::init() {
 	_scoreText = world->get<me::ui::Text>("ScoreText");
 	_scoreText->setText("Score: 0");
 
+	_buttonPressBackground = world->get<SpriteRenderer>("ButtonPromtSprite");
+	_buttonTextPromt = world->get<me::ui::Text>("ButtonPromtText");
+	//ButtonPromtSprite
+	//ButtonPromtText
+	_buttonPressBackground->setIsEnabled(false);
+	_buttonTextPromt->setIsEnabled(false);
+	_buttonTextPromt->setText("Z");
+
 	if (_net) {
 		_net->CaughtFish = std::bind(&PlayerController::OnNetCatch, this, std::placeholders::_1);
 	}
 }
 
 void PlayerController::tick()
+{
+	switch (_state)
+	{
+	case PlayerState::FISHING:
+		fishing();
+		break;
+	case PlayerState::CATCHING:
+		catching();
+		break;
+	default:
+		break;
+	}
+}
+
+void PlayerController::OnNetCatch(std::vector<Fish*> fishes)
+{
+	_fishToCatch = fishes;
+	_state = PlayerState::CATCHING;
+
+	_hook->setVelocity({ 0,0 });
+	_net->setVelocity({ 0,0 });
+
+	_buttonPressBackground->setIsEnabled(true);
+	_buttonTextPromt->setIsEnabled(true);
+}
+
+void PlayerController::fishing()
 {
 	float delta = Context::getDeltaTime();
 
@@ -95,15 +133,35 @@ void PlayerController::tick()
 	//setVelocity(dir);
 }
 
-
-//If catch any fish, stop movement and pop up the input promts
-void PlayerController::OnNetCatch(std::vector<Fish*> fishes)
+void PlayerController::catching()
 {
-	World* world = me::WorldManager::getWorld();
-	for (size_t i = 0; i < fishes.size(); i++)
-	{
-		_score += fishes[i]->getScore();
-		_scoreText->setText("Score: " + std::to_string(_score));
-		world->destroy(fishes[i]);
+	//If catch any fish, stop movement and pop up the input promts
+	//Stop movement
+	//Show button promt
+	//Green on correct, red on wrong
+	if (_fishCatching >= _fishToCatch.size()) {
+		_fishCatching = 0;
+		_fishToCatch = std::vector<Fish*>();
+		_state = PlayerState::FISHING;
+
+		_buttonPressBackground->setIsEnabled(false);
+		_buttonTextPromt->setIsEnabled(false);
+	}
+	else {
+		static bool hasBeenPressed = false;
+		if (Input::getAnyKeyPressed(SDL_SCANCODE_A, SDL_SCANCODE_Z) && !hasBeenPressed) {
+			if (Input::getKeyDown(SDL_SCANCODE_Z)) {
+				_score += _fishToCatch[_fishCatching]->getScore();
+				_scoreText->setText("Score: " + std::to_string(_score));
+				Debug::Log("Correct!");
+			}
+			World* world = me::WorldManager::getWorld();
+			world->destroy(_fishToCatch[_fishCatching]);
+			_fishCatching++;
+			hasBeenPressed = true;
+		}
+		else if (!Input::getAnyKeyPressed(SDL_SCANCODE_A, SDL_SCANCODE_Z)) {
+			hasBeenPressed = false;
+		}
 	}
 }

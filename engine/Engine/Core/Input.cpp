@@ -123,6 +123,29 @@ glm::ivec2 Input::getMousePos()
 	return retval;
 }
 
+bool Input::getAnyKeyPressed()
+{
+	for (size_t i = 0; i < _numKeys; i++)
+	{
+		if (_currentPoll[i] == 1) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Input::getAnyKeyPressed(unsigned int start, unsigned int end)
+{
+	//TODO error checking
+	for (size_t i = start; i <= end; i++)
+	{
+		if (_currentPoll[i] == 1) {
+			return true;
+		}
+	}
+	return false;
+}
+
 void Input::init()
 {
 	if (_instance == nullptr) {

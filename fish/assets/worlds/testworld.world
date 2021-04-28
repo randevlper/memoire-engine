@@ -86,6 +86,95 @@
             "type": "PlayerController"
         },
         {
+            "name": "ButtonPromtSprite",
+            "sprite": {
+                "name": "",
+                "parems": "",
+                "path": "assets/ui/box.png"
+            },
+            "transform": {
+                "angle": 0.0,
+                "parent": "null",
+                "position": [
+                    -150.0,
+                    400.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0
+                ]
+            },
+            "type": "SpriteRenderer"
+        },
+        {
+            "color": [
+                255.0,
+                255.0,
+                255.0,
+                255.0
+            ],
+            "font": {
+                "name": "",
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
+            },
+            "name": "ButtonPromtText",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "parent": "null",
+                    "position": [
+                        798.0,
+                        950.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    2,
+                    2
+                ]
+            },
+            "text": "A",
+            "type": "Text"
+        },
+        {
+            "color": [
+                1.0,
+                0.9999899864196777,
+                0.9999899864196777,
+                255.0
+            ],
+            "font": {
+                "name": "",
+                "parems": "32",
+                "path": "assets/fonts/cmunrm.ttf"
+            },
+            "name": "ScoreText",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "parent": "null",
+                    "position": [
+                        38.0,
+                        1037.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    1,
+                    1
+                ]
+            },
+            "text": "Score: 0",
+            "type": "Text"
+        },
+        {
             "bodyType": 0,
             "catagory": 1,
             "isSensor": true,
@@ -268,40 +357,6 @@
                 ]
             },
             "type": "FishSpawner"
-        },
-        {
-            "color": [
-                1.0,
-                0.9999899864196777,
-                0.9999899864196777,
-                255.0
-            ],
-            "font": {
-                "name": "",
-                "parems": "32",
-                "path": "assets/fonts/cmunrm.ttf"
-            },
-            "name": "ScoreText",
-            "rectTransform": {
-                "root": {
-                    "angle": 0.0,
-                    "parent": "null",
-                    "position": [
-                        38.0,
-                        1037.0
-                    ],
-                    "scale": [
-                        1.0,
-                        1.0
-                    ]
-                },
-                "size": [
-                    1,
-                    1
-                ]
-            },
-            "text": "Score: 0",
-            "type": "Text"
         }
     ]
 }

@@ -12,6 +12,12 @@ namespace me {
 	}
 }
 
+enum class PlayerState
+{
+	FISHING,
+	CATCHING
+};
+
 class PlayerController : public Node2D
 {
 public:
@@ -21,7 +27,12 @@ public:
 
 	void OnNetCatch(std::vector<Fish*> fishes);
 
+	void fishing();
+	void catching();
+
 private:
+	PlayerState _state;
+	
 	float _horizontalSpeed;
 	float _minXPos;
 	float _maxXPos;
@@ -37,4 +48,10 @@ private:
 	SpriteRenderer* _spriteRenderer;
 	Hook* _hook;
 	Net* _net;
+
+	SpriteRenderer* _buttonPressBackground;
+	me::ui::Text* _buttonTextPromt;
+
+	std::vector<Fish*> _fishToCatch;
+	unsigned int _fishCatching;
 };

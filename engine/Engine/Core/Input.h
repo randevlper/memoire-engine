@@ -20,6 +20,9 @@ public:
 
 	static glm::ivec2 getMousePos();
 
+	static bool getAnyKeyPressed();
+	static bool getAnyKeyPressed(unsigned int start, unsigned int end);
+
 	static void init();
 	static void quit();
 	//Should only be called once per frame
