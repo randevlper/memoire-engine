@@ -16,8 +16,6 @@ void Net::init()
 
 void Net::OnContactStart(Collision2D collision)
 {
-	Debug::Log("Net Contact start!");
-	//When the hook touches this tell the playercontroller
 	if (collision.other->getType() == "Hook") {
 		if (CaughtFish) {
 			std::vector<Node2D*> nodes = collision.other->getTransform().getChildren();

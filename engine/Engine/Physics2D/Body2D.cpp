@@ -97,7 +97,8 @@ glm::vec2 Body2D::getPosition()
 
 void Body2D::setVelocity(glm::vec2 value)
 {
-	_body->SetLinearVelocity({ value.x, value.y });
+	float PPU = Physics2D::getPixelsPerUnit();
+	_body->SetLinearVelocity({ value.x / PPU, value.y / PPU});
 }
 
 void Body2D::setIsAwake(bool value)

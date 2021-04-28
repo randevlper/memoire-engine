@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
 			std::vector<Node*> nodes = world->getNodes();
 			for (size_t i = 0; i < nodes.size(); i++)
 			{
-				if (nodes[i]->getType() == "FishSpawner") {
+				if (nodes[i]->getType() == "FishSpawner" || nodes[i]->getType() == "PlayerController") {
 					Node2D* node2DSelected = dynamic_cast<Node2D*>(nodes[i]);
 					Debug::DrawTransform(&node2DSelected->getTransform());
 				}

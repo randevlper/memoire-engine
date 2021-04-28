@@ -11,7 +11,7 @@ Fish::Fish()
 {
 	_type = "Fish";
 	_score = 10;
-	_speed = 5;
+	_speed = 300;
 	_spriteRenderer = nullptr;
 }
 

@@ -19,7 +19,7 @@ FishSpawnerManager::FishSpawnerManager()
 	_type = "FishSpawnerManager";
 	_fishSpawners = std::vector<FishSpawner*>();
 	_timer = 0;
-	_time = 0.5;
+	_time = 1;
 
 	_gen = std::mt19937(_rand());
 
@@ -47,7 +47,7 @@ void FishSpawnerManager::tick()
 	if (_timer >= _time) {
 		int spawn = _distribution(_gen);
 		World* world = me::WorldManager::getWorld();
-		Debug::Log("Spawn: " + std::to_string(spawn));
+		//Debug::Log("Spawn: " + std::to_string(spawn));
 		Fish* fish = world->create<Fish>();
 		fish->getSpriteRenderer()->setSprite(AssetManager::get<Sprite>("assets/sprites/fishtest.png"));
 		fish->setupBox(0, 0, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH,
