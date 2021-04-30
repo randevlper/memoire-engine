@@ -153,7 +153,7 @@ void PlayerController::catching()
 			if (Input::getKeyDown(SDL_SCANCODE_Z)) {
 				_score += _fishToCatch[_fishCatching]->getScore();
 				_scoreText->setText("Score: " + std::to_string(_score));
-				Debug::Log("Correct!");
+				//Debug::Log("Correct!");
 			}
 			World* world = me::WorldManager::getWorld();
 			world->destroy(_fishToCatch[_fishCatching]);

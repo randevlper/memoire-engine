@@ -30,7 +30,6 @@ void World::init()
 {
 	for (size_t i = 0; i < _nodes.size(); i++)
 	{
-		_nodes[i]->setIsEnabled(true);
 		_nodes[i]->init();
 	}
 }
@@ -145,9 +144,9 @@ void World::from_json(const nlohmann::json& j)
 			Debug::Log("Failed to create. Type not found! " + value["type"]);
 		}
 		else {
+			node->setIsEnabled(true);
 			node->from_json(value);
 			_nodes.push_back(node);
-			
 			auto it = value.find("transform");
 			if (it != value.end()) {
 				std::string parent = value["transform"]["parent"];

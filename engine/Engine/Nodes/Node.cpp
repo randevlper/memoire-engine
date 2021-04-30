@@ -4,6 +4,8 @@ Node::Node()
 {
 	_name = "Node";
 	_type = "Node";
+	_isEnabled = true;
+	sort = 0;
 }
 
 Node::~Node()

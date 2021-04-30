@@ -19,6 +19,8 @@ float Physics2D::_timeStep;
 
 signed int Physics2D::_pixelsPerUnit;
 
+bool Physics2D::_doSimulate = true;
+
 class b2ContactListenTest : public  b2ContactListener {
 	void BeginContact(b2Contact* contact) override {
 		Body2D* bodyA = (Body2D*)contact->GetFixtureA()->GetUserData().pointer;
@@ -61,7 +63,9 @@ void Physics2D::quit()
 
 void Physics2D::tick()
 {
-	_world->Step(_timeStep, _velocityIterations, _positionIterations);
+	if (_doSimulate) {
+		_world->Step(_timeStep, _velocityIterations, _positionIterations);
+	}
 	
 	b2Body* body =_world->GetBodyList();
 	b2Vec2 pos;

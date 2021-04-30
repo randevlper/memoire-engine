@@ -12,6 +12,7 @@
 #include "Engine/IMGUI/imgui_bgfx.h"
 #include "Engine/IMGUI/WorldEditor.h"
 #include "Engine/IMGUI/LuaEditor.h"
+#include "Engine/IMGUI/DebugEditor.h"
 
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Utilities/DebugMemory.h"
@@ -80,7 +81,6 @@ int main(int argc, char** argv) {
 			Context::tick();
 			
 			me::WorldManager::tick();
-			
 			Physics2D::tick();
 			
 			me::WorldManager::render();
@@ -101,6 +101,7 @@ int main(int argc, char** argv) {
 
 			if (me::imgui::isIMGUIOpen()) {
 				me::imgui::beginFrame();
+				me::imgui::debug::showDebugEditor();
 				me::imgui::worldEditor::showEditor();
 				me::imgui::ShowLuaEditor();
 				me::imgui::endFrame();

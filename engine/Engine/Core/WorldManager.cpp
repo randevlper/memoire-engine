@@ -16,10 +16,13 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+
+
 namespace me {
 	World* WorldManager::_currentWorld = nullptr;
 	World* WorldManager::_toLoadWorld = nullptr;
 	Camera* WorldManager::_toLoadCamera = nullptr;
+	bool WorldManager::_doSimulate = true;
 
 	std::string WorldManager::_toLoadWorldPath = "";
 
@@ -108,6 +111,7 @@ namespace me {
 
 	void WorldManager::tick()
 	{
+		if (!_doSimulate) { return; }
 		if (_currentWorld != nullptr) {
 			_currentWorld->tick(Context::getDeltaTime());
 		}

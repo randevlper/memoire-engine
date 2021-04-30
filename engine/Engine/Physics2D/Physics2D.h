@@ -16,6 +16,13 @@ public:
 
 	static signed int getPixelsPerUnit();
 
+	static bool getDoSimulate() {
+		return _doSimulate;
+	}
+	static void setDoSimulate(bool value) {
+		_doSimulate = value;
+	}
+
 private:
 	//Only need one world for now
 	static b2World* _world;
@@ -26,4 +33,6 @@ private:
 	static signed int _velocityIterations;
 	static signed int _positionIterations;
 	static float _timeStep;
+
+	static bool _doSimulate;
 };
