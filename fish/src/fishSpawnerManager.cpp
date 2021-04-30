@@ -39,6 +39,12 @@ void FishSpawnerManager::init()
 	}
 	_distribution = std::uniform_int_distribution<>(0, _fishSpawners.size() - 1);
 
+	std::vector<FishData> fishData = {
+	{10, 300, "assets/sprites/fishtest.png"},
+	{10, 250, "assets/sprites/fishtestb.png"},
+	{10, 200, "assets/sprites/fishtestwhale.png"}
+	};
+	setFishData(fishData);
 }
 
 void FishSpawnerManager::tick()
@@ -49,7 +55,11 @@ void FishSpawnerManager::tick()
 		World* world = me::WorldManager::getWorld();
 		//Debug::Log("Spawn: " + std::to_string(spawn));
 		Fish* fish = world->create<Fish>();
-		fish->getSpriteRenderer()->setSprite(AssetManager::get<Sprite>("assets/sprites/fishtest.png"));
+
+		FishData fishData = _fishData[_fishDist(_gen)];
+		fish->setSpeed(fishData.speed);
+		fish->setScore(fishData.score);
+		fish->getSpriteRenderer()->setSprite(AssetManager::get<Sprite>(fishData.spriteName));
 		fish->setupBox(0, 0, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH,
 			CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
 		_fishSpawners[spawn]->spawn(fish);
@@ -66,4 +76,10 @@ void FishSpawnerManager::from_json(const nlohmann::json& j)
 nlohmann::json FishSpawnerManager::to_json()
 {
 	return Node::to_json();
+}
+
+void FishSpawnerManager::setFishData(std::vector<FishData> fishData)
+{
+	_fishData = fishData;
+	_fishDist = std::uniform_int_distribution<>(0, _fishData.size() - 1);
 }

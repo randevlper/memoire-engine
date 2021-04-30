@@ -3,6 +3,12 @@
 
 class SpriteRenderer;
 
+struct FishData {
+	int score;
+	float speed;
+	std::string spriteName;
+};
+
 class Fish : public Body2D
 {
 public:
