@@ -26,7 +26,9 @@ SpriteRenderer::SpriteRenderer()
 	vbh = bgfx::createVertexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::verts, sizeof(me::data::PositionColorUVVertex::verts)), me::data::PositionColorUVVertex::layout);
 	ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::indices, sizeof(me::data::PositionColorUVVertex::indices)));
 	s_sprite = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
+	u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
 	_sprite = nullptr;
+	_color = { 1,1,1,1 };
 }
 
 SpriteRenderer::~SpriteRenderer()
@@ -70,6 +72,7 @@ void SpriteRenderer::render()
 	bgfx::setTransform(glm::value_ptr(m));
 	bgfx::setVertexBuffer(0, vbh);
 	bgfx::setIndexBuffer(ibh);
+	bgfx::setUniform(u_color, &_color);
 
 	if (bgfx::isValid(_sprite->handle)) {
 		bgfx::setTexture(0, s_sprite, _sprite->handle);
@@ -89,6 +92,7 @@ nlohmann::json SpriteRenderer::to_json()
 	nlohmann::json j = Node2D::to_json();
 	j["type"] = "SpriteRenderer";
 	j["sprite"] = _sprite->to_json();
+	j["color"] = _color;
 	//Sprite location
 	return j;
 }
@@ -97,4 +101,16 @@ void SpriteRenderer::from_json(const nlohmann::json& j)
 {
 	Node2D::from_json(j);
 	setSprite(AssetManager::get_json<Sprite>(j["sprite"]));
+	_color = j["color"];
+}
+
+glm::vec4 SpriteRenderer::getColor()
+{
+	return _color;
+}
+
+//Expects values from 0-1
+void SpriteRenderer::setColor(glm::vec4 value)
+{
+	_color = value;
 }

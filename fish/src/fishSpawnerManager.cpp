@@ -40,9 +40,9 @@ void FishSpawnerManager::init()
 	_distribution = std::uniform_int_distribution<>(0, _fishSpawners.size() - 1);
 
 	std::vector<FishData> fishData = {
-	{10, 300, "assets/sprites/fishtest.png"},
-	{10, 250, "assets/sprites/fishtestb.png"},
-	{10, 200, "assets/sprites/fishtestwhale.png"}
+	{10, 300, "assets/sprites/fishtest.png", SDL_Scancode::SDL_SCANCODE_Z, "Z"},
+	{10, 250, "assets/sprites/fishtestb.png", SDL_Scancode::SDL_SCANCODE_X, "X"},
+	{10, 200, "assets/sprites/fishtestwhale.png", SDL_Scancode::SDL_SCANCODE_C, "C"}
 	};
 	setFishData(fishData);
 }
@@ -55,11 +55,8 @@ void FishSpawnerManager::tick()
 		World* world = me::WorldManager::getWorld();
 		//Debug::Log("Spawn: " + std::to_string(spawn));
 		Fish* fish = world->create<Fish>();
-
 		FishData fishData = _fishData[_fishDist(_gen)];
-		fish->setSpeed(fishData.speed);
-		fish->setScore(fishData.score);
-		fish->getSpriteRenderer()->setSprite(AssetManager::get<Sprite>(fishData.spriteName));
+		fish->setFishData(fishData);
 		fish->setupBox(0, 0, 10, 10, Body2DType::Dynamic, CollisionCatagories::FISH,
 			CollisionCatagories::BOUNDARY | CollisionCatagories::HOOK);
 		_fishSpawners[spawn]->spawn(fish);

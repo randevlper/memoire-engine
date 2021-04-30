@@ -399,6 +399,10 @@ namespace me {
 						//-----
 					}
 				}
+
+				glm::vec4 color = nodeSpriteRenderer->getColor();
+				ImGui::ColorPicker4("Color", glm::value_ptr(color));
+				nodeSpriteRenderer->setColor(color);
 			}
 
 			void editorCamera(Node* node)

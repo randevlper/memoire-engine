@@ -85,6 +85,7 @@ void PlayerController::OnNetCatch(std::vector<Fish*> fishes)
 
 	_buttonPressBackground->setIsEnabled(true);
 	_buttonTextPromt->setIsEnabled(true);
+	_buttonTextPromt->setText(_fishToCatch[_fishCatching]->getFishData().scancodeName);
 }
 
 void PlayerController::fishing()
@@ -139,18 +140,9 @@ void PlayerController::catching()
 	//Stop movement
 	//Show button promt
 	//Green on correct, red on wrong
-	if (_fishCatching >= _fishToCatch.size()) {
-		_fishCatching = 0;
-		_fishToCatch = std::vector<Fish*>();
-		_state = PlayerState::FISHING;
-
-		_buttonPressBackground->setIsEnabled(false);
-		_buttonTextPromt->setIsEnabled(false);
-	}
-	else {
 		static bool hasBeenPressed = false;
 		if (Input::getAnyKeyPressed(SDL_SCANCODE_A, SDL_SCANCODE_Z) && !hasBeenPressed) {
-			if (Input::getKeyDown(SDL_SCANCODE_Z)) {
+			if (Input::getKeyDown(_fishToCatch[_fishCatching]->getFishData().scancode)) {
 				_score += _fishToCatch[_fishCatching]->getScore();
 				_scoreText->setText("Score: " + std::to_string(_score));
 				//Debug::Log("Correct!");
@@ -159,9 +151,20 @@ void PlayerController::catching()
 			world->destroy(_fishToCatch[_fishCatching]);
 			_fishCatching++;
 			hasBeenPressed = true;
+
+			if (_fishCatching >= _fishToCatch.size()) {
+				_fishCatching = 0;
+				_fishToCatch = std::vector<Fish*>();
+				_state = PlayerState::FISHING;
+
+				_buttonPressBackground->setIsEnabled(false);
+				_buttonTextPromt->setIsEnabled(false);
+				return;
+			}
+
+			_buttonTextPromt->setText(_fishToCatch[_fishCatching]->getFishData().scancodeName);
 		}
 		else if (!Input::getAnyKeyPressed(SDL_SCANCODE_A, SDL_SCANCODE_Z)) {
 			hasBeenPressed = false;
 		}
-	}
 }

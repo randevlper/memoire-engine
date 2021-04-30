@@ -21,12 +21,18 @@ public:
 	nlohmann::json to_json() override;
 	void from_json(const nlohmann::json& j) override;
 
+	glm::vec4 getColor();
+	void setColor(glm::vec4 value);
+
 private:
 	Sprite* _sprite;
+	glm::vec4 _color;
+
 	me::data::PositionColorUVVertex newVerts[4];
 	bgfx::VertexBufferHandle vbh;
 	bgfx::IndexBufferHandle ibh;
 	bgfx::UniformHandle s_sprite;
+	bgfx::UniformHandle u_color;
 
 	static Shader* shader;
 	static bool isInit;

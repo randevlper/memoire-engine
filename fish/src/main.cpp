@@ -33,8 +33,9 @@
 #include "hook.h"
 #include "net.h"
 #include "playerController.h"
-
 #include "worldEditor.h"
+
+#include "SDL.h"
 
 int main(int argc, char** argv) {
 	{
@@ -80,7 +81,7 @@ int main(int argc, char** argv) {
 		{
 			Context::tick();
 			
-			me::WorldManager::tick();
+			//me::WorldManager::tick();
 			Physics2D::tick();
 			
 			me::WorldManager::render();

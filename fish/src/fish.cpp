@@ -58,6 +58,19 @@ nlohmann::json Fish::to_json()
 	return j;
 }
 
+void Fish::setFishData(FishData value)
+{
+	_fishData = value;
+	setSpeed(_fishData.speed);
+	setScore(_fishData.score);
+	getSpriteRenderer()->setSprite(AssetManager::get<Sprite>(_fishData.spriteName));
+}
+
+FishData Fish::getFishData()
+{
+	return _fishData;
+}
+
 SpriteRenderer* Fish::getSpriteRenderer()
 {
 	return _spriteRenderer;
