@@ -22,6 +22,7 @@ void Hook::OnContactStart(Collision2D collision)
 {
 	if (collision.other != nullptr) {
 		if ("Fish" == collision.other->getType()) {
+			if (_transform.getChildren().size() >= MAX_HOOKED_FISH) { return; }
 			Fish* fish = dynamic_cast<Fish*>(collision.other);
 			
 			if (!fish->isAwake()) { return; }

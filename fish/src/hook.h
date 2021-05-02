@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Physics2D/Body2D.h"
 
+#define MAX_HOOKED_FISH 5
+
 class Hook : public Body2D
 {
 public:

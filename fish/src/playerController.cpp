@@ -93,16 +93,16 @@ void PlayerController::fishing()
 	float delta = Context::getDeltaTime();
 
 	glm::vec2 dir = { 0,0 };
-	if (Input::getKey(SDL_SCANCODE_LEFT)) {
+	if (Input::getKey(SDL_SCANCODE_A)) {
 		dir.x += -1;
 	}
-	if (Input::getKey(SDL_SCANCODE_RIGHT)) {
+	if (Input::getKey(SDL_SCANCODE_D)) {
 		dir.x += 1;
 	}
-	if (Input::getKey(SDL_SCANCODE_UP)) {
+	if (Input::getKey(SDL_SCANCODE_W)) {
 		dir.y += 1;
 	}
-	if (Input::getKey(SDL_SCANCODE_DOWN)) {
+	if (Input::getKey(SDL_SCANCODE_S)) {
 		dir.y += -1;
 	}
 
@@ -119,7 +119,11 @@ void PlayerController::fishing()
 	//TODO Properly implement syncronization of Transform2D and Body2D
 	_net->setVelocity({ horizontalMovement, 0 });
 
-	float hookMovement = (_hookAutoReal + _hookVerticalSpeed) * dir.y;
+	float hookMovement = _hookAutoReal;  
+	if (dir.y != 0) {
+		hookMovement = ( hookMovement + _hookVerticalSpeed) * dir.y;
+	}
+
 	//Out of bounds and trying to go up
 	if (_hook->getPosition().y > _hookMaxHeight && hookMovement > 0) {
 		hookMovement = 0;
@@ -141,11 +145,15 @@ void PlayerController::catching()
 	//Show button promt
 	//Green on correct, red on wrong
 		static bool hasBeenPressed = false;
-		if (Input::getAnyKeyPressed(SDL_SCANCODE_A, SDL_SCANCODE_Z) && !hasBeenPressed) {
+		if (Input::getAnyKeyPressed(79, 82) && !hasBeenPressed) {
 			if (Input::getKeyDown(_fishToCatch[_fishCatching]->getFishData().scancode)) {
 				_score += _fishToCatch[_fishCatching]->getScore();
 				_scoreText->setText("Score: " + std::to_string(_score));
+				_buttonPressBackground->setColor({ 0,1,0,1 });
 				//Debug::Log("Correct!");
+			}
+			else {
+				_buttonPressBackground->setColor({ 1,0,0,1 });
 			}
 			World* world = me::WorldManager::getWorld();
 			world->destroy(_fishToCatch[_fishCatching]);
@@ -164,7 +172,7 @@ void PlayerController::catching()
 
 			_buttonTextPromt->setText(_fishToCatch[_fishCatching]->getFishData().scancodeName);
 		}
-		else if (!Input::getAnyKeyPressed(SDL_SCANCODE_A, SDL_SCANCODE_Z)) {
+		else if (!Input::getAnyKeyPressed(79, 82)) {
 			hasBeenPressed = false;
 		}
 }

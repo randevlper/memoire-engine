@@ -36,6 +36,7 @@ SpriteRenderer::~SpriteRenderer()
 	bgfx::destroy(vbh);
 	bgfx::destroy(ibh);
 	bgfx::destroy(s_sprite);
+	bgfx::destroy(u_color);
 }
 
 void SpriteRenderer::setSprite(Sprite* sprite)
