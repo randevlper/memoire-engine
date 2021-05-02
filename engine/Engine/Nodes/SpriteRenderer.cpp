@@ -76,7 +76,7 @@ void SpriteRenderer::render()
 	bgfx::setUniform(u_color, &_color);
 
 	if (bgfx::isValid(_sprite->handle)) {
-		bgfx::setTexture(0, s_sprite, _sprite->handle);
+		bgfx::setTexture(RENDER_FRAME_BUFFER_INDEX, s_sprite, _sprite->handle);
 	}
 	//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
 	

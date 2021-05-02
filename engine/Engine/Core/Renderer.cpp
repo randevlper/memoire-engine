@@ -30,10 +30,10 @@ Uint64 Renderer::_frameCount = 0;
 Camera* Renderer::_camera = nullptr;
 
 bgfx::FrameBufferHandle Renderer::_renderFrameBuffer;
-bgfx::ProgramHandle Renderer::_scaleProgram;
-bgfx::UniformHandle Renderer::_scaleSpriteUniform;
-bgfx::IndexBufferHandle Renderer::_scaleIndexBuffer;
+bgfx::UniformHandle Renderer::_renderSpriteUniform;
 
+bgfx::ProgramHandle Renderer::_scaleProgram;
+bgfx::IndexBufferHandle Renderer::_scaleIndexBuffer;
 
 bgfx::DynamicVertexBufferHandle Renderer::lineVerts;
 bgfx::IndexBufferHandle Renderer::lineIndicies;
@@ -44,6 +44,9 @@ std::vector<bgfx::TransientVertexBuffer> Renderer::_tvbs;
 void Renderer::init()
 {
 	if (_instance == nullptr) {
+		// Enable debug text.
+		bgfx::setDebug(BGFX_DEBUG_TEXT);
+
 		_instance = DBG_NEW Renderer();
 		_fpsTimer.start();
 		me::data::PositionColorVertex::init();
@@ -53,7 +56,7 @@ void Renderer::init()
 		
 		me::data::PositionUVVertex::init();
 		_scaleProgram = FileUtility::loadProgram("assets/shaders/vs_scale.bin", "assets/shaders/fs_scale.bin");
-		_scaleSpriteUniform = bgfx::createUniform("u_sprite", bgfx::UniformType::Sampler);
+		_renderSpriteUniform = bgfx::createUniform("u_sprite", bgfx::UniformType::Sampler);
 		_scaleIndexBuffer = bgfx::createIndexBuffer(bgfx::makeRef(&me::data::PositionUVVertex::indices, sizeof(me::data::PositionUVVertex::indices)));
 
 		_renderFrameBuffer = bgfx::createFrameBuffer(Context::getRenderWidth(), Context::getRenderHeight(), bgfx::TextureFormat::BGRA8);
@@ -69,7 +72,7 @@ void Renderer::quit()
 		bgfx::destroy(lineProgram);
 
 		bgfx::destroy(_scaleProgram);
-		bgfx::destroy(_scaleSpriteUniform);
+		bgfx::destroy(_renderSpriteUniform);
 		bgfx::destroy(_scaleIndexBuffer);
 
 		bgfx::destroy(_renderFrameBuffer);
@@ -87,8 +90,22 @@ void Renderer::tick()
 
 void Renderer::resize()
 {
-	bgfx::setViewFrameBuffer(0, _renderFrameBuffer);
-	bgfx::setViewMode(0, bgfx::ViewMode::DepthAscending);
+	int renderWidth = Context::getRenderWidth();
+	int renderHeight = Context::getRenderHeight();
+
+	int windowWidth = Context::getWindowWidth();
+	int windowHeight = Context::getWindowHeight();
+
+	bgfx::reset(windowWidth, windowHeight, BGFX_RESET_VSYNC);
+
+	bgfx::setViewClear(RENDER_FRAME_BUFFER_INDEX, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
+	bgfx::setViewRect(RENDER_FRAME_BUFFER_INDEX, 0, 0, renderWidth, renderHeight);
+
+	bgfx::setViewClear(OUTPUT_BUFFER_INDEX, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH);
+	bgfx::setViewRect(OUTPUT_BUFFER_INDEX, 0, 0, windowWidth, windowHeight);
+
+	bgfx::setViewFrameBuffer(RENDER_FRAME_BUFFER_INDEX, _renderFrameBuffer);
+	bgfx::setViewMode(RENDER_FRAME_BUFFER_INDEX, bgfx::ViewMode::DepthAscending);
 }
 
 void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float width)
@@ -195,8 +212,10 @@ void Renderer::render()
 	
 	//Create a plane to put the frame buffer on
 	bgfx::TransientVertexBuffer vb;
+	bgfx::TransientVertexBuffer vb2;
 
 	bgfx::allocTransientVertexBuffer(&vb, 4, me::data::PositionUVVertex::layout);
+
 	me::data::PositionUVVertex* vertex = (me::data::PositionUVVertex*)vb.data;
 	vertex[0] = { -1.0f, -1.0f, 0.0f, 0, 0 };
 	vertex[1] = { 1.0f, -1.0f, 0.0f, 0x7fff, 0 };
@@ -207,10 +226,10 @@ void Renderer::render()
 	bgfx::setIndexBuffer(_scaleIndexBuffer);
 
 
-	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A);
+	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 	bgfx::setVertexBuffer(0, &vb);
-	bgfx::setTexture(0, _scaleSpriteUniform, bgfx::getTexture(_renderFrameBuffer));
-	bgfx::submit(1, _scaleProgram);
+	bgfx::setTexture(0, _renderSpriteUniform, bgfx::getTexture(_renderFrameBuffer));
+	bgfx::submit(OUTPUT_BUFFER_INDEX, _scaleProgram);
 
 	bgfx::frame();
 

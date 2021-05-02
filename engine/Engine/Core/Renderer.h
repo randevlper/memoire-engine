@@ -23,6 +23,9 @@ namespace bgfx {
 	struct FrameBufferHandle;
 }
 
+#define RENDER_FRAME_BUFFER_INDEX 0
+#define OUTPUT_BUFFER_INDEX 2
+
 class Renderer
 {
 public:
@@ -63,7 +66,8 @@ private:
 	//static LineVertex verts[];
 
 	static bgfx::FrameBufferHandle _renderFrameBuffer;
+	static bgfx::UniformHandle _renderSpriteUniform;
+
 	static bgfx::ProgramHandle _scaleProgram;
-	static bgfx::UniformHandle _scaleSpriteUniform;
 	static bgfx::IndexBufferHandle _scaleIndexBuffer;
 };

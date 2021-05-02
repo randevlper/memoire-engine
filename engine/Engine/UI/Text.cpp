@@ -9,6 +9,7 @@
 #include "Engine/AssetManagement/Shader.h"
 
 #include "Engine/Core/Context.h"
+#include "Engine/Core/Renderer.h"
 
 #include "Engine/Data/VertexTypes.h"
 #include "Engine/Utilities/TypeConversion.h"
@@ -71,7 +72,7 @@ namespace me {
 				bgfx::setIndexBuffer(_ibh);
 				bgfx::setTexture(0, _u_sprite, _font->getCharacter(_text[i]).Handle);
 				//bgfx::setUniform(_u_color, glm::value_ptr(_color));
-				bgfx::submit(0, _shader->getHandle(), sort);
+				bgfx::submit(RENDER_FRAME_BUFFER_INDEX, _shader->getHandle(), sort);
 			}
 		}
 

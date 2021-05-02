@@ -134,21 +134,10 @@ void Context::init(ContextWindowParems* parems)
 			_errorCode = EXIT_FAILURE;
 			return;
 		}
-
-		
-
-		// Enable debug text.
-		bgfx::setDebug(BGFX_DEBUG_TEXT);
-
-		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
-		bgfx::setViewRect(0, 0, 0, _windowParems.renderWidth, _windowParems.renderHeight);
-
-		bgfx::setViewClear(1, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
-		bgfx::setViewRect(1, 0, 0, _windowParems.windowWidth, _windowParems.windowHeight);
-
+		Renderer::init();
 		Physics2D::init(parems->argc, parems->argv);
 		Input::init();
-		Renderer::init();
+		
 
 		me::util::ObjectFactory::init();
 
@@ -222,14 +211,6 @@ void Context::windowResized(unsigned int windowWidth, unsigned int windowHeight)
 {
 	_windowParems.windowWidth = windowWidth;
 	_windowParems.windowHeight = windowHeight;
-	bgfx::reset(_windowParems.windowWidth, _windowParems.windowHeight, BGFX_RESET_VSYNC);
-	
-	bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
-	bgfx::setViewRect(0, 0, 0, _windowParems.renderWidth, _windowParems.renderHeight);
-
-	bgfx::setViewClear(1, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
-	bgfx::setViewRect(1, 0, 0, _windowParems.windowWidth, _windowParems.windowHeight);
-
 	Renderer::resize();
 }
 

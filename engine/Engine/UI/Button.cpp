@@ -10,6 +10,8 @@
 #include "Engine/Core/LuaManager.h"
 
 #include "Engine/Core/Context.h"
+#include "Engine/Core/Renderer.h"
+
 #include "Engine/Utilities/TypeConversion.h"
 
 #include "Engine/Data/IndexTypes.h"
@@ -145,7 +147,7 @@ namespace me {
 			bgfx::setVertexBuffer(0, _vbh);
 			bgfx::setIndexBuffer(_ibh);
 			bgfx::setUniform(_u_color, glm::value_ptr(_color));
-			bgfx::submit(0, _shader->getHandle(), sort);
+			bgfx::submit(RENDER_FRAME_BUFFER_INDEX, _shader->getHandle(), sort);
 		}
 	}
 }
