@@ -139,7 +139,7 @@ namespace me {
 
 
 		void Button::render() {
-			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
+			bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
 			//bgfx::setTransform(glm::value_ptr(rectTransform.getGlobalMatrix()));
 			if (_sprite != nullptr) {
 				bgfx::setTexture(0, _u_sprite, _sprite->handle);
@@ -147,7 +147,7 @@ namespace me {
 			bgfx::setVertexBuffer(0, _vbh);
 			bgfx::setIndexBuffer(_ibh);
 			bgfx::setUniform(_u_color, glm::value_ptr(_color));
-			bgfx::submit(RENDER_FRAME_BUFFER_INDEX, _shader->getHandle(), sort);
+			bgfx::submit(UI_FRAME_BUFFER_INDEX, _shader->getHandle(), sort);
 		}
 	}
 }

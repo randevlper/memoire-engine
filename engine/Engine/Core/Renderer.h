@@ -24,6 +24,7 @@ namespace bgfx {
 }
 
 #define RENDER_FRAME_BUFFER_INDEX 0
+#define UI_FRAME_BUFFER_INDEX 1
 #define OUTPUT_BUFFER_INDEX 2
 
 class Renderer
@@ -67,6 +68,9 @@ private:
 
 	static bgfx::FrameBufferHandle _renderFrameBuffer;
 	static bgfx::UniformHandle _renderSpriteUniform;
+
+	static bgfx::FrameBufferHandle _uiFrameBuffer;
+	static bgfx::UniformHandle _uiSpriteUniform;
 
 	static bgfx::ProgramHandle _scaleProgram;
 	static bgfx::IndexBufferHandle _scaleIndexBuffer;

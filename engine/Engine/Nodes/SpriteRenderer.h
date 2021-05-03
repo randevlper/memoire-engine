@@ -31,7 +31,7 @@ private:
 	me::data::PositionColorUVVertex newVerts[4];
 	bgfx::VertexBufferHandle vbh;
 	bgfx::IndexBufferHandle ibh;
-	bgfx::UniformHandle s_sprite;
+	bgfx::UniformHandle u_sprite;
 	bgfx::UniformHandle u_color;
 
 	static Shader* shader;

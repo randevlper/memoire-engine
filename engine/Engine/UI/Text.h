@@ -52,6 +52,7 @@ namespace me {
 			float _percentRender;
 			glm::vec4 _color;
 
+
 			static Shader* _shader;
 			static bool _isInit;
 

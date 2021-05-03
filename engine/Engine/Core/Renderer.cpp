@@ -21,6 +21,8 @@
 #include "Engine/Utilities/DebugMemory.h"
 
 #include "Engine/Data/VertexTypes.h"
+#include "Engine/Data/UniformTypes.h"
+
 #include "Engine/AssetManagement/AssetManager.h"
 
 Renderer* Renderer ::_instance = nullptr;
@@ -31,6 +33,10 @@ Camera* Renderer::_camera = nullptr;
 
 bgfx::FrameBufferHandle Renderer::_renderFrameBuffer;
 bgfx::UniformHandle Renderer::_renderSpriteUniform;
+
+bgfx::FrameBufferHandle Renderer::_uiFrameBuffer;
+bgfx::UniformHandle Renderer::_uiSpriteUniform;
+
 
 bgfx::ProgramHandle Renderer::_scaleProgram;
 bgfx::IndexBufferHandle Renderer::_scaleIndexBuffer;
@@ -56,10 +62,13 @@ void Renderer::init()
 		
 		me::data::PositionUVVertex::init();
 		_scaleProgram = FileUtility::loadProgram("assets/shaders/vs_scale.bin", "assets/shaders/fs_scale.bin");
-		_renderSpriteUniform = bgfx::createUniform("u_sprite", bgfx::UniformType::Sampler);
+		_renderSpriteUniform = me::data::getSpriteUniform();
+		_uiSpriteUniform = bgfx::createUniform("u_sprite1", bgfx::UniformType::Sampler);
+
 		_scaleIndexBuffer = bgfx::createIndexBuffer(bgfx::makeRef(&me::data::PositionUVVertex::indices, sizeof(me::data::PositionUVVertex::indices)));
 
 		_renderFrameBuffer = bgfx::createFrameBuffer(Context::getRenderWidth(), Context::getRenderHeight(), bgfx::TextureFormat::BGRA8);
+		_uiFrameBuffer = bgfx::createFrameBuffer(Context::getRenderWidth(), Context::getRenderHeight(), bgfx::TextureFormat::BGRA8);
 		resize();
 	}
 }
@@ -72,10 +81,12 @@ void Renderer::quit()
 		bgfx::destroy(lineProgram);
 
 		bgfx::destroy(_scaleProgram);
-		bgfx::destroy(_renderSpriteUniform);
 		bgfx::destroy(_scaleIndexBuffer);
 
 		bgfx::destroy(_renderFrameBuffer);
+		bgfx::destroy(_uiFrameBuffer);
+
+		me::data::destroyUniforms();
 
 		_fpsTimer.stop();
 		delete(_instance);
@@ -98,14 +109,18 @@ void Renderer::resize()
 
 	bgfx::reset(windowWidth, windowHeight, BGFX_RESET_VSYNC);
 
-	bgfx::setViewClear(RENDER_FRAME_BUFFER_INDEX, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0f, 0);
+	bgfx::setViewClear(RENDER_FRAME_BUFFER_INDEX, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF);
 	bgfx::setViewRect(RENDER_FRAME_BUFFER_INDEX, 0, 0, renderWidth, renderHeight);
+
+	bgfx::setViewClear(UI_FRAME_BUFFER_INDEX, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0);
+	bgfx::setViewRect(UI_FRAME_BUFFER_INDEX, 0, 0, renderWidth, renderHeight);
 
 	bgfx::setViewClear(OUTPUT_BUFFER_INDEX, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH);
 	bgfx::setViewRect(OUTPUT_BUFFER_INDEX, 0, 0, windowWidth, windowHeight);
 
 	bgfx::setViewFrameBuffer(RENDER_FRAME_BUFFER_INDEX, _renderFrameBuffer);
-	bgfx::setViewMode(RENDER_FRAME_BUFFER_INDEX, bgfx::ViewMode::DepthAscending);
+	bgfx::setViewFrameBuffer(UI_FRAME_BUFFER_INDEX, _uiFrameBuffer);
+	bgfx::setViewMode(RENDER_FRAME_BUFFER_INDEX, bgfx::ViewMode::DepthDescending);
 }
 
 void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float width)
@@ -209,15 +224,13 @@ void Renderer::render()
 	vertex[2] = { 1.0f, 1.0f, 0.0f, 0x7fff, 0x7fff };
 	vertex[3] = { -1.0f, 1.0f, 0.0f, 0, 0x7fff };
 
-
+	bgfx::touch(UI_FRAME_BUFFER_INDEX);
+	bgfx::setState(BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_RGB);
 	bgfx::setIndexBuffer(_scaleIndexBuffer);
-
-
-	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
 	bgfx::setVertexBuffer(0, &vb);
 	bgfx::setTexture(0, _renderSpriteUniform, bgfx::getTexture(_renderFrameBuffer));
+	bgfx::setTexture(1, _uiSpriteUniform, bgfx::getTexture(_uiFrameBuffer));
 	bgfx::submit(OUTPUT_BUFFER_INDEX, _scaleProgram);
-
 	bgfx::frame();
 
 	//SDL_RenderPresent(Context::getRenderer());

@@ -11,6 +11,8 @@
 
 #include "Engine/Utilities/DebugMemory.h"
 
+#include "Engine/Data/UniformTypes.h"
+
 Shader* SpriteRenderer::shader = nullptr;
 bool SpriteRenderer::isInit = false;
 SpriteRenderer::SpriteRenderer()
@@ -25,8 +27,8 @@ SpriteRenderer::SpriteRenderer()
 
 	vbh = bgfx::createVertexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::verts, sizeof(me::data::PositionColorUVVertex::verts)), me::data::PositionColorUVVertex::layout);
 	ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::indices, sizeof(me::data::PositionColorUVVertex::indices)));
-	s_sprite = bgfx::createUniform("s_sprite", bgfx::UniformType::Sampler);
-	u_color = bgfx::createUniform("u_color", bgfx::UniformType::Vec4);
+	u_sprite = me::data::getSpriteUniform();
+	u_color = me::data::getColorUniform();
 	_sprite = nullptr;
 	_color = { 1,1,1,1 };
 }
@@ -35,8 +37,6 @@ SpriteRenderer::~SpriteRenderer()
 {
 	bgfx::destroy(vbh);
 	bgfx::destroy(ibh);
-	bgfx::destroy(s_sprite);
-	bgfx::destroy(u_color);
 }
 
 void SpriteRenderer::setSprite(Sprite* sprite)
@@ -67,7 +67,7 @@ Sprite* SpriteRenderer::getSprite()
 void SpriteRenderer::render()
 {
 	if (_sprite == nullptr) { return; }
-	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_DEPTH_TEST_LESS | BGFX_STATE_BLEND_ALPHA, BGFX_STATE_BLEND_ADD);
+	bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
 	Transform t = _transform;
 	glm::mat4x4 m = t.getGlobalMatrix();
 	bgfx::setTransform(glm::value_ptr(m));
@@ -76,7 +76,7 @@ void SpriteRenderer::render()
 	bgfx::setUniform(u_color, &_color);
 
 	if (bgfx::isValid(_sprite->handle)) {
-		bgfx::setTexture(RENDER_FRAME_BUFFER_INDEX, s_sprite, _sprite->handle);
+		bgfx::setTexture(RENDER_FRAME_BUFFER_INDEX, u_sprite, _sprite->handle);
 	}
 	//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
 	

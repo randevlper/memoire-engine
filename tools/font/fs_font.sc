@@ -6,9 +6,11 @@ $input v_color0, v_texcoord0
  */
 
 #include "../common/common.sh"
-SAMPLER2D(s_font,  0);
+SAMPLER2D(u_sprite,  0);
+uniform vec4 u_color;
 
 void main()
 {
-	gl_FragColor = texture2D(s_font, v_texcoord0);
+	gl_FragColor = texture2D(u_sprite, v_texcoord0);
+	gl_FragColor = vec4(u_color.x, u_color.y, u_color.z, gl_FragColor.w);
 }

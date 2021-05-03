@@ -7,5 +7,6 @@ namespace me {
 		bgfx::UniformHandle getSpriteUniform();
 		//u_color Vec4
 		bgfx::UniformHandle getColorUniform();
+		void destroyUniforms();
 	}
 }

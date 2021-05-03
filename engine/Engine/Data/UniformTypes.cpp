@@ -24,5 +24,12 @@ namespace me {
 			}
 			return u_color;
 		}
+
+		void destroyUniforms() {
+			bgfx::destroy(u_sprite);
+			bgfx::destroy(u_color);
+			spriteInit = false;
+			colorInit = false;
+		}
 	}
 }
