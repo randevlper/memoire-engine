@@ -11,27 +11,27 @@
 
 #include "Engine/Physics2D/Body2D.h"
 
+using namespace me::ui;
+
 namespace me {
 	namespace util {
 		nodeMapType ObjectFactory::nodeMap = nodeMapType();
 
 		void ObjectFactory::init()
 		{
-			nodeMap["Node"] = createInstance<Node>;
-			nodeMap["Node2D"] = createInstance<Node2D>;
-			nodeMap["NodeUI"] = createInstance<NodeUI>;
+			ADD_OBJECT_MAP(Node)
+			ADD_OBJECT_MAP(Node2D)
+			ADD_OBJECT_MAP(NodeUI)
 
 			//Node2D
-			nodeMap["Camera"] = createInstance<Camera>;
-			nodeMap["SpriteRenderer"] = createInstance<SpriteRenderer>;
-
-			nodeMap["Body2D"] = createInstance<Body2D>;
+			ADD_OBJECT_MAP(Camera)
+			ADD_OBJECT_MAP(SpriteRenderer)
+			ADD_OBJECT_MAP(Body2D)
 
 			//UI
-			nodeMap["Text"] = createInstance<me::ui::Text>;
-			nodeMap["Button"] = createInstance<me::ui::Button>;
-
-			ADD_OBJECT_MAP(me::ui::Image);
+			ADD_OBJECT_MAP(Text)
+			ADD_OBJECT_MAP(Button)
+			ADD_OBJECT_MAP(Image);
 		}
 
 		void ObjectFactory::destroy()
