@@ -7,7 +7,7 @@ SAMPLER2D(u_sprite1, 1);
 void main()
 {
 	vec4 sprite1Color = texture2D(u_sprite1, v_texcoord0);
-	gl_FragColor = texture2D(u_sprite, v_texcoord0) + sprite1Color;
+	gl_FragColor = texture2D(u_sprite, v_texcoord0);
 
 	vec3 s1c = vec3(sprite1Color.x, sprite1Color.y, sprite1Color.z);
 	s1c = s1c * sprite1Color.a;
