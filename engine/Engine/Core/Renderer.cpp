@@ -110,9 +110,6 @@ void Renderer::resize()
 
 void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float width)
 {
-	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
-//SDL_RenderDrawLine(Context::getRenderer(), a.x - _cameraPos->x, a.y - _cameraPos->y, b.x - _cameraPos->x, b.y - _cameraPos->y);
-
 	glm::vec2 dir = glm::normalize(b - a) * width;
 	glm::vec2 right = glm::rotate(dir, glm::radians(-90.0f));
 	glm::vec2 left = glm::rotate(dir, glm::radians(90.0f));
@@ -121,13 +118,6 @@ void Renderer::renderLine(glm::vec2 a, glm::vec2 b, glm::vec4& color, float widt
 	glm::vec2 br = (b + right);
 	glm::vec2 bl = (b + left);
 	glm::vec2 al = (a + left);
-
-	//verts[0] = {ar.x,ar.y, 0.f, 0xff0000ff };
-	//verts[1] = { br.x, br.y, 0.f, 0xff0000ff };
-	//verts[2] = { bl.x, bl.y, 0.f, 0xff0000ff };
-	//verts[3] = { al.x, al.y, 0.f, 0xff0000ff };
-
-	//SDL_Log("Help, %f", verts[0].x);
 
 	bgfx::TransientVertexBuffer tvb;
 	bgfx::allocTransientVertexBuffer(&tvb, 4, me::data::PositionColorVertex::layout);
@@ -145,9 +135,6 @@ void Renderer::renderLines(glm::vec2* points, int pointsCount, glm::vec4& color)
 	{
 		renderLine(points[i], points[(i + 1) % pointsCount], color);
 	}
-	
-	//SDL_SetRenderDrawColor(Context::getRenderer(), color.r, color.g, color.b, color.a);
-	//SDL_RenderDrawLines(Context::getRenderer(), points, pointsCount);
 }
 
 void Renderer::renderSquare(SDL_Rect& rect, SDL_Color& color)
