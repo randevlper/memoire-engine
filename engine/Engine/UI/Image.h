@@ -31,9 +31,6 @@ namespace me {
 			bgfx::IndexBufferHandle ibh;
 			bgfx::UniformHandle u_sprite;
 			bgfx::UniformHandle u_color;
-
-			static Shader* shader;
-			static bool isInit;
 		};
 	}
 }
