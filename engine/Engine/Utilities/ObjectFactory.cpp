@@ -3,6 +3,7 @@
 #include "Engine/UI/NodeUI.h"
 #include "Engine/UI/Text.h"
 #include "Engine/UI/Button.h"
+#include "Engine/UI/Image.h"
 
 #include "Engine/Nodes/Node2D.h"
 #include "Engine/Nodes/SpriteRenderer.h"
@@ -29,6 +30,8 @@ namespace me {
 			//UI
 			nodeMap["Text"] = createInstance<me::ui::Text>;
 			nodeMap["Button"] = createInstance<me::ui::Button>;
+
+			ADD_OBJECT_MAP(me::ui::Image);
 		}
 
 		void ObjectFactory::destroy()
