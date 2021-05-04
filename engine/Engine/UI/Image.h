@@ -3,6 +3,7 @@
 
 #include <bgfx/bgfx.h>
 #include <glm/fwd.hpp>
+#include "Engine/Data/VertexTypes.h"
 
 class Sprite;
 class Shader;
@@ -23,6 +24,10 @@ namespace me {
 			glm::vec4 getColor();
 			void setColor(glm::vec4 value);
 
+			virtual nlohmann::json to_json() override;
+			virtual void from_json(const nlohmann::json& j)  override;
+
+
 		private:
 			Sprite* _sprite;
 			glm::vec4 _color;
@@ -31,6 +36,8 @@ namespace me {
 			bgfx::IndexBufferHandle ibh;
 			bgfx::UniformHandle u_sprite;
 			bgfx::UniformHandle u_color;
+
+			me::data::PositionColorUVVertex newVerts[4];
 		};
 	}
 }

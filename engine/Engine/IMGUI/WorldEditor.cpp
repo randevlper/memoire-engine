@@ -21,6 +21,7 @@ using json = nlohmann::json;
 #include "Engine/UI/NodeUI.h"
 #include "Engine/UI/Button.h"
 #include "Engine/UI/Text.h"
+#include "Engine/UI/Image.h"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -48,7 +49,7 @@ namespace me {
 			static int selected = 0;
 
 			static const char* current_node_selected = "Node2D";
-			std::vector<std::string> nodeTypes = { "NodeUI", "Button", "Text"};
+			std::vector<std::string> nodeTypes = {};
 
 			static bool isWorldLoadSelectOpen = false;
 			static std::filesystem::directory_entry worldLoadSelection = std::filesystem::directory_entry();
@@ -68,6 +69,10 @@ namespace me {
 					addNodeEditor("SpriteRenderer", editorSpriteRenderer);
 					addNodeEditor("Camera", editorCamera);
 					addNodeEditor("Body2D", editorBody2D);
+					addNodeEditor("NodeUI", editorNodeUI);
+					addNodeEditor("Button", editorButton);
+					addNodeEditor("Text", editorText);
+					addNodeEditor("Image", editorImage);
 					isInit = true;
 				}
 
@@ -203,87 +208,11 @@ namespace me {
 					nodeSelected->setIsEnabled(nodeIsEnabled);
 					nodeSelected->setName(nodeName);
 
-					if (nodeType == "NodeUI" ||
-						nodeType == "Button" ||
-						nodeType == "Text") {
-
-						static glm::vec2 lastSize;
-						static glm::vec2 lastPos;
-						NodeUI* nodeUISelected = dynamic_cast<NodeUI*>(nodeSelected);
-
-						glm::vec2 pos = nodeUISelected->rectTransform.getPosition();
-						glm::vec2 size = nodeUISelected->rectTransform.getSize();
-
-						if (mousePos != glm::vec2(0,0)) {
-							pos = mousePos;
-						}
-
-						ImGui::PushItemWidth(150);
-						ImGui::InputFloat("Pos X", &pos.x);
-						ImGui::SameLine();
-						ImGui::InputFloat("Pos Y", &pos.y);
-						ImGui::InputFloat("Size X", &size.x);
-						ImGui::SameLine();
-						ImGui::InputFloat("Size Y", &size.y);
-
-						nodeUISelected->rectTransform.setPosition(pos);
-						nodeUISelected->rectTransform.setSize(size);
-
-
-
-						if (nodeType == "Button") {
-							me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(nodeSelected);
-
-							ImGui::InputText("LuaOnClick", &buttonSelected->luaOnClick);
-
-							ImGui::ColorPicker4("ColorNormal", glm::value_ptr(buttonSelected->colorNormal));
-							ImGui::SameLine();
-							ImGui::ColorPicker4("ColorHighlight", glm::value_ptr(buttonSelected->colorHightlight));
-							ImGui::SameLine();
-							ImGui::ColorPicker4("ColorClicked", glm::value_ptr(buttonSelected->colorClicked));
-							ImGui::SameLine();
-							ImGui::ColorPicker4("ColorDisabled", glm::value_ptr(buttonSelected->colorDisabled));
-
-							//Sprite
-
-							if (lastSize != size || lastPos != pos) {
-								buttonSelected->setSize(size);
-							}
-						}
-
-						if (nodeType == "Text") {
-							me::ui::Text* textSelected = dynamic_cast<me::ui::Text*>(nodeSelected);
-							static std::string lastText;
-
-							std::string text = textSelected->getText();
-							glm::vec4 color = textSelected->getColor();
-
-							//Text
-							ImGui::InputTextMultiline("TextText", &text, { 300,200 });
-							//Font
-
-							//Color
-							ImGui::ColorPicker4("ColorNormal", glm::value_ptr(color));
-
-							if (lastText != text || lastSize != size || lastPos != pos) {
-								textSelected->setText(text);
-							}
-							textSelected->setColor(color);
-							lastText = text;
-						}
-
-						lastSize = size;
-						lastPos = pos;
-
-
-					}
-
 					std::unordered_map<std::string, std::function<void(Node*)>>::iterator it = _nodeEditors.find(nodeType);
 					if (it != _nodeEditors.end())
 					{
 						it->second(nodeSelected);
 					}
-
 				}
 
 				ImGui::EndGroup();
@@ -305,6 +234,41 @@ namespace me {
 
 				nodeTypes.push_back(nodeName);
 				_nodeEditors.insert(std::pair<std::string, std::function<void(Node*)>>(nodeName, node));
+			}
+
+			Sprite* loadSpriteWindow(Sprite* currentSprite)
+			{
+				std::string spritepath = "";
+				if (currentSprite != nullptr) {
+					spritepath = currentSprite->path;
+				}
+				ImGui::Text(spritepath.c_str());
+
+				if (ImGui::Button("Load###SpriteLoadButton")) {
+					isSpriteLoadSelectOpen = true;
+				}
+
+				std::string newSprite = lb::imgui::utilities::selectFile(isSpriteLoadSelectOpen, spriteLoadSelection, "assets/sprites/", ".png");
+				if (newSprite != "null") {
+					newSprite += ".png";
+					if (newSprite != spritepath) {
+						//This should be turned into a function
+						Sprite* sprite = AssetManager::get<Sprite>(newSprite);
+						if (sprite == nullptr) {
+							AssetManager::load(newSprite, "");
+							sprite = AssetManager::get<Sprite>(newSprite);
+							isSpriteLoadSelectOpen = false;
+							return sprite;
+						}
+						else {
+							sprite = AssetManager::get<Sprite>(newSprite);
+							isSpriteLoadSelectOpen = false;
+							return sprite;
+						}
+						//-----
+					}
+				}
+				return nullptr;
 			}
 
 			void editorNode2D(Node* node)
@@ -366,39 +330,17 @@ namespace me {
 
 				SpriteRenderer* nodeSpriteRenderer = dynamic_cast<SpriteRenderer*>(node);
 
-				std::string spritepath = "";
+				Sprite* sprite = loadSpriteWindow(nodeSpriteRenderer->getSprite());
+				if (sprite != nullptr) {
+					nodeSpriteRenderer->setSprite(sprite);
+				}
+				
 				//Need nullptr check
 				if (nodeSpriteRenderer->getSprite() == nullptr) {
 					nodeSpriteRenderer->setSprite(AssetManager::get<Sprite>("assets/ui/box.png"));
 				}
-				spritepath = nodeSpriteRenderer->getSprite()->path;
 
-				ImGui::Text(spritepath.c_str());
 
-				if (ImGui::Button("Load###SpriteLoadButton")) {
-					isSpriteLoadSelectOpen = true;
-				}
-
-				std::string newSprite = lb::imgui::utilities::selectFile(isSpriteLoadSelectOpen, spriteLoadSelection, "assets/sprites/", ".png");
-				if (newSprite != "null") {
-					newSprite += ".png";
-					if (newSprite != spritepath) {
-						//This should be turned into a function
-						Sprite* sprite = AssetManager::get<Sprite>(newSprite);
-						if (sprite == nullptr) {
-							AssetManager::load(newSprite, "");
-							sprite = AssetManager::get<Sprite>(newSprite);
-							nodeSpriteRenderer->setSprite(sprite);
-							isSpriteLoadSelectOpen = false;
-						}
-						else {
-							sprite = AssetManager::get<Sprite>(newSprite);
-							nodeSpriteRenderer->setSprite(sprite);
-							isSpriteLoadSelectOpen = false;
-						}
-						//-----
-					}
-				}
 
 				glm::vec4 color = nodeSpriteRenderer->getColor();
 				ImGui::ColorPicker4("Color", glm::value_ptr(color));
@@ -444,6 +386,84 @@ namespace me {
 				if (bodyLastPos != pos) {
 					bodyLastPos = pos;
 					body2Dselected->setPosition(bodyLastPos);
+				}
+			}
+
+			void editorNodeUI(Node* node)
+			{
+				NodeUI* nodeUISelected = dynamic_cast<NodeUI*>(node);
+
+				glm::vec2 pos = nodeUISelected->rectTransform.getPosition();
+				glm::vec2 size = nodeUISelected->rectTransform.getSize();
+
+				//if (mousePos != glm::vec2(0, 0)) {
+				//	pos = mousePos;
+				//}
+
+				ImGui::PushItemWidth(150);
+				ImGui::InputFloat("Pos X", &pos.x);
+				ImGui::SameLine();
+				ImGui::InputFloat("Pos Y", &pos.y);
+				ImGui::InputFloat("Size X", &size.x);
+				ImGui::SameLine();
+				ImGui::InputFloat("Size Y", &size.y);
+
+				nodeUISelected->rectTransform.setPosition(pos);
+				nodeUISelected->rectTransform.setSize(size);
+			}
+
+			void editorButton(Node* node)
+			{
+				editorNodeUI(node);
+				me::ui::Button* buttonSelected = dynamic_cast<me::ui::Button*>(node);
+
+				ImGui::InputText("LuaOnClick", &buttonSelected->luaOnClick);
+
+				ImGui::ColorPicker4("ColorNormal", glm::value_ptr(buttonSelected->colorNormal));
+				ImGui::SameLine();
+				ImGui::ColorPicker4("ColorHighlight", glm::value_ptr(buttonSelected->colorHightlight));
+				ImGui::SameLine();
+				ImGui::ColorPicker4("ColorClicked", glm::value_ptr(buttonSelected->colorClicked));
+				ImGui::SameLine();
+				ImGui::ColorPicker4("ColorDisabled", glm::value_ptr(buttonSelected->colorDisabled));
+
+				//Sprite
+
+				//if (lastSize != size || lastPos != pos) {
+				//	buttonSelected->setSize(size);
+				//}
+			}
+
+			void editorText(Node* node)
+			{
+				editorNodeUI(node);
+				me::ui::Text* textSelected = dynamic_cast<me::ui::Text*>(node);
+				//static std::string lastText;
+
+				std::string text = textSelected->getText();
+				glm::vec4 color = textSelected->getColor();
+
+				//Text
+				ImGui::InputTextMultiline("TextText", &text, { 300,200 });
+				//Font
+
+				//Color
+				ImGui::ColorPicker4("ColorNormal", glm::value_ptr(color));
+
+				//if (lastText != text || lastSize != size || lastPos != pos) {
+				//	textSelected->setText(text);
+				//}
+				textSelected->setColor(color);
+				//lastText = text;
+			}
+
+			void editorImage(Node* node)
+			{
+				editorNodeUI(node);
+				me::ui::Image* image = dynamic_cast<me::ui::Image*>(node);
+				Sprite* sprite = loadSpriteWindow(image->getSprite());
+				if (sprite != nullptr) {
+					image->setSprite(sprite);
 				}
 			}
 

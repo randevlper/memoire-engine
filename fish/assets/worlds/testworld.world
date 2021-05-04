@@ -149,6 +149,36 @@
         {
             "color": [
                 1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "Image18",
+            "parems": "",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "parent": "null",
+                    "position": [
+                        0.0,
+                        0.0
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    64,
+                    64
+                ]
+            },
+            "sprite": "assets/sprites/debrie.png",
+            "type": "Image"
+        },
+        {
+            "color": [
+                1.0,
                 0.9999899864196777,
                 0.9999899864196777,
                 255.0

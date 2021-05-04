@@ -76,12 +76,10 @@ void SpriteRenderer::render()
 	bgfx::setUniform(u_color, &_color);
 
 	if (bgfx::isValid(_sprite->handle)) {
-		bgfx::setTexture(RENDER_FRAME_BUFFER_INDEX, u_sprite, _sprite->handle);
+		bgfx::setTexture(0, u_sprite, _sprite->handle);
 	}
-	//bgfx::setUniform(s_world, glm::value_ptr(transform.getGlobalMatrix()));
-	
 
-	bgfx::submit(0, shader->getHandle(), sort);
+	bgfx::submit(RENDER_FRAME_BUFFER_INDEX, shader->getHandle(), sort);
 }
 
 void SpriteRenderer::destroy()
