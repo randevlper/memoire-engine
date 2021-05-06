@@ -93,8 +93,14 @@ namespace me {
 		void Image::setSprite(Sprite* sprite)
 		{
 			_sprite = sprite;
-			rectTransform.setSize({ sprite->width, sprite->height });
-			glm::vec2* corners = rectTransform.getScreenCorners();
+
+			RectTransform t = getRectTransform();
+			t.setSize({ sprite->width, sprite->height });
+			setRectTransform(t);
+
+			glm::vec2* corners = getRectTransform().getScreenCorners();
+
+			
 
 			memcpy(newVerts, me::data::PositionUVVertex::verts,
 				sizeof(me::data::PositionUVVertex::verts));

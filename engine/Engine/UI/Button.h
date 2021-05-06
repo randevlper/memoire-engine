@@ -65,7 +65,7 @@ namespace me {
 				colorClicked = j.at("colorClicked");
 				colorDisabled = j.at("colorDisabled");
 				luaOnClick = j.at("luaOnClick");
-				setSize(rectTransform.getSize());
+				setSize(getRectTransform().getSize());
 			}
 				
 		private:

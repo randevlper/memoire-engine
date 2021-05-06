@@ -3,7 +3,7 @@
 #include "Transform.h"
 #define RECT_TRANSFORM_SIZE 4
 
-class RectTransform
+struct RectTransform
 {
 public:
 	

@@ -66,7 +66,7 @@ namespace me {
 			_currentMouseClicking = isClicking;
 
 			//Bounded box for now, no rotation
-			glm::vec2* corners = rectTransform.getScreenCorners();
+			glm::vec2* corners = getRectTransform().getScreenCorners();
 
 			//Mouse stuff
 			mousePos.y = abs(mousePos.y - Context::getWindowHeight());
@@ -113,10 +113,13 @@ namespace me {
 			}
 
 			_size = size;
-			rectTransform.setSize(size);
+			RectTransform t = getRectTransform();
+			t.setSize(size);
+			setRectTransform(t);
+
 			memcpy(_verts, me::data::PositionUVVertex::verts, sizeof(me::data::PositionUVVertex::verts));
 
-			glm::vec2* corners = rectTransform.getScreenCorners();
+			glm::vec2* corners = getRectTransform().getScreenCorners();
 			for (size_t i = 0; i < 4; i++)
 			{
 				_verts[i].xy(corners[i]);

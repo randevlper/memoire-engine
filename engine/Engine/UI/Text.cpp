@@ -113,7 +113,7 @@ namespace me {
 
 			clearVertexBuffers();
 
-			glm::vec2* corners = rectTransform.getWindowCorners();
+			glm::vec2* corners = getRectTransform().getWindowCorners();
 
 			float x = corners[3].x;
 			float y = corners[3].y - _font->getCharacter('T').size.y;

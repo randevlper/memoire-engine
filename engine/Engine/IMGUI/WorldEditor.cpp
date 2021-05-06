@@ -393,8 +393,9 @@ namespace me {
 			{
 				NodeUI* nodeUISelected = dynamic_cast<NodeUI*>(node);
 
-				glm::vec2 pos = nodeUISelected->rectTransform.getPosition();
-				glm::vec2 size = nodeUISelected->rectTransform.getSize();
+				RectTransform t = nodeUISelected->getRectTransform();
+				glm::vec2 pos = t.getPosition();
+				glm::vec2 size = t.getSize();
 
 				//if (mousePos != glm::vec2(0, 0)) {
 				//	pos = mousePos;
@@ -408,8 +409,9 @@ namespace me {
 				ImGui::SameLine();
 				ImGui::InputFloat("Size Y", &size.y);
 
-				nodeUISelected->rectTransform.setPosition(pos);
-				nodeUISelected->rectTransform.setSize(size);
+				t.setPosition(pos);
+				t.setSize(size);
+				nodeUISelected->setRectTransform(t);
 			}
 
 			void editorButton(Node* node)
