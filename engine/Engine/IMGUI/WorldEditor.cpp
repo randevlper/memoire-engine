@@ -410,7 +410,7 @@ namespace me {
 				ImGui::InputFloat("Size Y", &size.y);
 
 				t.setPosition(pos);
-				t.setSize(size);
+				//t.setSize(size);
 				nodeUISelected->setRectTransform(t);
 			}
 

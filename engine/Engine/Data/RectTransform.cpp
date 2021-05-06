@@ -2,6 +2,8 @@
 #include "Engine/Utilities/TypeConversion.h"
 #include "Engine/Utilities/glmJson.h"
 
+#include "Engine/Core/Context.h"
+
 RectTransform::RectTransform()
 {
 	for (size_t i = 0; i < RECT_TRANSFORM_SIZE; i++)
@@ -32,14 +34,20 @@ void RectTransform::setSize(glm::ivec2 value)
 	}
 }
 
-void RectTransform::setPosition(glm::ivec2 value)
+//Set in screen cords 0 - 1
+void RectTransform::setPosition(glm::vec2 value)
 {
+	value.x /= ((float)Context::getWindowWidth()); //2 since openGL goes from -1 - 1
+	value.y /= ((float)Context::getWindowHeight());
 	_root.setLocalPosition(value);
 }
 
 glm::vec2 RectTransform::getPosition()
 {
-	return _root.getLocalPosition();
+	glm::vec2 retval = _root.getLocalPosition();
+	retval.x *= ((float)Context::getWindowWidth());
+	retval.y *= ((float)Context::getWindowHeight());
+	return retval;
 }
 
 void RectTransform::setRotation(float value)
@@ -50,6 +58,11 @@ void RectTransform::setRotation(float value)
 void RectTransform::setScale(glm::vec2 value)
 {
 	_root.setLocalScale(value);
+}
+
+glm::mat4x4 RectTransform::getGlobalMatrix()
+{
+	return _root.getGlobalMatrix();
 }
 
 //Returns corners in screen space OGL -1 to 1

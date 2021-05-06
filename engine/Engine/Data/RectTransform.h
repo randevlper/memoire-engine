@@ -14,13 +14,13 @@ public:
 
 	void setSize(glm::ivec2 value);
 
-	void setPosition(glm::ivec2 value);
+	void setPosition(glm::vec2 value);
 	glm::vec2 getPosition();
 	
 	void setRotation(float value);
 	void setScale(glm::vec2 value);
 
-	
+	glm::mat4x4 getGlobalMatrix();
 
 	glm::ivec2 getSize() {
 		return _size;
