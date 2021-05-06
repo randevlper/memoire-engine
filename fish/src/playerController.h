@@ -9,6 +9,7 @@ class Fish;
 namespace me {
 	namespace ui {
 		class Text;
+		class Image;
 	}
 }
 
@@ -49,8 +50,8 @@ private:
 	Hook* _hook;
 	Net* _net;
 
-	SpriteRenderer* _buttonPressBackground;
-	me::ui::Text* _buttonTextPromt;
+	me::ui::Image* _buttonPressBackground;
+	me::ui::Image* _buttonPressIcon;
 
 	std::vector<Fish*> _fishToCatch;
 	unsigned int _fishCatching;

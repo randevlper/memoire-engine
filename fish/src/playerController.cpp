@@ -5,11 +5,15 @@
 #include "Engine/Core/Context.h"
 #include "Engine/Core/World.h"
 #include "Engine/Core/WorldManager.h"
+#include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/Nodes/SpriteRenderer.h"
 #include "Engine/Utilities/Debug.h"
 #include "Engine/Core/Input.h"
 
 #include "Engine/UI/Text.h"
+#include "Engine/UI/Image.h"
+
+#include "Engine/AssetManagement/Sprite.h"
 
 #include "net.h"
 #include "hook.h"
@@ -47,13 +51,12 @@ void PlayerController::init() {
 	_scoreText = world->get<me::ui::Text>("ScoreText");
 	_scoreText->setText("Score: 0");
 
-	_buttonPressBackground = world->get<SpriteRenderer>("ButtonPromtSprite");
-	_buttonTextPromt = world->get<me::ui::Text>("ButtonPromtText");
+	_buttonPressBackground = world->get<me::ui::Image>("ButtonPromtSprite");
+	_buttonPressIcon = world->get<me::ui::Image>("ButtonPromtIcon");
 	//ButtonPromtSprite
 	//ButtonPromtText
-	_buttonPressBackground->setIsEnabled(false);
-	_buttonTextPromt->setIsEnabled(false);
-	_buttonTextPromt->setText("Z");
+	//_buttonPressBackground->setIsEnabled(false);
+	//_buttonPressIcon->setIsEnabled(false);
 
 	if (_net) {
 		_net->CaughtFish = std::bind(&PlayerController::OnNetCatch, this, std::placeholders::_1);
@@ -84,8 +87,8 @@ void PlayerController::OnNetCatch(std::vector<Fish*> fishes)
 	_net->setVelocity({ 0,0 });
 
 	_buttonPressBackground->setIsEnabled(true);
-	_buttonTextPromt->setIsEnabled(true);
-	_buttonTextPromt->setText(_fishToCatch[_fishCatching]->getFishData().scancodeName);
+	_buttonPressIcon->setIsEnabled(true);
+	_buttonPressIcon->setSprite(AssetManager::get<Sprite>(_fishToCatch[_fishCatching]->getFishData().scancodeName));
 }
 
 void PlayerController::fishing()
@@ -166,11 +169,11 @@ void PlayerController::catching()
 				_state = PlayerState::FISHING;
 
 				_buttonPressBackground->setIsEnabled(false);
-				_buttonTextPromt->setIsEnabled(false);
+				_buttonPressIcon->setIsEnabled(false);
 				return;
 			}
 
-			_buttonTextPromt->setText(_fishToCatch[_fishCatching]->getFishData().scancodeName);
+			_buttonPressIcon->setSprite(AssetManager::get<Sprite>(_fishToCatch[_fishCatching]->getFishData().scancodeName));
 		}
 		else if (!Input::getAnyKeyPressed(79, 82)) {
 			hasBeenPressed = false;

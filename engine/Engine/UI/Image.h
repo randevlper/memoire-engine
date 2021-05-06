@@ -37,7 +37,7 @@ namespace me {
 			bgfx::UniformHandle u_sprite;
 			bgfx::UniformHandle u_color;
 
-			me::data::PositionColorUVVertex newVerts[4];
+			me::data::PositionUVVertex newVerts[4];
 		};
 	}
 }

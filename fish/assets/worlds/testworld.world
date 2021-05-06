@@ -114,46 +114,12 @@
         },
         {
             "color": [
-                255.0,
-                255.0,
-                255.0,
-                255.0
-            ],
-            "font": {
-                "name": "",
-                "parems": "32",
-                "path": "assets/fonts/cmunrm.ttf"
-            },
-            "name": "ButtonPromtText",
-            "rectTransform": {
-                "root": {
-                    "angle": 0.0,
-                    "parent": "null",
-                    "position": [
-                        798.0,
-                        950.0
-                    ],
-                    "scale": [
-                        1.0,
-                        1.0
-                    ]
-                },
-                "size": [
-                    2,
-                    2
-                ]
-            },
-            "text": "Z",
-            "type": "Text"
-        },
-        {
-            "color": [
                 1.0,
                 1.0,
                 1.0,
                 1.0
             ],
-            "name": "Image18",
+            "name": "ButtonPromtIcon",
             "parems": "",
             "rectTransform": {
                 "root": {
@@ -173,7 +139,7 @@
                     64
                 ]
             },
-            "sprite": "assets/sprites/debrie.png",
+            "sprite": "assets/sprites/arrowup.png",
             "type": "Image"
         },
         {

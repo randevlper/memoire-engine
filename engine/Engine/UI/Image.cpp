@@ -19,13 +19,13 @@ namespace me {
 		{
 			_type = "Image";
 			if (!isInit) {
-				me::data::PositionColorUVVertex::init();
-				shader = AssetManager::get<Shader>("assets/shaders/vs_sprite.bin");
+				me::data::PositionUVVertex::init();
+				shader = AssetManager::get<Shader>("assets/shaders/vs_image.bin");
 				isInit = true;
 			}
 
-			vbh = bgfx::createVertexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::verts, sizeof(me::data::PositionColorUVVertex::verts)), me::data::PositionColorUVVertex::layout);
-			ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionColorUVVertex::indices, sizeof(me::data::PositionColorUVVertex::indices)));
+			vbh = bgfx::createVertexBuffer(bgfx::makeRef(me::data::PositionUVVertex::verts, sizeof(me::data::PositionUVVertex::verts)), me::data::PositionUVVertex::layout);
+			ibh = bgfx::createIndexBuffer(bgfx::makeRef(me::data::PositionUVVertex::indices, sizeof(me::data::PositionUVVertex::indices)));
 			u_sprite = me::data::getSpriteUniform();
 			u_color = me::data::getColorUniform();
 			_sprite = nullptr;
@@ -96,14 +96,14 @@ namespace me {
 			rectTransform.setSize({ sprite->width, sprite->height });
 			glm::vec2* corners = rectTransform.getScreenCorners();
 
-			memcpy(newVerts, me::data::PositionColorUVVertex::verts,
-				sizeof(me::data::PositionColorUVVertex::verts));
+			memcpy(newVerts, me::data::PositionUVVertex::verts,
+				sizeof(me::data::PositionUVVertex::verts));
 			newVerts[0].xy({corners[0].x, corners[0].y});
 			newVerts[1].xy({ corners[1].x, corners[1].y });
 			newVerts[2].xy({ corners[2].x, corners[2].y });
 			newVerts[3].xy({ corners[3].x, corners[3].y });
 
-			vbh = bgfx::createVertexBuffer(bgfx::makeRef(newVerts, sizeof(newVerts)), me::data::PositionColorUVVertex::layout);
+			vbh = bgfx::createVertexBuffer(bgfx::makeRef(newVerts, sizeof(newVerts)), me::data::PositionUVVertex::layout);
 			//Screen space cords
 		}
 		Sprite* Image::getSprite()

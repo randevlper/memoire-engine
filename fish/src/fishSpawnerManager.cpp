@@ -40,9 +40,9 @@ void FishSpawnerManager::init()
 	_distribution = std::uniform_int_distribution<>(0, _fishSpawners.size() - 1);
 
 	std::vector<FishData> fishData = {
-	{10, 300, "assets/sprites/fishtest.png", SDL_Scancode::SDL_SCANCODE_RIGHT, ">"},
-	{10, 250, "assets/sprites/fishtestb.png", SDL_Scancode::SDL_SCANCODE_LEFT, "<"},
-	{10, 200, "assets/sprites/fishtestwhale.png", SDL_Scancode::SDL_SCANCODE_DOWN, "\/"}
+	{10, 300, "assets/sprites/fishtest.png", SDL_Scancode::SDL_SCANCODE_RIGHT, "assets/sprites/arrowright.png"},
+	{10, 250, "assets/sprites/fishtestb.png", SDL_Scancode::SDL_SCANCODE_LEFT, "assets/sprites/arrowleft.png"},
+	{10, 200, "assets/sprites/fishtestwhale.png", SDL_Scancode::SDL_SCANCODE_DOWN, "assets/sprites/arrowdown.pn"}
 	};
 	setFishData(fishData);
 }
