@@ -87,30 +87,33 @@
         },
         {
             "color": [
-                0.6776859760284424,
-                0.20162557065486908,
-                0.20162557065486908,
+                1.0,
+                1.0,
+                1.0,
                 1.0
             ],
             "name": "ButtonPromtSprite",
-            "sprite": {
-                "name": "",
-                "parems": "",
-                "path": "assets/ui/box.png"
-            },
-            "transform": {
-                "angle": 0.0,
-                "parent": "null",
-                "position": [
-                    -150.0,
-                    400.0
-                ],
-                "scale": [
-                    2.0,
-                    2.0
+            "parems": "",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "parent": "null",
+                    "position": [
+                        0.8125,
+                        1.6666666269302368
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    64,
+                    64
                 ]
             },
-            "type": "SpriteRenderer"
+            "sprite": "assets/sprites/arrowbackground.png",
+            "type": "Image"
         },
         {
             "color": [

@@ -42,7 +42,7 @@ void FishSpawnerManager::init()
 	std::vector<FishData> fishData = {
 	{10, 300, "assets/sprites/fishtest.png", SDL_Scancode::SDL_SCANCODE_RIGHT, "assets/sprites/arrowright.png"},
 	{10, 250, "assets/sprites/fishtestb.png", SDL_Scancode::SDL_SCANCODE_LEFT, "assets/sprites/arrowleft.png"},
-	{10, 200, "assets/sprites/fishtestwhale.png", SDL_Scancode::SDL_SCANCODE_DOWN, "assets/sprites/arrowdown.pn"}
+	{10, 200, "assets/sprites/fishtestwhale.png", SDL_Scancode::SDL_SCANCODE_DOWN, "assets/sprites/arrowdown.png"}
 	};
 	setFishData(fishData);
 }

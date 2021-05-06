@@ -71,6 +71,7 @@ int main(int argc, char** argv) {
 		AssetManager::load("assets/sprites/fishtestwhale.png", "");
 		//Diffrent types of fish
 		// Points, Speed, layers 0 - 4, 
+		AssetManager::load("assets/sprites/arrowbackground.png", "");
 		AssetManager::load("assets/sprites/arrowup.png", "");
 		AssetManager::load("assets/sprites/arrowdown.png", "");
 		AssetManager::load("assets/sprites/arrowleft.png", "");
@@ -85,7 +86,7 @@ int main(int argc, char** argv) {
 		{
 			Context::tick();
 			
-			//me::WorldManager::tick();
+			me::WorldManager::tick();
 			Physics2D::tick();
 			
 			me::WorldManager::render();

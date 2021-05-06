@@ -55,8 +55,8 @@ void PlayerController::init() {
 	_buttonPressIcon = world->get<me::ui::Image>("ButtonPromtIcon");
 	//ButtonPromtSprite
 	//ButtonPromtText
-	//_buttonPressBackground->setIsEnabled(false);
-	//_buttonPressIcon->setIsEnabled(false);
+	_buttonPressBackground->setIsEnabled(false);
+	_buttonPressIcon->setIsEnabled(false);
 
 	if (_net) {
 		_net->CaughtFish = std::bind(&PlayerController::OnNetCatch, this, std::placeholders::_1);
