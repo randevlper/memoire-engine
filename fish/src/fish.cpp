@@ -1,5 +1,7 @@
 #include "fish.h"
 
+#include "hook.h"
+
 #include "Engine/Core/WorldManager.h"
 #include "Engine/Core/World.h"
 
@@ -41,6 +43,16 @@ void Fish::destroy()
 	Body2D::destroy();
 	World* world = me::WorldManager::getWorld();
 	world->destroy(_spriteRenderer);
+}
+
+void Fish::attach(Hook* hook)
+{
+	_transform.setParent(hook);
+}
+
+void Fish::disconnect()
+{
+	_transform.setParent(nullptr);
 }
 
 void Fish::from_json(const nlohmann::json& j)

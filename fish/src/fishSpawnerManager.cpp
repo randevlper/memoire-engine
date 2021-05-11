@@ -11,6 +11,7 @@
 #include "Engine/Nodes/SpriteRenderer.h"
 
 #include "fish.h"
+#include "fishData.h"
 #include "fishSpawner.h"
 #include "collision.h"
 

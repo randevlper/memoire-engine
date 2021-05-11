@@ -1,12 +1,11 @@
 #pragma once
 #include "Engine/Nodes/Node.h"
-
 #include <random>
 #include <vector>
 
-#include "fish.h"
 
 class FishSpawner;
+struct FishData;
 
 class FishSpawnerManager : public Node
 {

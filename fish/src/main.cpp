@@ -32,6 +32,8 @@
 #include "fishSpawnerManager.h"
 #include "hook.h"
 #include "net.h"
+#include "obstacle.h"
+
 #include "playerController.h"
 #include "worldEditor.h"
 

@@ -1,16 +1,9 @@
 #pragma once
 #include "Engine/Physics2D/Body2D.h"
-#include "SDL_scancode.h"
+#include "fishData.h"
 
 class SpriteRenderer;
-
-struct FishData {
-	int score;
-	float speed;
-	std::string spriteName;
-	SDL_Scancode scancode;
-	std::string scancodeName;
-};
+class Hook;
 
 class Fish : public Body2D
 {
@@ -19,6 +12,9 @@ public:
 
 	void init() override;
 	void destroy() override;
+
+	void attach(Hook* hook);
+	void disconnect();
 
 	void from_json(const nlohmann::json& j) override;
 	nlohmann::json to_json() override;
