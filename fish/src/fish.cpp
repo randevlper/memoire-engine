@@ -58,7 +58,7 @@ void Fish::disconnect()
 	glm::vec2 pos = _transform.getPosition();
 	setIsAwake(true);
 	_transform.setParent(nullptr);
-	setPosition(pos);
+	_transform.setPosition(pos);
 	setVelocity({ _fishData.speed * _transform.getLocalScale().x, 0 });
 }
 

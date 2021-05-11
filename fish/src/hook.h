@@ -11,6 +11,8 @@ public:
 	void init() override;
 	void OnContactStart(Collision2D collision) override;
 
+	void loseFish();
+
 	bool getCanCatch();
 	void setCanCatch(bool value);
 

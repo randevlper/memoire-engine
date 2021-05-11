@@ -31,6 +31,18 @@ void Hook::OnContactStart(Collision2D collision)
 	}
 }
 
+void Hook::loseFish()
+{
+	std::vector<Node2D*> nodes = _transform.getChildren();
+	for (size_t i = 0; i < nodes.size(); i++)
+	{
+		if (nodes[i]->getType() == "Fish") {
+			Fish* fish = dynamic_cast<Fish*>(nodes[i]);
+			fish->disconnect();
+		}
+	}
+}
+
 bool Hook::getCanCatch()
 {
 	return _canCatch;

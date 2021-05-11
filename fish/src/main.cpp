@@ -54,6 +54,7 @@ int main(int argc, char** argv) {
 			return Context::getErrorCode();
 		}
 		ADD_OBJECT_MAP(Fish)
+		ADD_OBJECT_MAP(Obstacle)
 		ADD_OBJECT_MAP(FishKiller)
 		ADD_OBJECT_MAP(Hook)
 		ADD_OBJECT_MAP(Net)
@@ -71,6 +72,9 @@ int main(int argc, char** argv) {
 		AssetManager::load("assets/sprites/fishtest.png", "");
 		AssetManager::load("assets/sprites/fishtestb.png", "");
 		AssetManager::load("assets/sprites/fishtestwhale.png", "");
+
+
+		AssetManager::load("assets/sprites/debrie.png", "");
 		//Diffrent types of fish
 		// Points, Speed, layers 0 - 4, 
 		AssetManager::load("assets/sprites/arrowbackground.png", "");
@@ -83,6 +87,9 @@ int main(int argc, char** argv) {
 		me::WorldManager::postRender();
 
 		Physics2D::setGravity({ 0,0 });
+
+		World* world = me::WorldManager::getWorld();
+		world->create<Obstacle>();
 
 		while (!Context::getShouldClose())
 		{
