@@ -84,6 +84,8 @@ void PlayerController::OnNetCatch(std::vector<Fish*> fishes)
 	_state = PlayerState::CATCHING;
 
 	_hook->setVelocity({ 0,0 });
+	_hook->setCanCatch(false);
+
 	_net->setVelocity({ 0,0 });
 
 	_buttonPressBackground->setIsEnabled(true);
@@ -154,12 +156,13 @@ void PlayerController::catching()
 				_scoreText->setText("Score: " + std::to_string(_score));
 				_buttonPressBackground->setColor({ 0,1,0,1 });
 				//Debug::Log("Correct!");
+				World* world = me::WorldManager::getWorld();
+				world->destroy(_fishToCatch[_fishCatching]);
 			}
 			else {
+				_fishToCatch[_fishCatching]->disconnect();
 				_buttonPressBackground->setColor({ 1,0,0,1 });
 			}
-			World* world = me::WorldManager::getWorld();
-			world->destroy(_fishToCatch[_fishCatching]);
 			_fishCatching++;
 			hasBeenPressed = true;
 
@@ -167,6 +170,7 @@ void PlayerController::catching()
 				_fishCatching = 0;
 				_fishToCatch = std::vector<Fish*>();
 				_state = PlayerState::FISHING;
+				_hook->setCanCatch(true);
 
 				_buttonPressBackground->setIsEnabled(false);
 				_buttonPressIcon->setIsEnabled(false);

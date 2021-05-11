@@ -10,6 +10,7 @@
 Hook::Hook()
 {
 	_type = "Hook";
+	_canCatch = true;
 }
 
 void Hook::init()
@@ -20,19 +21,22 @@ void Hook::init()
 
 void Hook::OnContactStart(Collision2D collision)
 {
-	if (collision.other != nullptr) {
+	if (collision.other != nullptr && _canCatch) {
 		if ("Fish" == collision.other->getType()) {
 			if (_transform.getChildren().size() >= MAX_HOOKED_FISH) { return; }
 			Fish* fish = dynamic_cast<Fish*>(collision.other);
-			
 			if (!fish->isAwake()) { return; }
-
-			glm::vec2 pos = fish->getPosition();
-			Transform t = fish->getTransform();
-			t.setParent(this);
-			t.setPosition(pos);
-			fish->setTransform(t);
-			fish->setIsAwake(false);
+			fish->attach(this);
 		}
 	}
+}
+
+bool Hook::getCanCatch()
+{
+	return _canCatch;
+}
+
+void Hook::setCanCatch(bool value)
+{
+	_canCatch = value;
 }

@@ -11,5 +11,9 @@ public:
 	void init() override;
 	void OnContactStart(Collision2D collision) override;
 
+	bool getCanCatch();
+	void setCanCatch(bool value);
+
 private:
+	bool _canCatch;
 };

@@ -47,12 +47,19 @@ void Fish::destroy()
 
 void Fish::attach(Hook* hook)
 {
+	glm::vec2 pos = _transform.getPosition();
 	_transform.setParent(hook);
+	_transform.setPosition(pos);
+	setIsAwake(false);
 }
 
 void Fish::disconnect()
 {
+	glm::vec2 pos = _transform.getPosition();
+	setIsAwake(true);
 	_transform.setParent(nullptr);
+	setPosition(pos);
+	setVelocity({ _fishData.speed * _transform.getLocalScale().x, 0 });
 }
 
 void Fish::from_json(const nlohmann::json& j)
