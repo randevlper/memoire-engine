@@ -12,7 +12,7 @@
 Obstacle::Obstacle()
 {
 	_type = "Obstacle";
-	setupBox(0, 0, 100, 100, Body2DType::Dynamic, CollisionCatagories::FISH, CollisionCatagories::HOOK);
+	setupBox(0, 0, 100, 100, Body2DType::Dynamic, CollisionCatagories::FISH, CollisionCatagories::HOOK | CollisionCatagories::BOUNDARY);
 }
 
 void Obstacle::init()

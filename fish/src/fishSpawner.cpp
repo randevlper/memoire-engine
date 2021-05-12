@@ -17,13 +17,13 @@ FishSpawner::FishSpawner()
 	_spawnDir = 1;
 }
 
-void FishSpawner::spawn(Fish* fish)
+void FishSpawner::spawn(Body2D* body, float speed)
 {
-	Transform t = fish->getTransform();
+	Transform t = body->getTransform();
 	t.setLocalScale({ _spawnDir,1 });
-	fish->setTransform(t);
-	fish->setPosition(getTransform().getPosition());
-	fish->setVelocity({ _spawnDir * fish->getSpeed(), 0 });
+	body->setTransform(t);
+	body->setPosition(getTransform().getPosition());
+	body->setVelocity({ _spawnDir * speed, 0 });
 }
 
 nlohmann::json FishSpawner::to_json()

@@ -88,9 +88,6 @@ int main(int argc, char** argv) {
 
 		Physics2D::setGravity({ 0,0 });
 
-		World* world = me::WorldManager::getWorld();
-		world->create<Obstacle>();
-
 		while (!Context::getShouldClose())
 		{
 			Context::tick();

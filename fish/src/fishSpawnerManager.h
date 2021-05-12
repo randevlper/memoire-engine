@@ -5,7 +5,7 @@
 
 
 class FishSpawner;
-struct FishData;
+struct SpawnData;
 
 class FishSpawnerManager : public Node
 {
@@ -18,16 +18,16 @@ public:
 	void from_json(const nlohmann::json& j) override;
 	nlohmann::json to_json() override;
 
-	void setFishData(std::vector<FishData> fishData);
+	void setSpawnData(std::vector<SpawnData> value);
 
 private:
-	std::vector<FishData> _fishData;
 	std::vector<FishSpawner*> _fishSpawners;
+	std::vector<SpawnData> _spawnData;
 	float _time;
 	float _timer;
 
 	std::random_device _rand;
 	std::mt19937 _gen;
 	std::uniform_int_distribution<> _distribution;
-	std::uniform_int_distribution<> _fishDist;
+	std::uniform_int_distribution<> _spawnDist;
 };
