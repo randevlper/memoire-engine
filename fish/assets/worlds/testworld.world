@@ -92,6 +92,66 @@
                 1.0,
                 1.0
             ],
+            "name": "listBackground",
+            "parems": "",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "parent": "null",
+                    "position": [
+                        0.0,
+                        1.5277777910232544
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    256,
+                    256
+                ]
+            },
+            "sprite": "assets/sprites/listbg.png",
+            "type": "Image"
+        },
+        {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "name": "ListFishA",
+            "parems": "",
+            "rectTransform": {
+                "root": {
+                    "angle": 0.0,
+                    "parent": "null",
+                    "position": [
+                        0.0,
+                        1.6203703880310059
+                    ],
+                    "scale": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "size": [
+                    128,
+                    96
+                ]
+            },
+            "sprite": "assets/sprites/fishtestwhaleui.png",
+            "type": "Image"
+        },
+        {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
             "name": "ButtonPromtSprite",
             "parems": "",
             "rectTransform": {

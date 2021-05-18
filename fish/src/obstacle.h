@@ -8,6 +8,7 @@ public:
 	Obstacle();
 
 	void init() override;
+	void destroy() override;
 
 	void OnContactStart(Collision2D collision) override;
 private:

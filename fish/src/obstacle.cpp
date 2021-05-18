@@ -6,6 +6,9 @@
 #include "Engine/AssetManagement/AssetManager.h"
 #include "Engine/AssetManagement/Sprite.h"
 
+#include "Engine/Core/WorldManager.h"
+#include "Engine/Core/World.h"
+
 #include "collision.h"
 #include "hook.h"
 
@@ -23,6 +26,13 @@ void Obstacle::init()
 	t.setParent(this);
 	_spriteRenderer->setTransform(t);
 	_spriteRenderer->setSprite(AssetManager::get<Sprite>("assets/sprites/debrie.png"));
+}
+
+void Obstacle::destroy()
+{
+	Body2D::destroy();
+	World* world = me::WorldManager::getWorld();
+	world->destroy(_spriteRenderer);
 }
 
 void Obstacle::OnContactStart(Collision2D collision)
