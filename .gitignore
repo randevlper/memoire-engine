@@ -217,3 +217,7 @@ FakesAssemblies/
 **/*.Server/GeneratedArtifacts
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
+
+# LUA
+/thirdparty/lua/*
+!/thirdparty/lua/CMakeLists.txt

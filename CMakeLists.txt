@@ -61,9 +61,11 @@ FetchContent_Declare(
   URL https://www.lua.org/ftp/lua-5.4.1.tar.gz
 )
 FetchContent_Populate(LuaLib)
-file(COPY "${PROJECT_SOURCE_DIR}/thirdparty/lua/CMakeLists.txt" 
-     DESTINATION "${PROJECT_SOURCE_DIR}/build/_deps/lualib-src/")
-add_subdirectory("${PROJECT_SOURCE_DIR}/build/_deps/lualib-src/")
+file(COPY "${CMAKE_SOURCE_DIR}/build/_deps/lualib-src/" 
+     DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/lua/")
+#file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/lua/CMakeLists.txt" 
+#     DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/lua/")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/lua/")
 set_target_properties(LuaLib PROPERTIES FOLDER "Thirdparty")
 
 #JSON CPP
@@ -79,7 +81,5 @@ set_target_properties(engine-tests PROPERTIES FOLDER "Engine")
 
 add_subdirectory(game)
 add_subdirectory(librarian)
-add_subdirectory(fish)
 set_target_properties(game PROPERTIES FOLDER "Games")
 set_target_properties(librarian PROPERTIES FOLDER "Games")
-set_target_properties(fish PROPERTIES FOLDER "Games")
