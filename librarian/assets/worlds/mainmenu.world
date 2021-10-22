@@ -5,6 +5,7 @@
             "name": "Cam",
             "transform": {
                 "angle": 0.0,
+                "parent": "null",
                 "position": [
                     640.0,
                     360.0
@@ -18,9 +19,9 @@
         },
         {
             "color": [
-                255.0,
-                255.0,
-                255.0,
+                0.3057851195335388,
+                0.23502492904663086,
+                0.23502492904663086,
                 255.0
             ],
             "font": {
@@ -32,9 +33,10 @@
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
+                    "parent": "null",
                     "position": [
-                        538.0,
-                        586.0
+                        0.1953125,
+                        0.35285815596580505
                     ],
                     "scale": [
                         1.0,
@@ -79,9 +81,10 @@
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
+                    "parent": "null",
                     "position": [
-                        545.0,
-                        297.0
+                        0.1953125,
+                        0.35285815596580505
                     ],
                     "scale": [
                         1.0,
@@ -125,9 +128,10 @@
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
+                    "parent": "null",
                     "position": [
-                        546.0,
-                        203.0
+                        -0.1953125,
+                        0.35285815596580505
                     ],
                     "scale": [
                         1.0,
@@ -157,6 +161,7 @@
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
+                    "parent": "null",
                     "position": [
                         590.0,
                         535.0
@@ -190,6 +195,7 @@
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
+                    "parent": "null",
                     "position": [
                         609.0,
                         329.0
@@ -223,6 +229,7 @@
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
+                    "parent": "null",
                     "position": [
                         615.0,
                         233.0
@@ -270,9 +277,10 @@
             "rectTransform": {
                 "root": {
                     "angle": 0.0,
+                    "parent": "null",
                     "position": [
-                        1216.0,
-                        16.0
+                        0.15625,
+                        0.2777777910232544
                     ],
                     "scale": [
                         1.0,

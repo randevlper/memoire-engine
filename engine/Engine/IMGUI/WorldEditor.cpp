@@ -436,6 +436,8 @@ namespace me {
 				//}
 			}
 
+
+			static std::string lastText = "";
 			void editorText(Node* node)
 			{
 				editorNodeUI(node);
@@ -456,7 +458,10 @@ namespace me {
 				//	textSelected->setText(text);
 				//}
 				textSelected->setColor(color);
-				//lastText = text;
+				if (lastText != text) {
+					textSelected->setText(text);
+				}
+				lastText = text;
 			}
 
 			void editorImage(Node* node)
